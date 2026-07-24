@@ -1,16 +1,92 @@
-# Developer portfolio
+# 💼 Developer Portfolio
 
-## Run locally
+A modern and responsive Full-Stack Developer Portfolio built with React + Vite.
+
+---
+
+## 🚀 Live Demo
+
+🌐 https://developer-portfolio-nu-rouge.vercel.app/
+
+---
+
+## 📸 Preview
+
+### Hero Section
+
+![Hero](./images/hero.png)
+
+### Certifications
+
+![Certifications](./images/certification.png)
+
+### Contact
+
+![Contact](./images/contact.png)
+
+---
+
+## ✨ Features
+
+- Modern Dark UI
+- Fully Responsive Design
+- Interactive Animations
+- Project Showcase
+- Technical Skills Section
+- Certifications
+- Resume Download
+- Contact Form
+- Social Links
+
+---
+
+## 🛠 Tech Stack
+
+- React
+- Vite
+- JavaScript
+- HTML5
+- CSS3
+- EmailJS
+- Git
+- GitHub
+- Vercel
+
+---
+
+## 📂 Project Structure
+
+```
+Developer-Portfolio/
+│── public/
+│── src/
+│── images/
+│── package.json
+│── README.md
+```
+
+---
+
+## ⚙️ Installation
 
 ```bash
+git clone https://github.com/rakeshkumar0804/Developer-Portfolio.git
+
+cd Developer-Portfolio
+
 npm install
+
 npm run dev
 ```
 
-Copy `.env.example` to `.env`, then add your GitHub username and EmailJS credentials. The portfolio works without them; it displays a concise setup message instead of attempting requests.
+---
 
-## Personalize it
+## 📬 Contact
 
-- Edit `src/data/portfolio.js` for your name, links, skills, projects, milestones, and certificates.
-- Add your résumé as `public/resume.pdf` (create the `public` folder if needed), or update `profile.resume`.
-- Replace each `live` and `code` placeholder in the project data with real links.
+If you'd like to collaborate or discuss opportunities, feel free to connect through the portfolio's contact section or LinkedIn.
+
+---
+
+## ⭐ Support
+
+If you like this project, consider giving it a ⭐ on GitHub.
