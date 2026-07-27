@@ -48,6 +48,7 @@ export const projects = [
 ]
 
 export const journey = [
+  { period: 'Jan 2026 - Apr 2026', title: 'Software Development Intern - Codetech IT Solutions', detail: 'Engineered an internal Employee Management System with Node.js, Express.js, and MongoDB for employee, manager, and admin roles. Built JWT authentication with RBAC and validated RESTful CRUD APIs for employee, department, and role modules.' },
   { period: '2026', title: 'B.Tech in Computer Science Engineering', detail: 'Graduating from Parul University, Vadodara. Coursework includes DSA, DBMS, computer networks, operating systems, and web technologies.' },
   { period: '2025', title: 'AMENTIS Innovation Hackathon', detail: 'Participated in the GTBIT, New Delhi innovation hackathon while continuing to ship production-style web applications.' },
   { period: '2024', title: 'CodeKshetra participant', detail: 'Participated at GD Goenka University, Gurugram, and built a stronger problem-solving foundation through consistent DSA practice.' }
@@ -56,6 +57,7 @@ export const journey = [
 export const certifications = [
   { issuer: 'HACKERRANK', logo: 'hackerrank', title: 'SQL (Advanced)', date: '30 May 2026', detail: 'Advanced SQL', link: '/certificates/sql-advanced.pdf' },
   { issuer: 'OPENEDG / CISCO', logo: 'cisco', title: 'Programming Essentials in C++', date: '21 Feb 2024', detail: 'C++ & OOP Fundamentals', link: '/certificates/cpp-programming.pdf' },
+  { issuer: 'NPTEL', logo: 'nptel', title: 'Introduction to Internet of Things', date: 'Oct 2025', detail: 'Internet of Things Fundamentals', link: '/certificates/nptel-iot.pdf' },
   { issuer: 'UDEMY', logo: 'udemy', title: 'Python Programming Masterclass', date: '17 Feb 2025', detail: 'Python Fundamentals', link: '/certificates/python.pdf' },
-  { issuer: 'UDEMY', logo: 'udemy', title: 'Learn Cyber Security From Scratch: Practical Guide', date: '17 Feb 2025', detail: 'Cybersecurity Fundamentals', link: '/certificates/cybersecurity.pdf' }
+  { issuer: 'UDEMY', logo: 'udemy', title: 'CSS, Bootstrap, JavaScript, PHP Full Stack Crash Course', date: '17 Feb 2025', detail: 'Frontend & Full-Stack Fundamentals', link: '/certificates/frontend-fullstack.pdf' }
 ]
