@@ -5,14 +5,15 @@ export const profile = {
   email: 'rakeshchauhan6651@gmail.com',
   github: 'https://github.com/rakeshkumar0804',
   linkedin: 'https://www.linkedin.com/in/rakesh-kumar-520754246/',
+  leetcode: 'https://leetcode.com/u/Rakesh__Kumar_/',
   resume: '/resume.pdf',
   intro: 'I build scalable full-stack web applications using React, Node.js, Express, and MongoDB, with a focus on clean architecture, performance, and user experience.',
   story: 'B.Tech Computer Science graduate specializing in MERN stack development. I build scalable, production-ready full-stack applications with secure authentication, REST APIs, and responsive user experiences, focusing on clean architecture, performance, and reliability.',
-  stats: [['03+', 'Live projects'], ['2026', 'B.Tech CSE'], ['Gurugram', 'Based in']]
+  stats: [['03+', 'Live projects'], ['2026', 'B.Tech CSE'], ['Gurugram', 'Based in'], ['165+', 'DSA Problems Solved']]
 }
 
 export const skills = {
-  'Languages': ['JavaScript (ES6+)', 'Python', 'C++', 'SQL'],
+  'Languages': ['JavaScript (ES6+)', 'Python', 'C++', 'SQL', 'Java', 'TypeScript'],
   'Frontend': ['React.js', 'HTML5', 'CSS3', 'Bootstrap'],
   'Backend': ['Node.js', 'Express.js', 'REST APIs', 'JWT', 'RBAC'],
   'Data': ['MongoDB', 'Mongoose', 'MySQL'],
