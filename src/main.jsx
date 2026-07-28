@@ -309,7 +309,7 @@ function Contact() {
     const cfg = import.meta.env;
     if (!cfg.VITE_EMAILJS_PUBLIC_KEY)
       return setStatus(
-        "Add your EmailJS keys to .env to activate this form.",
+        "The contact form is being set up. Please use the Email me button above.",
       );
     try {
       await emailjs.sendForm(
@@ -343,7 +343,9 @@ function Contact() {
           <div className="contact-actions">
             <a
               className="button fill"
-              href={`mailto:${profile.email}`}
+              href={profile.emailCompose}
+              target="_blank"
+              rel="noreferrer"
             >
               <FiMail /> Email me
             </a>
@@ -482,7 +484,9 @@ function App() {
                 <SiLeetcode />
               </a>
               <a
-                href={`mailto:${profile.email}`}
+                href={profile.emailCompose}
+                target="_blank"
+                rel="noreferrer"
                 aria-label="Email"
               >
                 <FiMail />

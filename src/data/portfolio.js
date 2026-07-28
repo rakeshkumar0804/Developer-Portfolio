@@ -3,6 +3,7 @@ export const profile = {
   role: 'Full-Stack MERN Developer',
   location: 'Gurugram, India',
   email: 'rakeshchauhan6651@gmail.com',
+  emailCompose: 'https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651%40gmail.com',
   github: 'https://github.com/rakeshkumar0804',
   linkedin: 'https://www.linkedin.com/in/rakesh-kumar-520754246/',
   leetcode: 'https://leetcode.com/u/Rakesh__Kumar_/',
