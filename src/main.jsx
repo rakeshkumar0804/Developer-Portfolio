@@ -330,7 +330,7 @@ function Contact() {
           { publicKey: cfg.VITE_EMAILJS_PUBLIC_KEY },
       );
       event.target.reset();
-      setStatus({ type: "success", text: "✓ Message sent successfully!" });
+      setStatus({ type: "success", text: "✓ Thanks! I'll get back to you soon." });
     } catch (error) {
       console.error("EmailJS form error:", error);
       setStatus({
