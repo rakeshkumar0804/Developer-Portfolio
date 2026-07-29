@@ -28,6 +28,7 @@ import {
   certifications,
 } from "./data/portfolio";
 import "./styles.css";
+import "./contact-status.css";
 
 const nav = [
   ["About", "about"],
@@ -303,7 +304,8 @@ function LiveGitHub() {
 }
 
 function Contact() {
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(null);
+  const [isSending, setIsSending] = useState(false);
   const submit = async (event) => {
     event.preventDefault();
     const cfg = import.meta.env;
@@ -313,24 +315,30 @@ function Contact() {
       !cfg.VITE_EMAILJS_TEMPLATE_ID
     )
       return setStatus(
-        "The contact form is being set up. Please use the Email me button above.",
+        {
+          type: "error",
+          text: "Contact form unavailable. Please use the Email me button above.",
+        },
       );
+    setIsSending(true);
+    setStatus(null);
     try {
-        await emailjs.sendForm(
+      await emailjs.sendForm(
           cfg.VITE_EMAILJS_SERVICE_ID,
           cfg.VITE_EMAILJS_TEMPLATE_ID,
           event.target,
           { publicKey: cfg.VITE_EMAILJS_PUBLIC_KEY },
-        );
+      );
       event.target.reset();
-      setStatus("Message sent. Thank you.");
+      setStatus({ type: "success", text: "✓ Message sent successfully!" });
     } catch (error) {
       console.error("EmailJS form error:", error);
-      setStatus(
-        error?.text ||
-          error?.message ||
-          "Could not send the message. Please email me directly.",
-      );
+      setStatus({
+        type: "error",
+        text: "Failed to send message. Please try again.",
+      });
+    } finally {
+      setIsSending(false);
     }
   };
   return (
@@ -398,10 +406,10 @@ function Contact() {
             Message
             <textarea name="message" rows="3" required />
           </label>
-          <button className="text-button">
-            Send message <FiArrowUpRight />
-          </button>
-          {status && <p className="status">{status}</p>}
+            <button className="text-button" disabled={isSending}>
+              {isSending ? "Sending..." : "Send message"} <FiArrowUpRight />
+            </button>
+            {status && <p className={`status ${status.type}`}>{status.text}</p>}
         </form>
       </div>
     </Section>

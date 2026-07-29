@@ -1,0 +1,17 @@
+.text-button:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.status {
+  margin: 0;
+  font-size: 11px;
+}
+
+.status.success {
+  color: var(--teal);
+}
+
+.status.error {
+  color: #ff7b7b;
+}
