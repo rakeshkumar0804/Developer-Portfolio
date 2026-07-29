@@ -306,6 +306,12 @@ function LiveGitHub() {
 function Contact() {
   const [status, setStatus] = useState(null);
   const [isSending, setIsSending] = useState(false);
+  useEffect(() => {
+    if (status?.type !== "success") return undefined;
+    const timeout = window.setTimeout(() => setStatus(null), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [status]);
+
   const submit = async (event) => {
     event.preventDefault();
     const cfg = import.meta.env;
@@ -317,7 +323,7 @@ function Contact() {
       return setStatus(
         {
           type: "error",
-          text: "Contact form unavailable. Please use the Email me button above.",
+          text: "Failed to send your message. Please try again.",
         },
       );
     setIsSending(true);
@@ -330,12 +336,15 @@ function Contact() {
           { publicKey: cfg.VITE_EMAILJS_PUBLIC_KEY },
       );
       event.target.reset();
-      setStatus({ type: "success", text: "Thanks for reaching out! I'll get back to you soon." });
+      setStatus({
+        type: "success",
+        text: "Thanks for reaching out! I'll get back to you soon.",
+      });
     } catch (error) {
       console.error("EmailJS form error:", error);
       setStatus({
         type: "error",
-        text: "Failed to send message. Please try again.",
+        text: "Failed to send your message. Please try again.",
       });
     } finally {
       setIsSending(false);
@@ -356,11 +365,9 @@ function Contact() {
             to connect.
           </p>
           <div className="contact-actions">
-            <a
-              className="button fill"
-              href={profile.emailCompose}
-              target="_blank"
-              rel="noreferrer"
+              <a
+                className="button fill"
+                href={`mailto:${profile.email}?subject=Portfolio%20Inquiry`}
             >
               <FiMail /> Email me
             </a>
@@ -393,7 +400,7 @@ function Contact() {
             </a>
           </div>
         </div>
-        <form onSubmit={submit} onInput={() => setStatus(null)} onInvalid={() => setStatus(null)}>
+        <form onSubmit={submit}>
           <label>
             Name
             <input name="from_name" required />
@@ -409,7 +416,14 @@ function Contact() {
             <button className="text-button" disabled={isSending}>
               {isSending ? "Sending..." : "Send message"} <FiArrowUpRight />
             </button>
-            {status && <p className={`status ${status.type}`}>{status.text}</p>}
+            {status && (
+              <p className={`contact-status ${status.type}`} role="status">
+                <span aria-hidden="true">
+                  {status.type === "success" ? "✓" : "✕"}
+                </span>
+                <span>{status.text}</span>
+              </p>
+            )}
         </form>
       </div>
     </Section>

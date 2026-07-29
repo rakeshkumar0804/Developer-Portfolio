@@ -3,15 +3,19 @@
   opacity: 0.58;
 }
 
-.status {
-  margin: 0;
-  font-size: 11px;
+.contact-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
 }
 
-.status.success {
+.contact-status.success {
   color: var(--teal);
 }
 
-.status.error {
+.contact-status.error {
   color: #ff7b7b;
 }
