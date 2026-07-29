@@ -330,7 +330,7 @@ function Contact() {
           { publicKey: cfg.VITE_EMAILJS_PUBLIC_KEY },
       );
       event.target.reset();
-      setStatus({ type: "success", text: "✓ Thanks! I'll get back to you soon." });
+      setStatus({ type: "success", text: "Thanks for reaching out! I'll get back to you soon." });
     } catch (error) {
       console.error("EmailJS form error:", error);
       setStatus({
@@ -393,7 +393,7 @@ function Contact() {
             </a>
           </div>
         </div>
-        <form onSubmit={submit}>
+        <form onSubmit={submit} onInput={() => setStatus(null)} onInvalid={() => setStatus(null)}>
           <label>
             Name
             <input name="from_name" required />
