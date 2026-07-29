@@ -307,7 +307,11 @@ function Contact() {
   const submit = async (event) => {
     event.preventDefault();
     const cfg = import.meta.env;
-    if (!cfg.VITE_EMAILJS_PUBLIC_KEY)
+    if (
+      !cfg.VITE_EMAILJS_PUBLIC_KEY ||
+      !cfg.VITE_EMAILJS_SERVICE_ID ||
+      !cfg.VITE_EMAILJS_TEMPLATE_ID
+    )
       return setStatus(
         "The contact form is being set up. Please use the Email me button above.",
       );
@@ -320,9 +324,12 @@ function Contact() {
       );
       event.target.reset();
       setStatus("Message sent. Thank you.");
-    } catch {
+    } catch (error) {
+      console.error("EmailJS form error:", error);
       setStatus(
-        "Could not send the message. Please email me directly.",
+        error?.text ||
+          error?.message ||
+          "Could not send the message. Please email me directly.",
       );
     }
   };
