@@ -316,12 +316,12 @@ function Contact() {
         "The contact form is being set up. Please use the Email me button above.",
       );
     try {
-      await emailjs.sendForm(
-        cfg.VITE_EMAILJS_SERVICE_ID,
-        cfg.VITE_EMAILJS_TEMPLATE_ID,
-        event.target,
-        cfg.VITE_EMAILJS_PUBLIC_KEY,
-      );
+        await emailjs.sendForm(
+          cfg.VITE_EMAILJS_SERVICE_ID,
+          cfg.VITE_EMAILJS_TEMPLATE_ID,
+          event.target,
+          { publicKey: cfg.VITE_EMAILJS_PUBLIC_KEY },
+        );
       event.target.reset();
       setStatus("Message sent. Thank you.");
     } catch (error) {
