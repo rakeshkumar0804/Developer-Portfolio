@@ -71,6 +71,19 @@ const primarySkills = new Set([
   "GitHub",
   "Postman",
 ]);
+
+const getPreferredEmailLink = () => {
+  const mailto = `mailto:${profile.email}?subject=Portfolio%20Inquiry`;
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  return isMobile
+    ? { href: mailto }
+    : {
+        href: `${profile.emailCompose}&su=Portfolio%20Inquiry`,
+        target: "_blank",
+        rel: "noreferrer",
+      };
+};
 const Section = ({ id, label, title, children }) => (
   <motion.section className="section" id={id} {...fade}>
     <p className="section-label">// {label}</p>
@@ -306,6 +319,7 @@ function LiveGitHub() {
 function Contact() {
   const [status, setStatus] = useState(null);
   const [isSending, setIsSending] = useState(false);
+  const emailLink = getPreferredEmailLink();
   useEffect(() => {
     if (status?.type !== "success") return undefined;
     const timeout = window.setTimeout(() => setStatus(null), 5000);
@@ -367,7 +381,7 @@ function Contact() {
           <div className="contact-actions">
               <a
                 className="button fill"
-                href={`mailto:${profile.email}?subject=Portfolio%20Inquiry`}
+                {...emailLink}
             >
               <FiMail /> Email me
             </a>
@@ -431,6 +445,7 @@ function Contact() {
 }
 
 function App() {
+  const emailLink = getPreferredEmailLink();
   return (
     <>
       <div className="boot-loader" aria-hidden="true">
@@ -512,11 +527,9 @@ function App() {
               >
                 <SiLeetcode />
               </a>
-              <a
-                href={profile.emailCompose}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Email"
+                <a
+                  {...emailLink}
+                  aria-label="Email"
               >
                 <FiMail />
               </a>
