@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { playBootBeep } from '../utils/sound';
 
 const BOOT_LINES = [
-  { text: 'mounting subsystem graph', status: 'OK' },
-  { text: 'linking MERN runtime (React 19 + Node.js)', status: 'OK' },
-  { text: 'spinning cloud-native MongoDB & Redis nodes', status: 'OK' },
-  { text: 'indexing 6 production systems & APIs', status: 'OK' },
-  { text: 'operator recognized :: uplink active :: session #2026', status: 'READY' },
+  { text: 'mounting subsystem graph', status: 'OK', color: 'orange' },
+  { text: 'linking MERN runtime', status: 'OK', color: 'orange' },
+  { text: 'spinning cloud-native nodes', status: 'OK', color: 'orange' },
+  { text: 'indexing 6 production systems', status: 'OK', color: 'orange' },
+  { text: 'warming AI / LLM bridge', status: 'OK', color: 'orange' },
+  { text: 'operator recognized :: last uplink 7s ago :: session #29', status: '', color: 'cyan' },
 ];
 
 export default function BootLoader({ onComplete }) {
@@ -17,7 +18,7 @@ export default function BootLoader({ onComplete }) {
   useEffect(() => {
     // Check if user already saw boot sequence this session
     const hasBooted = typeof window !== 'undefined' && sessionStorage.getItem('rk_booted');
-    const speed = hasBooted ? 12 : 28; // fast boot for returning session
+    const speed = hasBooted ? 14 : 26;
 
     const progressInterval = setInterval(() => {
       setPercent((prev) => {
@@ -25,7 +26,7 @@ export default function BootLoader({ onComplete }) {
           clearInterval(progressInterval);
           return 100;
         }
-        const next = prev + Math.floor(Math.random() * 6) + 2;
+        const next = prev + Math.floor(Math.random() * 5) + 2;
         return next > 100 ? 100 : next;
       });
     }, speed);
@@ -34,9 +35,8 @@ export default function BootLoader({ onComplete }) {
   }, []);
 
   useEffect(() => {
-    // Step through boot lines as percent increases
     const lineIndex = Math.min(
-      Math.floor((percent / 100) * BOOT_LINES.length),
+      Math.floor((percent / 100) * (BOOT_LINES.length + 1)),
       BOOT_LINES.length
     );
     if (lineIndex > visibleLines) {
@@ -47,7 +47,7 @@ export default function BootLoader({ onComplete }) {
     if (percent === 100) {
       const exitTimer = setTimeout(() => {
         finish();
-      }, 400);
+      }, 500);
       return () => clearTimeout(exitTimer);
     }
   }, [percent, visibleLines]);
@@ -59,7 +59,7 @@ export default function BootLoader({ onComplete }) {
     }
     setTimeout(() => {
       if (onComplete) onComplete();
-    }, 450);
+    }, 400);
   };
 
   useEffect(() => {
@@ -76,45 +76,49 @@ export default function BootLoader({ onComplete }) {
       aria-label="System Boot Sequence"
     >
       <div className="boot-grid-bg" />
-      <div className="boot-header">
-        <span className="boot-sys-label">
-          <span className="boot-dot" /> BLUEPRINT OS · v2.0
-        </span>
-        <span className="boot-badge">BOOT // INITIALIZING</span>
-      </div>
 
-      <div className="boot-terminal">
-        <div className="boot-headline">
-          CALIBRATING DEPTH AXIS <span className="boot-cursor">_</span>
+      <div className="boot-center-card">
+        <div className="boot-card-header">
+          <span className="boot-title-left">BLUEPRINT OS · V2.0</span>
+          <span className="boot-title-right">BOOT</span>
         </div>
 
-        <div className="boot-sync-row">
+        <div className="boot-calibrating-row">
+          CALIBRATING DEPTH AXIS <span className="boot-blinking-cursor">_</span>
+        </div>
+
+        <div className="boot-sync-line">
           <span className="boot-sync-label">SYNC</span>
-          <div className="boot-progress-track">
+          <div className="boot-bar-track">
             <div
-              className="boot-progress-bar"
+              className="boot-bar-fill"
               style={{ width: `${percent}%` }}
             />
           </div>
-          <span className="boot-percent">
+          <span className="boot-counter">
             {String(percent).padStart(3, '0')}%
           </span>
         </div>
 
-        <div className="boot-log-box">
+        <div className="boot-diagnostics-box">
           {BOOT_LINES.slice(0, visibleLines).map((line, idx) => (
-            <div key={idx} className="boot-log-line">
-              <span className="boot-log-prefix">&gt;</span>
-              <span className="boot-log-text">{line.text} ...</span>
-              <span className={`boot-log-status ${line.status.toLowerCase()}`}>
-                {line.status}
-              </span>
+            <div
+              key={idx}
+              className={`boot-diag-line ${line.color === 'cyan' ? 'cyan-line' : ''}`}
+            >
+              <span className="diag-text">&gt; {line.text}</span>
+              {line.status && (
+                <>
+                  <span className="diag-dots">...</span>
+                  <span className="diag-ok-tag">{line.status}</span>
+                </>
+              )}
             </div>
           ))}
         </div>
 
-        <div className="boot-skip-hint">
-          <span>[ TAP / PRESS ANY KEY TO SKIP ]</span>
+        <div className="boot-footer-skip">
+          [ TAP ANYWHERE OR PRESS ANY KEY TO SKIP ]
         </div>
       </div>
     </div>
