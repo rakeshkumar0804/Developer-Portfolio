@@ -113,8 +113,6 @@ function Section({ id, tag, title, subtitle, children, className = '' }) {
 }
 
 function TopBar({ audioOn, onToggleAudio }) {
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState('');
   const [timeStr, setTimeStr] = useState('');
 
   useEffect(() => {
@@ -131,73 +129,34 @@ function TopBar({ audioOn, onToggleAudio }) {
   return (
     <header className="topbar">
       <div className="topbar-left">
-        <a className="brand" href="#top" onClick={() => playBlip(1200, 0.05)}>
-          <span className="brand-pulse-dot" />
-          <span className="brand-name">{profile.firstName} {profile.lastName}</span>
+        <a className="brand-tag" href="#top" onClick={() => playBlip(1200, 0.05)}>
+          <span className="brand-dot" />
+          <span className="brand-uplink-text">RAKESH-CORE &nbsp; UPLINK ACTIVE</span>
         </a>
-        <div className="topbar-status-pill">
-          <span className="status-live-dot" />
-          <span>RK-CORE UPLINK ACTIVE</span>
-        </div>
-      </div>
-
-      <div className="topbar-center">
-        <span className="topbar-schematic-id">{profile.schematicId}</span>
       </div>
 
       <div className="topbar-right">
-        <div className="topbar-telemetry">
-          <span className="telemetry-item">
-            <span className="telemetry-label">IST</span> {timeStr || '00:00:00'}
-          </span>
-          <span className="telemetry-item signal">
-            <span className="signal-bars"><i></i><i></i><i></i><i></i></span> 99.4%
-          </span>
+        <div className="topbar-layers-status">
+          <span>STACK GRAPH · ONLINE</span>
+          <span className="layer-sep">07 LAYERS · LIVE</span>
         </div>
 
-        <button
-          className="audio-toggle-btn"
-          onClick={onToggleAudio}
-          aria-label={audioOn ? 'Mute audio feedback' : 'Enable audio feedback'}
-          title={audioOn ? 'Audio: ON (Click to Mute)' : 'Audio: OFF (Click to Enable)'}
-        >
-          {audioOn ? <FiVolume2 className="audio-icon on" /> : <FiVolumeX className="audio-icon off" />}
-          <span className="audio-toggle-text">{audioOn ? 'AUDIO ON' : 'AUDIO OFF'}</span>
-        </button>
-
-        <button
-          className="menu-btn"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle navigation menu"
-        >
-          {open ? <FiX /> : <FiMenu />}
-        </button>
-
-        <nav className={`top-nav ${open ? 'open' : ''}`}>
-          {navItems.map((item) => (
-            <a
-              key={item.id}
-              className={`nav-link ${active === item.id ? 'active' : ''}`}
-              href={`#${item.id}`}
-              onClick={() => {
-                playBlip(1100, 0.05);
-                setActive(item.id);
-                setOpen(false);
-              }}
-            >
-              {item.name}
-            </a>
-          ))}
-        </nav>
+        <div className="topbar-telemetry">
+          <span className="telemetry-sig">
+            SIG <span className="sig-bars"><i></i><i></i><i></i><i></i></span>
+          </span>
+          <span className="telemetry-clock">
+            T {timeStr || '17:48:32'} IST
+          </span>
+        </div>
       </div>
     </header>
   );
 }
 
 function HeroSection({ audioOn, onToggleAudio }) {
-  const [fps, setFps] = useState(60);
-  const [sysLoad, setSysLoad] = useState('14.2');
-  const emailLink = getPreferredEmailLink();
+  const [fps, setFps] = useState(142);
+  const [sysLoad, setSysLoad] = useState('49');
 
   useEffect(() => {
     let frameCount = 0;
@@ -207,11 +166,10 @@ function HeroSection({ audioOn, onToggleAudio }) {
     const calcFps = (now) => {
       frameCount++;
       if (now - lastTime >= 1000) {
-        setFps(Math.min(60, Math.round((frameCount * 1000) / (now - lastTime))));
+        setFps(Math.min(144, Math.round((frameCount * 1000) / (now - lastTime))));
         frameCount = 0;
         lastTime = now;
-        // Jitter SYS load slightly for realism
-        setSysLoad((13.8 + Math.random() * 1.8).toFixed(1));
+        setSysLoad(String(42 + Math.floor(Math.random() * 9)));
       }
       animId = requestAnimationFrame(calcFps);
     };
@@ -225,127 +183,73 @@ function HeroSection({ audioOn, onToggleAudio }) {
       <div className="hero-blueprint-grid">
         {/* Left Column: Blueprint Schematic & Bio */}
         <div className="hero-left-column">
-          <div className="hero-eyebrow">
-            <span className="eyebrow-id">{profile.schematicId}</span>
-            <span className="eyebrow-tag">// SPEC-2026.MERN</span>
+          <div className="hero-schematic-label">
+            <span className="schematic-dash">―</span> DRAWING NO. RK-2026 · MASTER SCHEMATIC
           </div>
 
-          <SnakeTrail />
-
           <h1 className="hero-headline">
-            <span className="headline-line1">{profile.firstName}</span>
-            <span className="headline-line2">{profile.lastName}</span>
+            <span className="headline-line1">RAKESH</span>
+            <span className="headline-line2">KUMAR</span>
           </h1>
 
           <div className="hero-role-row">
-            <span className="hero-role-title">{profile.role}</span>
-            <span className="hero-role-cursor">█</span>
-            <span className="hero-role-badge">IMMEDIATE JOINER</span>
+            <span className="hero-role-title">Digital Systems Eng</span>
+            <span className="hero-role-cursor-block">█</span>
           </div>
 
-          <p className="hero-intro-text">{profile.intro}</p>
+          <p className="hero-intro-text">
+            I architect and ship production systems end-to-end. Full-Stack MERN developer building scalable, cloud-native web systems with secure RBAC, REST APIs, and clean UI architecture.
+          </p>
 
-          <div className="hero-actions-row">
-            <a
-              href="#projects"
-              className="button fill"
-              onClick={() => playBlip(1200, 0.06)}
-            >
-              DEPLOYED SYSTEMS <FiArrowUpRight />
-            </a>
-            <a
-              href={profile.resume}
-              className="button secondary"
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => playBlip(1000, 0.05)}
-            >
-              <FiDownload /> DOWNLOAD RESUME
-            </a>
-          </div>
-
-          <div className="hero-socials-row">
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noreferrer"
-              className="hero-social-link"
-              aria-label="GitHub Profile"
-              title="GitHub"
-            >
-              <FiGithub />
-            </a>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="hero-social-link"
-              aria-label="LinkedIn Profile"
-              title="LinkedIn"
-            >
-              <FiLinkedin />
-            </a>
-            <a
-              href={profile.leetcode}
-              target="_blank"
-              rel="noreferrer"
-              className="hero-social-link"
-              aria-label="LeetCode Profile"
-              title="LeetCode"
-            >
-              <SiLeetcode />
-            </a>
-            <a
-              {...emailLink}
-              className="hero-social-link"
-              aria-label="Direct Email"
-              title="Email"
-            >
-              <FiMail />
-            </a>
-          </div>
-
-          <div className="hero-stats-grid">
-            {profile.stats.map((stat, idx) => (
-              <div key={idx} className="hero-stat-card">
-                <span className="stat-card-val">{stat.value}</span>
-                <span className="stat-card-label">{stat.label}</span>
-                <span className="stat-card-sub">{stat.sub}</span>
-              </div>
-            ))}
+          {/* Boxed Stats Row matching Photo 2 */}
+          <div className="hero-stats-panel">
+            <div className="stat-panel-cell">
+              <span className="stat-cell-val">5+</span>
+              <span className="stat-cell-lbl">PROD SYSTEMS</span>
+            </div>
+            <div className="stat-panel-cell">
+              <span className="stat-cell-val">165+</span>
+              <span className="stat-cell-lbl">LEETCODE SOLVED</span>
+            </div>
+            <div className="stat-panel-cell">
+              <span className="stat-cell-val">2+</span>
+              <span className="stat-cell-lbl">HACKATHONS</span>
+            </div>
+            <div className="stat-panel-cell">
+              <span className="stat-cell-val">3+</span>
+              <span className="stat-cell-lbl">CERTIFICATIONS</span>
+            </div>
           </div>
         </div>
 
-        {/* Right Column: 3D Interactive Globe */}
+        {/* Right Column: 3D Constellation Globe matching Photo 2 */}
         <div className="hero-right-column">
           <HeroGlobe />
         </div>
       </div>
 
-      {/* Hero Bottom Telemetry Bar */}
+      {/* Hero Bottom Telemetry Bar matching Photo 2 */}
       <div className="hero-telemetry-bar">
         <div className="telemetry-bar-left">
-          <span className="telemetry-block">
-            <span className="t-label">LOC:</span> {profile.location}
-          </span>
-          <span className="telemetry-block">
-            <span className="t-label">ENGINE:</span> REACT 19 + THREE.JS
-          </span>
+          <span>GURUGRAM, HR, INDIA</span>
+          <span>FPS {fps}</span>
+          <span>SYS LOAD {sysLoad}%</span>
+        </div>
+
+        <div className="telemetry-bar-center">
+          <a href="#operations" className="descend-link">
+            <span>DESCEND THROUGH THE SYSTEM</span>
+            <span className="descend-line" />
+          </a>
         </div>
 
         <div className="telemetry-bar-right">
-          <span className="telemetry-block">
-            <span className="t-label">FPS:</span> <b className="t-val">{fps}</b>
-          </span>
-          <span className="telemetry-block">
-            <span className="t-label">SYS LOAD:</span> <b className="t-val">{sysLoad}%</b>
-          </span>
           <button
             className="telemetry-audio-btn"
             onClick={onToggleAudio}
-            aria-label="Toggle sound effects"
+            aria-label="Toggle Audio"
           >
-            {audioOn ? <FiVolume2 /> : <FiVolumeX />} {audioOn ? 'AUDIO ON' : 'AUDIO OFF'}
+            <span className="audio-bars-icon">ııı</span> {audioOn ? 'AUDIO ON' : 'AUDIO OFF'}
           </button>
         </div>
       </div>
