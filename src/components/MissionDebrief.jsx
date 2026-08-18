@@ -3,14 +3,12 @@ import { FiArrowUp, FiCheck, FiMail } from 'react-icons/fi';
 import { playBlip } from '../utils/sound';
 
 const REVIEW_SECTIONS = [
-  { id: 'top', num: '00', label: 'HERO & SCHEMATIC' },
-  { id: 'operations', num: '01', label: 'PHILOSOPHY & FOCUS' },
-  { id: 'principles', num: '02', label: 'CORE PRINCIPLES' },
-  { id: 'projects', num: '03', label: 'DEPLOYED SYSTEMS (6)' },
-  { id: 'signals', num: '04', label: 'OPEN-SOURCE SIGNALS' },
-  { id: 'architect', num: '05', label: 'THE ARCHITECT / BIO' },
-  { id: 'certifications', num: '06', label: 'CERTIFICATIONS' },
-  { id: 'contact', num: '07', label: 'CONTACT CHANNEL' },
+  { id: 'operations', num: '01', label: 'OPERATIONS' },
+  { id: 'principles', num: '02', label: 'GUIDING PRINCIPLES' },
+  { id: 'projects', num: '03', label: 'DEPLOYED SYSTEMS' },
+  { id: 'signals', num: '04', label: 'OPEN SIGNALS' },
+  { id: 'architect', num: '05', label: 'THE ARCHITECT' },
+  { id: 'contact', num: '06', label: 'ESTABLISH COMMS' },
 ];
 
 export default function MissionDebrief() {
@@ -26,13 +24,15 @@ export default function MissionDebrief() {
     <section className="mission-debrief-section" id="debrief">
       <div className="debrief-header">
         <div className="debrief-title-wrap">
-          <span className="section-label">// SYSTEM AUDIT</span>
+          <div className="debrief-eyebrow">
+            <span className="eyebrow-line">―</span> MISSION DEBRIEF
+          </div>
           <h2>System reviewed.</h2>
         </div>
         <div className="debrief-sync-box">
           <div className="debrief-sync-top">
-            <span>AUDIT STATUS</span>
-            <span className="debrief-100">SYNC 100%</span>
+            <span>SYNC</span>
+            <span className="debrief-100">100%</span>
           </div>
           <div className="debrief-sync-track">
             <div className="debrief-sync-fill" />
@@ -48,13 +48,15 @@ export default function MissionDebrief() {
             onClick={() => scrollTo(sec.id)}
             aria-label={`Jump back to ${sec.label}`}
           >
-            <div className="debrief-tile-top">
+            <div className="debrief-tile-left">
               <span className="debrief-tile-num">{sec.num}</span>
-              <span className="debrief-tile-status">
-                <FiCheck /> REVIEWED
-              </span>
+              <span className="debrief-tile-dot" />
+              <div className="debrief-tile-text-wrap">
+                <span className="debrief-tile-label">{sec.label}</span>
+                <span className="debrief-tile-status">REVIEWED</span>
+              </div>
             </div>
-            <div className="debrief-tile-label">{sec.label}</div>
+            <span className="debrief-tile-arrow">↗</span>
           </button>
         ))}
       </div>
@@ -69,13 +71,15 @@ export default function MissionDebrief() {
             className="button fill debrief-btn"
             onClick={() => playBlip(1200, 0.08)}
           >
-            <FiMail /> INITIATE CONTACT → OPEN THE CHANNEL
+            <span>INITIATE CONTACT</span>
+            <small className="btn-subtext">OPEN THE CHANNEL →</small>
           </a>
           <button
-            className="button debrief-btn secondary"
+            className="button secondary debrief-btn"
             onClick={() => scrollTo('top')}
           >
-            <FiArrowUp /> REMAIN OBSERVER → REWIND TO THE TOP
+            <span>REMAIN OBSERVER</span>
+            <small className="btn-subtext">REWIND TO THE TOP ↑</small>
           </button>
         </div>
       </div>

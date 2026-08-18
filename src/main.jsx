@@ -261,12 +261,11 @@ function OperationsSection() {
   return (
     <Section
       id="operations"
-      tag="01 / PHILOSOPHY & OPERATIONS"
-      title="Engineering methodology & active focus."
-      subtitle="How I approach building production systems, from initial problem formulation to resilient deployment."
+      tag="OPERATING PHILOSOPHY"
+      title="Every project starts as a problem. Every problem becomes a prototype. Every prototype ships to production."
+      subtitle=""
     >
       <div className="operations-grid">
-        {/* Philosophy Escalating Statement */}
         <div className="philosophy-card">
           <div className="card-header-tag">CORE PHILOSOPHY</div>
           <div className="philosophy-quotes">
@@ -282,9 +281,8 @@ function OperationsSection() {
           </div>
         </div>
 
-        {/* Current Focus Items */}
         <div className="current-focus-card">
-          <div className="card-header-tag">CURRENT OPERATIONS // 2026</div>
+          <div className="card-header-tag">CURRENT OPERATIONS · LIVE</div>
           <div className="focus-items-list">
             {philosophy.focus.map((item, idx) => (
               <div key={idx} className="focus-item-row">
@@ -308,16 +306,16 @@ function PrinciplesSection() {
   return (
     <Section
       id="principles"
-      tag="02 / ENGINEERING PRINCIPLES"
-      title="How I work."
-      subtitle="Four core engineering principles that guide architecture, implementation, and code hygiene."
+      tag="01 / OPERATING PRINCIPLES"
+      title="The design constraints behind every system below."
+      subtitle="Engineering standards and architectural principles applied across every repository."
     >
       <div className="principles-grid">
         {principles.map((p, idx) => (
           <motion.div key={p.num} className="principle-card" {...cardReveal(idx)}>
             <div className="principle-card-top">
               <span className="principle-num">{p.num}</span>
-              <span className="principle-badge">CANONICAL</span>
+              <span className="principle-badge">P-0{idx + 1}</span>
             </div>
             <h3 className="principle-title">{p.title}</h3>
             <p className="principle-detail">{p.detail}</p>
@@ -332,8 +330,8 @@ function DeployedSystemsSection() {
   return (
     <Section
       id="projects"
-      tag="03 / DEPLOYED SYSTEMS"
-      title="Systems shipped and running in production."
+      tag="02 / DEPLOYED SYSTEMS"
+      title="Self-assembling architecture schematics - drawn as you read."
       subtitle="Full-stack web applications engineered with clear architecture, verified authentication, and scalable storage."
     >
       <div className="systems-list">
@@ -425,7 +423,6 @@ function DeployedSystemsSection() {
 
 function OpenSourceSection() {
   const [repoCount, setRepoCount] = useState('06+');
-  const [starCount, setStarCount] = useState('08+');
 
   useEffect(() => {
     if (profile.githubUsername) {
@@ -443,8 +440,8 @@ function OpenSourceSection() {
   return (
     <Section
       id="signals"
-      tag="04 / OPEN-SOURCE SIGNALS"
-      title="Public work on GitHub — built in the open."
+      tag="03 / OPEN-SOURCE SIGNALS"
+      title="Public work on GitHub - built in the open, validated by stars."
       subtitle="Source code repositories, automated tools, and experiments maintained publicly."
     >
       {/* Top Metrics Row */}
@@ -512,7 +509,7 @@ function ArchitectSection() {
   return (
     <Section
       id="architect"
-      tag="05 / THE ARCHITECT"
+      tag="04 / THE ARCHITECT"
       title="Operator spec sheet & service history."
       subtitle="Professional profile, internship engineering background, and structured subsystem capabilities."
     >
@@ -520,7 +517,7 @@ function ArchitectSection() {
         {/* Left Column: Spec Sheet Table & Bio */}
         <div className="architect-spec-card">
           <div className="spec-card-header">
-            <span className="spec-header-tag">SPECIFICATION SHEET</span>
+            <span className="spec-header-tag">OPERATOR SPEC · RAKESH-CORE</span>
             <span className="spec-header-id">OPERATOR // RK-0804</span>
           </div>
 
@@ -552,7 +549,7 @@ function ArchitectSection() {
         {/* Right Column: Service History Log */}
         <div className="service-history-card">
           <div className="spec-card-header">
-            <span className="spec-header-tag">SERVICE HISTORY LOG</span>
+            <span className="spec-header-tag">SERVICE HISTORY · LOG</span>
             <span className="spec-header-id">TIMELINE // VERIFIED</span>
           </div>
 
@@ -588,7 +585,7 @@ function ArchitectSection() {
       {/* Capability Matrix */}
       <div className="capability-matrix-wrapper">
         <div className="matrix-header">
-          <span className="matrix-title">SUBSYSTEM CAPABILITY MATRIX</span>
+          <span className="matrix-title">SUBSYSTEMS · CAPABILITY MATRIX</span>
           <span className="matrix-sub">Verified skills & production tooling</span>
         </div>
 
@@ -618,8 +615,8 @@ function CertificationsSection() {
   return (
     <Section
       id="certifications"
-      tag="06 / CREDENTIALS & CERTIFICATIONS"
-      title="Field recognition & certifications."
+      tag="FIELD RECOGNITION"
+      title="Credentials & certifications."
       subtitle="Industry credentials and competitive problem-solving milestones."
     >
       <div className="credentials-grid">
@@ -709,9 +706,9 @@ function ContactSection() {
   return (
     <Section
       id="contact"
-      tag="07 / CONTACT CHANNEL"
-      title="Initiate communication."
-      subtitle="Actively evaluating Full-Stack / MERN Developer roles. Available to join immediately."
+      tag="05 / ESTABLISH COMMS"
+      title="Let's build something ambitious."
+      subtitle="Channel open. Awaiting transmission."
     >
       <div className="contact-composite-grid">
         {/* Left: Contact Form & Direct Dispatch */}
