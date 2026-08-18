@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from 'react';
+import { createRoot } from 'react-dom/client';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   FiArrowUpRight,
   FiDownload,
@@ -12,317 +12,754 @@ import {
   FiFileText,
   FiExternalLink,
   FiAward,
-} from "react-icons/fi";
+  FiActivity,
+  FiCpu,
+  FiTerminal,
+  FiCheckCircle,
+  FiLayers,
+  FiGlobe,
+  FiVolume2,
+  FiVolumeX,
+} from 'react-icons/fi';
 import {
   SiCisco,
   SiHackerrank,
   SiLeetcode,
   SiUdemy,
-} from "react-icons/si";
-import emailjs from "@emailjs/browser";
+} from 'react-icons/si';
+import emailjs from '@emailjs/browser';
+
 import {
   profile,
+  philosophy,
+  principles,
   projects,
+  openSourceRepos,
   skills,
   journey,
   certifications,
-} from "./data/portfolio";
-import "./styles.css";
-import "./contact-status.css";
+} from './data/portfolio';
 
-const nav = [
-  ["About", "about"],
-  ["Projects", "projects"],
-  ["Skills", "skills"],
-  ["Certificates", "certificates"],
-  ["Journey", "journey"],
-  ["Contact", "contact"],
+import BootLoader from './components/BootLoader';
+import HeroGlobe from './components/HeroGlobe';
+import SnakeTrail from './components/SnakeTrail';
+import DepthRail from './components/DepthRail';
+import ArchitectureDiagram from './components/ArchitectureDiagram';
+import CatCompanion from './components/CatCompanion';
+import MissionDebrief from './components/MissionDebrief';
+import { getAudioState, toggleAudioState, playBlip, playTick } from './utils/sound';
+
+import './styles.css';
+import './contact-status.css';
+
+const navItems = [
+  { name: 'OPERATIONS', id: 'operations' },
+  { name: 'PRINCIPLES', id: 'principles' },
+  { name: 'SYSTEMS', id: 'projects' },
+  { name: 'SIGNALS', id: 'signals' },
+  { name: 'ARCHITECT', id: 'architect' },
+  { name: 'CREDS', id: 'certifications' },
+  { name: 'CONTACT', id: 'contact' },
 ];
+
 const certificateLogos = {
   hackerrank: SiHackerrank,
   cisco: SiCisco,
   udemy: SiUdemy,
+  openedg: FiAward,
 };
-const fade = {
-  initial: { opacity: 0, y: 24 },
+
+const fadeAnimation = {
+  initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.12 },
-  transition: { duration: 0.5 },
+  viewport: { once: true, amount: 0.1 },
+  transition: { duration: 0.45 },
 };
+
 const cardReveal = (index) => ({
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 18 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.15 },
-  transition: { duration: 0.42, delay: index * 0.09 },
+  viewport: { once: true, amount: 0.1 },
+  transition: { duration: 0.4, delay: Math.min(index * 0.08, 0.35) },
 });
-const primarySkills = new Set([
-  "JavaScript (ES6+)",
-  "React.js",
-  "HTML5",
-  "CSS3",
-  "Node.js",
-  "Express.js",
-  "REST APIs",
-  "JWT",
-  "RBAC",
-  "MongoDB",
-  "Mongoose",
-  "Git",
-  "GitHub",
-  "Postman",
-]);
 
 const getPreferredEmailLink = () => {
-  const mailto = `mailto:${profile.email}?subject=Portfolio%20Inquiry`;
-  const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const mailto = `mailto:${profile.email}?subject=Portfolio%20Inquiry%20-%20Rakesh%20Kumar`;
+  const isMobile = typeof navigator !== 'undefined' && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
   return isMobile
     ? { href: mailto }
     : {
-        href: `${profile.emailCompose}&su=Portfolio%20Inquiry`,
-        target: "_blank",
-        rel: "noreferrer",
+        href: `${profile.emailCompose}&su=Portfolio%20Inquiry%20-%20Rakesh%20Kumar`,
+        target: '_blank',
+        rel: 'noreferrer',
       };
 };
-const Section = ({ id, label, title, children }) => (
-  <motion.section className="section" id={id} {...fade}>
-    <p className="section-label">// {label}</p>
-    <h2>{title}</h2>
-    {children}
-  </motion.section>
-);
 
-function Header() {
-  const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("");
-  useEffect(() => {
-    const sections = nav
-      .map(([, id]) => document.getElementById(id))
-      .filter(Boolean);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              b.intersectionRatio - a.intersectionRatio,
-          )[0];
-        if (visible) setActive(visible.target.id);
-      },
-      {
-        rootMargin: "-28% 0px -58% 0px",
-        threshold: [0.1, 0.25, 0.5],
-      },
-    );
-    sections.forEach((section) =>
-      observer.observe(section),
-    );
-    return () => observer.disconnect();
-  }, []);
+function Section({ id, tag, title, subtitle, children, className = '' }) {
   return (
-    <header>
-      <a className="brand" href="#top">
-        <i /> {profile.name}
-      </a>
-      <button
-        className="menu"
-        onClick={() => setOpen(!open)}
-        aria-label="Toggle menu"
-      >
-        {open ? <FiX /> : <FiMenu />}
-      </button>
-      <nav className={open ? "open" : ""}>
-        {nav.map(([name, id]) => (
-          <a
-            className={active === id ? "active" : ""}
-            href={`#${id}`}
-            onClick={() => {
-              setActive(id);
-              setOpen(false);
-            }}
-            key={id}
-          >
-            {name}
-          </a>
-        ))}
-      </nav>
+    <motion.section className={`section ${className}`} id={id} {...fadeAnimation}>
+      <div className="section-header-block">
+        <div className="section-tag-row">
+          <span className="section-label">// {tag}</span>
+          <span className="section-decor-line" />
+        </div>
+        <h2>{title}</h2>
+        {subtitle && <p className="section-intro">{subtitle}</p>}
+      </div>
+      {children}
+    </motion.section>
+  );
+}
+
+function TopBar({ audioOn, onToggleAudio }) {
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState('');
+  const [timeStr, setTimeStr] = useState('');
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options = { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      setTimeStr(now.toLocaleTimeString('en-GB', options));
+    };
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <header className="topbar">
+      <div className="topbar-left">
+        <a className="brand" href="#top" onClick={() => playBlip(1200, 0.05)}>
+          <span className="brand-pulse-dot" />
+          <span className="brand-name">{profile.firstName} {profile.lastName}</span>
+        </a>
+        <div className="topbar-status-pill">
+          <span className="status-live-dot" />
+          <span>RK-CORE UPLINK ACTIVE</span>
+        </div>
+      </div>
+
+      <div className="topbar-center">
+        <span className="topbar-schematic-id">{profile.schematicId}</span>
+      </div>
+
+      <div className="topbar-right">
+        <div className="topbar-telemetry">
+          <span className="telemetry-item">
+            <span className="telemetry-label">IST</span> {timeStr || '00:00:00'}
+          </span>
+          <span className="telemetry-item signal">
+            <span className="signal-bars"><i></i><i></i><i></i><i></i></span> 99.4%
+          </span>
+        </div>
+
+        <button
+          className="audio-toggle-btn"
+          onClick={onToggleAudio}
+          aria-label={audioOn ? 'Mute audio feedback' : 'Enable audio feedback'}
+          title={audioOn ? 'Audio: ON (Click to Mute)' : 'Audio: OFF (Click to Enable)'}
+        >
+          {audioOn ? <FiVolume2 className="audio-icon on" /> : <FiVolumeX className="audio-icon off" />}
+          <span className="audio-toggle-text">{audioOn ? 'AUDIO ON' : 'AUDIO OFF'}</span>
+        </button>
+
+        <button
+          className="menu-btn"
+          onClick={() => setOpen(!open)}
+          aria-label="Toggle navigation menu"
+        >
+          {open ? <FiX /> : <FiMenu />}
+        </button>
+
+        <nav className={`top-nav ${open ? 'open' : ''}`}>
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              className={`nav-link ${active === item.id ? 'active' : ''}`}
+              href={`#${item.id}`}
+              onClick={() => {
+                playBlip(1100, 0.05);
+                setActive(item.id);
+                setOpen(false);
+              }}
+            >
+              {item.name}
+            </a>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }
 
-function Terminal() {
-  return (
-    <div
-      className="terminal"
-      aria-label="Introduction terminal"
-    >
-      <div className="terminal-bar">
-        <span>
-          <b />
-          <b />
-          <b />
-        </span>
-        <span>rakesh@portfolio: ~</span>
-      </div>
-      <div className="terminal-body">
-        <p>
-          <em>rakesh@portfolio $</em> whoami
-        </p>
-        <strong>
-          {profile.name}{" "}
-          <span className="whoami-role">
-            • Software Engineer
-          </span>
-        </strong>
-        <p>
-          <em>rakesh@portfolio $</em> cat role.txt
-        </p>
-        <span>{profile.role}</span>
-        <p>
-          <em>rakesh@portfolio $</em> ls skills/
-        </p>
-        <div className="terminal-tags">
-          <b>React</b>
-          <b>TypeScript</b>
-          <b>Node.js</b>
-          <b>Express</b>
-          <b>MongoDB</b>
-        </div>
-        <p>
-          <em>rakesh@portfolio $</em> npm run build
-        </p>
-        <span className="terminal-success">
-          ✓ Build successful
-        </span>
-        <p>
-          <em>rakesh@portfolio $</em> git status
-        </p>
-        <span className="terminal-ready">
-          Ready for new opportunities 🚀
-        </span>
-        <p>
-          <em>rakesh@portfolio $</em>{" "}
-          <i className="cursor">█</i>
-        </p>
-      </div>
-    </div>
-  );
-}
+function HeroSection({ audioOn, onToggleAudio }) {
+  const [fps, setFps] = useState(60);
+  const [sysLoad, setSysLoad] = useState('14.2');
+  const emailLink = getPreferredEmailLink();
 
-function ProjectCover({ project }) {
-  if (project.art === "health")
-    return (
-      <div
-        className="project-cover health"
-        aria-hidden="true"
-      >
-        <div className="cover-browser">
-          <div className="cover-dots">
-            <i />
-            <i />
-            <i />
-          </div>
-          <div className="cover-heading">
-            Portfolio health
-          </div>
-          <div className="score-line">
-            <b>86</b>
-            <span>Hiring readiness</span>
-          </div>
-          <div className="cover-bars">
-            <i />
-            <i />
-            <i />
-          </div>
-        </div>
-      </div>
-    );
-  if (project.art === "leave")
-    return (
-      <div
-        className="project-cover leave"
-        aria-hidden="true"
-      >
-        <div className="cover-dashboard">
-          <div className="cover-heading">LeaveFlow</div>
-          <div className="leave-summary">
-            <span>24</span>
-            <small>Requests</small>
-            <span>08</span>
-            <small>Pending</small>
-          </div>
-          <div className="leave-rows">
-            <i />
-            <i />
-            <i />
-          </div>
-        </div>
-      </div>
-    );
-  return (
-    <div className="project-cover task" aria-hidden="true">
-      <div className="cover-dashboard">
-        <div className="cover-heading">TaskFlow</div>
-        <div className="task-columns">
-          <div>
-            <b>Todo</b>
-            <i />
-            <i />
-          </div>
-          <div>
-            <b>In progress</b>
-            <i />
-            <i />
-          </div>
-          <div>
-            <b>Done</b>
-            <i />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function LiveGitHub() {
-  const [data, setData] = useState(null);
-  const username = import.meta.env.VITE_GITHUB_USERNAME || "rakeshkumar0804";
   useEffect(() => {
-    if (username)
-      fetch(`https://api.github.com/users/${username}`)
-        .then((r) => r.ok && r.json())
-        .then(setData)
-        .catch(() => {});
-  }, [username]);
-  if (!data)
-    return (
-      <div className="github-strip">
-        <FiGithub />{" "}
-        <span>
-          GitHub metrics are temporarily unavailable. Please try again shortly.
-        </span>
-      </div>
-    );
+    let frameCount = 0;
+    let lastTime = performance.now();
+    let animId;
+
+    const calcFps = (now) => {
+      frameCount++;
+      if (now - lastTime >= 1000) {
+        setFps(Math.min(60, Math.round((frameCount * 1000) / (now - lastTime))));
+        frameCount = 0;
+        lastTime = now;
+        // Jitter SYS load slightly for realism
+        setSysLoad((13.8 + Math.random() * 1.8).toFixed(1));
+      }
+      animId = requestAnimationFrame(calcFps);
+    };
+
+    animId = requestAnimationFrame(calcFps);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
   return (
-    <a
-      className="github-strip"
-      href={data.html_url}
-      target="_blank"
-      rel="noreferrer"
-    >
-      <FiGithub /> <b>{data.public_repos}</b> public
-      repositories <FiArrowUpRight />
-    </a>
+    <section className="hero-section" id="top">
+      <div className="hero-blueprint-grid">
+        {/* Left Column: Blueprint Schematic & Bio */}
+        <div className="hero-left-column">
+          <div className="hero-eyebrow">
+            <span className="eyebrow-id">{profile.schematicId}</span>
+            <span className="eyebrow-tag">// SPEC-2026.MERN</span>
+          </div>
+
+          <SnakeTrail />
+
+          <h1 className="hero-headline">
+            <span className="headline-line1">{profile.firstName}</span>
+            <span className="headline-line2">{profile.lastName}</span>
+          </h1>
+
+          <div className="hero-role-row">
+            <span className="hero-role-title">{profile.role}</span>
+            <span className="hero-role-cursor">█</span>
+            <span className="hero-role-badge">IMMEDIATE JOINER</span>
+          </div>
+
+          <p className="hero-intro-text">{profile.intro}</p>
+
+          <div className="hero-actions-row">
+            <a
+              href="#projects"
+              className="button fill"
+              onClick={() => playBlip(1200, 0.06)}
+            >
+              DEPLOYED SYSTEMS <FiArrowUpRight />
+            </a>
+            <a
+              href={profile.resume}
+              className="button secondary"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => playBlip(1000, 0.05)}
+            >
+              <FiDownload /> DOWNLOAD RESUME
+            </a>
+          </div>
+
+          <div className="hero-socials-row">
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-social-link"
+              aria-label="GitHub Profile"
+              title="GitHub"
+            >
+              <FiGithub />
+            </a>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-social-link"
+              aria-label="LinkedIn Profile"
+              title="LinkedIn"
+            >
+              <FiLinkedin />
+            </a>
+            <a
+              href={profile.leetcode}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-social-link"
+              aria-label="LeetCode Profile"
+              title="LeetCode"
+            >
+              <SiLeetcode />
+            </a>
+            <a
+              {...emailLink}
+              className="hero-social-link"
+              aria-label="Direct Email"
+              title="Email"
+            >
+              <FiMail />
+            </a>
+          </div>
+
+          <div className="hero-stats-grid">
+            {profile.stats.map((stat, idx) => (
+              <div key={idx} className="hero-stat-card">
+                <span className="stat-card-val">{stat.value}</span>
+                <span className="stat-card-label">{stat.label}</span>
+                <span className="stat-card-sub">{stat.sub}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Right Column: 3D Interactive Globe */}
+        <div className="hero-right-column">
+          <HeroGlobe />
+        </div>
+      </div>
+
+      {/* Hero Bottom Telemetry Bar */}
+      <div className="hero-telemetry-bar">
+        <div className="telemetry-bar-left">
+          <span className="telemetry-block">
+            <span className="t-label">LOC:</span> {profile.location}
+          </span>
+          <span className="telemetry-block">
+            <span className="t-label">ENGINE:</span> REACT 19 + THREE.JS
+          </span>
+        </div>
+
+        <div className="telemetry-bar-right">
+          <span className="telemetry-block">
+            <span className="t-label">FPS:</span> <b className="t-val">{fps}</b>
+          </span>
+          <span className="telemetry-block">
+            <span className="t-label">SYS LOAD:</span> <b className="t-val">{sysLoad}%</b>
+          </span>
+          <button
+            className="telemetry-audio-btn"
+            onClick={onToggleAudio}
+            aria-label="Toggle sound effects"
+          >
+            {audioOn ? <FiVolume2 /> : <FiVolumeX />} {audioOn ? 'AUDIO ON' : 'AUDIO OFF'}
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }
 
-function Contact() {
+function OperationsSection() {
+  return (
+    <Section
+      id="operations"
+      tag="01 / PHILOSOPHY & OPERATIONS"
+      title="Engineering methodology & active focus."
+      subtitle="How I approach building production systems, from initial problem formulation to resilient deployment."
+    >
+      <div className="operations-grid">
+        {/* Philosophy Escalating Statement */}
+        <div className="philosophy-card">
+          <div className="card-header-tag">CORE PHILOSOPHY</div>
+          <div className="philosophy-quotes">
+            {philosophy.quote.map((line, idx) => (
+              <div key={idx} className="philosophy-quote-line">
+                <span className="quote-step">0{idx + 1}</span>
+                <p className="quote-text">{line}</p>
+              </div>
+            ))}
+          </div>
+          <div className="philosophy-footer-note">
+            // FOCUSED ON SHIP SPEED, ROBUST SCHEMA DESIGN & HIGH AVAILABILITY
+          </div>
+        </div>
+
+        {/* Current Focus Items */}
+        <div className="current-focus-card">
+          <div className="card-header-tag">CURRENT OPERATIONS // 2026</div>
+          <div className="focus-items-list">
+            {philosophy.focus.map((item, idx) => (
+              <div key={idx} className="focus-item-row">
+                <div className="focus-item-top">
+                  <span className="focus-item-title">{item.label}</span>
+                  <span className={`focus-status-tag ${item.color}`}>
+                    {item.tag}
+                  </span>
+                </div>
+                <p className="focus-item-detail">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+function PrinciplesSection() {
+  return (
+    <Section
+      id="principles"
+      tag="02 / ENGINEERING PRINCIPLES"
+      title="How I work."
+      subtitle="Four core engineering principles that guide architecture, implementation, and code hygiene."
+    >
+      <div className="principles-grid">
+        {principles.map((p, idx) => (
+          <motion.div key={p.num} className="principle-card" {...cardReveal(idx)}>
+            <div className="principle-card-top">
+              <span className="principle-num">{p.num}</span>
+              <span className="principle-badge">CANONICAL</span>
+            </div>
+            <h3 className="principle-title">{p.title}</h3>
+            <p className="principle-detail">{p.detail}</p>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function DeployedSystemsSection() {
+  return (
+    <Section
+      id="projects"
+      tag="03 / DEPLOYED SYSTEMS"
+      title="Systems shipped and running in production."
+      subtitle="Full-stack web applications engineered with clear architecture, verified authentication, and scalable storage."
+    >
+      <div className="systems-list">
+        {projects.map((project, idx) => (
+          <motion.article
+            key={project.id}
+            className={`deployed-system-card ${project.featured ? 'featured' : ''}`}
+            {...cardReveal(idx)}
+          >
+            {/* Left Side: System Specifications */}
+            <div className="system-spec-column">
+              <div className="system-spec-header">
+                <span className="system-sys-id">{project.number}</span>
+                <span className="system-status-badge">
+                  <span className="sys-pulse-dot" /> {project.status}
+                </span>
+              </div>
+
+              <h3 className="system-title">{project.name}</h3>
+              <div className="system-category">{project.category}</div>
+              <div className="system-context">// {project.context}</div>
+
+              <p className="system-description">{project.description}</p>
+
+              {/* 3 Real Metric Tiles */}
+              <div className="system-metrics-row">
+                {project.stats.map((st, sIdx) => (
+                  <div key={sIdx} className="system-metric-tile">
+                    <span className="metric-val">{st.val}</span>
+                    <span className="metric-lbl">{st.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Technical Bullet Highlights */}
+              <ul className="system-bullets-list">
+                {project.bullets.map((bullet, bIdx) => (
+                  <li key={bIdx}>
+                    <span className="bullet-arrow">↗</span>
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Tech Stack Pills */}
+              <div className="system-stack-pills">
+                {project.stack.map((tech) => (
+                  <span key={tech} className="stack-pill">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              {/* Action Links */}
+              <div className="system-actions-row">
+                <a
+                  href={project.code}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="button secondary sm"
+                  aria-label={`${project.name} GitHub Repository`}
+                >
+                  <FiGithub /> SOURCE REPO
+                </a>
+                {project.live !== '#' && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="button fill sm"
+                    aria-label={`${project.name} Live Deployment`}
+                  >
+                    <FiExternalLink /> LIVE SYSTEM <FiArrowUpRight />
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {/* Right Side: Architecture Diagram */}
+            <div className="system-arch-column">
+              <ArchitectureDiagram project={project} index={idx} />
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function OpenSourceSection() {
+  const [repoCount, setRepoCount] = useState('06+');
+  const [starCount, setStarCount] = useState('08+');
+
+  useEffect(() => {
+    if (profile.githubUsername) {
+      fetch(`https://api.github.com/users/${profile.githubUsername}`)
+        .then((r) => r.ok && r.json())
+        .then((data) => {
+          if (data && data.public_repos) {
+            setRepoCount(String(data.public_repos).padStart(2, '0'));
+          }
+        })
+        .catch(() => {});
+    }
+  }, []);
+
+  return (
+    <Section
+      id="signals"
+      tag="04 / OPEN-SOURCE SIGNALS"
+      title="Public work on GitHub — built in the open."
+      subtitle="Source code repositories, automated tools, and experiments maintained publicly."
+    >
+      {/* Top Metrics Row */}
+      <div className="signals-metrics-row">
+        <div className="signal-stat-tile">
+          <span className="signal-stat-val">{repoCount}</span>
+          <span className="signal-stat-label">PUBLIC REPOSITORIES</span>
+          <span className="signal-stat-sub">Active on GitHub</span>
+        </div>
+        <div className="signal-stat-tile">
+          <span className="signal-stat-val">100%</span>
+          <span className="signal-stat-label">OPEN ARCHITECTURE</span>
+          <span className="signal-stat-sub">MERN & Full-Stack</span>
+        </div>
+        <a
+          href={profile.github}
+          target="_blank"
+          rel="noreferrer"
+          className="signal-profile-tile"
+        >
+          <div className="signal-profile-left">
+            <FiGithub className="github-large-icon" />
+            <div>
+              <span className="signal-profile-title">github.com/{profile.githubUsername}</span>
+              <span className="signal-profile-sub">Explore full commit graph & codebases</span>
+            </div>
+          </div>
+          <FiArrowUpRight className="signal-profile-arrow" />
+        </a>
+      </div>
+
+      {/* Repo Cards Grid */}
+      <div className="signals-repo-grid">
+        {openSourceRepos.map((repo, idx) => (
+          <motion.div key={repo.name} className="repo-signal-card" {...cardReveal(idx)}>
+            <div className="repo-card-top">
+              <span className="repo-category-badge">{repo.category}</span>
+              <span className="repo-star-badge">★ {repo.stars}</span>
+            </div>
+            <h4 className="repo-name">{repo.name}</h4>
+            <p className="repo-description">{repo.description}</p>
+            <div className="repo-card-footer">
+              <span className="repo-lang-tag">
+                <span className="lang-dot" style={{ backgroundColor: repo.langColor }} />
+                {repo.language}
+              </span>
+              <a
+                href={repo.url}
+                target="_blank"
+                rel="noreferrer"
+                className="repo-open-link"
+                aria-label={`Open repository ${repo.name}`}
+              >
+                OPEN REPO ↗
+              </a>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
+  );
+}
+
+function ArchitectSection() {
+  return (
+    <Section
+      id="architect"
+      tag="05 / THE ARCHITECT"
+      title="Operator spec sheet & service history."
+      subtitle="Professional profile, internship engineering background, and structured subsystem capabilities."
+    >
+      <div className="architect-layout-grid">
+        {/* Left Column: Spec Sheet Table & Bio */}
+        <div className="architect-spec-card">
+          <div className="spec-card-header">
+            <span className="spec-header-tag">SPECIFICATION SHEET</span>
+            <span className="spec-header-id">OPERATOR // RK-0804</span>
+          </div>
+
+          <table className="spec-table" aria-label="Developer Specifications">
+            <tbody>
+              {profile.specSheet.map((row, idx) => (
+                <tr key={idx}>
+                  <th scope="row" className="spec-label">{row.label}</th>
+                  <td className="spec-value">{row.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="spec-bio-narrative">
+            <p>{profile.story}</p>
+          </div>
+
+          <a
+            href={profile.resume}
+            target="_blank"
+            rel="noreferrer"
+            className="button fill architect-resume-btn"
+          >
+            <FiFileText /> VIEW VERIFIED ATS RESUME (PDF) <FiArrowUpRight />
+          </a>
+        </div>
+
+        {/* Right Column: Service History Log */}
+        <div className="service-history-card">
+          <div className="spec-card-header">
+            <span className="spec-header-tag">SERVICE HISTORY LOG</span>
+            <span className="spec-header-id">TIMELINE // VERIFIED</span>
+          </div>
+
+          <div className="service-timeline">
+            {journey.map((item, idx) => (
+              <div key={idx} className="timeline-entry">
+                <div className="timeline-entry-rail">
+                  <span className="timeline-dot" />
+                  {idx !== journey.length - 1 && <span className="timeline-stem" />}
+                </div>
+                <div className="timeline-entry-content">
+                  <div className="timeline-entry-meta">
+                    <span className="timeline-period">{item.period}</span>
+                    <span className="timeline-type-tag">{item.type}</span>
+                  </div>
+                  <h4 className="timeline-title">{item.title}</h4>
+                  {item.bullets ? (
+                    <ul className="timeline-bullets">
+                      {item.bullets.map((b, bIdx) => (
+                        <li key={bIdx}>{b}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="timeline-detail">{item.detail}</p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Capability Matrix */}
+      <div className="capability-matrix-wrapper">
+        <div className="matrix-header">
+          <span className="matrix-title">SUBSYSTEM CAPABILITY MATRIX</span>
+          <span className="matrix-sub">Verified skills & production tooling</span>
+        </div>
+
+        <div className="capability-grid">
+          {Object.entries(skills).map(([category, items], idx) => (
+            <motion.div key={category} className="capability-group-card" {...cardReveal(idx)}>
+              <div className="capability-group-header">
+                <span className="capability-cat-name">{category}</span>
+                <span className="capability-count">{items.length} TOOLS</span>
+              </div>
+              <div className="capability-pills">
+                {items.map((skill) => (
+                  <span key={skill} className="capability-pill">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+function CertificationsSection() {
+  return (
+    <Section
+      id="certifications"
+      tag="06 / CREDENTIALS & CERTIFICATIONS"
+      title="Field recognition & certifications."
+      subtitle="Industry credentials and competitive problem-solving milestones."
+    >
+      <div className="credentials-grid">
+        {certifications.map((cert, idx) => {
+          const Logo = certificateLogos[cert.logo] || FiAward;
+          return (
+            <motion.a
+              key={cert.title}
+              href={cert.link}
+              target="_blank"
+              rel="noreferrer"
+              className="credential-card"
+              {...cardReveal(idx)}
+            >
+              <div className="credential-top">
+                <span className="credential-icon-box">
+                  <Logo />
+                </span>
+                <span className="credential-issuer">{cert.issuer}</span>
+              </div>
+              <h3 className="credential-title">{cert.title}</h3>
+              <p className="credential-detail">{cert.detail}</p>
+              <div className="credential-footer">
+                <span className="credential-date">{cert.date}</span>
+                <span className="credential-action">
+                  VIEW CREDENTIAL <FiArrowUpRight />
+                </span>
+              </div>
+            </motion.a>
+          );
+        })}
+      </div>
+    </Section>
+  );
+}
+
+function ContactSection() {
   const [status, setStatus] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const emailLink = getPreferredEmailLink();
+
   useEffect(() => {
-    if (status?.type !== "success") return undefined;
-    const timeout = window.setTimeout(() => setStatus(null), 5000);
+    if (status?.type !== 'success') return undefined;
+    const timeout = window.setTimeout(() => setStatus(null), 6000);
     return () => window.clearTimeout(timeout);
   }, [status]);
 
@@ -333,446 +770,167 @@ function Contact() {
       !cfg.VITE_EMAILJS_PUBLIC_KEY ||
       !cfg.VITE_EMAILJS_SERVICE_ID ||
       !cfg.VITE_EMAILJS_TEMPLATE_ID
-    )
-      return setStatus(
-        {
-          type: "error",
-          text: "Failed to send your message. Please try again.",
-        },
-      );
+    ) {
+      return setStatus({
+        type: 'error',
+        text: 'EmailJS credentials not configured in environment. Please connect via direct email.',
+      });
+    }
+
     setIsSending(true);
     setStatus(null);
     try {
       await emailjs.sendForm(
-          cfg.VITE_EMAILJS_SERVICE_ID,
-          cfg.VITE_EMAILJS_TEMPLATE_ID,
-          event.target,
-          { publicKey: cfg.VITE_EMAILJS_PUBLIC_KEY },
+        cfg.VITE_EMAILJS_SERVICE_ID,
+        cfg.VITE_EMAILJS_TEMPLATE_ID,
+        event.target,
+        { publicKey: cfg.VITE_EMAILJS_PUBLIC_KEY }
       );
       event.target.reset();
       setStatus({
-        type: "success",
-        text: "Thanks for reaching out! I'll get back to you soon.",
+        type: 'success',
+        text: 'Message received by RK-CORE! I will respond promptly.',
       });
     } catch (error) {
-      console.error("EmailJS form error:", error);
+      console.error('EmailJS transmission error:', error);
       setStatus({
-        type: "error",
-        text: "Failed to send your message. Please try again.",
+        type: 'error',
+        text: 'Transmission failed. Please use direct email link below.',
       });
     } finally {
       setIsSending(false);
     }
   };
+
   return (
     <Section
       id="contact"
-      label="contact"
-      title="Let's build something useful."
+      tag="07 / CONTACT CHANNEL"
+      title="Initiate communication."
+      subtitle="Actively evaluating Full-Stack / MERN Developer roles. Available to join immediately."
     >
-      <div className="contact-panel">
-        <div>
-          <p>
-            I'm actively seeking Full-Stack Developer
-            opportunities. Whether it's a full-time role,
-            internship, or an interesting project, I'd love
-            to connect.
+      <div className="contact-composite-grid">
+        {/* Left: Contact Form & Direct Dispatch */}
+        <div className="contact-form-panel">
+          <div className="contact-header-tag">TRANSMISSION PORTAL // DIRECT DISPATCH</div>
+          <p className="contact-intro-text">
+            Whether you have a full-stack engineering role, an internship opportunity, or want to discuss scalable architecture, send a transmission below.
           </p>
-          <div className="contact-actions">
-              <a
-                className="button fill"
-                {...emailLink}
-            >
-              <FiMail /> Email me
-            </a>
-            <a
-              className="icon-button"
-              href={profile.github}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="GitHub"
-            >
-              <FiGithub />
-            </a>
-            <a
-              className="icon-button"
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-            >
-              <FiLinkedin />
-            </a>
-            <a
-              className="icon-button"
-              href={profile.leetcode}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LeetCode"
-            >
-              <SiLeetcode />
-            </a>
-          </div>
-        </div>
-        <form onSubmit={submit}>
-          <label>
-            Name
-            <input name="from_name" required />
-          </label>
-          <label>
-            Email
-            <input name="reply_to" type="email" required />
-          </label>
-          <label>
-            Message
-            <textarea name="message" rows="3" required />
-          </label>
-            <button className="text-button" disabled={isSending}>
-              {isSending ? "Sending..." : "Send message"} <FiArrowUpRight />
-            </button>
+
+          <form onSubmit={submit} className="contact-form">
+            <div className="form-group">
+              <label htmlFor="from_name">NAME // IDENTIFIER</label>
+              <input
+                id="from_name"
+                name="from_name"
+                required
+                placeholder="e.g. Sarah Jenkins (Recruiter / Tech Lead)"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="reply_to">EMAIL // RETURN CHANNEL</label>
+              <input
+                id="reply_to"
+                name="reply_to"
+                type="email"
+                required
+                placeholder="e.g. s.jenkins@company.com"
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="message">MESSAGE // INQUIRY PAYLOAD</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                required
+                placeholder="Discuss role requirements, tech stack alignment, interview timeline..."
+              />
+            </div>
+
+            <div className="form-action-row">
+              <button
+                type="submit"
+                className="button fill contact-submit-btn"
+                disabled={isSending}
+              >
+                {isSending ? 'DISPATCHING PAYLOAD...' : 'TRANSMIT MESSAGE'} <FiArrowUpRight />
+              </button>
+              <a {...emailLink} className="button secondary contact-direct-btn">
+                <FiMail /> OPEN MAIL CLIENT
+              </a>
+            </div>
+
             {status && (
-              <p className={`contact-status ${status.type}`} role="status">
-                <span aria-hidden="true">
-                  {status.type === "success" ? "✓" : "✕"}
+              <div className={`contact-status-banner ${status.type}`} role="status">
+                <span className="status-banner-icon">
+                  {status.type === 'success' ? '✓' : '✕'}
                 </span>
                 <span>{status.text}</span>
-              </p>
+              </div>
             )}
-        </form>
+          </form>
+        </div>
+
+        {/* Right: Interactive Cat Companion Pet Widget */}
+        <div className="contact-pet-column">
+          <CatCompanion />
+        </div>
       </div>
     </Section>
   );
 }
 
 function App() {
-  const emailLink = getPreferredEmailLink();
+  const [bootComplete, setBootComplete] = useState(false);
+  const [audioOn, setAudioOn] = useState(false);
+
+  const handleToggleAudio = () => {
+    const nextState = toggleAudioState();
+    setAudioOn(nextState);
+    if (nextState) {
+      playBlip(1200, 0.08);
+    }
+  };
+
   return (
     <>
-      <div className="boot-loader" aria-hidden="true">
-        <span>RK</span>
-        <i />
-      </div>
-      <Header />
-      <motion.main
-        id="top"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.12 }}
-      >
-        <section className="hero">
-          <div className="hero-copy">
-            <motion.p
-              className="availability"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              <i /> Available for opportunities
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 28 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55 }}
-            >
-              Hi, I'm
-              <br />
-              <span>Rakesh Kumar</span>
-              <br />
-              Full-Stack
-              <br />
-              Developer.
-            </motion.h1>
-            <motion.p
-              className="intro"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              {profile.intro}
-            </motion.p>
-            <motion.div
-              className="hero-actions"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.35 }}
-            >
-              <a href="#projects" className="button fill">
-                View projects <FiArrowUpRight />
-              </a>
-              <a href={profile.resume} className="button">
-                <FiDownload /> Download resume
-              </a>
-            </motion.div>
-            <div className="socials">
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="GitHub"
-              >
-                <FiGithub />
-              </a>
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn"
-              >
-                <FiLinkedin />
-              </a>
-              <a
-                href={profile.leetcode}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LeetCode"
-              >
-                <SiLeetcode />
-              </a>
-                <a
-                  {...emailLink}
-                  aria-label="Email"
-              >
-                <FiMail />
-              </a>
-            </div>
+      {!bootComplete && <BootLoader onComplete={() => setBootComplete(true)} />}
+
+      <div className={`portfolio-app-root ${bootComplete ? 'mounted' : 'booting'}`}>
+        <TopBar audioOn={audioOn} onToggleAudio={handleToggleAudio} />
+
+        <DepthRail />
+
+        <main id="main-content">
+          <HeroSection audioOn={audioOn} onToggleAudio={handleToggleAudio} />
+          <OperationsSection />
+          <PrinciplesSection />
+          <DeployedSystemsSection />
+          <OpenSourceSection />
+          <ArchitectSection />
+          <CertificationsSection />
+          <ContactSection />
+          <MissionDebrief />
+        </main>
+
+        <footer className="schematic-footer">
+          <div className="footer-left">
+            <span className="footer-brand">{profile.firstName} {profile.lastName}</span>
+            <span className="footer-meta">
+              BLUEPRINT OS v2.0 · {profile.location} · © {new Date().getFullYear()}
+            </span>
           </div>
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.22, duration: 0.6 }}
-          >
-            <Terminal />
-          </motion.div>
-        </section>
-        <Section
-          id="about"
-          label="about"
-          title="A developer who cares about the finish."
-        >
-          <div className="about-grid">
-            <div>
-              <p className="body-copy">{profile.story}</p>
-              <div className="stat-row">
-                {profile.stats.map(([number, label]) => (
-                  <div key={label}>
-                    <strong>{number}</strong>
-                    <span>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <a
-              className="resume-card"
-              href={profile.resume}
-            >
-              <FiFileText />
-              <span>
-                <b>Resume</b>
-                <small>
-                  A concise overview of my projects,
-                  technical skills, and education.
-                </small>
-                <em className="resume-meta">
-                  PDF · 1 Page · ATS Optimized
-                </em>
-              </span>
-              <FiArrowUpRight />
+          <div className="footer-right">
+            <span className="footer-badge">ALL SYSTEMS OPERATIONAL</span>
+            <a href="#top" className="footer-back-top" onClick={() => playBlip(1200, 0.05)}>
+              REWIND TO TOP ↑
             </a>
           </div>
-        </Section>
-        <Section
-          id="projects"
-          label="projects"
-          title="Things I've built."
-        >
-          <p className="section-intro">
-            A selection of live full-stack projects - each
-            designed around a clear workflow, clean
-            architecture, and a useful user experience.
-          </p>
-          <div className="project-grid">
-            {projects.map((project, index) => (
-              <motion.article
-                className="project-card"
-                key={project.name}
-                {...cardReveal(index)}
-              >
-                <ProjectCover project={project} />
-                <div className="project-content">
-                  <div className="project-top">
-                    <span>{project.number}</span>
-                    <div className="project-statuses">
-                      <small>{project.type}</small>
-                      <b
-                        className={`status-badge ${project.status === "Live" ? "live" : ""}`}
-                      >
-                        {project.status}
-                      </b>
-                    </div>
-                  </div>
-                  <h3>{project.name}</h3>
-                  <div className="project-narrative">
-                    <p>
-                      <b>Problem</b>
-                      {project.problem}
-                    </p>
-                    <p>
-                      <b>Solution</b>
-                      {project.solution}
-                    </p>
-                  </div>
-                  <ul>
-                    {project.bullets.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  <div className="project-bottom">
-                    <div className="tech-list">
-                      {project.stack.map((item) => (
-                        <span key={item}>{item}</span>
-                      ))}
-                    </div>
-                    <div className="project-links">
-                      <a
-                        href={project.code}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-label={`${project.name} source`}
-                      >
-                        <FiGithub /> Code
-                      </a>
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="demo"
-                        aria-label={`${project.name} demo`}
-                      >
-                        <FiExternalLink /> Live demo
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-        </Section>
-        <Section
-          id="skills"
-          label="skills"
-          title="Tools I work with."
-        >
-          <p className="section-intro">
-            The tools and technologies I use to build web
-            products, organised by area.
-          </p>
-          <div className="skill-legend">
-            <span className="legend-primary">
-              Primary stack
-            </span>
-            <span>Working knowledge</span>
-          </div>
-          <div className="skills-grid">
-            {Object.entries(skills).map(
-              ([group, items], index) => (
-                <motion.article
-                  key={group}
-                  {...cardReveal(index)}
-                >
-                  <h3>{group}</h3>
-                  <div>
-                    {items.map((item) => (
-                      <span
-                        className={
-                          primarySkills.has(item)
-                            ? "primary"
-                            : "secondary"
-                        }
-                        key={item}
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                </motion.article>
-              ),
-            )}
-          </div>
-        </Section>
-        <Section
-          id="certificates"
-          label="certificates"
-          title="Certifications."
-        >
-          <p className="section-intro">
-            Credentials earned through hands-on learning,
-            each available to view.
-          </p>
-          <div className="certificate-grid">
-            {certifications.map((cert, index) => {
-              const Logo = certificateLogos[cert.logo];
-              return (
-                <motion.a
-                  className="certificate-card"
-                  href={cert.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  key={cert.title}
-                  {...cardReveal(index)}
-                >
-                  <div className="certificate-top">
-                    <span className="certificate-icon">
-                      {Logo ? <Logo /> : <FiAward />}
-                    </span>
-                    <small>{cert.issuer}</small>
-                  </div>
-                  <h3>{cert.title}</h3>
-                  <p>{cert.detail}</p>
-                  <div className="certificate-footer">
-                    <span>{cert.date}</span>
-                    <b>
-                      View certificate <FiArrowUpRight />
-                    </b>
-                  </div>
-                </motion.a>
-              );
-            })}
-          </div>
-        </Section>
-        <Section
-          id="journey"
-          label="journey"
-          title="My Journey"
-        >
-          <div className="timeline">
-            {journey.map((item, index) => (
-              <motion.article
-                key={item.period}
-                {...cardReveal(index)}
-              >
-                <span className="line-number">
-                  0{index + 1}
-                </span>
-                <i />
-                <div>
-                  <small>{item.period}</small>
-                  <h3>{item.title}</h3>
-                  <p>{item.detail}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-          <LiveGitHub />
-        </Section>
-        <Contact />
-      </motion.main>
-      <footer>
-        <span>
-          Built by {profile.name} - ©{" "}
-          {new Date().getFullYear()}
-        </span>
-        <a href="#top">Back to top ↑</a>
-      </footer>
+        </footer>
+      </div>
     </>
   );
 }
-createRoot(document.getElementById("root")).render(<App />);
+
+createRoot(document.getElementById('root')).render(<App />);
