@@ -19,7 +19,12 @@ import MissionDebrief from './components/MissionDebrief';
 import { playBlip, playTick, toggleAudioState, getAudioState } from './utils/sound';
 
 export default function App() {
-  const [booted, setBooted] = useState(false);
+  const [booted, setBooted] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('rk_booted') === 'true';
+    }
+    return false;
+  });
   const [audioOn, setAudioOn] = useState(false);
   const [fps, setFps] = useState(60);
   const [sysLoad, setSysLoad] = useState(34);
