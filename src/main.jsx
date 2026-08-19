@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createRoot } from 'react-dom/client';
 import './styles.css';
 import { motion } from 'framer-motion';
 import {
@@ -892,4 +893,9 @@ export default function App() {
       </main>
     </>
   );
+}
+
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  createRoot(rootElement).render(<App />);
 }
