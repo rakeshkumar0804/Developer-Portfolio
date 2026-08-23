@@ -14,6 +14,7 @@ import {
 } from './data/portfolio';
 import BootLoader from './components/BootLoader';
 import HeroGlobe from './components/HeroGlobe';
+import StackGraphExplorer from './components/StackGraphExplorer';
 import ArchitectureDiagram from './components/ArchitectureDiagram';
 import CatCompanion from './components/CatCompanion';
 import MissionDebrief from './components/MissionDebrief';
@@ -324,6 +325,9 @@ export default function App() {
             <span className="descend-anim-line" />
           </div>
         </section>
+
+        {/* 7-Layers Interactive Stack Explorer */}
+        <StackGraphExplorer />
 
         {/* =================================================================
            OPERATING PHILOSOPHY (PHOTO 4)

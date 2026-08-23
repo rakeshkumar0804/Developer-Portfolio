@@ -1,5 +1,6 @@
 import TelemetryNavbar from "@/components/nav/TelemetryNavbar";
 import SchematicGlobeCanvas from "@/components/canvas/SchematicGlobeCanvas";
+import StackGraphExplorer from "@/components/canvas/StackGraphExplorer";
 import DeployedSystems from "@/components/sections/DeployedSystems";
 import CapabilityMatrix from "@/components/sections/CapabilityMatrix";
 import EstablishComms from "@/components/sections/EstablishComms";
@@ -112,6 +113,11 @@ export default function Page() {
           </div>
         </div>
       </section>
+
+      {/* =================================================================
+          THE STACK // 7 LAYERS INTERACTIVE SCROLL EXPLORER
+          ================================================================= */}
+      <StackGraphExplorer />
 
       {/* =================================================================
           01 // OPERATING PRINCIPLES
