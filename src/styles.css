@@ -16,8 +16,8 @@
   --cyan-bright: #7fe0ff;
   --amber: #ffb347;
   --amber-bright: #ffcb6b;
-  --grid: rgba(67, 201, 255, 0.05);
-  --grid-strong: rgba(67, 201, 255, 0.09);
+  --grid: rgba(0, 240, 255, 0.07);
+  --grid-strong: rgba(0, 240, 255, 0.12);
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --font-display: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -75,7 +75,7 @@ body {
     linear-gradient(var(--grid-strong) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
   background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
-  background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px;
+  background-size: 32px 32px, 32px 32px, 128px 128px, 128px 128px;
 }
 
 .grid-vignette::after {
