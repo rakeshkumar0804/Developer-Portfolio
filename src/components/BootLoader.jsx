@@ -1,127 +1,137 @@
-import React, { useEffect, useState } from 'react';
-import { playBootBeep } from '../utils/sound';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { playKeyTick, playButtonClick } from '../utils/audio';
 
-const BOOT_LINES = [
-  { text: 'mounting subsystem graph', status: 'OK' },
-  { text: 'linking MERN runtime', status: 'OK' },
-  { text: 'spinning cloud-native nodes', status: 'OK' },
-  { text: 'indexing 6 production systems', status: 'OK' },
-  { text: 'warming AI / LLM bridge', status: 'OK' },
-  { text: 'operator recognized :: last uplink 7s ago :: session #29', status: '', highlight: true },
+const LOG_LINES = [
+  'mounting subsystem graph ... OK',
+  'linking MERN runtime ... OK',
+  'spinning cloud-native nodes ... OK',
+  'indexing 6 production systems ... OK',
+  'warming AI / LLM bridge ... OK',
+  'operator recognized :: last uplink 4h ago :: session #43',
 ];
 
 export default function BootLoader({ onComplete }) {
-  const [percent, setPercent] = useState(0);
-  const [visibleLines, setVisibleLines] = useState(0);
-  const [isFading, setIsFading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [visibleLogs, setVisibleLogs] = useState([]);
+  const [isSkipped, setIsSkipped] = useState(false);
 
   useEffect(() => {
-    const hasBooted = typeof window !== 'undefined' && sessionStorage.getItem('rk_booted');
-    const speed = hasBooted ? 12 : 22;
-
+    let currentProgress = 0;
     const progressInterval = setInterval(() => {
-      setPercent((prev) => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        const next = prev + Math.floor(Math.random() * 6) + 3;
-        return next > 100 ? 100 : next;
-      });
-    }, speed);
+      currentProgress += Math.floor(Math.random() * 4) + 2;
+      if (currentProgress >= 100) {
+        currentProgress = 100;
+        clearInterval(progressInterval);
+        setTimeout(() => {
+          onComplete();
+        }, 400);
+      }
+      setProgress(currentProgress);
+    }, 45);
 
-    return () => clearInterval(progressInterval);
-  }, []);
+    // Stagger log lines
+    LOG_LINES.forEach((line, index) => {
+      setTimeout(() => {
+        setVisibleLogs((prev) => [...prev, line]);
+        playKeyTick();
+      }, (index + 1) * 260);
+    });
 
-  useEffect(() => {
-    const lineIndex = Math.min(
-      Math.floor((percent / 100) * (BOOT_LINES.length + 1)),
-      BOOT_LINES.length
-    );
-    if (lineIndex > visibleLines) {
-      setVisibleLines(lineIndex);
-      playBootBeep(lineIndex);
-    }
+    // Skip handler (click or keypress)
+    const handleSkip = () => {
+      if (!isSkipped) {
+        setIsSkipped(true);
+        playButtonClick();
+        clearInterval(progressInterval);
+        setProgress(100);
+        setTimeout(onComplete, 200);
+      }
+    };
 
-    if (percent === 100) {
-      const exitTimer = setTimeout(() => {
-        finish();
-      }, 400);
-      return () => clearTimeout(exitTimer);
-    }
-  }, [percent, visibleLines]);
+    window.addEventListener('keydown', handleSkip);
+    window.addEventListener('click', handleSkip);
 
-  const finish = () => {
-    setIsFading(true);
-    if (typeof window !== 'undefined') {
-      sessionStorage.setItem('rk_booted', 'true');
-    }
-    setTimeout(() => {
-      if (onComplete) onComplete();
-    }, 350);
-  };
-
-  useEffect(() => {
-    const handleKey = () => finish();
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, []);
+    return () => {
+      clearInterval(progressInterval);
+      window.removeEventListener('keydown', handleSkip);
+      window.removeEventListener('click', handleSkip);
+    };
+  }, [onComplete, isSkipped]);
 
   return (
-    <div
-      className={`boot-overlay ${isFading ? 'boot-fade-out' : ''}`}
-      onClick={finish}
-      role="dialog"
-      aria-label="System Boot Sequence"
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, scale: 1.02 }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
+      className="fixed inset-0 z-[9999] flex flex-col justify-between bg-[#050811] p-6 sm:p-10 md:p-14 font-mono text-xs text-[#00f0ff] select-none cursor-pointer overflow-hidden"
     >
-      <div className="boot-scanlines" />
-      <div className="boot-beam" />
-      <div className="boot-vignette" />
+      {/* Scanline overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-20"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(0deg, rgba(0, 240, 255, 0.15) 0 1px, transparent 1px 3px)',
+        }}
+      />
 
-      <div className="boot-card">
-        <div className="boot-card-header">
-          <span className="tech-label text-cyan">BLUEPRINT OS · v2.0</span>
-          <span className="tech-label text-paper-dim" style={{ opacity: 0.6 }}>BOOT</span>
+      {/* Header */}
+      <div className="relative z-10 flex items-center justify-between border-b border-[#00f0ff]/20 pb-3.5 tracking-widest text-[0.72rem]">
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 rounded-full bg-[#00f0ff] animate-ping" />
+          <span className="font-bold">BLUEPRINT OS · v2.0</span>
         </div>
-
-        <div className="boot-powering tech-label">
-          POWERING ON<span className="cursor-blink text-cyan"> _</span>
-        </div>
-
-        <div className="boot-sync-row">
-          <span className="tech-label text-paper-dim" style={{ opacity: 0.7 }}>SYNC</span>
-          <div className="boot-sync-track">
-            <div
-              className="boot-sync-fill"
-              style={{ width: `${percent}%` }}
-            />
-          </div>
-          <span className="font-mono text-sm text-cyan glow-cyan">
-            <span>{String(percent).padStart(3, '0')}</span>%
-          </span>
-        </div>
-
-        <div className="boot-diag-list">
-          {BOOT_LINES.slice(0, visibleLines).map((line, idx) => (
-            <div
-              key={idx}
-              className={`boot-diag-line ${line.highlight ? 'highlight' : ''}`}
-            >
-              <span>&gt; {line.text}</span>
-              {line.status && (
-                <>
-                  <span style={{ color: 'var(--line-dim)' }}>...</span>
-                  <span className="boot-ok-tag">{line.status}</span>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="boot-skip-hint tech-label">
-          TAP / PRESS ANY KEY TO SKIP
+        <div className="flex items-center gap-3">
+          <span className="text-[#00f0ff]/60">SYS::INIT</span>
+          <span className="px-2 py-0.5 rounded border border-[#00f0ff]/40 bg-[#00f0ff]/10 font-bold">ONLINE</span>
         </div>
       </div>
-    </div>
+
+      {/* Center Progress & Terminal Logs */}
+      <div className="relative z-10 max-w-xl mx-auto w-full my-auto space-y-7">
+        <div className="space-y-2">
+          <div className="flex justify-between text-xs tracking-wider">
+            <span className="font-bold">
+              {progress === 100 ? 'SYNC COMPLETE' : 'SYSTEM SYNCHRONIZATION'}
+            </span>
+            <span className="font-bold">{progress}%</span>
+          </div>
+
+          {/* Glowing Progress Bar */}
+          <div className="h-2 w-full rounded-full bg-[#0d1b2a] border border-[#00f0ff]/30 overflow-hidden p-0.5">
+            <motion.div
+              className="h-full rounded-full bg-gradient-to-r from-[#00f0ff] to-[#7fe0ff] shadow-[0_0_12px_#00f0ff]"
+              style={{ width: `${progress}%` }}
+              transition={{ ease: 'linear' }}
+            />
+          </div>
+        </div>
+
+        {/* Staggered Terminal Output */}
+        <div className="min-h-[140px] rounded-lg border border-[#00f0ff]/20 bg-[#070e1a]/80 p-4 space-y-1.5 text-[0.7rem] text-[#7fe0ff]">
+          {visibleLogs.map((log, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-2"
+            >
+              <span className="text-[#00f0ff]">›</span>
+              <span>{log}</span>
+            </motion.div>
+          ))}
+          {visibleLogs.length < LOG_LINES.length && (
+            <div className="flex items-center gap-2 text-[#00f0ff]/70">
+              <span>›</span>
+              <span className="inline-block w-2 h-3.5 bg-[#00f0ff] animate-pulse" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Footer Skip Prompt */}
+      <div className="relative z-10 text-center tracking-widest text-[0.68rem] text-[#00f0ff]/70 animate-pulse">
+        [ TAP / PRESS ANY KEY TO SKIP ]
+      </div>
+    </motion.div>
   );
 }

@@ -81,7 +81,7 @@ const FILE_CONTENTS = {
       { parts: [{ text: '' }] },
       { parts: [{ text: '- **Background**', cls: 'text-[#7DD3FC]' }, { text: ': B.Tech CSE, Class of 2026', cls: 'text-[#EDEDED]' }] },
       { parts: [{ text: '- **Core Stack**', cls: 'text-[#7DD3FC]' }, { text: ': React, Node.js, Express, MongoDB, TS', cls: 'text-[#EDEDED]' }] },
-      { parts: [{ text: '- **Architecture**', cls: 'text-[#7DD3FC]' }, { text: ': Sub-50ms APIs, RBAC, Caching', cls: 'text-[#EDEDED]' }] },
+      { parts: [{ text: '- **Focus**', cls: 'text-[#7DD3FC]' }, { text: ': Scalable APIs, RBAC, Clean UI', cls: 'text-[#EDEDED]' }] },
       { parts: [{ text: '- **Mindset**', cls: 'text-[#7DD3FC]' }, { text: ': Code is living infrastructure', cls: 'text-[#A3E635]' }] },
       { parts: [{ text: '' }] },
       { type: 'comment', text: '/* Open for immediate hiring & full-time engineering */' },
