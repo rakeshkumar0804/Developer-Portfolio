@@ -1,45 +1,71 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import './styles.css';
 import { motion } from 'framer-motion';
+import './styles.css';
 import {
   profile,
-  philosophy,
-  principles,
-  projects,
-  openSourceRepos,
-  skills,
   journey,
-  certifications,
+  projects,
+  skills,
+  openSourceRepos,
+  achievements,
 } from './data/portfolio';
-import BootLoader from './components/BootLoader';
-import HeroGlobe from './components/HeroGlobe';
-import StackGraphExplorer from './components/StackGraphExplorer';
-import ArchitectureDiagram from './components/ArchitectureDiagram';
-import CatCompanion from './components/CatCompanion';
-import MissionDebrief from './components/MissionDebrief';
-import { playBlip, playTick, toggleAudioState, getAudioState } from './utils/sound';
+import Navbar from './components/Navbar';
+import IDEWidget from './components/IDEWidget';
+import CustomCursor from './components/CustomCursor';
+import MagneticButton from './components/MagneticButton';
+import { playButtonClick } from './utils/audio';
+import {
+  FiArrowUpRight,
+  FiFileText,
+  FiGithub,
+  FiLinkedin,
+  FiMail,
+  FiArrowRight,
+  FiGitBranch,
+  FiClock,
+  FiStar,
+  FiFolder,
+} from 'react-icons/fi';
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (custom = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      delay: custom * 0.08,
+      ease: [0.25, 1, 0.5, 1],
+    },
+  }),
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
 
 export default function App() {
-  const [booted, setBooted] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('rk_booted') === 'true';
-    }
-    return false;
-  });
-  const [audioOn, setAudioOn] = useState(false);
-  const [isStackOpen, setIsStackOpen] = useState(false);
-  const [fps, setFps] = useState(60);
-  const [sysLoad, setSysLoad] = useState(34);
   const [timeStr, setTimeStr] = useState('--:--:--');
-  const [activeSection, setActiveSection] = useState('hero');
-  const [depthGauge, setDepthGauge] = useState('000');
 
-  // Live IST Clock
+  // Live IST Clock for bottom IDE status bar
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const options = { timeZone: 'Asia/Kolkata', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+      const options = {
+        timeZone: 'Asia/Kolkata',
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
       setTimeStr(now.toLocaleTimeString('en-GB', options));
     };
     updateTime();
@@ -47,864 +73,659 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  // Live Telemetry Jitter (FPS & Sys Load)
-  useEffect(() => {
-    let frameCount = 0;
-    let lastTime = performance.now();
-    let animId;
-
-    const calcTelemetry = (now) => {
-      frameCount++;
-      if (now - lastTime >= 1000) {
-        setFps(Math.min(60, Math.round((frameCount * 1000) / (now - lastTime))));
-        frameCount = 0;
-        lastTime = now;
-        setSysLoad(32 + Math.floor(Math.random() * 8));
-      }
-      animId = requestAnimationFrame(calcTelemetry);
-    };
-
-    animId = requestAnimationFrame(calcTelemetry);
-    return () => cancelAnimationFrame(animId);
-  }, []);
-
-  // Scroll Position & Depth Rail Sync
-  useEffect(() => {
-    const handleScroll = () => {
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollPos = window.scrollY;
-      const progress = Math.min(100, Math.max(0, Math.round((scrollPos / (docHeight || 1)) * 100)));
-      setDepthGauge(String(progress).padStart(3, '0'));
-
-      const sections = ['operations', 'principles', 'systems', 'signals', 'architect', 'comms'];
-      let current = 'hero';
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= window.innerHeight * 0.15) {
-            current = id;
-          }
-        }
-      }
-      setActiveSection(current);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleToggleAudio = () => {
-    const nextState = toggleAudioState();
-    setAudioOn(nextState);
-    if (nextState) {
-      playBlip(1200, 0.08);
-    }
-  };
-
-  const scrollToSection = (id) => {
-    playBlip(1100, 0.05);
-    const target = document.getElementById(id);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <>
-      {/* 1. Terminal Boot Loader (Photo 1) */}
-      {!booted && <BootLoader onComplete={() => setBooted(true)} />}
+    <div className="relative min-h-screen bg-[#0A0A0B] text-[#EDEDED] font-sans selection:bg-[#C6FF3D] selection:text-[#0A0A0B] flex flex-col justify-between overflow-x-hidden">
+      {/* Custom Hardware-Accelerated Cursor */}
+      <CustomCursor />
 
-      {/* 2. Fixed Background Mesh */}
-      <div className="pointer-events-none fixed inset-0 -z-10 blueprint-grid" />
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_55%,var(--ink-900)_100%)]" />
+      {/* Subtle Noise Texture Overlay */}
+      <div className="pointer-events-none fixed inset-0 z-0 noise-overlay opacity-30" />
 
-      {/* 3. Fixed HUD Telemetry Frame & Corner Brackets */}
-      <div className="hud-frame">
-        <div className="hud-corners">
-          <svg className="corner-bracket corner-tl" viewBox="0 0 24 24" fill="none">
-            <path d="M1 8 V1 H8" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-          <svg className="corner-bracket corner-tr" viewBox="0 0 24 24" fill="none">
-            <path d="M1 8 V1 H8" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-          <svg className="corner-bracket corner-br" viewBox="0 0 24 24" fill="none">
-            <path d="M1 8 V1 H8" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-          <svg className="corner-bracket corner-bl" viewBox="0 0 24 24" fill="none">
-            <path d="M1 8 V1 H8" stroke="currentColor" strokeWidth="1.5" />
-          </svg>
-        </div>
+      {/* Global Navigation Bar */}
+      <Navbar />
 
-        {/* Top-Left Uplink */}
-        <div className="hud-top-left">
-          <span className="hud-pulse-dot" />
-          <span className="tech-label text-cyan">RAKESH-CORE</span>
-          <span className="tech-label">UPLINK ACTIVE</span>
-        </div>
-
-        {/* Top-Right Signal & IST Clock */}
-        <div className="hud-top-right">
-          <span className="flex items-center gap-1.5">
-            <span className="tech-label">SIG</span>
-            <span className="hud-sig-bars">
-              <span style={{ height: '4px' }} />
-              <span style={{ height: '6px' }} />
-              <span style={{ height: '8px' }} />
-              <span style={{ height: '10px' }} />
-              <span style={{ height: '12px' }} />
-            </span>
-          </span>
-          <span className="tech-label tabular-nums text-cyan">T {timeStr} IST</span>
-        </div>
-
-        {/* Bottom-Left Telemetry */}
-        <div className="hud-bottom-left">
-          <span className="tech-label">GURUGRAM, HR, INDIA</span>
-          <span className="tech-label">
-            FPS <span className="text-cyan tabular-nums">{fps}</span>
-          </span>
-          <span className="tech-label">
-            SYS LOAD <span className="text-cyan tabular-nums">{sysLoad}%</span>
-          </span>
-        </div>
-
-        {/* Bottom-Right Audio Toggle */}
-        <div className="hud-bottom-right">
-          <button
-            onClick={handleToggleAudio}
-            className="hud-audio-btn"
-            aria-label={audioOn ? 'Mute audio' : 'Enable audio'}
-          >
-            <span className={`hud-audio-bars ${audioOn ? 'active' : 'muted'}`}>
-              <span />
-              <span />
-              <span />
-              <span />
-            </span>
-            <span className="tech-label text-[0.6rem]">
-              {audioOn ? 'AUDIO ON' : 'AUDIO OFF'}
-            </span>
-          </button>
-        </div>
-      </div>
-
-      {/* 4. Fixed Right Depth Rail */}
-      <div className="depth-rail">
-        <button
-          className="depth-rail-label tech-label text-paper-dim hover:text-cyan"
-          onClick={() => scrollToSection('hero')}
-        >
-          DEPTH
-        </button>
-
-        <div className="depth-rail-track">
-          <div
-            className="depth-rail-fill"
-            style={{ height: `${depthGauge}%` }}
-          />
-
-          {[
-            { id: 'operations', top: 14.28, label: 'OPS' },
-            { id: 'principles', top: 28.57, label: 'PRINCIPLES' },
-            { id: 'systems', top: 42.85, label: 'SYSTEMS' },
-            { id: 'signals', top: 57.14, label: 'SIGNALS' },
-            { id: 'architect', top: 71.42, label: 'ARCHITECT' },
-            { id: 'comms', top: 85.71, label: 'COMMS' },
-          ].map((node) => (
-            <div
-              key={node.id}
-              className={`depth-rail-node ${activeSection === node.id ? 'active' : ''}`}
-              style={{ top: `${node.top}%` }}
-            >
-              <span className="depth-node-tooltip tech-label">{node.label}</span>
-              <button
-                aria-label={node.label}
-                className="depth-node-btn"
-                onClick={() => scrollToSection(node.id)}
+      <main className="relative z-10 pt-28 md:pt-36 flex-1 w-full">
+        {/* =================================================================
+           SECTION 1: HERO SECTION (TWO-COLUMN EDITORIAL WORKSPACE)
+           ================================================================= */}
+        <section id="hero" className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 pt-8 md:pt-12 pb-24 md:pb-32">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            {/* Left Column: Personal Positioning & Stats with Choreographed Load */}
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              {/* Eyebrow Label */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                custom={1}
+                variants={fadeInUp}
+                className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-5"
               >
-                <span className="depth-node-dot" />
-              </button>
-            </div>
-          ))}
+                <span className="h-1.5 w-1.5 rounded-full bg-[#C6FF3D]" />
+                <span>FULL-STACK DEVELOPER</span>
+              </motion.div>
 
-          <div
-            className="depth-active-indicator"
-            style={{ top: `calc(${depthGauge}% - 4px)` }}
-          />
-        </div>
+              {/* Headline */}
+              <motion.h1
+                initial="hidden"
+                animate="visible"
+                custom={2}
+                variants={fadeInUp}
+                className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#EDEDED] font-sans leading-[1.05]"
+              >
+                Rakesh Kumar
+              </motion.h1>
 
-        <span className="depth-gauge-counter tech-label tabular-nums">
-          {depthGauge}
-        </span>
-      </div>
+              {/* Subhead */}
+              <motion.p
+                initial="hidden"
+                animate="visible"
+                custom={3}
+                variants={fadeInUp}
+                className="mt-6 text-lg sm:text-xl font-sans font-medium text-[#D4D4D8] leading-relaxed max-w-2xl"
+              >
+                Building scalable web platforms, resilient APIs, and production-ready full-stack applications with the MERN stack.
+              </motion.p>
 
-      {/* Mobile Bottom Navigation Bar */}
-      <div className="mobile-nav-pill">
-        <span className="tech-label text-[0.55rem] text-cyan">
-          {activeSection.toUpperCase()}
-        </span>
-        {['operations', 'principles', 'systems', 'signals', 'architect', 'comms'].map((id) => (
-          <button
-            key={id}
-            aria-label={id}
-            className={`mobile-nav-dot ${activeSection === id ? 'active' : ''}`}
-            onClick={() => scrollToSection(id)}
-          />
-        ))}
-      </div>
+              {/* Bio */}
+              <motion.p
+                initial="hidden"
+                animate="visible"
+                custom={4}
+                variants={fadeInUp}
+                className="mt-4 text-sm sm:text-base font-sans text-[#9E9EA8] leading-relaxed max-w-xl"
+              >
+                CSE 2026 graduate actively seeking full-time software engineering roles. Focused on low-latency microservices, clean state machines, and high-conversion user experiences.
+              </motion.p>
 
-      {/* 5. Main Content Stream */}
-      <main className="relative">
-        {/* =================================================================
-           HERO SECTION (PHOTO 2)
-           ================================================================= */}
-        <section id="hero" className="hero-section-container">
-          <div className="hero-grid-layout">
-            {/* Left Column: Master Schematic Info */}
-            <div className="hero-content-col">
-              <div className="hero-eyebrow-line tech-label">
-                <span className="eyebrow-rule" />
-                DRAWING NO. RK-2026 · MASTER SCHEMATIC
-              </div>
-
-              <h1 className="hero-display-name">
-                RAKESH<br />
-                <span className="text-line">KUMAR</span>
-              </h1>
-
-              <div className="hero-bio-lead">
-                <div className="hero-role-heading">
-                  <span className="text-cyan glow-cyan">
-                    Full-Stack MERN Developer
-                    <span className="cursor-blink text-cyan"> ▮</span>
+              {/* Magnetic CTAs */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                custom={5}
+                variants={fadeInUp}
+                className="mt-8 flex flex-wrap items-center gap-4"
+              >
+                <MagneticButton
+                  href="#projects"
+                  onClick={playButtonClick}
+                  className="px-6 py-3.5 rounded-xl bg-[#C6FF3D] text-[#0A0A0B] text-sm font-sans font-bold hover:bg-[#B8F230] shadow-[0_0_25px_rgba(198,255,61,0.25)] hover:shadow-[0_0_35px_rgba(198,255,61,0.4)]"
+                >
+                  <span className="flex items-center gap-2">
+                    <span>View Projects</span>
+                    <FiArrowUpRight className="text-base" />
                   </span>
-                </div>
-                <p className="hero-bio-para">
-                  I architect and ship production systems end-to-end. Building scalable MERN and cloud-native applications with deep AI/LLM integration, microservices, and reliable real-time pipelines.
-                </p>
-              </div>
+                </MagneticButton>
 
-              {/* 4-Boxed Stats */}
-              <div className="hero-stats-row">
-                <div className="stat-cell">
-                  <div className="stat-val glow-cyan">5+</div>
-                  <div className="tech-label mt-1">PROD SYSTEMS</div>
-                </div>
-                <div className="stat-cell">
-                  <div className="stat-val glow-cyan">165+</div>
-                  <div className="tech-label mt-1">LEETCODE SOLVED</div>
-                </div>
-                <div className="stat-cell">
-                  <div className="stat-val glow-cyan">2+</div>
-                  <div className="tech-label mt-1">HACKATHONS</div>
-                </div>
-                <div className="stat-cell">
-                  <div className="stat-val glow-cyan">3+</div>
-                  <div className="tech-label mt-1">CERTIFICATIONS</div>
-                </div>
-              </div>
+                <MagneticButton
+                  href="https://github.com/rakeshkumar0804"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={playButtonClick}
+                  className="px-5 py-3.5 rounded-xl border border-[#232329] bg-[#121215] text-sm font-sans font-medium text-[#EDEDED] hover:border-[#EDEDED]/40 hover:bg-[#16161A]"
+                >
+                  <span className="flex items-center gap-2">
+                    <FiFileText className="text-[#9E9EA8]" />
+                    <span>Resume</span>
+                  </span>
+                </MagneticButton>
+
+                <MagneticButton
+                  href="#contact"
+                  onClick={playButtonClick}
+                  className="px-5 py-3.5 rounded-xl border border-[#232329] bg-[#121215] text-sm font-sans font-medium text-[#EDEDED] hover:border-[#C6FF3D]/50 hover:text-[#C6FF3D]"
+                >
+                  <span className="flex items-center gap-2">
+                    <FiMail className="text-[#9E9EA8]" />
+                    <span>Get in Touch</span>
+                  </span>
+                </MagneticButton>
+              </motion.div>
+
+              {/* Real Stats Row (4 Tiles) */}
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                custom={6}
+                variants={fadeInUp}
+                className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4"
+              >
+                {[
+                  { val: '6+', label: 'Projects Shipped' },
+                  { val: '165+', label: 'LeetCode Solved' },
+                  { val: '2+', label: 'Hackathons' },
+                  { val: 'SQL & Security', label: 'Certified' },
+                ].map((stat, i) => (
+                  <div
+                    key={i}
+                    className="p-4 rounded-xl border border-[#232329] bg-[#121215]/80 hover:border-[#32323A] transition-all flex flex-col justify-between group"
+                  >
+                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#EDEDED] group-hover:text-[#C6FF3D] transition-colors">
+                      {stat.val}
+                    </div>
+                    <div className="mt-1.5 font-sans text-xs text-[#9E9EA8]">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </motion.div>
             </div>
 
-            {/* Right Column: 3D Wireframe Globe */}
-            <div
-              className="hero-globe-viewport group cursor-pointer"
-              onClick={() => setIsStackOpen(true)}
+            {/* Right Column: Interactive IDE Editor Widget with Soft Glow */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.25, ease: [0.25, 1, 0.5, 1] }}
+              className="lg:col-span-5 w-full flex justify-center"
             >
-              <HeroGlobe />
-              <div className="pointer-events-none absolute inset-0 grid-vignette" />
-              <div className="globe-badge-tl tech-label">STACK GRAPH · ONLINE</div>
-              <div className="globe-badge-tr tech-label">07 LAYERS · LIVE</div>
-              <div className="globe-pill-bottom">
-                <span className="hud-pulse-dot" />
-                <span className="tech-label text-[0.55rem] text-cyan font-bold">
-                  • DOUBLE-TAP TO EXPLORE THE STACK
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="descend-prompt">
-            <span className="tech-label">DESCEND THROUGH THE SYSTEM</span>
-            <span className="descend-anim-line" />
-          </div>
-        </section>
-
-        {/* 7-Layers Interactive Stack Explorer (Fullscreen Fixed Overlay) */}
-        {isStackOpen && (
-          <StackGraphExplorer
-            isOpen={isStackOpen}
-            onClose={() => setIsStackOpen(false)}
-          />
-        )}
-
-        {/* =================================================================
-           OPERATING PHILOSOPHY (PHOTO 4)
-           ================================================================= */}
-        <section id="operations" className="section-wrapper">
-          <div className="philosophy-wrap">
-            <div className="tech-label mb-7 flex items-center gap-3 text-cyan">
-              <span className="eyebrow-rule" style={{ width: '2rem' }} />
-              OPERATING PHILOSOPHY
-            </div>
-            <p className="manifesto-line">Every system begins as a blueprint.</p>
-            <p className="manifesto-line">Every blueprint becomes infrastructure.</p>
-            <p className="manifesto-line text-cyan glow-cyan">
-              Every infrastructure becomes a living network.
-            </p>
-          </div>
-
-          <div className="op-grid-block">
-            <div className="tech-label mb-5 flex items-center gap-3">
-              CURRENT OPERATIONS
-              <span className="hud-pulse-dot" />
-              <span className="text-paper-dim" style={{ opacity: 0.5 }}>LIVE</span>
-            </div>
-
-            <div className="op-table-wrap">
-              <div className="op-row">
-                <span className="op-num">OP-01</span>
-                <div>
-                  <div className="op-title">Full-Stack SDE Roles</div>
-                  <div className="op-desc">Available for immediate full-time employment & high-impact engineering.</div>
-                </div>
-                <span className="tech-label flex items-center gap-2 justify-self-end text-cyan">
-                  <span className="hud-pulse-dot" /> ACTIVE
-                </span>
-              </div>
-
-              <div className="op-row">
-                <span className="op-num">OP-02</span>
-                <div>
-                  <div className="op-title">Distributed Caching & Real-time WebSockets</div>
-                  <div className="op-desc">Redis queues, pub/sub topologies, and sub-100ms API architectures.</div>
-                </div>
-                <span className="tech-label flex items-center gap-2 justify-self-end text-amber">
-                  <span className="hud-pulse-dot" style={{ backgroundColor: 'var(--amber)', boxShadow: '0 0 8px var(--amber)' }} /> RESEARCH
-                </span>
-              </div>
-
-              <div className="op-row">
-                <span className="op-num">OP-03</span>
-                <div>
-                  <div className="op-title">AI Tooling & LLM Agents</div>
-                  <div className="op-desc">Automated code triage, intelligent incident routers, and automated evaluation.</div>
-                </div>
-                <span className="tech-label flex items-center gap-2 justify-self-end text-amber-bright">
-                  <span className="hud-pulse-dot" style={{ backgroundColor: 'var(--amber-bright)', boxShadow: '0 0 8px var(--amber-bright)' }} /> EXPERIMENTING
-                </span>
-              </div>
-            </div>
+              <IDEWidget />
+            </motion.div>
           </div>
         </section>
 
         {/* =================================================================
-           01 / OPERATING PRINCIPLES (PHOTO 5)
+           SECTION 2: ABOUT (EDITORIAL PULL-QUOTE & MINDSET)
            ================================================================= */}
-        <section id="principles" className="section-wrapper">
-          <div className="mb-12">
-            <div className="section-header-divider" />
-            <div className="section-header-row">
-              <h2 className="section-title">
-                <span className="text-amber glow-amber">01</span>
-                <span className="mx-3 text-line-dim">/</span>
-                OPERATING PRINCIPLES
-              </h2>
-              <p className="section-subtitle">
-                The design constraints behind every system below.
+        <motion.section
+          id="about"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+        >
+          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
+            <span>// ABOUT & MINDSET</span>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mt-6">
+            {/* Left Pull Quote Block */}
+            <motion.div variants={fadeInUp} className="lg:col-span-6 border-l-2 border-[#C6FF3D] pl-6 sm:pl-8 py-2">
+              <p className="text-2xl sm:text-3xl lg:text-4xl font-sans font-medium text-[#EDEDED] leading-snug tracking-tight">
+                "I treat code as living infrastructure — prioritizing predictable API contracts, database integrity, and shipping intuitive user interfaces."
               </p>
-            </div>
-          </div>
-
-          <div className="principles-grid-wrap">
-            {principles.map((p, idx) => (
-              <div key={p.num} className="pr-card group">
-                <div className="pr-card-top">
-                  <span className="tech-label text-amber">P-0{idx + 1}</span>
-                  <span className="pr-huge-num">{p.num}</span>
-                </div>
-                <h3 className="pr-title">{p.title}</h3>
-                <p className="pr-desc">{p.detail}</p>
+              <div className="mt-5 font-mono text-xs text-[#80808C] uppercase tracking-wider">
+                — Engineering Mindset
               </div>
-            ))}
+            </motion.div>
+
+            {/* Right Narrative Paragraphs */}
+            <motion.div variants={fadeInUp} className="lg:col-span-6 space-y-6 text-sm sm:text-base font-sans text-[#9E9EA8] leading-relaxed">
+              <p>
+                I am a final-year Computer Science Engineering student (Class of 2026) based in Gurugram, India. My engineering focus centers on building reliable backends with Node.js, Express, and MongoDB, paired with responsive, accessible React and TypeScript interfaces.
+              </p>
+              <p>
+                Whether designing role-based access control systems, optimizing MongoDB aggregation pipelines, or integrating LLM triage workflows, I emphasize clean separation of concerns, defensive error handling, and sub-50ms API latencies.
+              </p>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* =================================================================
-           02 / DEPLOYED SYSTEMS (PHOTOS 6, 7, 8)
+           SECTION 3: EXPERIENCE & EDUCATION (VERTICAL TIMELINE)
            ================================================================= */}
-        <section id="systems" className="section-wrapper">
-          <div className="mb-12">
-            <div className="section-header-divider" />
-            <div className="section-header-row">
-              <h2 className="section-title">
-                <span className="text-amber glow-amber">02</span>
-                <span className="mx-3 text-line-dim">/</span>
-                DEPLOYED SYSTEMS
-              </h2>
-              <p className="section-subtitle">
-                Self-assembling architecture schematics - drawn as you read.
-              </p>
-            </div>
-          </div>
+        <motion.section
+          id="experience"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+        >
+          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
+            <span>// TIMELINE</span>
+          </motion.div>
+          <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
+            Experience & Education
+          </motion.h2>
 
-          <div>
-            {projects.map((project, idx) => (
-              <div key={project.id} className="system-row-card">
-                {/* Left Column: Project Specs */}
-                <div className={idx % 2 === 1 ? 'lg:order-2' : ''}>
-                  <div className="flex items-center gap-3">
-                    <span className="tech-label text-amber">{project.number}</span>
-                    <span className="h-px flex-1 bg-line-faint" />
-                    <span className="flex items-center gap-1.5">
-                      <span
-                        className="h-1.5 w-1.5 rounded-full"
-                        style={{
-                          backgroundColor: project.status === 'ONLINE' ? 'var(--cyan)' : 'var(--line-dim)',
-                          boxShadow: project.status === 'ONLINE' ? '0 0 6px var(--cyan)' : 'none',
-                        }}
-                      />
-                      <span
-                        className="tech-label"
-                        style={{ color: project.status === 'ONLINE' ? 'var(--cyan)' : 'var(--line-dim)' }}
-                      >
-                        {project.status}
+          <div className="relative pl-6 sm:pl-8 md:pl-10 border-l border-[#232329] space-y-12 max-w-4xl">
+            {journey.map((item, idx) => (
+              <motion.div key={idx} variants={fadeInUp} className="relative group">
+                {/* Timeline node dot */}
+                <div className="absolute -left-[31px] sm:-left-[39px] md:-left-[47px] top-2 h-3.5 w-3.5 rounded-full border-2 border-[#0A0A0B] bg-[#232329] group-hover:bg-[#C6FF3D] group-hover:shadow-[0_0_10px_#C6FF3D] transition-all" />
+
+                <div className="p-7 rounded-2xl border border-[#232329] bg-[#121215] group-hover:border-[#32323A] transition-all">
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-semibold text-[#C6FF3D]">
+                        {item.period}
                       </span>
-                    </span>
-                    <span className="tech-label">{project.year || '2026'}</span>
+                      <span className="text-[#50505A]">·</span>
+                      <span className="text-xs font-mono text-[#80808C] uppercase tracking-wider">
+                        {item.type}
+                      </span>
+                    </div>
                   </div>
 
-                  <h3 className="sys-title">{project.name}</h3>
-                  <div className="sys-cat-tag tech-label">
-                    {project.category} · {project.context}
-                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-[#EDEDED] font-sans">
+                    {item.role} <span className="text-[#9E9EA8] font-normal">— {item.company}</span>
+                  </h3>
 
-                  <p className="sys-summary">{project.description}</p>
-
-                  {/* 3 Metrics */}
-                  <div className="sys-metrics-box">
-                    {project.stats.map((st, sIdx) => (
-                      <div key={sIdx} className="sys-metric-cell">
-                        <div className="stat-val glow-cyan">{st.val}</div>
-                        <div className="tech-label mt-0.5 text-[0.55rem]">{st.label}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Bullets with Amber Squares */}
-                  <ul className="sys-bullets-list">
-                    {project.bullets.map((b, bIdx) => (
-                      <li key={bIdx} className="sys-bullet-item">
-                        <span className="sys-bullet-sq" />
+                  <ul className="mt-5 space-y-2.5 text-sm sm:text-base text-[#9E9EA8] font-sans leading-relaxed">
+                    {item.bullets.map((b, bIdx) => (
+                      <li key={bIdx} className="flex items-start gap-3">
+                        <span className="text-[#C6FF3D] text-xs mt-1.5 shrink-0">•</span>
                         <span>{b}</span>
                       </li>
                     ))}
                   </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
 
-                  {/* Tech Stack Tags */}
-                  <div className="sys-stack-tags">
-                    {project.stack.map((tech) => (
-                      <span key={tech} className="sys-tag-pill">
-                        {tech}
+        {/* =================================================================
+           SECTION 4: PROJECTS (CORE SHOWCASE & FLOW DIAGRAMS)
+           ================================================================= */}
+        <motion.section
+          id="projects"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+        >
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+            <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold">
+              <span>// CORE SHOWCASE</span>
+            </motion.div>
+            <motion.div variants={fadeInUp} className="font-mono text-xs text-[#80808C]">
+              6 Production Projects
+            </motion.div>
+          </div>
+
+          <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
+            Selected Projects
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+            {projects.map((proj) => (
+              <motion.div
+                key={proj.id}
+                variants={fadeInUp}
+                className="p-8 rounded-2xl border border-[#232329] bg-[#121215] hover:border-[#C6FF3D]/40 transition-all flex flex-col justify-between group shadow-lg"
+              >
+                <div>
+                  {/* Top Category & Links */}
+                  <div className="flex items-center justify-between text-xs font-mono text-[#80808C] mb-4">
+                    <span className="tracking-wider uppercase text-[#9E9EA8] font-medium">
+                      {proj.category}
+                    </span>
+                    <div className="flex items-center gap-3">
+                      {proj.githubUrl && (
+                        <a
+                          href={proj.githubUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={playButtonClick}
+                          className="text-[#9E9EA8] hover:text-[#C6FF3D] transition-colors p-1"
+                          aria-label={`GitHub for ${proj.title}`}
+                        >
+                          <FiGithub className="text-lg" />
+                        </a>
+                      )}
+                      {proj.liveUrl && (
+                        <a
+                          href={proj.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={playButtonClick}
+                          className="flex items-center gap-1 text-xs text-[#EDEDED] hover:text-[#C6FF3D] transition-colors p-1"
+                          aria-label={`Live Demo for ${proj.title}`}
+                        >
+                          <span>Demo</span>
+                          <FiArrowUpRight className="text-sm" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Title & Tagline */}
+                  <h3 className="text-2xl sm:text-3xl font-bold text-[#EDEDED] font-sans group-hover:text-[#C6FF3D] transition-colors">
+                    {proj.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-sm sm:text-base text-[#9E9EA8] font-sans mt-3.5 leading-relaxed">
+                    {proj.description}
+                  </p>
+
+                  {/* Horizontal Architectural Flow Diagram */}
+                  {proj.flow && (
+                    <div className="mt-6 p-3.5 rounded-xl border border-[#232329] bg-[#0E0E11] font-mono text-[0.7rem] select-none">
+                      <div className="text-[0.62rem] uppercase tracking-wider text-[#80808C] mb-2.5 font-semibold">
+                        ARCHITECTURAL FLOW
+                      </div>
+                      <div className="flex items-center gap-2 flex-wrap text-[#D4D4D8]">
+                        {proj.flow.map((step, sIdx) => (
+                          <React.Fragment key={sIdx}>
+                            <span className="px-2.5 py-1 rounded bg-[#16161A] border border-[#232329] text-[#EDEDED]">
+                              {step}
+                            </span>
+                            {sIdx < proj.flow.length - 1 && (
+                              <FiArrowRight className="text-[#C6FF3D] shrink-0" />
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Tech Stack Pills */}
+                <div className="mt-8 pt-5 border-t border-[#232329]/70">
+                  <div className="flex flex-wrap gap-2">
+                    {proj.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="px-3 py-1.5 rounded-lg bg-[#16161A] border border-[#232329] text-xs font-mono text-[#9E9EA8] group-hover:border-[#32323A] transition-colors"
+                      >
+                        {t}
                       </span>
                     ))}
                   </div>
-
-                  {/* Action Links */}
-                  <div className="mt-6 flex gap-4">
-                    <a
-                      href={project.code}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="comms-btn-action text-xs py-2 px-4"
-                      onClick={() => playBlip(1000, 0.05)}
-                    >
-                      GITHUB REPO ↗
-                    </a>
-                    {project.live && project.live !== '#' && (
-                      <a
-                        href={project.live}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="comms-btn-action text-xs py-2 px-4"
-                        style={{ borderColor: 'var(--amber)', color: 'var(--amber)' }}
-                        onClick={() => playBlip(1200, 0.06)}
-                      >
-                        LIVE DEPLOYMENT ↗
-                      </a>
-                    )}
-                  </div>
                 </div>
-
-                {/* Right Column: Architecture SVG Flow Diagram */}
-                <div className={idx % 2 === 1 ? 'lg:order-1' : ''}>
-                  <div className="tech-label mb-3 flex items-center justify-between">
-                    <span>FIG.{idx + 1} - SYSTEM ARCHITECTURE</span>
-                    <span className="text-cyan flex items-center gap-1.5">
-                      <span className="hud-pulse-dot" /> STREAMING
-                    </span>
-                  </div>
-
-                  <div className="arch-diagram-card">
-                    <ArchitectureDiagram project={project} index={idx} />
-                  </div>
-
-                  <button
-                    className="reconstruct-history-btn group"
-                    onClick={() => playBlip(900, 0.04)}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="text-sm leading-none text-cyan">⟲</span>
-                      Reconstruct build history
-                    </span>
-                    <span className="tech-label text-[0.5rem] text-paper-dim group-hover:text-cyan">
-                      SCRUB THE TIMELINE →
-                    </span>
-                  </button>
-                </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </section>
+        </motion.section>
 
         {/* =================================================================
-           03 / OPEN-SOURCE SIGNALS (PHOTO 9)
+           SECTION 5: SKILLS GRID (#skills)
            ================================================================= */}
-        <section id="signals" className="section-wrapper">
-          <div className="mb-12">
-            <div className="section-header-divider" />
-            <div className="section-header-row">
-              <h2 className="section-title">
-                <span className="text-amber glow-amber">03</span>
-                <span className="mx-3 text-line-dim">/</span>
-                OPEN-SOURCE SIGNALS
-              </h2>
-              <p className="section-subtitle">
-                Public work on GitHub - built in the open, validated by stars.
-              </p>
-            </div>
-          </div>
+        <motion.section
+          id="skills"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+        >
+          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
+            <span>// TECHNICAL SKILLS</span>
+          </motion.div>
+          <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
+            Languages & Technologies
+          </motion.h2>
 
-          <div className="os-summary-grid">
-            <div className="os-sum-card">
-              <div className="os-sum-val text-amber glow-amber">12+★</div>
-              <div className="tech-label mt-1">TOTAL STARS</div>
-            </div>
-            <div className="os-sum-card">
-              <div className="os-sum-val text-cyan glow-cyan">18</div>
-              <div className="tech-label mt-1">PUBLIC REPOS</div>
-            </div>
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noreferrer"
-              className="os-sum-card group hover:bg-ink-800 transition-colors"
-            >
-              <div className="font-display text-lg font-semibold text-paper group-hover:text-cyan transition-colors">
-                @{profile.githubUsername}
-              </div>
-              <div className="tech-label mt-1 flex items-center gap-1">
-                VIEW PROFILE ↗
-              </div>
-            </a>
-          </div>
-
-          <div className="os-repos-grid">
-            {openSourceRepos.map((repo) => (
-              <a
-                key={repo.name}
-                href={repo.url}
-                target="_blank"
-                rel="noreferrer"
-                className="os-card group"
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {skills.map((skillGroup, idx) => (
+              <motion.div
+                key={idx}
+                variants={fadeInUp}
+                className="p-7 rounded-2xl border border-[#232329] bg-[#121215] hover:border-[#32323A] transition-all flex flex-col justify-between"
               >
-                <div className="flex items-start justify-between gap-2">
-                  <span className="tech-label text-cyan">{repo.category}</span>
-                  <span className="flex items-center gap-1 font-display text-sm font-semibold text-amber">
-                    {repo.stars}<span className="text-xs">★</span>
-                  </span>
-                </div>
-                <h3 className="os-card-title">{repo.name}</h3>
-                <p className="os-card-desc">{repo.description}</p>
-                <div className="os-card-foot">
-                  <span className="flex items-center gap-1.5 text-xs text-paper-dim">
-                    <span className="h-2 w-2 rounded-full" style={{ backgroundColor: repo.langColor }} />
-                    {repo.language}
-                  </span>
-                  <span className="tech-label group-hover:text-cyan transition-colors">
-                    OPEN ↗
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        {/* =================================================================
-           04 / THE ARCHITECT (PHOTOS 10, 11)
-           ================================================================= */}
-        <section id="architect" className="section-wrapper">
-          <div className="mb-12">
-            <div className="section-header-divider" />
-            <div className="section-header-row">
-              <h2 className="section-title">
-                <span className="text-amber glow-amber">04</span>
-                <span className="mx-3 text-line-dim">/</span>
-                THE ARCHITECT
-              </h2>
-              <p className="section-subtitle">
-                Operator spec sheet & service history.
-              </p>
-            </div>
-          </div>
-
-          <div className="architect-split-grid">
-            {/* Left: Spec Sheet Table & Bio */}
-            <div className="spec-sheet-panel">
-              <div className="spec-sheet-header tech-label">
-                OPERATOR SPEC · RAKESH-CORE
-              </div>
-              <dl className="spec-dl-list">
-                {profile.specSheet.map((item, idx) => (
-                  <div key={idx} className="spec-dl-row">
-                    <dt className="spec-dt tech-label">{item.label}</dt>
-                    <dd className="spec-dd">{item.value}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="spec-narrative-p">{profile.story}</p>
-              <div className="p-4 border-t border-line-faint">
-                <a
-                  href={profile.resume}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="comms-btn-action text-xs w-full justify-center"
-                >
-                  VIEW VERIFIED ATS RESUME (PDF) ↗
-                </a>
-              </div>
-            </div>
-
-            {/* Right: Service History Log Timeline */}
-            <div>
-              <div className="tech-label mb-5">SERVICE HISTORY · LOG</div>
-              <ol className="timeline-list">
-                {journey.map((item, idx) => (
-                  <li key={idx} className="timeline-item">
-                    <span className="timeline-bullet-ring" />
-                    <div className="flex flex-wrap items-baseline justify-between gap-2">
-                      <h4 className="timeline-role-title">{item.title}</h4>
-                      <span className="tech-label text-cyan">{item.period}</span>
-                    </div>
-                    <div className="timeline-company">{item.type}</div>
-                    {item.bullets ? (
-                      <ul className="mt-2 space-y-1">
-                        {item.bullets.map((b, bIdx) => (
-                          <li key={bIdx} className="flex gap-2 text-sm text-paper-dim">
-                            <span className="mt-1.5 h-1 w-1 shrink-0 bg-line-dim" />
-                            {b}
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className="mt-2 text-sm text-paper-dim">{item.detail}</p>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-
-          {/* Subsystems Capability Matrix */}
-          <div className="matrix-block">
-            <div className="tech-label mb-5">SUBSYSTEMS · CAPABILITY MATRIX</div>
-            <div className="matrix-grid-cells">
-              {Object.entries(skills).map(([category, items]) => (
-                <div key={category} className="matrix-cell">
-                  <div className="mb-3 flex items-center gap-2">
-                    <span className="hud-pulse-dot" />
-                    <span className="font-display text-sm font-semibold text-paper">{category}</span>
-                  </div>
-                  <div className="matrix-pills-row">
-                    {items.map((skill) => (
-                      <span key={skill} className="matrix-pill-tag">
+                <div>
+                  <h3 className="text-base font-bold text-[#EDEDED] font-sans mb-5 flex items-center gap-2.5">
+                    <span className="h-2 w-2 rounded-full bg-[#C6FF3D]" />
+                    {skillGroup.category}
+                  </h3>
+                  <div className="flex flex-wrap gap-2.5">
+                    {skillGroup.items.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1.5 rounded-lg border border-[#232329] bg-[#16161A] text-xs font-mono text-[#EDEDED] hover:border-[#C6FF3D]/40 transition-colors"
+                      >
                         {skill}
                       </span>
                     ))}
                   </div>
                 </div>
-              ))}
-            </div>
+              </motion.div>
+            ))}
           </div>
-
-          {/* Field Recognition */}
-          <div className="mt-16">
-            <div className="tech-label mb-5">FIELD RECOGNITION & CERTIFICATIONS</div>
-            <div className="recognition-grid">
-              {certifications.map((cert) => (
-                <a
-                  key={cert.title}
-                  href={cert.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="recognition-card group hover:bg-ink-800 transition-colors"
-                >
-                  <div className="tech-label text-amber">{cert.date}</div>
-                  <div className="mt-2 font-display text-base font-semibold text-paper group-hover:text-cyan transition-colors">
-                    {cert.title}
-                  </div>
-                  <div className="mt-1 text-sm text-paper-dim">{cert.issuer}</div>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
+        </motion.section>
 
         {/* =================================================================
-           05 / ESTABLISH COMMS (PHOTOS 12, 13, 14)
+           SECTION 6: GITHUB / OPEN SOURCE (#github)
            ================================================================= */}
-        <section id="comms" className="section-wrapper">
-          <div className="mb-12">
-            <div className="section-header-divider" />
-            <div className="section-header-row">
-              <h2 className="section-title">
-                <span className="text-amber glow-amber">05</span>
-                <span className="mx-3 text-line-dim">/</span>
-                ESTABLISH COMMS
-              </h2>
-              <p className="section-subtitle">
-                Channel open. Awaiting transmission.
-              </p>
-            </div>
+        <motion.section
+          id="github"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+        >
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+            <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold">
+              <span>// OPEN SOURCE & REPOSITORIES</span>
+            </motion.div>
+            <motion.a
+              variants={fadeInUp}
+              href="https://github.com/rakeshkumar0804"
+              target="_blank"
+              rel="noreferrer"
+              onClick={playButtonClick}
+              className="flex items-center gap-1.5 text-xs font-mono text-[#9E9EA8] hover:text-[#C6FF3D] transition-colors"
+            >
+              <span>View all on GitHub</span>
+              <FiArrowUpRight />
+            </motion.a>
           </div>
 
-          <div className="comms-split-grid">
-            <div>
-              <div className="flex items-center gap-3">
-                <span className="h-2.5 w-2.5 rounded-full bg-cyan shadow-[0_0_8px_var(--cyan)]" />
-                <span className="tech-label text-cyan">ACQUIRING...</span>
-              </div>
-              <h3 className="comms-lead-title">
-                Let's build<br />
-                <span className="text-cyan glow-cyan">something</span><br />
-                ambitious.
-              </h3>
-              <p className="comms-lead-text">
-                Recruiters, founders, and engineering teams - if you need someone who can architect, build, and ship production web systems end-to-end, the channel is open.
-              </p>
-              <a
-                href={`mailto:${profile.email}`}
-                className="comms-btn-action"
-                onClick={() => playBlip(1200, 0.08)}
+          <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
+            Code Repositories
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+            {openSourceRepos.map((repo) => (
+              <motion.a
+                key={repo.name}
+                variants={fadeInUp}
+                href={repo.url}
+                target="_blank"
+                rel="noreferrer"
+                onClick={playButtonClick}
+                className="p-7 rounded-2xl border border-[#232329] bg-[#121215] hover:border-[#C6FF3D]/50 transition-all flex flex-col justify-between group shadow-md"
               >
-                INITIATE TRANSMISSION →
-              </a>
-            </div>
-
-            <div className="flex flex-col gap-6">
-              <div className="comms-channels-grid">
-                <a href={`mailto:${profile.email}`} className="channel-card group">
-                  <div className="tech-label flex items-center justify-between">
-                    EMAIL <span className="text-line-dim group-hover:text-cyan">↗</span>
-                  </div>
-                  <div className="channel-val">{profile.email}</div>
-                </a>
-                <a href={profile.github} target="_blank" rel="noreferrer" className="channel-card group">
-                  <div className="tech-label flex items-center justify-between">
-                    GITHUB <span className="text-line-dim group-hover:text-cyan">↗</span>
-                  </div>
-                  <div className="channel-val">github.com/{profile.githubUsername}</div>
-                </a>
-                <a href={profile.linkedin} target="_blank" rel="noreferrer" className="channel-card group">
-                  <div className="tech-label flex items-center justify-between">
-                    LINKEDIN <span className="text-line-dim group-hover:text-cyan">↗</span>
-                  </div>
-                  <div className="channel-val">linkedin.com/in/rakesh-kumar</div>
-                </a>
-                <a href={profile.leetcode} target="_blank" rel="noreferrer" className="channel-card group">
-                  <div className="tech-label flex items-center justify-between">
-                    LEETCODE <span className="text-line-dim group-hover:text-cyan">↗</span>
-                  </div>
-                  <div className="channel-val">leetcode.com/u/Rakesh__Kumar_</div>
-                </a>
-              </div>
-
-              {/* Interactive Cat Companion Pet Box */}
-              <div className="nyx-pet-box">
-                <CatCompanion />
-              </div>
-            </div>
-          </div>
-
-          {/* =================================================================
-             MISSION DEBRIEF (PHOTO 15)
-             ================================================================= */}
-          <div className="debrief-block">
-            <div className="debrief-head-row">
-              <div>
-                <div className="tech-label flex items-center gap-3 text-cyan">
-                  <span className="eyebrow-rule" style={{ width: '2rem' }} />
-                  MISSION DEBRIEF
-                </div>
-                <h3 className="mt-3 font-display text-3xl font-bold md:text-4xl">
-                  System reviewed.
-                </h3>
-              </div>
-              <div className="debrief-sync-widget">
-                <div className="flex items-center justify-between">
-                  <span className="tech-label text-paper-dim">SYNC</span>
-                  <span className="font-mono text-sm text-cyan glow-cyan">
-                    <span>100</span>%
-                  </span>
-                </div>
-                <div className="relative mt-2 h-2 overflow-hidden border border-line-faint bg-ink-800">
-                  <div className="absolute inset-y-0 left-0 bg-cyan shadow-[0_0_12px_var(--cyan)]" style={{ width: '100%' }} />
-                </div>
-              </div>
-            </div>
-
-            <div className="debrief-tiles-grid">
-              {[
-                { num: '01', label: 'OPERATIONS', id: 'operations' },
-                { num: '02', label: 'GUIDING PRINCIPLES', id: 'principles' },
-                { num: '03', label: 'DEPLOYED SYSTEMS', id: 'systems' },
-                { num: '04', label: 'OPEN SIGNALS', id: 'signals' },
-                { num: '05', label: 'THE ARCHITECT', id: 'architect' },
-                { num: '06', label: 'ESTABLISH COMMS', id: 'comms' },
-              ].map((item) => (
-                <button
-                  key={item.num}
-                  className="debrief-nav-tile group"
-                  onClick={() => scrollToSection(item.id)}
-                >
-                  <span className="tech-label w-6 shrink-0 text-paper-dim" style={{ opacity: 0.5 }}>
-                    {item.num}
-                  </span>
-                  <span className="h-2 w-2 shrink-0 rounded-full bg-cyan shadow-[0_0_6px_var(--cyan)]" />
-                  <span className="min-w-0 flex-1">
-                    <span className="debrief-item-title block truncate font-display text-sm font-semibold text-paper transition-colors">
-                      {item.label}
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono text-[#80808C] mb-3.5">
+                    <span className="flex items-center gap-2 text-[#EDEDED]">
+                      <FiFolder className="text-[#C6FF3D]" />
+                      <span className="font-bold truncate">{repo.name}</span>
                     </span>
-                    <span className="tech-label text-[0.55rem] text-cyan">
-                      REVIEWED
+                    <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                  </div>
+                  <p className="text-xs sm:text-sm text-[#9E9EA8] font-sans leading-relaxed">
+                    {repo.description}
+                  </p>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-[#232329] flex items-center justify-between text-xs font-mono text-[#80808C]">
+                  <span className="flex items-center gap-1.5">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: repo.langColor }}
+                    />
+                    <span>{repo.language}</span>
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <FiStar className="text-xs" />
+                    <span>{repo.stars}</span>
+                  </span>
+                </div>
+              </motion.a>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* =================================================================
+           SECTION 7: CERTIFICATIONS & ACHIEVEMENTS (#achievements)
+           ================================================================= */}
+        <motion.section
+          id="achievements"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+        >
+          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
+            <span>// CREDENTIALS & ACHIEVEMENTS</span>
+          </motion.div>
+          <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
+            Certifications & Milestones
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {achievements.map((item) => (
+              <motion.div
+                key={item.id}
+                variants={fadeInUp}
+                className="p-7 rounded-2xl border border-[#232329] bg-[#121215] hover:border-[#32323A] transition-all flex flex-col justify-between group shadow-md"
+              >
+                <div>
+                  <div className="flex items-center justify-between text-xs font-mono text-[#80808C] mb-3.5">
+                    <span className="tracking-wider uppercase text-[#9E9EA8]">
+                      {item.category}
                     </span>
-                  </span>
-                  <span className="tech-label text-line-dim group-hover:text-cyan transition-colors">
-                    ↗
-                  </span>
-                </button>
-              ))}
+                    <span className="px-2.5 py-0.5 rounded-full border border-[#C6FF3D]/30 bg-[#C6FF3D]/10 text-xs text-[#C6FF3D] font-mono">
+                      {item.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="text-lg sm:text-xl font-bold text-[#EDEDED] font-sans group-hover:text-[#C6FF3D] transition-colors flex items-center justify-between">
+                    <span>{item.title}</span>
+                    {item.link && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={playButtonClick}
+                        className="text-[#9E9EA8] hover:text-[#C6FF3D] p-1"
+                        aria-label={`Verify ${item.title}`}
+                      >
+                        <FiArrowUpRight className="text-base" />
+                      </a>
+                    )}
+                  </h3>
+
+                  <div className="text-xs font-mono text-[#9E9EA8] mt-1.5">
+                    Issued by {item.issuer}
+                  </div>
+
+                  <p className="text-sm text-[#9E9EA8] font-sans mt-3.5 leading-relaxed">
+                    {item.detail}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* =================================================================
+           SECTION 8: CONTACT WORKSPACE (#contact)
+           ================================================================= */}
+        <motion.section
+          id="contact"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={staggerContainer}
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+        >
+          <motion.div variants={fadeInUp} className="p-8 sm:p-12 md:p-16 rounded-3xl border border-[#232329] bg-[#121215] shadow-2xl">
+            <div className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
+              <span>// CONTACT WORKSPACE</span>
             </div>
 
-            <div className="debrief-footer-strip tech-label">
-              <span>© 2026 RAKESH KUMAR</span>
-              <span>DRAWING NO. RK-2026 · END OF SCHEMATIC</span>
-              <span className="text-cyan">UPLINK · STABLE</span>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#EDEDED] font-sans tracking-tight mb-5 max-w-3xl">
+              Let's connect — open to full-time roles & engineering discussions.
+            </h2>
+
+            <p className="text-base sm:text-lg text-[#9E9EA8] max-w-2xl mb-12">
+              Actively interviewing for Full-Stack Developer & Software Engineer positions (Immediate Joiner / CSE 2026 Grad).
+            </p>
+
+            {/* Direct Connect Magnetic Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              <MagneticButton
+                href={`mailto:${profile.email}`}
+                onClick={playButtonClick}
+                className="w-full p-6 rounded-2xl border border-[#232329] bg-[#16161A] hover:border-[#C6FF3D] transition-colors group flex flex-col justify-between text-left"
+              >
+                <div className="w-full flex items-center justify-between text-xs font-mono text-[#80808C]">
+                  <span className="flex items-center gap-2">
+                    <FiMail className="text-[#C6FF3D]" /> EMAIL
+                  </span>
+                  <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                </div>
+                <div className="mt-4 text-sm sm:text-base font-semibold text-[#EDEDED] truncate w-full">
+                  {profile.email}
+                </div>
+              </MagneticButton>
+
+              <MagneticButton
+                href={profile.github}
+                target="_blank"
+                rel="noreferrer"
+                onClick={playButtonClick}
+                className="w-full p-6 rounded-2xl border border-[#232329] bg-[#16161A] hover:border-[#C6FF3D] transition-colors group flex flex-col justify-between text-left"
+              >
+                <div className="w-full flex items-center justify-between text-xs font-mono text-[#80808C]">
+                  <span className="flex items-center gap-2">
+                    <FiGithub className="text-[#C6FF3D]" /> GITHUB
+                  </span>
+                  <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                </div>
+                <div className="mt-4 text-sm sm:text-base font-semibold text-[#EDEDED] w-full">
+                  @{profile.githubUsername}
+                </div>
+              </MagneticButton>
+
+              <MagneticButton
+                href={profile.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                onClick={playButtonClick}
+                className="w-full p-6 rounded-2xl border border-[#232329] bg-[#16161A] hover:border-[#C6FF3D] transition-colors group flex flex-col justify-between text-left"
+              >
+                <div className="w-full flex items-center justify-between text-xs font-mono text-[#80808C]">
+                  <span className="flex items-center gap-2">
+                    <FiLinkedin className="text-[#C6FF3D]" /> LINKEDIN
+                  </span>
+                  <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                </div>
+                <div className="mt-4 text-sm sm:text-base font-semibold text-[#EDEDED] w-full">
+                  in/rakesh-kumar
+                </div>
+              </MagneticButton>
             </div>
-          </div>
-        </section>
+
+            {/* Currently Building Status */}
+            <div className="mt-10 pt-8 border-t border-[#232329] flex items-center gap-2.5 text-xs sm:text-sm font-mono text-[#9E9EA8]">
+              <span className="h-2 w-2 rounded-full bg-[#C6FF3D] animate-pulse" />
+              <span>Currently building: Real-time incident response & distributed caching systems</span>
+            </div>
+          </motion.div>
+        </motion.section>
       </main>
-    </>
+
+      {/* =================================================================
+         BOTTOM IDE STATUS BAR FOOTER
+         ================================================================= */}
+      <footer className="relative z-10 border-t border-[#232329] bg-[#0E0E11] px-6 sm:px-8 md:px-12 lg:px-16 py-4 font-mono text-xs text-[#80808C] select-none">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1.5 text-[#C6FF3D]">
+              <FiGitBranch className="text-xs" />
+              <span>git: main · ready</span>
+            </span>
+            <span className="text-[#32323A]">·</span>
+            <span className="flex items-center gap-1.5">
+              <FiClock className="text-xs text-[#9E9EA8]" />
+              <span className="tabular-nums">{timeStr} IST</span>
+            </span>
+          </div>
+
+          <div className="flex items-center gap-3 text-[0.72rem]">
+            <span>© 2026 Rakesh Kumar · The Workspace Portfolio</span>
+          </div>
+        </div>
+      </footer>
+    </div>
   );
 }
 
