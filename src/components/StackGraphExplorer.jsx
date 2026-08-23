@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 export const STACK_LAYERS = [
@@ -6,7 +6,7 @@ export const STACK_LAYERS = [
     id: "L1",
     num: "01",
     tier: "FOUNDATION",
-    indexLabel: "L1 · FOUNDATION  01 / 07",
+    indexLabel: "L1 · FOUNDATION 01 / 07",
     title: "Language Core",
     description:
       "Every system I ship starts here - typed, strict, predictable. The bedrock the whole stack stands on.",
@@ -18,7 +18,7 @@ export const STACK_LAYERS = [
     id: "L2",
     num: "02",
     tier: "INTERFACE",
-    indexLabel: "L2 · INTERFACE  02 / 07",
+    indexLabel: "L2 · INTERFACE 02 / 07",
     title: "What People Touch",
     description:
       "The surface layer - fast, server-rendered, and built to feel alive. Where engineering meets the eye.",
@@ -30,7 +30,7 @@ export const STACK_LAYERS = [
     id: "L3",
     num: "03",
     tier: "SERVICES",
-    indexLabel: "L3 · SERVICES  03 / 07",
+    indexLabel: "L3 · SERVICES 03 / 07",
     title: "The Logic Layer",
     description:
       "Where the rules live - APIs, sockets, and microservices wired for real-time and locked down with RBAC.",
@@ -42,7 +42,7 @@ export const STACK_LAYERS = [
     id: "L4",
     num: "04",
     tier: "PERSISTENCE",
-    indexLabel: "L4 · PERSISTENCE  04 / 07",
+    indexLabel: "L4 · PERSISTENCE 04 / 07",
     title: "State That Survives",
     description:
       "Memory for the system - documents, caches, and graphs that hold the truth between requests.",
@@ -54,7 +54,7 @@ export const STACK_LAYERS = [
     id: "L5",
     num: "05",
     tier: "INFRASTRUCTURE",
-    indexLabel: "L5 · INFRASTRUCTURE  05 / 07",
+    indexLabel: "L5 · INFRASTRUCTURE 05 / 07",
     title: "Where It Runs",
     description:
       "Containers, pipelines, and cloud - shipped end-to-end so deploys are boring and uptime isn't.",
@@ -66,7 +66,7 @@ export const STACK_LAYERS = [
     id: "L6",
     num: "06",
     tier: "INTELLIGENCE",
-    indexLabel: "L6 · INTELLIGENCE  06 / 07",
+    indexLabel: "L6 · INTELLIGENCE 06 / 07",
     title: "Systems That Reason",
     description:
       "Augmenting applications with deterministic LLM agents, dynamic vector search, automated triage, and workflow automations.",
@@ -78,7 +78,7 @@ export const STACK_LAYERS = [
     id: "L7",
     num: "07",
     tier: "FRONTIER",
-    indexLabel: "L7 · FRONTIER  07 / 07",
+    indexLabel: "L7 · FRONTIER 07 / 07",
     title: "Frontier Systems",
     description:
       "Decentralized protocols, autonomous agent teams, and trustless settlement networks pushing beyond traditional web bounds.",
@@ -212,22 +212,76 @@ const LAYER_GEOMETRIES = [
   },
 ];
 
-export default function StackGraphExplorer() {
+export default function StackGraphExplorer({ isOpen = true, onClose }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const mountRef = useRef(null);
+  const containerRef = useRef(null);
   const activeIndexRef = useRef(0);
   const isInteracting = useRef(false);
-  const mousePos = useRef({ x: 0, y: 0 });
   const prevMousePos = useRef({ x: 0, y: 0 });
   const targetRotation = useRef({ x: 0.2, y: 0 });
   const layerMeshesRef = useRef([]);
+  const touchStartY = useRef(0);
 
   activeIndexRef.current = activeIndex;
   const activeLayer = STACK_LAYERS[activeIndex] || STACK_LAYERS[0];
 
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el || !isOpen) return;
+
+    const handleWheel = (e) => {
+      if (Math.abs(e.deltaY) > 25) {
+        e.preventDefault();
+        if (e.deltaY > 0) {
+          setActiveIndex((prev) => Math.min(STACK_LAYERS.length - 1, prev + 1));
+        } else {
+          setActiveIndex((prev) => Math.max(0, prev - 1));
+        }
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && onClose) {
+        onClose();
+      } else if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        setActiveIndex((prev) => Math.min(STACK_LAYERS.length - 1, prev + 1));
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        setActiveIndex((prev) => Math.max(0, prev - 1));
+      }
+    };
+
+    const handleTouchStart = (e) => {
+      touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e) => {
+      const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+      if (Math.abs(deltaY) > 40) {
+        if (deltaY > 0) {
+          setActiveIndex((prev) => Math.min(STACK_LAYERS.length - 1, prev + 1));
+        } else {
+          setActiveIndex((prev) => Math.max(0, prev - 1));
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    el.addEventListener("wheel", handleWheel, { passive: false });
+    el.addEventListener("touchstart", handleTouchStart, { passive: true });
+    el.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      el.removeEventListener("wheel", handleWheel);
+      el.removeEventListener("touchstart", handleTouchStart);
+      el.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isOpen, onClose]);
+
+  useEffect(() => {
     const container = mountRef.current;
-    if (!container) return;
+    if (!container || !isOpen) return;
 
     const width = container.clientWidth || 420;
     const height = container.clientHeight || 420;
@@ -251,13 +305,13 @@ export default function StackGraphExplorer() {
     globeGroup.rotation.x = 0.2;
     scene.add(globeGroup);
 
-    // 1. Base Dark Navy Wireframe Sphere Cage
-    const sphereGeo = new THREE.SphereGeometry(2.4, 24, 18);
+    // 1. Base Dark Navy Wireframe Sphere Cage (#162a45, opacity 0.4)
+    const sphereGeo = new THREE.SphereGeometry(2.4, 26, 20);
     const sphereWire = new THREE.WireframeGeometry(sphereGeo);
     const sphereMat = new THREE.LineBasicMaterial({
-      color: 0x10223d,
+      color: 0x162a45,
       transparent: true,
-      opacity: 0.35,
+      opacity: 0.4,
     });
     const sphereLines = new THREE.LineSegments(sphereWire, sphereMat);
     globeGroup.add(sphereLines);
@@ -265,10 +319,10 @@ export default function StackGraphExplorer() {
     // 2. Base Faint Scattered Points
     const pointsMat = new THREE.PointsMaterial({
       color: 0x1d3354,
-      size: 0.03,
+      size: 0.04,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.6,
     });
     const spherePoints = new THREE.Points(sphereGeo, pointsMat);
     globeGroup.add(spherePoints);
@@ -295,7 +349,7 @@ export default function StackGraphExplorer() {
 
       const isAmber = layerIdx >= 5;
       const lineColor = isAmber ? 0xf59e0b : 0x00f0ff;
-      const pointColor = isAmber ? 0xffcb6b : 0x7fe0ff;
+      const pointColor = isAmber ? 0xffcb6b : 0xffffff;
 
       const lineGeo = new THREE.BufferGeometry();
       lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
@@ -312,7 +366,7 @@ export default function StackGraphExplorer() {
       pGeo.setAttribute('position', new THREE.Float32BufferAttribute(pointsPositions, 3));
       const pMat = new THREE.PointsMaterial({
         color: pointColor,
-        size: 0.08,
+        size: 0.12,
         sizeAttenuation: true,
         transparent: true,
         opacity: 1.0,
@@ -327,7 +381,7 @@ export default function StackGraphExplorer() {
 
     layerMeshesRef.current = layerMeshes;
 
-    // Pointer event listeners for orbit drag
+    // Pointer events
     const handlePointerDown = (e) => {
       isInteracting.current = true;
       prevMousePos.current = { x: e.clientX, y: e.clientY };
@@ -376,7 +430,6 @@ export default function StackGraphExplorer() {
       globeGroup.rotation.x += (targetRotation.current.x - globeGroup.rotation.x) * 0.08;
       globeGroup.rotation.y += (targetRotation.current.y - globeGroup.rotation.y) * 0.08;
 
-      // Update layer visibility based on active index
       const curIdx = activeIndexRef.current;
       layerMeshes.forEach((mesh, idx) => {
         if (idx > curIdx) {
@@ -384,9 +437,9 @@ export default function StackGraphExplorer() {
         } else {
           mesh.group.visible = true;
           const isCurrent = idx === curIdx;
-          mesh.lineMat.opacity = isCurrent ? 0.95 : 0.4;
-          mesh.pMat.opacity = isCurrent ? 1.0 : 0.5;
-          mesh.pMat.size = isCurrent ? 0.08 : 0.05;
+          mesh.lineMat.opacity = isCurrent ? 0.95 : 0.35;
+          mesh.pMat.opacity = isCurrent ? 1.0 : 0.45;
+          mesh.pMat.size = isCurrent ? 0.12 : 0.06;
         }
       });
 
@@ -408,75 +461,83 @@ export default function StackGraphExplorer() {
       sphereGeo.dispose();
       sphereWire.dispose();
     };
-  }, []);
+  }, [isOpen]);
+
+  if (!isOpen) return null;
 
   return (
-    <section
-      id="stack"
-      className="relative min-h-[92vh] w-full border-t border-blueprint-border bg-canvas-base px-6 py-12 md:px-12 flex flex-col justify-between overflow-hidden select-none"
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-50 bg-[#07090e] w-screen h-screen overflow-hidden flex flex-col justify-between select-none"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, rgba(0, 240, 255, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 240, 255, 0.06) 1px, transparent 1px)",
+        backgroundSize: "32px 32px",
+      }}
     >
-      {/* Background blueprint grid */}
-      <div className="pointer-events-none absolute inset-0 blueprint-grid opacity-60" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_50%,#07090e_95%)]" />
 
-      {/* Header */}
-      <div className="relative z-10 mx-auto max-w-7xl w-full flex flex-col md:flex-row md:items-start justify-between gap-6">
+      {/* Top Header */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-8 md:px-16 pt-8 flex items-start justify-between gap-6">
         <div>
-          <div className="flex items-center gap-2 tech-tag text-[0.7rem] text-cyan mb-2">
-            <span className="h-px w-6 bg-cyan" />
+          <div className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] mb-2 tracking-wider">
+            <span className="h-px w-6 bg-[#00f0ff]" />
             <span>THE STACK · 7 LAYERS</span>
           </div>
-          <p className="max-w-xl text-xs md:text-sm text-paper-dim font-mono leading-relaxed">
+          <p className="max-w-xl text-xs md:text-sm text-slate-400 font-mono leading-relaxed">
             Seven layers, one operator. Descend the system I build with - from raw language at the core to the decentralized frontier I'm pushing into now.
           </p>
         </div>
 
-        <a
-          href="#systems"
-          className="self-start flex items-center gap-2 border border-blueprint-border bg-canvas-subtle/80 px-4 py-2 text-[0.65rem] font-mono text-paper-muted transition-all hover:border-cyan hover:text-cyan"
-        >
-          <span>~ DESCEND TO EXIT</span>
-          <span className="text-xs">↗</span>
-        </a>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="flex items-center gap-2 border border-cyan-500/40 bg-cyan-950/30 px-4 py-2 text-xs font-mono text-cyan-300 hover:border-cyan-400 hover:text-white transition-all shadow-[0_0_12px_rgba(0,240,255,0.15)]"
+          >
+            <span>~ DESCEND TO EXIT</span>
+            <span className="text-xs">✕</span>
+          </button>
+        )}
       </div>
 
-      {/* Main interactive area */}
-      <div className="relative z-10 mx-auto max-w-7xl w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-6">
-        {/* Left Column: Details */}
+      {/* Two-Column Grid */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto my-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center px-8 md:px-16 py-4">
+        {/* Left Side (45%) */}
         <div className="lg:col-span-5 flex flex-col justify-center">
-          <div className="tech-tag text-xs font-semibold text-cyan tracking-wider mb-2">
+          <div className="font-mono text-xs font-semibold text-[#00f0ff] tracking-wider mb-2 drop-shadow-[0_0_8px_rgba(0,240,255,0.4)]">
             {activeLayer.indexLabel}
           </div>
 
-          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-paper mb-4">
+          <h2 className="font-mono text-4xl sm:text-5xl font-bold tracking-tight text-white mb-4">
             {activeLayer.title}
           </h2>
 
-          <p className="text-sm md:text-base leading-relaxed text-paper-dim mb-6 font-sans">
+          <p className="text-sm md:text-base leading-relaxed text-slate-300 mb-6 font-sans">
             {activeLayer.description}
           </p>
 
-          <div className="flex flex-wrap gap-2 mb-4">
+          <div className="flex flex-wrap gap-2.5 mt-2 mb-6">
             {activeLayer.tags.map((tag) => (
               <span
                 key={tag}
-                className="tech-tag border border-cyan/40 bg-canvas-subtle px-3 py-1.5 text-xs text-cyan transition-all hover:border-cyan hover:bg-cyan/15 hover:shadow-[0_0_12px_rgba(0,240,255,0.25)]"
+                className="border border-cyan-500/30 bg-cyan-950/20 px-3 py-1 text-xs font-mono text-cyan-300 hover:border-cyan-400 hover:bg-cyan-950/40 transition-colors"
               >
                 {tag}
               </span>
             ))}
           </div>
 
-          <div className="text-[0.6rem] font-mono text-paper-muted tracking-widest uppercase">
+          <div className="text-[0.62rem] font-mono text-slate-500 tracking-widest uppercase">
             ~ HOVER A TAG TO LOCATE IT · DRAG THE GLOBE TO ROTATE
           </div>
         </div>
 
-        {/* Center: 3D Canvas */}
-        <div className="lg:col-span-6 relative h-[360px] sm:h-[420px] md:h-[480px] w-full flex items-center justify-center cursor-grab active:cursor-grabbing">
+        {/* Right Side (55%) */}
+        <div className="lg:col-span-6 relative h-[380px] sm:h-[460px] md:h-[520px] w-full flex items-center justify-center cursor-grab active:cursor-grabbing">
           <div ref={mountRef} className="h-full w-full" />
         </div>
 
-        {/* Far Right: Track Indicator */}
+        {/* Far Right Track (L1 - L7) */}
         <div className="lg:col-span-1 flex lg:flex-col items-center justify-center gap-4 py-2">
           {STACK_LAYERS.map((layer, idx) => {
             const isActive = idx === activeIndex;
@@ -490,17 +551,17 @@ export default function StackGraphExplorer() {
                 className="group flex items-center gap-2 focus:outline-none"
               >
                 {isActive && (
-                  <span className="font-mono text-xs font-bold text-cyan hidden lg:inline">
+                  <span className="font-mono text-xs font-bold text-[#00f0ff] hidden lg:inline">
                     {layer.id}
                   </span>
                 )}
                 <div
                   className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
                     isActive
-                      ? "bg-cyan ring-4 ring-cyan/20 scale-125 shadow-[0_0_10px_#00f0ff]"
+                      ? "bg-[#00f0ff] ring-4 ring-cyan-400/20 scale-125 shadow-[0_0_10px_#00f0ff]"
                       : isPassed
-                      ? "bg-cyan/60"
-                      : "border border-blueprint-border bg-transparent group-hover:border-cyan"
+                      ? "bg-cyan-600/60"
+                      : "border border-slate-700 bg-transparent group-hover:border-cyan-400"
                   }`}
                 />
               </button>
@@ -509,13 +570,13 @@ export default function StackGraphExplorer() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center">
-        <span className="tech-tag text-[0.65rem] text-paper-muted tracking-widest">
+      {/* Bottom Footer */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center pb-6">
+        <span className="font-mono text-[0.65rem] text-slate-400 tracking-widest">
           SCROLL TO DESCEND
         </span>
-        <div className="h-6 w-px bg-cyan/60 mt-1 animate-pulse" />
+        <div className="h-6 w-px bg-cyan-400/60 mt-1 animate-pulse" />
       </div>
-    </section>
+    </div>
   );
 }

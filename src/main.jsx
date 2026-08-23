@@ -28,6 +28,7 @@ export default function App() {
     return false;
   });
   const [audioOn, setAudioOn] = useState(false);
+  const [isStackOpen, setIsStackOpen] = useState(false);
   const [fps, setFps] = useState(60);
   const [sysLoad, setSysLoad] = useState(34);
   const [timeStr, setTimeStr] = useState('--:--:--');
@@ -306,7 +307,10 @@ export default function App() {
             </div>
 
             {/* Right Column: 3D Wireframe Globe */}
-            <div className="hero-globe-viewport group">
+            <div
+              className="hero-globe-viewport group cursor-pointer"
+              onClick={() => setIsStackOpen(true)}
+            >
               <HeroGlobe />
               <div className="pointer-events-none absolute inset-0 grid-vignette" />
               <div className="globe-badge-tl tech-label">STACK GRAPH · ONLINE</div>
@@ -314,7 +318,7 @@ export default function App() {
               <div className="globe-pill-bottom">
                 <span className="hud-pulse-dot" />
                 <span className="tech-label text-[0.55rem] text-cyan">
-                  DOUBLE-TAP TO EXPLORE THE STACK
+                  CLICK TO EXPLORE 7-LAYER STACK ↗
                 </span>
               </div>
             </div>
@@ -326,8 +330,13 @@ export default function App() {
           </div>
         </section>
 
-        {/* 7-Layers Interactive Stack Explorer */}
-        <StackGraphExplorer />
+        {/* 7-Layers Interactive Stack Explorer (Fullscreen Fixed Overlay) */}
+        {isStackOpen && (
+          <StackGraphExplorer
+            isOpen={isStackOpen}
+            onClose={() => setIsStackOpen(false)}
+          />
+        )}
 
         {/* =================================================================
            OPERATING PHILOSOPHY (PHOTO 4)

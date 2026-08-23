@@ -1,12 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import TelemetryNavbar from "@/components/nav/TelemetryNavbar";
 import SchematicGlobeCanvas from "@/components/canvas/SchematicGlobeCanvas";
 import StackGraphExplorer from "@/components/canvas/StackGraphExplorer";
 import DeployedSystems from "@/components/sections/DeployedSystems";
 import CapabilityMatrix from "@/components/sections/CapabilityMatrix";
 import EstablishComms from "@/components/sections/EstablishComms";
-import { Terminal, Shield, Cpu, Activity, ArrowDownRight, Mail } from "lucide-react";
+import { Terminal, Shield, Cpu, Activity, ArrowDownRight, Mail, Layers } from "lucide-react";
 
 export default function Page() {
+  const [isStackOpen, setIsStackOpen] = useState<boolean>(false);
+
   return (
     <div className="relative min-h-screen bg-canvas-base text-paper font-mono selection:bg-blueprint-cyan selection:text-canvas-base">
       {/* Blueprint Grid Overlay Background */}
@@ -44,11 +49,19 @@ export default function Page() {
 
             {/* CTA Action Triggers */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
-                href="#systems"
+              <button
+                onClick={() => setIsStackOpen(true)}
                 className="flex items-center gap-2 border border-blueprint-cyan bg-blueprint-cyan/15 px-6 py-3 font-mono text-xs font-bold text-blueprint-cyan shadow-[0_0_15px_rgba(0,240,255,0.2)] transition-all hover:bg-blueprint-cyan hover:text-canvas-base"
               >
-                <span>EXPLORE SCHEMATICS</span>
+                <Layers className="h-4 w-4" />
+                <span>EXPLORE 7-LAYER STACK</span>
+              </button>
+
+              <a
+                href="#systems"
+                className="flex items-center gap-2 border border-blueprint-border bg-canvas-subtle px-6 py-3 font-mono text-xs text-paper-dim transition-all hover:border-blueprint-cyan hover:text-paper"
+              >
+                <span>DEPLOYED SYSTEMS</span>
                 <ArrowDownRight className="h-4 w-4" />
               </a>
 
@@ -57,7 +70,7 @@ export default function Page() {
                 className="flex items-center gap-2 border border-blueprint-border bg-canvas-subtle px-6 py-3 font-mono text-xs text-paper-dim transition-all hover:border-blueprint-cyan hover:text-paper"
               >
                 <Mail className="h-4 w-4 text-blueprint-cyan" />
-                <span>INITIATE COMMS</span>
+                <span>COMMS</span>
               </a>
             </div>
 
@@ -83,7 +96,10 @@ export default function Page() {
 
           {/* Right Column: 3D Interactive Blueprint Constellation Globe Canvas */}
           <div className="lg:col-span-5 relative flex items-center justify-center">
-            <div className="relative w-full aspect-square max-w-md border border-blueprint-border bg-canvas-subtle/40 p-4 backdrop-blur-md flex flex-col justify-between overflow-hidden">
+            <div
+              onClick={() => setIsStackOpen(true)}
+              className="relative w-full aspect-square max-w-md border border-blueprint-border bg-canvas-subtle/40 p-4 backdrop-blur-md flex flex-col justify-between overflow-hidden cursor-pointer group hover:border-blueprint-cyan transition-colors"
+            >
               {/* Radar Corner Crosses */}
               <div className="absolute top-2 left-2 text-xs font-mono text-blueprint-cyan/50">+</div>
               <div className="absolute top-2 right-2 text-xs font-mono text-blueprint-cyan/50">+</div>
@@ -105,9 +121,9 @@ export default function Page() {
               </div>
 
               {/* Footer Indicator */}
-              <div className="border-t border-blueprint-border pt-2.5 px-2 flex items-center justify-between text-[0.62rem] font-mono text-paper-dim">
+              <div className="border-t border-blueprint-border pt-2.5 px-2 flex items-center justify-between text-[0.62rem] font-mono text-paper-dim group-hover:text-blueprint-cyan transition-colors">
                 <span>BASE: GURUGRAM, IN</span>
-                <span className="text-blueprint-cyan">SYS_NOMINAL</span>
+                <span className="text-blueprint-cyan">CLICK TO EXPAND 7-LAYER STACK ↗</span>
               </div>
             </div>
           </div>
@@ -115,9 +131,14 @@ export default function Page() {
       </section>
 
       {/* =================================================================
-          THE STACK // 7 LAYERS INTERACTIVE SCROLL EXPLORER
+          THE STACK // 7 LAYERS FIXED FULLSCREEN OVERLAY
           ================================================================= */}
-      <StackGraphExplorer />
+      {isStackOpen && (
+        <StackGraphExplorer
+          isOpen={isStackOpen}
+          onClose={() => setIsStackOpen(false)}
+        />
+      )}
 
       {/* =================================================================
           01 // OPERATING PRINCIPLES
