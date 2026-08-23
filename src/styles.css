@@ -69,13 +69,10 @@ body {
 
 /* Blueprint Grid Background */
 .blueprint-grid {
+  background-size: 36px 36px;
   background-image:
-    linear-gradient(var(--grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid) 1px, transparent 1px),
-    linear-gradient(var(--grid-strong) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
-  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
-  background-size: 32px 32px, 32px 32px, 128px 128px, 128px 128px;
+    linear-gradient(to right, rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
 }
 
 .grid-vignette::after {

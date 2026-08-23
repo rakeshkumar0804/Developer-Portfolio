@@ -7,7 +7,11 @@ import { Terminal, Shield, Cpu, Activity, ArrowDownRight, Mail } from "lucide-re
 
 export default function Page() {
   return (
-    <>
+    <div className="relative min-h-screen bg-canvas-base text-paper font-mono selection:bg-blueprint-cyan selection:text-canvas-base">
+      {/* Blueprint Grid Overlay Background */}
+      <div className="pointer-events-none fixed inset-0 -z-10 blueprint-grid" />
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,transparent_60%,var(--ink-900)_100%)]" />
+
       <TelemetryNavbar />
 
       {/* =================================================================
@@ -162,6 +166,6 @@ export default function Page() {
           04 // ESTABLISH COMMS
           ================================================================= */}
       <EstablishComms />
-    </>
+    </div>
   );
 }

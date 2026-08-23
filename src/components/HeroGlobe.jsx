@@ -16,8 +16,8 @@ export default function HeroGlobe() {
     const height = container.clientHeight || 400;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
-    camera.position.z = 8.5;
+    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000);
+    camera.position.z = 7.5;
 
     let renderer;
     try {
@@ -32,44 +32,26 @@ export default function HeroGlobe() {
     const globeGroup = new THREE.Group();
     scene.add(globeGroup);
 
-    const radius = 2.7;
-
-    // 0. Translucent Inner Glowing Solid Sphere (depth & solid presence)
-    const glowGeo = new THREE.SphereGeometry(2.6, 32, 32);
-    const glowMat = new THREE.MeshBasicMaterial({
-      color: 0x002447,
+    // 1. Inner soft dark blue sphere mesh for solid volume presence
+    const innerGeo = new THREE.SphereGeometry(2.45, 32, 32);
+    const innerMat = new THREE.MeshBasicMaterial({
+      color: 0x0b1e36,
       transparent: true,
-      opacity: 0.12,
+      opacity: 0.3,
       side: THREE.DoubleSide,
-      blending: THREE.AdditiveBlending,
     });
-    const glowMesh = new THREE.Mesh(glowGeo, glowMat);
-    globeGroup.add(glowMesh);
+    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
+    globeGroup.add(innerMesh);
 
-    // 1. Inner dense wireframe sphere (faint dark navy/blue)
-    const innerGeo = new THREE.SphereGeometry(radius * 0.95, 22, 16);
-    const innerWire = new THREE.WireframeGeometry(innerGeo);
-    const innerMat = new THREE.LineBasicMaterial({
-      color: 0x1d3354,
-      transparent: true,
-      opacity: 0.4,
-    });
-    const innerLines = new THREE.LineSegments(innerWire, innerMat);
-    globeGroup.add(innerLines);
-
-    // 2. Main Outer Constellation Icosahedron
-    const outerGeo = new THREE.IcosahedronGeometry(radius, 1);
-    const posAttr = outerGeo.attributes.position;
-    const vertexCount = posAttr.count;
-
-    // Create custom lines separated by top (amber) and body (cyan)
+    // 2. High-density outer cyan spherical wireframe (detail=3)
+    const outerGeo = new THREE.IcosahedronGeometry(2.5, 3);
     const wireGeo = new THREE.WireframeGeometry(outerGeo);
     const wirePos = wireGeo.attributes.position;
     
     const cyanLinePositions = [];
     const amberLinePositions = [];
 
-    // Split edges into top cap (y > 0.7) and lower body (y <= 0.7)
+    // Split edges into top cap (y > 0.8) and lower body (y <= 0.8)
     for (let i = 0; i < wirePos.count; i += 2) {
       const x1 = wirePos.getX(i);
       const y1 = wirePos.getY(i);
@@ -78,40 +60,40 @@ export default function HeroGlobe() {
       const y2 = wirePos.getY(i + 1);
       const z2 = wirePos.getZ(i + 1);
 
-      if (y1 > 0.7 && y2 > 0.7) {
+      if (y1 > 0.8 && y2 > 0.8) {
         amberLinePositions.push(x1, y1, z1, x2, y2, z2);
       } else {
         cyanLinePositions.push(x1, y1, z1, x2, y2, z2);
       }
     }
 
-    // Cyan body wireframe with Additive Blending
+    // Cyan body wireframe
     const cyanBufferGeo = new THREE.BufferGeometry();
     cyanBufferGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanLinePositions, 3));
     const cyanMat = new THREE.LineBasicMaterial({
       color: 0x00f0ff,
       transparent: true,
-      opacity: 0.85,
-      linewidth: 1.5,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.45,
+      linewidth: 1,
     });
     const cyanLinesMesh = new THREE.LineSegments(cyanBufferGeo, cyanMat);
     globeGroup.add(cyanLinesMesh);
 
-    // Amber top cap wireframe with Additive Blending
+    // Amber top cap wireframe
     const amberBufferGeo = new THREE.BufferGeometry();
     amberBufferGeo.setAttribute('position', new THREE.Float32BufferAttribute(amberLinePositions, 3));
     const amberMat = new THREE.LineBasicMaterial({
       color: 0xf59e0b,
       transparent: true,
-      opacity: 0.95,
-      linewidth: 2,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.65,
+      linewidth: 1.5,
     });
     const amberLinesMesh = new THREE.LineSegments(amberBufferGeo, amberMat);
     globeGroup.add(amberLinesMesh);
 
-    // 3. Glowing Node Points at vertices
+    // 3. Clean small glowing vertex points (size: 0.05)
+    const posAttr = outerGeo.attributes.position;
+    const vertexCount = posAttr.count;
     const cyanPointsPos = [];
     const amberPointsPos = [];
 
@@ -120,35 +102,35 @@ export default function HeroGlobe() {
       const y = posAttr.getY(i);
       const z = posAttr.getZ(i);
 
-      if (y > 0.7) {
+      if (y > 0.8) {
         amberPointsPos.push(x, y, z);
       } else {
         cyanPointsPos.push(x, y, z);
       }
     }
 
-    // Cyan dots with Additive Blending
+    // Cyan dots
     const cyanPointsGeo = new THREE.BufferGeometry();
     cyanPointsGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanPointsPos, 3));
     const cyanPointsMat = new THREE.PointsMaterial({
       color: 0x7fe0ff,
-      size: 0.18,
+      size: 0.05,
+      sizeAttenuation: true,
       transparent: true,
-      opacity: 0.95,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.8,
     });
     const cyanPointsMesh = new THREE.Points(cyanPointsGeo, cyanPointsMat);
     globeGroup.add(cyanPointsMesh);
 
-    // Amber dots with Additive Blending
+    // Amber dots
     const amberPointsGeo = new THREE.BufferGeometry();
     amberPointsGeo.setAttribute('position', new THREE.Float32BufferAttribute(amberPointsPos, 3));
     const amberPointsMat = new THREE.PointsMaterial({
-      color: 0xffcb6b,
-      size: 0.22,
+      color: 0xf59e0b,
+      size: 0.06,
+      sizeAttenuation: true,
       transparent: true,
-      opacity: 1.0,
-      blending: THREE.AdditiveBlending,
+      opacity: 0.9,
     });
     const amberPointsMesh = new THREE.Points(amberPointsGeo, amberPointsMat);
     globeGroup.add(amberPointsMesh);
@@ -204,15 +186,13 @@ export default function HeroGlobe() {
       animId = requestAnimationFrame(animate);
       const delta = clock.getDelta();
 
-      // Earth-like constant smooth slow rotation around axis
       if (!isInteracting.current) {
-        targetRotation.current.y += delta * 0.22;
-        targetRotation.current.x += Math.sin(clock.getElapsedTime() * 0.5) * 0.0006;
+        targetRotation.current.y += delta * 0.18;
+        targetRotation.current.x += Math.sin(clock.getElapsedTime() * 0.5) * 0.0004;
       }
 
-      // Cursor tilt damping
-      const tiltX = mousePos.current.y * 0.2;
-      const tiltY = mousePos.current.x * 0.2;
+      const tiltX = mousePos.current.y * 0.15;
+      const tiltY = mousePos.current.x * 0.15;
 
       globeGroup.rotation.x += (targetRotation.current.x + tiltX - globeGroup.rotation.x) * 0.08;
       globeGroup.rotation.y += (targetRotation.current.y + tiltY - globeGroup.rotation.y) * 0.08;
@@ -232,11 +212,9 @@ export default function HeroGlobe() {
         container.removeChild(renderer.domElement);
       }
       renderer.dispose();
-      glowGeo.dispose();
-      glowMat.dispose();
-      outerGeo.dispose();
       innerGeo.dispose();
-      innerWire.dispose();
+      innerMat.dispose();
+      outerGeo.dispose();
       wireGeo.dispose();
       cyanBufferGeo.dispose();
       amberBufferGeo.dispose();

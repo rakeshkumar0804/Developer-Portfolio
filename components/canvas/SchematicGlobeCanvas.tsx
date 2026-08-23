@@ -7,91 +7,70 @@ import * as THREE from "three";
 
 function ConstellationSphere() {
   const globeRef = useRef<THREE.Group>(null);
-  const innerRef = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
 
   // Smooth continuous rotation & orbital drift
   useFrame((_, delta) => {
     if (globeRef.current) {
-      globeRef.current.rotation.y += delta * 0.22;
-    }
-    if (innerRef.current) {
-      innerRef.current.rotation.y -= delta * 0.08;
+      globeRef.current.rotation.y += delta * 0.18;
     }
   });
 
-  const radius = 2.7;
-
   return (
     <group ref={globeRef} rotation={[0.25, 0, -0.15]}>
-      {/* 1. Translucent Inner Glowing Solid Sphere (depth & solid presence) */}
-      <mesh ref={glowRef}>
-        <sphereGeometry args={[2.6, 32, 32]} />
-        <meshBasicMaterial
-          color="#002447"
-          transparent
-          opacity={0.12}
-          side={THREE.DoubleSide}
-          blending={THREE.AdditiveBlending}
-        />
-      </mesh>
-
-      {/* 2. Inner Navy Density Wireframe Core */}
-      <mesh ref={innerRef}>
-        <sphereGeometry args={[2.55, 22, 16]} />
-        <meshBasicMaterial
-          color="#1d3354"
-          wireframe
-          transparent
-          opacity={0.4}
-        />
-      </mesh>
-
-      {/* 3. Main Outer Cyan Constellation Wireframe with Additive Blending */}
+      {/* 1. Inner soft dark blue sphere mesh for solid volume presence */}
       <mesh>
-        <icosahedronGeometry args={[radius, 1]} />
+        <sphereGeometry args={[2.45, 32, 32]} />
+        <meshBasicMaterial
+          color="#0b1e36"
+          transparent={true}
+          opacity={0.3}
+          side={THREE.DoubleSide}
+        />
+      </mesh>
+
+      {/* 2. High-density outer cyan spherical wireframe (detail=3, no vertex spikes) */}
+      <mesh>
+        <icosahedronGeometry args={[2.5, 3]} />
         <meshBasicMaterial
           color="#00f0ff"
-          wireframe
-          transparent
-          opacity={0.85}
-          blending={THREE.AdditiveBlending}
+          wireframe={true}
+          transparent={true}
+          opacity={0.45}
         />
       </mesh>
 
-      {/* 4. Golden Amber Top-Cap Vertex Accent with Additive Blending */}
-      <mesh position={[0, 0.35, 0]} rotation={[-0.4, 0, 0]}>
-        <icosahedronGeometry args={[radius * 1.02, 1]} />
+      {/* 3. Amber top-cap accent (detail=2) positioned/rotated to cover top quadrant */}
+      <mesh position={[0, 0.3, 0]} rotation={[-0.4, 0, 0]}>
+        <icosahedronGeometry args={[2.52, 2]} />
         <meshBasicMaterial
           color="#f59e0b"
-          wireframe
-          transparent
-          opacity={0.95}
-          blending={THREE.AdditiveBlending}
+          wireframe={true}
+          transparent={true}
+          opacity={0.65}
         />
       </mesh>
 
-      {/* 5. Glowing Node Vertices (Points) with Neon Brightness */}
+      {/* 4. Clean small glowing vertex points (size=0.05 with sizeAttenuation) */}
       <points>
-        <icosahedronGeometry args={[radius, 1]} />
+        <icosahedronGeometry args={[2.5, 3]} />
         <pointsMaterial
           color="#7fe0ff"
-          size={0.18}
-          transparent
-          opacity={0.95}
-          blending={THREE.AdditiveBlending}
+          size={0.05}
+          sizeAttenuation={true}
+          transparent={true}
+          opacity={0.8}
         />
       </points>
 
-      {/* Top Golden Nodes */}
-      <points position={[0, 0.35, 0]} rotation={[-0.4, 0, 0]}>
-        <icosahedronGeometry args={[radius * 1.02, 1]} />
+      {/* Amber vertex points on top cap */}
+      <points position={[0, 0.3, 0]} rotation={[-0.4, 0, 0]}>
+        <icosahedronGeometry args={[2.52, 2]} />
         <pointsMaterial
-          color="#ffcb6b"
-          size={0.22}
-          transparent
-          opacity={1.0}
-          blending={THREE.AdditiveBlending}
+          color="#f59e0b"
+          size={0.06}
+          sizeAttenuation={true}
+          transparent={true}
+          opacity={0.9}
         />
       </points>
     </group>
@@ -102,7 +81,7 @@ export default function SchematicGlobeCanvas() {
   return (
     <div className="relative h-full w-full select-none cursor-grab active:cursor-grabbing">
       <Canvas
-        camera={{ position: [0, 0, 8.5], fov: 40 }}
+        camera={{ position: [0, 0, 7.5], fov: 42 }}
         dpr={[1, 2]}
         gl={{ alpha: true, antialias: true }}
       >
