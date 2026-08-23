@@ -30,6 +30,7 @@ export default function HeroGlobe() {
     }
 
     const globeGroup = new THREE.Group();
+    globeGroup.scale.set(1.15, 0.92, 1.15);
     scene.add(globeGroup);
 
     const radius = 1.6;

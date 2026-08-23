@@ -78,7 +78,7 @@ function ConstellationSphere() {
   }, [radius]);
 
   return (
-    <group ref={globeRef} rotation={[0.25, 0, -0.15]}>
+    <group ref={globeRef} rotation={[0.25, 0, -0.15]} scale={[1.15, 0.92, 1.15]}>
       {/* 1. Inner soft dark navy core */}
       <mesh>
         <sphereGeometry args={[radius * 0.96, 20, 16]} />
@@ -114,7 +114,7 @@ function ConstellationSphere() {
       <points geometry={cyanPointsGeo}>
         <pointsMaterial
           color="#ffffff"
-          size={0.07}
+          size={0.08}
           sizeAttenuation={true}
           transparent={true}
           opacity={0.95}
@@ -126,7 +126,7 @@ function ConstellationSphere() {
       <points geometry={amberPointsGeo}>
         <pointsMaterial
           color="#ffcb6b"
-          size={0.09}
+          size={0.1}
           sizeAttenuation={true}
           transparent={true}
           opacity={1.0}
@@ -157,10 +157,10 @@ export default function SchematicGlobeCanvas() {
       </Canvas>
 
       {/* Overlay Blueprint Badge */}
-      <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 border border-blueprint-cyan/30 bg-canvas-base/80 px-3 py-1 backdrop-blur-md">
-        <span className="tech-tag flex items-center gap-1.5 text-[0.55rem] text-blueprint-cyan">
-          <span className="h-1 w-1 rounded-full bg-blueprint-cyan animate-ping" />
-          INTERACTIVE 3D MESH // DRAG TO ROTATE
+      <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 border border-blueprint-cyan/30 bg-canvas-base/80 px-3 py-1 backdrop-blur-md whitespace-nowrap">
+        <span className="tech-tag flex items-center gap-1.5 text-[0.55rem] text-blueprint-cyan font-mono">
+          <span className="h-1.5 w-1.5 rounded-full bg-blueprint-cyan animate-ping" />
+          • DOUBLE-TAP TO EXPLORE THE STACK
         </span>
       </div>
     </div>

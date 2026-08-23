@@ -123,7 +123,7 @@ export default function Page() {
               {/* Footer Indicator */}
               <div className="border-t border-blueprint-border pt-2.5 px-2 flex items-center justify-between text-[0.62rem] font-mono text-paper-dim group-hover:text-blueprint-cyan transition-colors">
                 <span>BASE: GURUGRAM, IN</span>
-                <span className="text-blueprint-cyan">CLICK TO EXPAND 7-LAYER STACK ↗</span>
+                <span className="text-blueprint-cyan font-bold">• DOUBLE-TAP TO EXPLORE THE STACK</span>
               </div>
             </div>
           </div>

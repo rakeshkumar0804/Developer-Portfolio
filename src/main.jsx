@@ -317,8 +317,8 @@ export default function App() {
               <div className="globe-badge-tr tech-label">07 LAYERS · LIVE</div>
               <div className="globe-pill-bottom">
                 <span className="hud-pulse-dot" />
-                <span className="tech-label text-[0.55rem] text-cyan">
-                  CLICK TO EXPLORE 7-LAYER STACK ↗
+                <span className="tech-label text-[0.55rem] text-cyan font-bold">
+                  • DOUBLE-TAP TO EXPLORE THE STACK
                 </span>
               </div>
             </div>
