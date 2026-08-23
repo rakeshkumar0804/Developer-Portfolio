@@ -4,9 +4,8 @@ import * as THREE from 'three';
 export default function HeroGlobe() {
   const mountRef = useRef(null);
   const isInteracting = useRef(false);
-  const mousePos = useRef({ x: 0, y: 0 });
   const prevMousePos = useRef({ x: 0, y: 0 });
-  const targetRotation = useRef({ x: 0.15, y: 0 });
+  const targetRotation = useRef({ x: 0.2, y: 0 });
 
   useEffect(() => {
     const container = mountRef.current;
@@ -16,8 +15,8 @@ export default function HeroGlobe() {
     const height = container.clientHeight || 400;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
-    camera.position.z = 7;
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera.position.z = 5.8;
 
     let renderer;
     try {
@@ -29,134 +28,89 @@ export default function HeroGlobe() {
       return;
     }
 
-    const globeGroup = new THREE.Group();
-    globeGroup.scale.set(1.15, 0.92, 1.15);
-    scene.add(globeGroup);
+    const group = new THREE.Group();
+    group.rotation.x = 0.2;
+    group.rotation.z = -0.1;
+    scene.add(group);
 
-    const radius = 1.6;
-
-    // 1. Inner soft dark navy core
-    const innerGeo = new THREE.SphereGeometry(radius * 0.96, 20, 16);
-    const innerMat = new THREE.MeshBasicMaterial({
-      color: 0x081a2e,
-      transparent: true,
-      opacity: 0.25,
-      side: THREE.DoubleSide,
-    });
-    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
-    globeGroup.add(innerMesh);
-
-    // 2. Open Triangular Icosahedron
-    const icosaGeo = new THREE.IcosahedronGeometry(radius, 1);
-    const wireGeo = new THREE.WireframeGeometry(icosaGeo);
-    const wirePos = wireGeo.attributes.position;
-    
+    // Generate distinct horizontal tiered rings (L1 through L7)
+    const pts = [];
     const cyanLines = [];
-    const amberLines = [];
+    const ambLines = [];
 
-    for (let i = 0; i < wirePos.count; i += 2) {
-      const x1 = wirePos.getX(i);
-      const y1 = wirePos.getY(i);
-      const z1 = wirePos.getZ(i);
-      const x2 = wirePos.getX(i + 1);
-      const y2 = wirePos.getY(i + 1);
-      const z2 = wirePos.getZ(i + 1);
+    const layers = 7;
+    const radius = 2.0;
 
-      if (y1 > 0.45 && y2 > 0.45) {
-        amberLines.push(x1, y1, z1, x2, y2, z2);
-      } else {
-        cyanLines.push(x1, y1, z1, x2, y2, z2);
+    const layerPoints = [];
+
+    for (let l = 0; l < layers; l++) {
+      const y = -1.3 + (l / (layers - 1)) * 2.6;
+      const r = Math.sqrt(Math.max(0, radius * radius - y * y)) * 1.05;
+      const count = 6 + (l % 2 === 0 ? 2 : 0);
+      const ring = [];
+
+      for (let i = 0; i < count; i++) {
+        const theta = (i / count) * Math.PI * 2 + (l * 0.35);
+        const x = Math.cos(theta) * r;
+        const z = Math.sin(theta) * r;
+        ring.push([x, y, z]);
+        pts.push(x, y, z);
+      }
+      layerPoints.push(ring);
+    }
+
+    // Connect horizontal and inter-layer vertices
+    for (let l = 0; l < layers; l++) {
+      const ring = layerPoints[l];
+      const isAmber = l >= 5;
+      const target = isAmber ? ambLines : cyanLines;
+
+      for (let i = 0; i < ring.length; i++) {
+        const p1 = ring[i];
+        const p2 = ring[(i + 1) % ring.length];
+        target.push(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2]);
+
+        // Vertical connections
+        if (l < layers - 1) {
+          const nextRing = layerPoints[l + 1];
+          const nextP = nextRing[i % nextRing.length];
+          target.push(p1[0], p1[1], p1[2], nextP[0], nextP[1], nextP[2]);
+          if (nextRing[(i + 1) % nextRing.length]) {
+            const nextP2 = nextRing[(i + 1) % nextRing.length];
+            target.push(p1[0], p1[1], p1[2], nextP2[0], nextP2[1], nextP2[2]);
+          }
+        }
       }
     }
 
-    // Cyan body wireframe
-    const cyanBufferGeo = new THREE.BufferGeometry();
-    cyanBufferGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanLines, 3));
-    const cyanMat = new THREE.LineBasicMaterial({
-      color: 0x00f0ff,
-      transparent: true,
-      opacity: 0.85,
-      linewidth: 1.5,
-      blending: THREE.AdditiveBlending,
-    });
-    const cyanLinesMesh = new THREE.LineSegments(cyanBufferGeo, cyanMat);
-    globeGroup.add(cyanLinesMesh);
+    // Cyan Lower Structure
+    const cyanLineGeo = new THREE.BufferGeometry();
+    cyanLineGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanLines, 3));
+    const cyanMat = new THREE.LineBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.85 });
+    const cyanMesh = new THREE.LineSegments(cyanLineGeo, cyanMat);
+    group.add(cyanMesh);
 
-    // Amber top cap wireframe
-    const amberBufferGeo = new THREE.BufferGeometry();
-    amberBufferGeo.setAttribute('position', new THREE.Float32BufferAttribute(amberLines, 3));
-    const amberMat = new THREE.LineBasicMaterial({
-      color: 0xf59e0b,
-      transparent: true,
-      opacity: 0.95,
-      linewidth: 2,
-      blending: THREE.AdditiveBlending,
-    });
-    const amberLinesMesh = new THREE.LineSegments(amberBufferGeo, amberMat);
-    globeGroup.add(amberLinesMesh);
+    // Amber Top Cap Structure
+    const amberLineGeo = new THREE.BufferGeometry();
+    amberLineGeo.setAttribute('position', new THREE.Float32BufferAttribute(ambLines, 3));
+    const amberMat = new THREE.LineBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.95 });
+    const amberMesh = new THREE.LineSegments(amberLineGeo, amberMat);
+    group.add(amberMesh);
 
-    // 3. Glowing Node Points at vertices
-    const posAttr = icosaGeo.attributes.position;
-    const vertexCount = posAttr.count;
-    const cyanPts = [];
-    const amberPts = [];
+    // Node Vertices
+    const ptGeom = new THREE.BufferGeometry();
+    ptGeom.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+    const ptMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.06, sizeAttenuation: true, transparent: true, opacity: 0.9 });
+    const ptMesh = new THREE.Points(ptGeom, ptMat);
+    group.add(ptMesh);
 
-    for (let i = 0; i < vertexCount; i++) {
-      const x = posAttr.getX(i);
-      const y = posAttr.getY(i);
-      const z = posAttr.getZ(i);
-
-      if (y > 0.45) {
-        amberPts.push(x, y, z);
-      } else {
-        cyanPts.push(x, y, z);
-      }
-    }
-
-    // Cyan/white dots
-    const cyanPointsGeo = new THREE.BufferGeometry();
-    cyanPointsGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanPts, 3));
-    const cyanPointsMat = new THREE.PointsMaterial({
-      color: 0xffffff,
-      size: 0.07,
-      sizeAttenuation: true,
-      transparent: true,
-      opacity: 0.95,
-      blending: THREE.AdditiveBlending,
-    });
-    const cyanPointsMesh = new THREE.Points(cyanPointsGeo, cyanPointsMat);
-    globeGroup.add(cyanPointsMesh);
-
-    // Amber dots
-    const amberPointsGeo = new THREE.BufferGeometry();
-    amberPointsGeo.setAttribute('position', new THREE.Float32BufferAttribute(amberPts, 3));
-    const amberPointsMat = new THREE.PointsMaterial({
-      color: 0xffcb6b,
-      size: 0.09,
-      sizeAttenuation: true,
-      transparent: true,
-      opacity: 1.0,
-      blending: THREE.AdditiveBlending,
-    });
-    const amberPointsMesh = new THREE.Points(amberPointsGeo, amberPointsMat);
-    globeGroup.add(amberPointsMesh);
-
-    // Tilt globe slightly
-    globeGroup.rotation.z = -0.15;
-    globeGroup.rotation.x = 0.25;
-
-    // Interaction Handlers
+    // Pointer events
     const handlePointerDown = (e) => {
       isInteracting.current = true;
       prevMousePos.current = { x: e.clientX, y: e.clientY };
     };
 
     const handlePointerMove = (e) => {
-      const rect = container.getBoundingClientRect();
-      const normX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const normY = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      mousePos.current = { x: normX, y: normY };
-
       if (isInteracting.current) {
         const deltaX = e.clientX - prevMousePos.current.x;
         const deltaY = e.clientY - prevMousePos.current.y;
@@ -193,14 +147,11 @@ export default function HeroGlobe() {
       const delta = clock.getDelta();
 
       if (!isInteracting.current) {
-        targetRotation.current.y += delta * 0.2;
+        targetRotation.current.y += delta * 0.15;
       }
 
-      const tiltX = mousePos.current.y * 0.15;
-      const tiltY = mousePos.current.x * 0.15;
-
-      globeGroup.rotation.x += (targetRotation.current.x + tiltX - globeGroup.rotation.x) * 0.08;
-      globeGroup.rotation.y += (targetRotation.current.y + tiltY - globeGroup.rotation.y) * 0.08;
+      group.rotation.x += (targetRotation.current.x - group.rotation.x) * 0.08;
+      group.rotation.y += (targetRotation.current.y - group.rotation.y) * 0.08;
 
       renderer.render(scene, camera);
     };
@@ -217,14 +168,12 @@ export default function HeroGlobe() {
         container.removeChild(renderer.domElement);
       }
       renderer.dispose();
-      innerGeo.dispose();
-      innerMat.dispose();
-      icosaGeo.dispose();
-      wireGeo.dispose();
-      cyanBufferGeo.dispose();
-      amberBufferGeo.dispose();
-      cyanPointsGeo.dispose();
-      amberPointsGeo.dispose();
+      cyanLineGeo.dispose();
+      cyanMat.dispose();
+      amberLineGeo.dispose();
+      amberMat.dispose();
+      ptGeom.dispose();
+      ptMat.dispose();
     };
   }, []);
 
