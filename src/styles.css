@@ -1,18 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --bg-base: #0A0A0B;
-  --bg-surface: #121215;
-  --bg-elevated: #16161A;
-  --border-subtle: #232329;
-  --border-active: #32323A;
+  --bg-base: #050811;
+  --bg-surface: #070e1a;
+  --bg-elevated: #0d1b2a;
+  --border-subtle: rgba(0, 240, 255, 0.15);
+  --border-active: rgba(0, 240, 255, 0.4);
   --text-primary: #EDEDED;
   --text-secondary: #9E9EA8;
   --text-muted: #80808C;
+  --cyan-bright: #00f0ff;
+  --cyan-dim: #7fe0ff;
   --accent-lime: #C6FF3D;
-  --accent-hover: #B8F230;
-  --accent-faint: rgba(198, 255, 61, 0.08);
-  --accent-glow: rgba(198, 255, 61, 0.25);
   --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
@@ -27,7 +26,7 @@ html {
 }
 
 body {
-  background-color: var(--bg-base);
+  background-color: #050811;
   color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -40,13 +39,17 @@ body {
 }
 
 ::selection {
-  background: var(--accent-lime);
-  color: #0A0A0B;
+  background: rgba(0, 240, 255, 0.25);
+  color: #00f0ff;
 }
 
-/* Subtle background noise texture */
-.noise-overlay {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+/* Blueprint Grid Background */
+.blueprint-grid {
+  background-color: #050811;
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.07) 1px, transparent 1px);
+  background-size: 38px 38px;
 }
 
 /* Custom scrollbars */
@@ -56,14 +59,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-base);
+  background: #050811;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
+  background: rgba(0, 240, 255, 0.2);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: rgba(0, 240, 255, 0.4);
 }

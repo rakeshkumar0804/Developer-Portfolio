@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import './styles.css';
 import {
   profile,
@@ -13,6 +13,9 @@ import {
 } from './data/portfolio';
 import Navbar from './components/Navbar';
 import IDEWidget from './components/IDEWidget';
+import BootLoader from './components/BootLoader';
+import CyclingSubtitle from './components/CyclingSubtitle';
+import TacticalHUD from './components/TacticalHUD';
 import CustomCursor from './components/CustomCursor';
 import MagneticButton from './components/MagneticButton';
 import RadiantCard from './components/RadiantCard';
@@ -24,8 +27,6 @@ import {
   FiLinkedin,
   FiMail,
   FiArrowRight,
-  FiGitBranch,
-  FiClock,
   FiStar,
   FiFolder,
 } from 'react-icons/fi';
@@ -56,91 +57,80 @@ const staggerContainer = {
 };
 
 export default function App() {
-  const [timeStr, setTimeStr] = useState('--:--:--');
-
-  // Live IST Clock for bottom IDE status bar
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const options = {
-        timeZone: 'Asia/Kolkata',
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      };
-      setTimeStr(now.toLocaleTimeString('en-GB', options));
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const [booted, setBooted] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-[#0A0A0B] text-[#EDEDED] font-sans selection:bg-[#C6FF3D] selection:text-[#0A0A0B] flex flex-col justify-between overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#050811] text-[#EDEDED] font-sans selection:bg-[#00f0ff]/25 selection:text-[#00f0ff] flex flex-col justify-between overflow-x-hidden blueprint-grid">
+      {/* Full-Screen Terminal Boot Loader */}
+      <AnimatePresence>
+        {!booted && <BootLoader onComplete={() => setBooted(true)} />}
+      </AnimatePresence>
+
       {/* Hardware-Accelerated Custom Cursor */}
       <CustomCursor />
 
-      {/* Subtle Background Noise Texture */}
-      <div className="pointer-events-none fixed inset-0 z-0 noise-overlay opacity-30" />
+      {/* Global Tactical HUD Frame & Telemetry Overlays */}
+      <TacticalHUD />
 
-      {/* Global Navigation Bar */}
-      <Navbar />
+      {/* Navigation Bar */}
+      <div className="pt-8">
+        <Navbar />
+      </div>
 
-      <main className="relative z-10 pt-28 md:pt-36 flex-1 w-full">
+      <main className="relative z-10 pt-16 md:pt-24 flex-1 w-full">
         {/* =================================================================
-           SECTION 1: HERO SECTION (THE WORKSPACE & CODE-EDITOR WIDGET)
+           SECTION 1: MASTER SCHEMATIC HERO SECTION
            ================================================================= */}
-        <section id="hero" className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 pt-6 md:pt-10 pb-24 md:pb-32">
+        <section id="hero" className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 pt-4 md:pt-8 pb-24 md:pb-32">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            {/* Left Column: Personal Positioning & Real Stats */}
+            {/* Left Column: Master Schematic Display */}
             <div className="lg:col-span-7 flex flex-col justify-center">
-              {/* Eyebrow Label */}
+              {/* Header Label */}
               <motion.div
                 initial="hidden"
                 animate="visible"
                 custom={1}
                 variants={fadeInUp}
-                className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-5"
+                className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] tracking-widest uppercase font-semibold mb-3"
               >
-                <span className="h-1.5 w-1.5 rounded-full bg-[#C6FF3D]" />
-                <span>FULL-STACK DEVELOPER</span>
+                <span className="h-1.5 w-1.5 rounded-full bg-[#00f0ff] animate-ping" />
+                <span>DRAWING NO. RK-2026 · MASTER SCHEMATIC</span>
               </motion.div>
 
-              {/* Headline */}
+              {/* Display Title: RAKESH KUMAR */}
               <motion.h1
                 initial="hidden"
                 animate="visible"
                 custom={2}
                 variants={fadeInUp}
-                className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#EDEDED] font-sans leading-[1.05]"
+                className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white font-sans leading-[1.02]"
               >
-                Rakesh Kumar
+                RAKESH <span className="text-[#8fb7d9]">KUMAR</span>
               </motion.h1>
 
-              {/* Subhead */}
-              <motion.p
+              {/* Smooth Animated Cycling Subtitle */}
+              <motion.div
                 initial="hidden"
                 animate="visible"
                 custom={3}
                 variants={fadeInUp}
-                className="mt-6 text-lg sm:text-xl font-sans font-medium text-[#D4D4D8] leading-relaxed max-w-2xl"
+                className="mt-3"
               >
-                Building scalable web applications, RESTful APIs, and responsive user interfaces with the MERN stack.
-              </motion.p>
+                <CyclingSubtitle />
+              </motion.div>
 
-              {/* Bio */}
+              {/* High-Impact Engineering Bio */}
               <motion.p
                 initial="hidden"
                 animate="visible"
                 custom={4}
                 variants={fadeInUp}
-                className="mt-4 text-sm sm:text-base font-sans text-[#9E9EA8] leading-relaxed max-w-xl"
+                className="mt-4 text-sm sm:text-base font-sans text-neutral-300 leading-relaxed max-w-xl"
               >
-                B.Tech CSE 2026 graduate actively seeking full-time software engineering roles. Focused on clean architecture, reliable database design, and predictable backend services.
+                Building scalable web applications, robust backend architectures, and responsive digital interfaces with the MERN stack. CSE 2026 graduate actively interviewing for software engineering roles.
               </motion.p>
 
-              {/* Magnetic Action CTAs */}
+              {/* Action Buttons */}
               <motion.div
                 initial="hidden"
                 animate="visible"
@@ -151,11 +141,11 @@ export default function App() {
                 <MagneticButton
                   href="#projects"
                   onClick={playButtonClick}
-                  className="px-6 py-3.5 rounded-xl bg-[#C6FF3D] text-[#0A0A0B] text-sm font-sans font-bold hover:bg-[#B8F230] shadow-[0_0_25px_rgba(198,255,61,0.25)] hover:shadow-[0_0_35px_rgba(198,255,61,0.4)]"
+                  className="px-6 py-3.5 rounded-xl bg-[#00f0ff] text-[#050811] text-sm font-sans font-bold hover:bg-[#7fe0ff] shadow-[0_0_25px_rgba(0,240,255,0.3)] hover:shadow-[0_0_35px_rgba(0,240,255,0.5)] transition-all"
                 >
                   <span className="flex items-center gap-2">
-                    <span>View Projects</span>
-                    <FiArrowUpRight className="text-base" />
+                    <span>• DOUBLE-TAP TO EXPLORE THE STACK</span>
+                    <FiArrowRight className="text-base" />
                   </span>
                 </MagneticButton>
 
@@ -164,10 +154,10 @@ export default function App() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={playButtonClick}
-                  className="px-5 py-3.5 rounded-xl border border-[#232329] bg-[#121215] text-sm font-sans font-medium text-[#EDEDED] hover:border-[#EDEDED]/40 hover:bg-[#16161A]"
+                  className="px-5 py-3.5 rounded-xl border border-[#00f0ff]/30 bg-[#070e1a]/80 text-sm font-sans font-medium text-white hover:border-[#00f0ff]/60 hover:bg-[#0d1b2a] transition-all"
                 >
                   <span className="flex items-center gap-2">
-                    <FiFileText className="text-[#9E9EA8]" />
+                    <FiFileText className="text-[#00f0ff]" />
                     <span>Resume</span>
                   </span>
                 </MagneticButton>
@@ -175,33 +165,38 @@ export default function App() {
                 <MagneticButton
                   href="#contact"
                   onClick={playButtonClick}
-                  className="px-5 py-3.5 rounded-xl border border-[#232329] bg-[#121215] text-sm font-sans font-medium text-[#EDEDED] hover:border-[#C6FF3D]/50 hover:text-[#C6FF3D]"
+                  className="px-5 py-3.5 rounded-xl border border-[#00f0ff]/20 bg-[#070e1a]/80 text-sm font-sans font-medium text-[#EDEDED] hover:border-[#00f0ff] hover:text-[#00f0ff] transition-all"
                 >
                   <span className="flex items-center gap-2">
-                    <FiMail className="text-[#9E9EA8]" />
+                    <FiMail className="text-[#00f0ff]" />
                     <span>Get in Touch</span>
                   </span>
                 </MagneticButton>
               </motion.div>
 
-              {/* Real Stats Row (4 Tiles) */}
+              {/* 4-Cell Bordered Metric Panel */}
               <motion.div
                 initial="hidden"
                 animate="visible"
                 custom={6}
                 variants={fadeInUp}
-                className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4"
+                className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3"
               >
-                {stats.map((stat, i) => (
+                {[
+                  { val: '6+', label: 'PROD SYSTEMS' },
+                  { val: '165+', label: 'LEETCODE SOLVED' },
+                  { val: '2+', label: 'HACKATHONS' },
+                  { val: 'SQL & C++', label: 'CERTIFIED' },
+                ].map((stat, i) => (
                   <RadiantCard
                     key={i}
-                    className="p-4 flex flex-col justify-between"
-                    glowColor="rgba(198, 255, 61, 0.12)"
+                    className="p-4 flex flex-col justify-between border-[#00f0ff]/20 bg-[#070e1a]/80"
+                    glowColor="rgba(0, 240, 255, 0.15)"
                   >
-                    <div className="font-mono text-xl sm:text-2xl font-bold text-[#EDEDED]">
+                    <div className="font-mono text-xl sm:text-2xl font-bold text-white tracking-tight">
                       {stat.val}
                     </div>
-                    <div className="mt-1.5 font-sans text-xs text-[#9E9EA8]">
+                    <div className="mt-1 font-mono text-[0.68rem] text-[#00f0ff]/80 tracking-wider font-semibold">
                       {stat.label}
                     </div>
                   </RadiantCard>
@@ -209,7 +204,7 @@ export default function App() {
               </motion.div>
             </div>
 
-            {/* Right Column: The Signature Interactive Code-Editor Widget */}
+            {/* Right Column: Interactive Code Editor Widget */}
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -230,25 +225,25 @@ export default function App() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={staggerContainer}
-          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-[#00f0ff]/15"
         >
-          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
-            <span>// ABOUT & MINDSET</span>
+          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] tracking-widest uppercase font-semibold mb-4">
+            <span>// L1 · ARCHITECTURE & MINDSET</span>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mt-6">
             {/* Left Pull Quote Block */}
-            <motion.div variants={fadeInUp} className="lg:col-span-6 border-l-2 border-[#C6FF3D] pl-6 sm:pl-8 py-2">
+            <motion.div variants={fadeInUp} className="lg:col-span-6 border-l-2 border-[#00f0ff] pl-6 sm:pl-8 py-2">
               <p className="text-2xl sm:text-3xl lg:text-4xl font-sans font-medium text-[#EDEDED] leading-snug tracking-tight">
                 "I treat code as living infrastructure — prioritizing predictable API contracts, database integrity, and shipping intuitive user interfaces."
               </p>
-              <div className="mt-5 font-mono text-xs text-[#80808C] uppercase tracking-wider">
+              <div className="mt-5 font-mono text-xs text-[#00f0ff]/70 uppercase tracking-wider">
                 — Engineering Mindset
               </div>
             </motion.div>
 
             {/* Right Narrative Paragraphs */}
-            <motion.div variants={fadeInUp} className="lg:col-span-6 space-y-6 text-sm sm:text-base font-sans text-[#9E9EA8] leading-relaxed">
+            <motion.div variants={fadeInUp} className="lg:col-span-6 space-y-6 text-sm sm:text-base font-sans text-neutral-300 leading-relaxed">
               <p>
                 I am a final-year Computer Science Engineering student (Class of 2026) based in Gurugram, India. My engineering focus centers on building reliable backends with Node.js, Express, and MongoDB, paired with responsive, accessible React and TypeScript interfaces.
               </p>
@@ -268,42 +263,42 @@ export default function App() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={staggerContainer}
-          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-[#00f0ff]/15"
         >
-          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
-            <span>// TIMELINE</span>
+          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] tracking-widest uppercase font-semibold mb-4">
+            <span>// L2 · TIMELINE</span>
           </motion.div>
           <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
             Experience & Education
           </motion.h2>
 
-          <div className="relative pl-6 sm:pl-8 md:pl-10 border-l border-[#232329] space-y-12 max-w-4xl">
+          <div className="relative pl-6 sm:pl-8 md:pl-10 border-l border-[#00f0ff]/20 space-y-12 max-w-4xl">
             {journey.map((item, idx) => (
               <motion.div key={idx} variants={fadeInUp} className="relative group">
                 {/* Timeline node dot */}
-                <div className="absolute -left-[31px] sm:-left-[39px] md:-left-[47px] top-2 h-3.5 w-3.5 rounded-full border-2 border-[#0A0A0B] bg-[#232329] group-hover:bg-[#C6FF3D] group-hover:shadow-[0_0_10px_#C6FF3D] transition-all" />
+                <div className="absolute -left-[31px] sm:-left-[39px] md:-left-[47px] top-2 h-3.5 w-3.5 rounded-full border-2 border-[#050811] bg-[#0d1b2a] group-hover:bg-[#00f0ff] group-hover:shadow-[0_0_10px_#00f0ff] transition-all" />
 
-                <RadiantCard className="p-7" glowColor="rgba(198, 255, 61, 0.12)">
+                <RadiantCard className="p-7 border-[#00f0ff]/20 bg-[#070e1a]/80" glowColor="rgba(0, 240, 255, 0.15)">
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-semibold text-[#C6FF3D]">
+                      <span className="font-mono text-xs font-semibold text-[#00f0ff]">
                         {item.period}
                       </span>
-                      <span className="text-[#50505A]">·</span>
-                      <span className="text-xs font-mono text-[#80808C] uppercase tracking-wider">
+                      <span className="text-neutral-500">·</span>
+                      <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">
                         {item.type}
                       </span>
                     </div>
                   </div>
 
                   <h3 className="text-xl sm:text-2xl font-bold text-[#EDEDED] font-sans">
-                    {item.role} <span className="text-[#9E9EA8] font-normal">— {item.company}</span>
+                    {item.role} <span className="text-neutral-400 font-normal">— {item.company}</span>
                   </h3>
 
-                  <ul className="mt-5 space-y-2.5 text-sm sm:text-base text-[#9E9EA8] font-sans leading-relaxed">
+                  <ul className="mt-5 space-y-2.5 text-sm sm:text-base text-neutral-300 font-sans leading-relaxed">
                     {item.bullets.map((b, bIdx) => (
                       <li key={bIdx} className="flex items-start gap-3">
-                        <span className="text-[#C6FF3D] text-xs mt-1.5 shrink-0">•</span>
+                        <span className="text-[#00f0ff] text-xs mt-1.5 shrink-0">•</span>
                         <span>{b}</span>
                       </li>
                     ))}
@@ -323,32 +318,32 @@ export default function App() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={staggerContainer}
-          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-[#00f0ff]/15"
         >
           <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
-            <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold">
-              <span>// SELECTED PROJECTS</span>
+            <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] tracking-widest uppercase font-semibold">
+              <span>// L3 · CORE SHOWCASE</span>
             </motion.div>
-            <motion.div variants={fadeInUp} className="font-mono text-xs text-[#80808C]">
+            <motion.div variants={fadeInUp} className="font-mono text-xs text-neutral-400">
               6 Production Projects
             </motion.div>
           </div>
 
           <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
-            Projects
+            Selected Projects
           </motion.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
             {projects.map((proj) => (
               <RadiantCard
                 key={proj.id}
-                className="p-8 flex flex-col justify-between group shadow-lg"
-                glowColor="rgba(198, 255, 61, 0.14)"
+                className="p-8 flex flex-col justify-between group shadow-lg border-[#00f0ff]/20 bg-[#070e1a]/80"
+                glowColor="rgba(0, 240, 255, 0.15)"
               >
                 <div>
                   {/* Top Category & Links */}
-                  <div className="flex items-center justify-between text-xs font-mono text-[#80808C] mb-4">
-                    <span className="tracking-wider uppercase text-[#9E9EA8] font-medium">
+                  <div className="flex items-center justify-between text-xs font-mono text-neutral-400 mb-4">
+                    <span className="tracking-wider uppercase text-[#00f0ff] font-medium text-[0.7rem]">
                       {proj.category}
                     </span>
                     <div className="flex items-center gap-3">
@@ -358,7 +353,7 @@ export default function App() {
                           target="_blank"
                           rel="noreferrer"
                           onClick={playButtonClick}
-                          className="text-[#9E9EA8] hover:text-[#C6FF3D] transition-colors p-1"
+                          className="text-neutral-400 hover:text-[#00f0ff] transition-colors p-1"
                           aria-label={`GitHub for ${proj.title}`}
                         >
                           <FiGithub className="text-lg" />
@@ -370,7 +365,7 @@ export default function App() {
                           target="_blank"
                           rel="noreferrer"
                           onClick={playButtonClick}
-                          className="flex items-center gap-1 text-xs text-[#EDEDED] hover:text-[#C6FF3D] transition-colors p-1"
+                          className="flex items-center gap-1 text-xs text-[#EDEDED] hover:text-[#00f0ff] transition-colors p-1"
                           aria-label={`Live Demo for ${proj.title}`}
                         >
                           <span>Demo</span>
@@ -381,29 +376,29 @@ export default function App() {
                   </div>
 
                   {/* Title & Tagline */}
-                  <h3 className="text-2xl sm:text-3xl font-bold text-[#EDEDED] font-sans group-hover:text-[#C6FF3D] transition-colors">
+                  <h3 className="text-2xl sm:text-3xl font-bold text-[#EDEDED] font-sans group-hover:text-[#00f0ff] transition-colors">
                     {proj.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-sm sm:text-base text-[#9E9EA8] font-sans mt-3.5 leading-relaxed">
+                  <p className="text-sm sm:text-base text-neutral-300 font-sans mt-3.5 leading-relaxed">
                     {proj.description}
                   </p>
 
                   {/* Horizontal Architectural Flow Diagram */}
                   {proj.flow && (
-                    <div className="mt-6 p-3.5 rounded-xl border border-[#232329] bg-[#0E0E11] font-mono text-[0.7rem] select-none">
-                      <div className="text-[0.62rem] uppercase tracking-wider text-[#80808C] mb-2.5 font-semibold">
+                    <div className="mt-6 p-3.5 rounded-xl border border-[#00f0ff]/20 bg-[#050811] font-mono text-[0.7rem] select-none">
+                      <div className="text-[0.62rem] uppercase tracking-wider text-[#00f0ff] mb-2.5 font-semibold">
                         ARCHITECTURAL FLOW
                       </div>
-                      <div className="flex items-center gap-2 flex-wrap text-[#D4D4D8]">
+                      <div className="flex items-center gap-2 flex-wrap text-neutral-300">
                         {proj.flow.map((step, sIdx) => (
                           <React.Fragment key={sIdx}>
-                            <span className="px-2.5 py-1 rounded bg-[#16161A] border border-[#232329] text-[#EDEDED]">
+                            <span className="px-2.5 py-1 rounded bg-[#0d1b2a] border border-[#00f0ff]/20 text-[#EDEDED]">
                               {step}
                             </span>
                             {sIdx < proj.flow.length - 1 && (
-                              <FiArrowRight className="text-[#C6FF3D] shrink-0" />
+                              <FiArrowRight className="text-[#00f0ff] shrink-0" />
                             )}
                           </React.Fragment>
                         ))}
@@ -413,12 +408,12 @@ export default function App() {
                 </div>
 
                 {/* Tech Stack Pills */}
-                <div className="mt-8 pt-5 border-t border-[#232329]/70">
+                <div className="mt-8 pt-5 border-t border-[#00f0ff]/15">
                   <div className="flex flex-wrap gap-2">
                     {proj.tags.map((t) => (
                       <span
                         key={t}
-                        className="px-3 py-1.5 rounded-lg bg-[#16161A] border border-[#232329] text-xs font-mono text-[#9E9EA8] group-hover:border-[#32323A] transition-colors"
+                        className="px-3 py-1.5 rounded-lg bg-[#0d1b2a] border border-[#00f0ff]/20 text-xs font-mono text-neutral-300 group-hover:border-[#00f0ff]/40 transition-colors"
                       >
                         {t}
                       </span>
@@ -439,10 +434,10 @@ export default function App() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={staggerContainer}
-          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-[#00f0ff]/15"
         >
-          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
-            <span>// TECHNICAL SKILLS</span>
+          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] tracking-widest uppercase font-semibold mb-4">
+            <span>// L4 · TECHNICAL SPECIFICATIONS</span>
           </motion.div>
           <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
             Languages & Technologies
@@ -452,19 +447,19 @@ export default function App() {
             {skills.map((skillGroup, idx) => (
               <RadiantCard
                 key={idx}
-                className="p-7 flex flex-col justify-between"
-                glowColor="rgba(198, 255, 61, 0.12)"
+                className="p-7 flex flex-col justify-between border-[#00f0ff]/20 bg-[#070e1a]/80"
+                glowColor="rgba(0, 240, 255, 0.15)"
               >
                 <div>
                   <h3 className="text-base font-bold text-[#EDEDED] font-sans mb-5 flex items-center gap-2.5">
-                    <span className="h-2 w-2 rounded-full bg-[#C6FF3D]" />
+                    <span className="h-2 w-2 rounded-full bg-[#00f0ff]" />
                     {skillGroup.category}
                   </h3>
                   <div className="flex flex-wrap gap-2.5">
                     {skillGroup.items.map((skill) => (
                       <span
                         key={skill}
-                        className="px-3 py-1.5 rounded-lg border border-[#232329] bg-[#16161A] text-xs font-mono text-[#EDEDED] hover:border-[#C6FF3D]/40 transition-colors"
+                        className="px-3 py-1.5 rounded-lg border border-[#00f0ff]/20 bg-[#0d1b2a] text-xs font-mono text-[#EDEDED] hover:border-[#00f0ff] hover:text-[#00f0ff] transition-colors"
                       >
                         {skill}
                       </span>
@@ -485,10 +480,10 @@ export default function App() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={staggerContainer}
-          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-[#00f0ff]/15"
         >
           <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
-            <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold">
+            <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] tracking-widest uppercase font-semibold">
               <span>// OPEN SOURCE & REPOSITORIES</span>
             </motion.div>
             <motion.a
@@ -497,7 +492,7 @@ export default function App() {
               target="_blank"
               rel="noreferrer"
               onClick={playButtonClick}
-              className="flex items-center gap-1.5 text-xs font-mono text-[#9E9EA8] hover:text-[#C6FF3D] transition-colors"
+              className="flex items-center gap-1.5 text-xs font-mono text-[#00f0ff] hover:underline transition-colors"
             >
               <span>View all on GitHub</span>
               <FiArrowUpRight />
@@ -512,13 +507,13 @@ export default function App() {
             {openSourceRepos.map((repo) => (
               <RadiantCard
                 key={repo.name}
-                className="p-7 flex flex-col justify-between group shadow-md"
-                glowColor="rgba(198, 255, 61, 0.12)"
+                className="p-7 flex flex-col justify-between group shadow-md border-[#00f0ff]/20 bg-[#070e1a]/80"
+                glowColor="rgba(0, 240, 255, 0.15)"
               >
                 <div>
-                  <div className="flex items-center justify-between text-xs font-mono text-[#80808C] mb-3.5">
+                  <div className="flex items-center justify-between text-xs font-mono text-neutral-400 mb-3.5">
                     <span className="flex items-center gap-2 text-[#EDEDED]">
-                      <FiFolder className="text-[#C6FF3D]" />
+                      <FiFolder className="text-[#00f0ff]" />
                       <span className="font-bold truncate">{repo.name}</span>
                     </span>
                     <a
@@ -526,18 +521,18 @@ export default function App() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={playButtonClick}
-                      className="text-[#9E9EA8] hover:text-[#C6FF3D] p-1"
+                      className="text-neutral-400 hover:text-[#00f0ff] p-1"
                       aria-label={`Open ${repo.name}`}
                     >
-                      <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                      <FiArrowUpRight className="group-hover:text-[#00f0ff] transition-colors" />
                     </a>
                   </div>
-                  <p className="text-xs sm:text-sm text-[#9E9EA8] font-sans leading-relaxed">
+                  <p className="text-xs sm:text-sm text-neutral-300 font-sans leading-relaxed">
                     {repo.description}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-[#232329] flex items-center justify-between text-xs font-mono text-[#80808C]">
+                <div className="mt-6 pt-4 border-t border-[#00f0ff]/15 flex items-center justify-between text-xs font-mono text-neutral-400">
                   <span className="flex items-center gap-1.5">
                     <span
                       className="h-2 w-2 rounded-full"
@@ -546,7 +541,7 @@ export default function App() {
                     <span>{repo.language}</span>
                   </span>
                   <span className="flex items-center gap-1">
-                    <FiStar className="text-xs" />
+                    <FiStar className="text-xs text-[#00f0ff]" />
                     <span>{repo.stars}</span>
                   </span>
                 </div>
@@ -564,9 +559,9 @@ export default function App() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={staggerContainer}
-          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-[#00f0ff]/15"
         >
-          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
+          <motion.div variants={fadeInUp} className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] tracking-widest uppercase font-semibold mb-4">
             <span>// CREDENTIALS & ACHIEVEMENTS</span>
           </motion.div>
           <motion.h2 variants={fadeInUp} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#EDEDED] font-sans tracking-tight mb-14">
@@ -577,20 +572,20 @@ export default function App() {
             {achievements.map((item) => (
               <RadiantCard
                 key={item.id}
-                className="p-7 flex flex-col justify-between group shadow-md"
-                glowColor="rgba(198, 255, 61, 0.12)"
+                className="p-7 flex flex-col justify-between group shadow-md border-[#00f0ff]/20 bg-[#070e1a]/80"
+                glowColor="rgba(0, 240, 255, 0.15)"
               >
                 <div>
-                  <div className="flex items-center justify-between text-xs font-mono text-[#80808C] mb-3.5">
-                    <span className="tracking-wider uppercase text-[#9E9EA8]">
+                  <div className="flex items-center justify-between text-xs font-mono text-neutral-400 mb-3.5">
+                    <span className="tracking-wider uppercase text-[#00f0ff]">
                       {item.category}
                     </span>
-                    <span className="px-2.5 py-0.5 rounded-full border border-[#C6FF3D]/30 bg-[#C6FF3D]/10 text-xs text-[#C6FF3D] font-mono">
+                    <span className="px-2.5 py-0.5 rounded-full border border-[#00f0ff]/30 bg-[#00f0ff]/10 text-xs text-[#00f0ff] font-mono">
                       {item.badge}
                     </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-[#EDEDED] font-sans group-hover:text-[#C6FF3D] transition-colors flex items-center justify-between">
+                  <h3 className="text-lg sm:text-xl font-bold text-[#EDEDED] font-sans group-hover:text-[#00f0ff] transition-colors flex items-center justify-between">
                     <span>{item.title}</span>
                     {item.link && (
                       <a
@@ -598,7 +593,7 @@ export default function App() {
                         target="_blank"
                         rel="noreferrer"
                         onClick={playButtonClick}
-                        className="text-[#9E9EA8] hover:text-[#C6FF3D] p-1"
+                        className="text-neutral-400 hover:text-[#00f0ff] p-1"
                         aria-label={`Verify ${item.title}`}
                       >
                         <FiArrowUpRight className="text-base" />
@@ -606,11 +601,11 @@ export default function App() {
                     )}
                   </h3>
 
-                  <div className="text-xs font-mono text-[#9E9EA8] mt-1.5">
+                  <div className="text-xs font-mono text-neutral-400 mt-1.5">
                     Issued by {item.issuer}
                   </div>
 
-                  <p className="text-sm text-[#9E9EA8] font-sans mt-3.5 leading-relaxed">
+                  <p className="text-sm text-neutral-300 font-sans mt-3.5 leading-relaxed">
                     {item.detail}
                   </p>
                 </div>
@@ -628,21 +623,21 @@ export default function App() {
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
           variants={staggerContainer}
-          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-neutral-800/60"
+          className="w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 py-24 md:py-32 border-t border-[#00f0ff]/15 pb-32"
         >
           <RadiantCard
-            className="p-8 sm:p-12 md:p-16"
-            glowColor="rgba(198, 255, 61, 0.2)"
+            className="p-8 sm:p-12 md:p-16 border-[#00f0ff]/30 bg-[#070e1a]/90"
+            glowColor="rgba(0, 240, 255, 0.2)"
           >
-            <div className="flex items-center gap-2 font-mono text-xs text-[#C6FF3D] tracking-widest uppercase font-semibold mb-4">
-              <span>// CONTACT WORKSPACE</span>
+            <div className="flex items-center gap-2 font-mono text-xs text-[#00f0ff] tracking-widest uppercase font-semibold mb-4">
+              <span>// L5 · CONTACT UPLINK</span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-[#EDEDED] font-sans tracking-tight mb-5 max-w-3xl">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white font-sans tracking-tight mb-5 max-w-3xl">
               Let's connect — open to full-time roles & engineering discussions.
             </h2>
 
-            <p className="text-base sm:text-lg text-[#9E9EA8] max-w-2xl mb-12">
+            <p className="text-base sm:text-lg text-neutral-300 max-w-2xl mb-12">
               Actively interviewing for Full-Stack Developer & Software Engineer positions (Immediate Joiner / CSE 2026 Grad).
             </p>
 
@@ -651,13 +646,13 @@ export default function App() {
               <MagneticButton
                 href={`mailto:${profile.email}`}
                 onClick={playButtonClick}
-                className="w-full p-6 rounded-2xl border border-[#232329] bg-[#16161A] hover:border-[#C6FF3D] transition-colors group flex flex-col justify-between text-left"
+                className="w-full p-6 rounded-2xl border border-[#00f0ff]/20 bg-[#0d1b2a] hover:border-[#00f0ff] transition-colors group flex flex-col justify-between text-left"
               >
-                <div className="w-full flex items-center justify-between text-xs font-mono text-[#80808C]">
-                  <span className="flex items-center gap-2">
-                    <FiMail className="text-[#C6FF3D]" /> EMAIL
+                <div className="w-full flex items-center justify-between text-xs font-mono text-neutral-400">
+                  <span className="flex items-center gap-2 text-[#00f0ff]">
+                    <FiMail /> EMAIL
                   </span>
-                  <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                  <FiArrowUpRight className="group-hover:text-[#00f0ff] transition-colors" />
                 </div>
                 <div className="mt-4 text-xs sm:text-sm font-semibold text-[#EDEDED] truncate w-full">
                   {profile.email}
@@ -669,13 +664,13 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 onClick={playButtonClick}
-                className="w-full p-6 rounded-2xl border border-[#232329] bg-[#16161A] hover:border-[#C6FF3D] transition-colors group flex flex-col justify-between text-left"
+                className="w-full p-6 rounded-2xl border border-[#00f0ff]/20 bg-[#0d1b2a] hover:border-[#00f0ff] transition-colors group flex flex-col justify-between text-left"
               >
-                <div className="w-full flex items-center justify-between text-xs font-mono text-[#80808C]">
-                  <span className="flex items-center gap-2">
-                    <FiGithub className="text-[#C6FF3D]" /> GITHUB
+                <div className="w-full flex items-center justify-between text-xs font-mono text-neutral-400">
+                  <span className="flex items-center gap-2 text-[#00f0ff]">
+                    <FiGithub /> GITHUB
                   </span>
-                  <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                  <FiArrowUpRight className="group-hover:text-[#00f0ff] transition-colors" />
                 </div>
                 <div className="mt-4 text-xs sm:text-sm font-semibold text-[#EDEDED] w-full">
                   @{profile.githubUsername}
@@ -687,13 +682,13 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 onClick={playButtonClick}
-                className="w-full p-6 rounded-2xl border border-[#232329] bg-[#16161A] hover:border-[#C6FF3D] transition-colors group flex flex-col justify-between text-left"
+                className="w-full p-6 rounded-2xl border border-[#00f0ff]/20 bg-[#0d1b2a] hover:border-[#00f0ff] transition-colors group flex flex-col justify-between text-left"
               >
-                <div className="w-full flex items-center justify-between text-xs font-mono text-[#80808C]">
-                  <span className="flex items-center gap-2">
-                    <FiLinkedin className="text-[#C6FF3D]" /> LINKEDIN
+                <div className="w-full flex items-center justify-between text-xs font-mono text-neutral-400">
+                  <span className="flex items-center gap-2 text-[#00f0ff]">
+                    <FiLinkedin /> LINKEDIN
                   </span>
-                  <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                  <FiArrowUpRight className="group-hover:text-[#00f0ff] transition-colors" />
                 </div>
                 <div className="mt-4 text-xs sm:text-sm font-semibold text-[#EDEDED] w-full">
                   in/rakesh-kumar
@@ -705,13 +700,13 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 onClick={playButtonClick}
-                className="w-full p-6 rounded-2xl border border-[#232329] bg-[#16161A] hover:border-[#C6FF3D] transition-colors group flex flex-col justify-between text-left"
+                className="w-full p-6 rounded-2xl border border-[#00f0ff]/20 bg-[#0d1b2a] hover:border-[#00f0ff] transition-colors group flex flex-col justify-between text-left"
               >
-                <div className="w-full flex items-center justify-between text-xs font-mono text-[#80808C]">
-                  <span className="flex items-center gap-2">
-                    <SiLeetcode className="text-[#FFA116]" /> LEETCODE
+                <div className="w-full flex items-center justify-between text-xs font-mono text-neutral-400">
+                  <span className="flex items-center gap-2 text-[#FFA116]">
+                    <SiLeetcode /> LEETCODE
                   </span>
-                  <FiArrowUpRight className="group-hover:text-[#C6FF3D] transition-colors" />
+                  <FiArrowUpRight className="group-hover:text-[#00f0ff] transition-colors" />
                 </div>
                 <div className="mt-4 text-xs sm:text-sm font-semibold text-[#EDEDED] w-full">
                   165+ Solved
@@ -721,29 +716,6 @@ export default function App() {
           </RadiantCard>
         </motion.section>
       </main>
-
-      {/* =================================================================
-         BOTTOM IDE STATUS BAR FOOTER
-         ================================================================= */}
-      <footer className="relative z-10 border-t border-[#232329] bg-[#0E0E11] px-6 sm:px-8 md:px-12 lg:px-16 py-4 font-mono text-xs text-[#80808C] select-none">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5 text-[#C6FF3D]">
-              <FiGitBranch className="text-xs" />
-              <span>git: main · ready</span>
-            </span>
-            <span className="text-[#32323A]">·</span>
-            <span className="flex items-center gap-1.5">
-              <FiClock className="text-xs text-[#9E9EA8]" />
-              <span className="tabular-nums">{timeStr} IST</span>
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3 text-[0.72rem]">
-            <span>© 2026 Rakesh Kumar · The Workspace Portfolio</span>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
