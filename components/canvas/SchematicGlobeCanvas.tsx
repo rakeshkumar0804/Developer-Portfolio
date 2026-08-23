@@ -1,76 +1,136 @@
 "use client";
 
-import { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
 function ConstellationSphere() {
   const globeRef = useRef<THREE.Group>(null);
+  const radius = 1.6;
 
-  // Smooth continuous rotation & orbital drift
+  // Continuous smooth orbital rotation
   useFrame((_, delta) => {
     if (globeRef.current) {
-      globeRef.current.rotation.y += delta * 0.18;
+      globeRef.current.rotation.y += delta * 0.2;
     }
   });
 
+  // Separate wireframe edges into top amber cap and lower cyan body
+  const { cyanLineGeo, amberLineGeo, cyanPointsGeo, amberPointsGeo } = useMemo(() => {
+    const icosaGeo = new THREE.IcosahedronGeometry(radius, 1);
+    const wireGeo = new THREE.WireframeGeometry(icosaGeo);
+    const pos = wireGeo.attributes.position;
+
+    const cyanLines: number[] = [];
+    const amberLines: number[] = [];
+
+    for (let i = 0; i < pos.count; i += 2) {
+      const x1 = pos.getX(i);
+      const y1 = pos.getY(i);
+      const z1 = pos.getZ(i);
+      const x2 = pos.getX(i + 1);
+      const y2 = pos.getY(i + 1);
+      const z2 = pos.getZ(i + 1);
+
+      if (y1 > 0.45 && y2 > 0.45) {
+        amberLines.push(x1, y1, z1, x2, y2, z2);
+      } else {
+        cyanLines.push(x1, y1, z1, x2, y2, z2);
+      }
+    }
+
+    const cLineGeo = new THREE.BufferGeometry();
+    cLineGeo.setAttribute("position", new THREE.Float32BufferAttribute(cyanLines, 3));
+
+    const aLineGeo = new THREE.BufferGeometry();
+    aLineGeo.setAttribute("position", new THREE.Float32BufferAttribute(amberLines, 3));
+
+    // Vertex points
+    const icosaPos = icosaGeo.attributes.position;
+    const cyanPts: number[] = [];
+    const amberPts: number[] = [];
+
+    for (let i = 0; i < icosaPos.count; i++) {
+      const x = icosaPos.getX(i);
+      const y = icosaPos.getY(i);
+      const z = icosaPos.getZ(i);
+
+      if (y > 0.45) {
+        amberPts.push(x, y, z);
+      } else {
+        cyanPts.push(x, y, z);
+      }
+    }
+
+    const cPtsGeo = new THREE.BufferGeometry();
+    cPtsGeo.setAttribute("position", new THREE.Float32BufferAttribute(cyanPts, 3));
+
+    const aPtsGeo = new THREE.BufferGeometry();
+    aPtsGeo.setAttribute("position", new THREE.Float32BufferAttribute(amberPts, 3));
+
+    return {
+      cyanLineGeo: cLineGeo,
+      amberLineGeo: aLineGeo,
+      cyanPointsGeo: cPtsGeo,
+      amberPointsGeo: aPtsGeo,
+    };
+  }, [radius]);
+
   return (
     <group ref={globeRef} rotation={[0.25, 0, -0.15]}>
-      {/* 1. Inner soft dark blue sphere mesh for solid volume presence */}
+      {/* 1. Inner soft dark navy core */}
       <mesh>
-        <sphereGeometry args={[2.45, 32, 32]} />
+        <sphereGeometry args={[radius * 0.96, 20, 16]} />
         <meshBasicMaterial
-          color="#0b1e36"
+          color="#081a2e"
           transparent={true}
-          opacity={0.3}
+          opacity={0.25}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* 2. High-density outer cyan spherical wireframe (detail=3, no vertex spikes) */}
-      <mesh>
-        <icosahedronGeometry args={[2.5, 3]} />
-        <meshBasicMaterial
+      {/* 2. Lower Open Triangular Cyan Lattice */}
+      <lineSegments geometry={cyanLineGeo}>
+        <lineBasicMaterial
           color="#00f0ff"
-          wireframe={true}
           transparent={true}
-          opacity={0.45}
+          opacity={0.85}
+          blending={THREE.AdditiveBlending}
         />
-      </mesh>
+      </lineSegments>
 
-      {/* 3. Amber top-cap accent (detail=2) positioned/rotated to cover top quadrant */}
-      <mesh position={[0, 0.3, 0]} rotation={[-0.4, 0, 0]}>
-        <icosahedronGeometry args={[2.52, 2]} />
-        <meshBasicMaterial
+      {/* 3. Top Glowing Amber Cap */}
+      <lineSegments geometry={amberLineGeo}>
+        <lineBasicMaterial
           color="#f59e0b"
-          wireframe={true}
           transparent={true}
-          opacity={0.65}
+          opacity={0.95}
+          blending={THREE.AdditiveBlending}
         />
-      </mesh>
+      </lineSegments>
 
-      {/* 4. Clean small glowing vertex points (size=0.05 with sizeAttenuation) */}
-      <points>
-        <icosahedronGeometry args={[2.5, 3]} />
+      {/* 4. Cyan / White Glowing Vertex Points */}
+      <points geometry={cyanPointsGeo}>
         <pointsMaterial
-          color="#7fe0ff"
-          size={0.05}
+          color="#ffffff"
+          size={0.07}
           sizeAttenuation={true}
           transparent={true}
-          opacity={0.8}
+          opacity={0.95}
+          blending={THREE.AdditiveBlending}
         />
       </points>
 
-      {/* Amber vertex points on top cap */}
-      <points position={[0, 0.3, 0]} rotation={[-0.4, 0, 0]}>
-        <icosahedronGeometry args={[2.52, 2]} />
+      {/* 5. Amber Glowing Top Vertex Points */}
+      <points geometry={amberPointsGeo}>
         <pointsMaterial
-          color="#f59e0b"
-          size={0.06}
+          color="#ffcb6b"
+          size={0.09}
           sizeAttenuation={true}
           transparent={true}
-          opacity={0.9}
+          opacity={1.0}
+          blending={THREE.AdditiveBlending}
         />
       </points>
     </group>
@@ -81,7 +141,7 @@ export default function SchematicGlobeCanvas() {
   return (
     <div className="relative h-full w-full select-none cursor-grab active:cursor-grabbing">
       <Canvas
-        camera={{ position: [0, 0, 7.5], fov: 42 }}
+        camera={{ position: [0, 0, 7], fov: 40 }}
         dpr={[1, 2]}
         gl={{ alpha: true, antialias: true }}
       >

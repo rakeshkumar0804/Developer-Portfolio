@@ -75,18 +75,18 @@ export default function Page() {
             </div>
 
             {/* 4-Cell Telemetry Stats Panel */}
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-px border border-blueprint-border bg-blueprint-border max-w-2xl">
+            <div className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-px border border-[rgba(0,240,255,0.15)] bg-[rgba(0,240,255,0.15)] max-w-xl">
               {[
                 { label: "PROD SYSTEMS", val: "5+", icon: Cpu },
                 { label: "LEETCODE SOLVED", val: "165+", icon: Terminal },
                 { label: "HACKATHONS", val: "2+", icon: Activity },
                 { label: "CERTIFICATIONS", val: "3+", icon: Shield },
               ].map((item, i) => (
-                <div key={i} className="bg-canvas-base/90 p-4 backdrop-blur">
-                  <div className="font-mono text-2xl font-bold text-blueprint-cyan glow-cyan">
+                <div key={i} className="bg-canvas-base/90 p-3 backdrop-blur border border-[rgba(0,240,255,0.08)]">
+                  <div className="font-mono text-xl md:text-2xl font-bold text-blueprint-cyan glow-cyan">
                     {item.val}
                   </div>
-                  <div className="tech-tag mt-1 text-[0.58rem] text-paper-muted">
+                  <div className="tech-tag mt-1 text-[0.55rem] text-paper-muted">
                     {item.label}
                   </div>
                 </div>

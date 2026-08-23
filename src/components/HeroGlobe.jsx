@@ -16,8 +16,8 @@ export default function HeroGlobe() {
     const height = container.clientHeight || 400;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 1000);
-    camera.position.z = 7.5;
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
+    camera.position.z = 7;
 
     let renderer;
     try {
@@ -32,26 +32,27 @@ export default function HeroGlobe() {
     const globeGroup = new THREE.Group();
     scene.add(globeGroup);
 
-    // 1. Inner soft dark blue sphere mesh for solid volume presence
-    const innerGeo = new THREE.SphereGeometry(2.45, 32, 32);
+    const radius = 1.6;
+
+    // 1. Inner soft dark navy core
+    const innerGeo = new THREE.SphereGeometry(radius * 0.96, 20, 16);
     const innerMat = new THREE.MeshBasicMaterial({
-      color: 0x0b1e36,
+      color: 0x081a2e,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.25,
       side: THREE.DoubleSide,
     });
     const innerMesh = new THREE.Mesh(innerGeo, innerMat);
     globeGroup.add(innerMesh);
 
-    // 2. High-density outer cyan spherical wireframe (detail=3)
-    const outerGeo = new THREE.IcosahedronGeometry(2.5, 3);
-    const wireGeo = new THREE.WireframeGeometry(outerGeo);
+    // 2. Open Triangular Icosahedron
+    const icosaGeo = new THREE.IcosahedronGeometry(radius, 1);
+    const wireGeo = new THREE.WireframeGeometry(icosaGeo);
     const wirePos = wireGeo.attributes.position;
     
-    const cyanLinePositions = [];
-    const amberLinePositions = [];
+    const cyanLines = [];
+    const amberLines = [];
 
-    // Split edges into top cap (y > 0.8) and lower body (y <= 0.8)
     for (let i = 0; i < wirePos.count; i += 2) {
       const x1 = wirePos.getX(i);
       const y1 = wirePos.getY(i);
@@ -60,77 +61,81 @@ export default function HeroGlobe() {
       const y2 = wirePos.getY(i + 1);
       const z2 = wirePos.getZ(i + 1);
 
-      if (y1 > 0.8 && y2 > 0.8) {
-        amberLinePositions.push(x1, y1, z1, x2, y2, z2);
+      if (y1 > 0.45 && y2 > 0.45) {
+        amberLines.push(x1, y1, z1, x2, y2, z2);
       } else {
-        cyanLinePositions.push(x1, y1, z1, x2, y2, z2);
+        cyanLines.push(x1, y1, z1, x2, y2, z2);
       }
     }
 
     // Cyan body wireframe
     const cyanBufferGeo = new THREE.BufferGeometry();
-    cyanBufferGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanLinePositions, 3));
+    cyanBufferGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanLines, 3));
     const cyanMat = new THREE.LineBasicMaterial({
       color: 0x00f0ff,
       transparent: true,
-      opacity: 0.45,
-      linewidth: 1,
+      opacity: 0.85,
+      linewidth: 1.5,
+      blending: THREE.AdditiveBlending,
     });
     const cyanLinesMesh = new THREE.LineSegments(cyanBufferGeo, cyanMat);
     globeGroup.add(cyanLinesMesh);
 
     // Amber top cap wireframe
     const amberBufferGeo = new THREE.BufferGeometry();
-    amberBufferGeo.setAttribute('position', new THREE.Float32BufferAttribute(amberLinePositions, 3));
+    amberBufferGeo.setAttribute('position', new THREE.Float32BufferAttribute(amberLines, 3));
     const amberMat = new THREE.LineBasicMaterial({
       color: 0xf59e0b,
       transparent: true,
-      opacity: 0.65,
-      linewidth: 1.5,
+      opacity: 0.95,
+      linewidth: 2,
+      blending: THREE.AdditiveBlending,
     });
     const amberLinesMesh = new THREE.LineSegments(amberBufferGeo, amberMat);
     globeGroup.add(amberLinesMesh);
 
-    // 3. Clean small glowing vertex points (size: 0.05)
-    const posAttr = outerGeo.attributes.position;
+    // 3. Glowing Node Points at vertices
+    const posAttr = icosaGeo.attributes.position;
     const vertexCount = posAttr.count;
-    const cyanPointsPos = [];
-    const amberPointsPos = [];
+    const cyanPts = [];
+    const amberPts = [];
 
     for (let i = 0; i < vertexCount; i++) {
       const x = posAttr.getX(i);
       const y = posAttr.getY(i);
       const z = posAttr.getZ(i);
 
-      if (y > 0.8) {
-        amberPointsPos.push(x, y, z);
+      if (y > 0.45) {
+        amberPts.push(x, y, z);
       } else {
-        cyanPointsPos.push(x, y, z);
+        cyanPts.push(x, y, z);
       }
     }
 
-    // Cyan dots
+    // Cyan/white dots
     const cyanPointsGeo = new THREE.BufferGeometry();
-    cyanPointsGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanPointsPos, 3));
+    cyanPointsGeo.setAttribute('position', new THREE.Float32BufferAttribute(cyanPts, 3));
     const cyanPointsMat = new THREE.PointsMaterial({
-      color: 0x7fe0ff,
-      size: 0.05,
+      color: 0xffffff,
+      size: 0.07,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.8,
+      opacity: 0.95,
+      blending: THREE.AdditiveBlending,
     });
     const cyanPointsMesh = new THREE.Points(cyanPointsGeo, cyanPointsMat);
     globeGroup.add(cyanPointsMesh);
 
     // Amber dots
     const amberPointsGeo = new THREE.BufferGeometry();
-    amberPointsGeo.setAttribute('position', new THREE.Float32BufferAttribute(amberPointsPos, 3));
+    amberPointsGeo.setAttribute('position', new THREE.Float32BufferAttribute(amberPts, 3));
     const amberPointsMat = new THREE.PointsMaterial({
-      color: 0xf59e0b,
-      size: 0.06,
+      color: 0xffcb6b,
+      size: 0.09,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.9,
+      opacity: 1.0,
+      blending: THREE.AdditiveBlending,
     });
     const amberPointsMesh = new THREE.Points(amberPointsGeo, amberPointsMat);
     globeGroup.add(amberPointsMesh);
@@ -187,8 +192,7 @@ export default function HeroGlobe() {
       const delta = clock.getDelta();
 
       if (!isInteracting.current) {
-        targetRotation.current.y += delta * 0.18;
-        targetRotation.current.x += Math.sin(clock.getElapsedTime() * 0.5) * 0.0004;
+        targetRotation.current.y += delta * 0.2;
       }
 
       const tiltX = mousePos.current.y * 0.15;
@@ -214,7 +218,7 @@ export default function HeroGlobe() {
       renderer.dispose();
       innerGeo.dispose();
       innerMat.dispose();
-      outerGeo.dispose();
+      icosaGeo.dispose();
       wireGeo.dispose();
       cyanBufferGeo.dispose();
       amberBufferGeo.dispose();
