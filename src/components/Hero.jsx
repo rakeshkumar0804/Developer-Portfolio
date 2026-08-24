@@ -1,108 +1,17 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiArrowDown, FiDownload, FiExternalLink } from 'react-icons/fi';
+import { FiArrowDown, FiDownload, FiCheck, FiArrowRight, FiShield, FiServer, FiDatabase, FiLayers, FiCloud, FiActivity } from 'react-icons/fi';
 import { personalInfo, heroProofPoints } from '../data/portfolioData';
 
 export default function Hero() {
-  const canvasRef = useRef(null);
+  const [activeStep, setActiveStep] = useState(0);
 
-  // Cinematic Orbital Schematic Visualizer
+  // Pulse progression cycle through the architecture tiers
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    let t = 0;
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-      ctx.scale(dpr, dpr);
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const orbits = [
-      { name: 'CLIENT (React 19)', radius: 65, speed: 0.008, color: '#38bdf8', size: 3.5 },
-      { name: 'API GATEWAY (Node)', radius: 105, speed: -0.006, color: '#60a5fa', size: 4 },
-      { name: 'AUTH & RBAC (JWT)', radius: 140, speed: 0.004, color: '#fbbf24', size: 3.5 },
-      { name: 'DATA LAYER (Mongo/SQL)', radius: 175, speed: -0.003, color: '#34d399', size: 4 },
-    ];
-
-    const render = () => {
-      const rect = canvas.getBoundingClientRect();
-      const w = rect.width;
-      const h = rect.height;
-      const cx = w / 2;
-      const cy = h / 2;
-
-      ctx.clearRect(0, 0, w, h);
-
-      // 1. Draw subtle concentric orbit rings
-      orbits.forEach((orb) => {
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.arc(cx, cy, orb.radius, 0, Math.PI * 2);
-        ctx.stroke();
-      });
-
-      // 2. Draw central core
-      const corePulse = Math.sin(t * 2) * 1.5;
-      ctx.fillStyle = 'rgba(56, 189, 248, 0.15)';
-      ctx.beginPath();
-      ctx.arc(cx, cy, 14 + corePulse, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = '#38bdf8';
-      ctx.beginPath();
-      ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
-      ctx.fill();
-
-      ctx.fillStyle = '#94a3b8';
-      ctx.font = '8px "JetBrains Mono", monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('CORE', cx, cy + 12);
-
-      // 3. Compute and draw orbiting nodes & connections
-      orbits.forEach((orb, i) => {
-        const currentAngle = t * orb.speed * 60 + i * 1.5;
-        const nx = cx + Math.cos(currentAngle) * orb.radius;
-        const ny = cy + Math.sin(currentAngle) * orb.radius;
-
-        // Subtle connection ray
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.1)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.lineTo(nx, ny);
-        ctx.stroke();
-
-        // Node glow & body
-        ctx.fillStyle = orb.color;
-        ctx.beginPath();
-        ctx.arc(nx, ny, orb.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Label
-        ctx.fillStyle = '#94a3b8';
-        ctx.font = '8.5px "JetBrains Mono", monospace';
-        ctx.textAlign = 'center';
-        ctx.fillText(orb.name, nx, ny + orb.size + 9);
-      });
-
-      t += 0.016;
-      animationFrameId = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
-    };
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 5);
+    }, 1800);
+    return () => clearInterval(interval);
   }, []);
 
   const handleNavClick = (e, href) => {
@@ -235,32 +144,186 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: Premium Engineering Schematic Visualizer */}
+          {/* Right Column: Rectangular Full-Stack Architecture Pipeline Diagram */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             className="lg:col-span-5 relative flex items-center justify-center w-full"
           >
-            <div className="blueprint-card w-full rounded-xs border border-white/[0.08] p-4 relative">
+            <div className="blueprint-card w-full rounded-xs border border-white/[0.08] p-5 relative shadow-[0_0_30px_rgba(0,0,0,0.6)]">
               <div className="micro-corner-tl" />
               <div className="micro-corner-br" />
 
               {/* Titlebar */}
-              <div className="flex items-center justify-between pb-2.5 mb-2 border-b border-white/[0.05] font-mono text-[0.65rem] text-slate-500">
-                <span className="text-slate-400 font-medium tracking-wider">ARCHITECTURE_SCHEMATIC</span>
-                <span className="text-[#38bdf8]">SYSTEM_ACTIVE</span>
+              <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.06] font-mono text-[0.65rem]">
+                <div className="flex items-center gap-2 text-slate-300 font-medium">
+                  <FiLayers className="text-[#38bdf8]" />
+                  <span className="tracking-wider">FULL_STACK_SYSTEM_MAP</span>
+                </div>
+                <span className="text-emerald-400 font-semibold px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 text-[0.6rem]">
+                  PIPELINE_VERIFIED
+                </span>
               </div>
 
-              {/* Canvas Visualizer */}
-              <div className="relative w-full h-[280px] sm:h-[320px] bg-[#02050c] rounded-xs overflow-hidden flex items-center justify-center border border-white/[0.04]">
-                <canvas ref={canvasRef} className="w-full h-full block" />
+              {/* Rectangular Blueprint Architecture Flow */}
+              <div className="space-y-3 font-mono text-xs">
+                {/* 1. Client UI Tier */}
+                <div
+                  className={`p-3 rounded-xs border transition-all duration-300 ${
+                    activeStep === 0
+                      ? 'border-[#38bdf8] bg-[#38bdf8]/10 shadow-[0_0_12px_rgba(56,189,248,0.2)]'
+                      : 'border-white/[0.06] bg-[#02050c]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-[0.62rem] text-slate-400 mb-1">
+                    <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
+                      <span className={`h-1.5 w-1.5 rounded-full ${activeStep === 0 ? 'bg-[#38bdf8] animate-ping' : 'bg-slate-600'}`} />
+                      01 // CLIENT PRESENTATION TIER
+                    </span>
+                    <span className="text-[#38bdf8]">REACT 19 UI</span>
+                  </div>
+                  <div className="text-[0.72rem] text-slate-200 font-sans font-medium flex items-center justify-between">
+                    <span>SPA / Next.js / Tailwind CSS</span>
+                    <span className="text-[0.6rem] font-mono text-slate-500">200 OK</span>
+                  </div>
+                </div>
+
+                {/* Connector Arrow */}
+                <div className="flex justify-center -my-1 text-slate-600">
+                  <span className={`text-[0.65rem] transition-colors ${activeStep === 1 ? 'text-[#38bdf8] font-bold' : ''}`}>↓</span>
+                </div>
+
+                {/* 2. Security & Routing Tier (Auth + Gateway) */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div
+                    className={`p-2.5 rounded-xs border transition-all duration-300 ${
+                      activeStep === 1
+                        ? 'border-[#fbbf24] bg-[#fbbf24]/10 shadow-[0_0_12px_rgba(251,191,36,0.15)]'
+                        : 'border-white/[0.06] bg-[#02050c]'
+                    }`}
+                  >
+                    <div className="text-[0.58rem] text-slate-400 mb-0.5 flex items-center gap-1">
+                      <FiShield className="text-[#fbbf24] text-[0.65rem]" />
+                      <span>JWT AUTH & RBAC</span>
+                    </div>
+                    <div className="text-[0.68rem] text-slate-200 font-sans font-medium">
+                      Role Verification
+                    </div>
+                  </div>
+
+                  <div
+                    className={`p-2.5 rounded-xs border transition-all duration-300 ${
+                      activeStep === 1
+                        ? 'border-[#38bdf8] bg-[#38bdf8]/10 shadow-[0_0_12px_rgba(56,189,248,0.15)]'
+                        : 'border-white/[0.06] bg-[#02050c]'
+                    }`}
+                  >
+                    <div className="text-[0.58rem] text-slate-400 mb-0.5 flex items-center gap-1">
+                      <FiServer className="text-[#38bdf8] text-[0.65rem]" />
+                      <span>EXPRESS API</span>
+                    </div>
+                    <div className="text-[0.68rem] text-slate-200 font-sans font-medium">
+                      REST & WebSockets
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connector Arrow */}
+                <div className="flex justify-center -my-1 text-slate-600">
+                  <span className={`text-[0.65rem] transition-colors ${activeStep === 2 ? 'text-[#38bdf8] font-bold' : ''}`}>↓</span>
+                </div>
+
+                {/* 3. Business Services & Domain Logic */}
+                <div
+                  className={`p-3 rounded-xs border transition-all duration-300 ${
+                    activeStep === 2
+                      ? 'border-[#38bdf8] bg-[#38bdf8]/10 shadow-[0_0_12px_rgba(56,189,248,0.2)]'
+                      : 'border-white/[0.06] bg-[#02050c]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-[0.62rem] text-slate-400 mb-1">
+                    <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
+                      <span className={`h-1.5 w-1.5 rounded-full ${activeStep === 2 ? 'bg-[#38bdf8] animate-ping' : 'bg-slate-600'}`} />
+                      03 // BUSINESS SERVICES & WORKFLOWS
+                    </span>
+                    <span className="text-[#fbbf24]">LOGIC ENGINE</span>
+                  </div>
+                  <div className="text-[0.72rem] text-slate-200 font-sans font-medium">
+                    Incident Triage · Leave Approvals · Signal Evaluator
+                  </div>
+                </div>
+
+                {/* Connector Arrow */}
+                <div className="flex justify-center -my-1 text-slate-600">
+                  <span className={`text-[0.65rem] transition-colors ${activeStep === 3 ? 'text-[#38bdf8] font-bold' : ''}`}>↓</span>
+                </div>
+
+                {/* 4. Persistence & Cache Tier */}
+                <div className="grid grid-cols-2 gap-2.5">
+                  <div
+                    className={`p-2.5 rounded-xs border transition-all duration-300 ${
+                      activeStep === 3
+                        ? 'border-emerald-400 bg-emerald-400/10 shadow-[0_0_12px_rgba(52,211,153,0.15)]'
+                        : 'border-white/[0.06] bg-[#02050c]'
+                    }`}
+                  >
+                    <div className="text-[0.58rem] text-slate-400 mb-0.5 flex items-center gap-1">
+                      <FiDatabase className="text-emerald-400 text-[0.65rem]" />
+                      <span>DATABASE</span>
+                    </div>
+                    <div className="text-[0.68rem] text-slate-200 font-sans font-medium truncate">
+                      MongoDB / PostgreSQL
+                    </div>
+                  </div>
+
+                  <div
+                    className={`p-2.5 rounded-xs border transition-all duration-300 ${
+                      activeStep === 3
+                        ? 'border-rose-400 bg-rose-400/10 shadow-[0_0_12px_rgba(248,113,113,0.15)]'
+                        : 'border-white/[0.06] bg-[#02050c]'
+                    }`}
+                  >
+                    <div className="text-[0.58rem] text-slate-400 mb-0.5 flex items-center gap-1">
+                      <FiActivity className="text-rose-400 text-[0.65rem]" />
+                      <span>CACHE & QUEUE</span>
+                    </div>
+                    <div className="text-[0.68rem] text-slate-200 font-sans font-medium">
+                      Redis Event Sync
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connector Arrow */}
+                <div className="flex justify-center -my-1 text-slate-600">
+                  <span className={`text-[0.65rem] transition-colors ${activeStep === 4 ? 'text-[#38bdf8] font-bold' : ''}`}>↓</span>
+                </div>
+
+                {/* 5. Cloud Deployment Tier */}
+                <div
+                  className={`p-3 rounded-xs border transition-all duration-300 ${
+                    activeStep === 4
+                      ? 'border-[#38bdf8] bg-[#38bdf8]/10 shadow-[0_0_12px_rgba(56,189,248,0.2)]'
+                      : 'border-white/[0.06] bg-[#02050c]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-[0.62rem] text-slate-400 mb-0.5">
+                    <span className="flex items-center gap-1.5 text-slate-300 font-semibold">
+                      <FiCloud className="text-[#38bdf8]" />
+                      05 // CLOUD DEPLOYMENT
+                    </span>
+                    <span className="text-emerald-400">LIVE</span>
+                  </div>
+                  <div className="text-[0.72rem] text-slate-200 font-sans font-medium">
+                    Render API Runtime + Vercel Edge Client
+                  </div>
+                </div>
               </div>
 
               {/* Status Footer */}
-              <div className="mt-2.5 pt-2 border-t border-white/[0.05] flex items-center justify-between font-mono text-[0.6rem] text-slate-500">
-                <span>FULL-STACK TOPOLOGY</span>
-                <span className="text-slate-400">4 ACTIVE NODES</span>
+              <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between font-mono text-[0.62rem] text-slate-500">
+                <span className="text-slate-400">AUTH → API → DATA → DEPLOY</span>
+                <span className="text-[#38bdf8] font-medium">STATUS: OPTIMAL</span>
               </div>
             </div>
           </motion.div>
