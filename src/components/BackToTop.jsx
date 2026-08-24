@@ -4,16 +4,10 @@ import { FiArrowUp } from 'react-icons/fi';
 
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
-  const [scrollPercent, setScrollPercent] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const currentScroll = window.scrollY;
-      setVisible(currentScroll > 350);
-      if (totalScroll > 0) {
-        setScrollPercent(Math.round((currentScroll / totalScroll) * 100));
-      }
+      setVisible(window.scrollY > 400);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -28,16 +22,15 @@ export default function BackToTop() {
     <AnimatePresence>
       {visible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.85, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.85, y: 10 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.2 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-6 z-50 p-2.5 rounded-xs border border-sky-500/40 bg-[#060e1c]/95 text-[#38bdf8] hover:bg-[#38bdf8] hover:text-[#030712] transition-all duration-150 cursor-pointer group shadow-lg"
+          className="fixed bottom-6 right-6 z-40 p-3 rounded-full border border-white/[0.1] bg-[#131622]/90 backdrop-blur-md text-slate-300 hover:text-white hover:border-[#38bdf8]/50 shadow-xl transition-all cursor-pointer group"
           aria-label="Scroll to top of page"
         >
           <FiArrowUp className="text-sm group-hover:-translate-y-0.5 transition-transform" />
-          <span className="sr-only">Back to top ({scrollPercent}%)</span>
         </motion.button>
       )}
     </AnimatePresence>
