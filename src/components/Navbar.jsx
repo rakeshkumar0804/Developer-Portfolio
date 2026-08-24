@@ -1,132 +1,132 @@
 import React, { useState, useEffect } from 'react';
-import { FiMenu, FiX, FiArrowUpRight, FiFileText } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiMenu, FiX, FiDownload } from 'react-icons/fi';
 
-export default function Navbar() {
+const navLinks = [
+  { name: 'Home', href: '#hero' },
+  { name: 'About', href: '#about' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Skills', href: '#skills' },
+  { name: 'Experience', href: '#experience' },
+  { name: 'Contact', href: '#contact' },
+];
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 50);
+
+      const sections = navLinks.map(link => link.href.substring(1));
+      let current = '';
+
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            current = section;
+            break;
+          }
+        }
+      }
+
+      if (current) {
+        setActiveSection(current);
+      }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    setIsOpen(false);
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (element) {
+      const top = element.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-[#0A0A0B]/90 backdrop-blur-md border-b border-[#232329] py-3.5 shadow-lg'
-          : 'bg-[#0A0A0B]/60 backdrop-blur-sm border-b border-transparent py-5'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 md:px-12 lg:px-16 flex items-center justify-between">
-        {/* Brand Name + Status Indicator */}
-        <a href="#hero" className="flex items-center gap-3 group focus:outline-none">
-          <div className="h-8 w-8 rounded-lg bg-[#16161A] border border-[#232329] flex items-center justify-center font-mono font-bold text-xs text-[#C6FF3D] group-hover:border-[#C6FF3D] transition-colors">
-            RK
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-[#1e1e2a] py-3' : 'bg-transparent py-5'}`}>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-8 h-8 border border-[#6366f1] rounded text-[#6366f1] font-bold text-sm">
+              RK
+            </div>
+            <span className="text-[#e4e4e7] font-semibold tracking-wide hidden sm:block">Rakesh Kumar</span>
           </div>
-          <div className="flex flex-col">
-            <span className="font-sans font-bold text-sm tracking-tight text-[#EDEDED] group-hover:text-[#C6FF3D] transition-colors">
-              Rakesh Kumar
-            </span>
-            <span className="flex items-center gap-1.5 text-[0.68rem] font-mono text-[#9E9EA8]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#C6FF3D] animate-pulse" />
-              <span>Available for hire</span>
-            </span>
-          </div>
-        </a>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-sans font-medium text-[#9E9EA8]">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="hover:text-[#EDEDED] transition-colors hover:scale-105"
-            >
-              {link.name}
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            <div className="flex items-center gap-6">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`text-sm font-medium transition-colors hover:text-[#6366f1] ${activeSection === link.href.substring(1) ? 'text-[#6366f1]' : 'text-[#71717a]'}`}
+                >
+                  {link.name}
+                </a>
+              ))}
+            </div>
+            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-[#6366f1]/10 text-[#6366f1] border border-[#6366f1]/20 rounded-md hover:bg-[#6366f1] hover:text-white transition-colors text-sm font-medium">
+              <span>Resume</span>
+              <FiDownload />
             </a>
-          ))}
-        </nav>
+          </div>
 
-        {/* Actions */}
-        <div className="hidden md:flex items-center gap-3">
-          <a
-            href="https://github.com/rakeshkumar0804"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#232329] bg-[#121215] text-xs font-sans font-medium text-[#EDEDED] hover:border-[#EDEDED]/40 hover:bg-[#16161A] transition-all"
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-[#e4e4e7] p-2 hover:bg-[#111118] rounded-md transition-colors"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
           >
-            <FiFileText className="text-[#9E9EA8]" />
-            <span>Resume</span>
-          </a>
-
-          <a
-            href="#contact"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#C6FF3D] text-xs font-sans font-bold text-[#0A0A0B] hover:bg-[#B8F230] shadow-[0_0_20px_rgba(198,255,61,0.25)] transition-all hover:scale-105 active:scale-95"
-          >
-            <span>Get in Touch</span>
-            <FiArrowUpRight className="text-xs" />
-          </a>
+            {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          </button>
         </div>
-
-        {/* Mobile Menu Trigger */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 rounded-lg border border-[#232329] bg-[#16161A] text-[#EDEDED]"
-          aria-label="Toggle Navigation"
-        >
-          {mobileMenuOpen ? <FiX className="text-lg" /> : <FiMenu className="text-lg" />}
-        </button>
       </div>
 
-      {/* Mobile Menu Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-b border-[#232329] bg-[#0A0A0B]/95 backdrop-blur-xl px-6 py-5 space-y-4">
-          <div className="space-y-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 text-sm font-sans font-medium text-[#9E9EA8] hover:text-[#EDEDED] hover:bg-[#16161A] rounded-lg"
-              >
-                {link.name}
+      {/* Mobile Nav Drawer */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-[#111118] border-b border-[#1e1e2a] overflow-hidden"
+          >
+            <div className="flex flex-col px-6 py-4 space-y-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className={`text-sm font-medium transition-colors hover:text-[#6366f1] ${activeSection === link.href.substring(1) ? 'text-[#6366f1]' : 'text-[#71717a]'}`}
+                >
+                  {link.name}
+                </a>
+              ))}
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-4 py-2 bg-[#6366f1] text-white rounded-md text-sm font-medium hover:bg-[#4f46e5] transition-colors">
+                <span>Download Resume</span>
+                <FiDownload />
               </a>
-            ))}
-          </div>
-
-          <div className="pt-4 border-t border-[#232329] flex flex-col gap-2.5">
-            <a
-              href="https://github.com/rakeshkumar0804"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 p-2.5 rounded-lg border border-[#232329] text-xs font-sans font-medium text-[#EDEDED]"
-            >
-              <FiFileText className="text-xs" />
-              <span>Resume</span>
-            </a>
-            <a
-              href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 p-2.5 rounded-lg bg-[#C6FF3D] text-xs font-sans font-bold text-[#0A0A0B]"
-            >
-              <span>Get in Touch</span>
-              <FiArrowUpRight className="text-xs" />
-            </a>
-          </div>
-        </div>
-      )}
-    </header>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
   );
-}
+};
+
+export default Navbar;
