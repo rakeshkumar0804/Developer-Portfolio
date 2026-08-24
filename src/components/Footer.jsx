@@ -15,7 +15,7 @@ export default function Footer() {
           {/* Brand Info */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
             <div className="flex items-center gap-2.5 mb-1.5">
-              <div className="h-7 w-7 rounded-lg bg-[#131622] border border-[#38bdf8]/40 flex items-center justify-center font-mono font-bold text-xs text-[#38bdf8]">
+              <div className="h-7 w-7 rounded-lg bg-[#121524] border border-[#38bdf8]/40 flex items-center justify-center font-bold text-xs text-[#38bdf8]">
                 RK
               </div>
               <span className="font-bold text-base text-white tracking-tight">
@@ -23,7 +23,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-xs text-slate-400 max-w-sm">
-              Full-Stack Web Developer & MERN Stack Engineer · Building real-world product workflows.
+              B.Tech CSE Graduate (2026) & Full-Stack Web Developer seeking SDE opportunities.
             </p>
           </div>
 
@@ -33,7 +33,7 @@ export default function Footer() {
               href={personalInfo.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/[0.08] bg-[#131622] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors text-xs"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors text-xs"
               aria-label="Download Resume PDF"
             >
               <FiFileText className="text-sm" />
@@ -44,7 +44,7 @@ export default function Footer() {
               href={personalInfo.github}
               target="_blank"
               rel="noreferrer"
-              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#131622] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
+              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
               aria-label="GitHub Profile"
             >
               <FiGithub className="text-sm" />
@@ -54,7 +54,7 @@ export default function Footer() {
               href={personalInfo.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#131622] text-slate-300 hover:text-indigo-400 hover:border-indigo-400/40 transition-colors"
+              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-indigo-400 hover:border-indigo-400/40 transition-colors"
               aria-label="LinkedIn Profile"
             >
               <FiLinkedin className="text-sm" />
@@ -64,7 +64,7 @@ export default function Footer() {
               href={personalInfo.leetcode}
               target="_blank"
               rel="noreferrer"
-              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#131622] text-slate-300 hover:text-[#f59e0b] hover:border-[#f59e0b]/40 transition-colors"
+              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-[#f59e0b] hover:border-[#f59e0b]/40 transition-colors"
               aria-label="LeetCode Profile"
             >
               <SiLeetcode className="text-sm" />
@@ -72,7 +72,7 @@ export default function Footer() {
 
             <a
               href={`mailto:${personalInfo.email}`}
-              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#131622] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
+              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
               aria-label="Email"
             >
               <FiMail className="text-sm" />
@@ -83,7 +83,7 @@ export default function Footer() {
           <div>
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-white/[0.08] bg-[#131622] text-slate-300 hover:text-white hover:border-[#38bdf8]/40 transition-colors cursor-pointer text-xs font-medium"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-white hover:border-[#38bdf8]/40 transition-colors cursor-pointer text-xs font-medium"
             >
               <span>Back to Top</span>
               <FiArrowUp className="text-xs" />

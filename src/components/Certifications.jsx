@@ -18,30 +18,30 @@ export default function Certifications() {
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           variants={fadeInUp}
-          className="flex flex-col items-start mb-14"
+          className="flex flex-col items-start mb-12"
         >
           <span className="text-xs font-mono font-semibold tracking-wider uppercase text-[#38bdf8] mb-2">
-            // Credentials & Awards
+            // Recognition & Awards
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-sans tracking-tight">
-            Certifications & Recognition
+          <h2 className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">
+            Certifications & Achievements
           </h2>
-          <p className="mt-2.5 text-sm sm:text-base text-slate-400 max-w-xl font-sans">
-            Verified industry certifications, academic achievements, and competitive hackathon participations.
+          <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-xl font-sans">
+            Verified credentials and hackathon participations validating skills in algorithms, databases, and programming languages.
           </p>
         </motion.div>
 
-        {/* Cards Grid */}
+        {/* Certifications Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {certificationsData.map((cert, cIdx) => (
+          {certificationsData.map((cert, idx) => (
             <motion.div
               key={cert.id}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-40px' }}
               variants={fadeInUp}
-              transition={{ delay: cIdx * 0.08 }}
-              className="premium-card p-6 rounded-xl border border-white/[0.08] bg-[#131622]/80 flex flex-col justify-between group"
+              transition={{ delay: idx * 0.06 }}
+              className="card p-6 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between pb-3 mb-3 border-b border-white/[0.06]">
@@ -52,7 +52,7 @@ export default function Certifications() {
                     <a
                       href={cert.link}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="text-slate-400 hover:text-white p-1"
                       aria-label={`Verify ${cert.title}`}
                     >
@@ -61,21 +61,19 @@ export default function Certifications() {
                   )}
                 </div>
 
-                <h3 className="text-lg font-bold text-white font-sans group-hover:text-[#38bdf8] transition-colors mb-1">
+                <h3 className="text-base font-bold text-white font-sans group-hover:text-[#38bdf8] transition-colors mb-1">
                   {cert.title}
                 </h3>
-
                 <div className="text-xs font-medium text-slate-400 mb-3">
-                  Issued by: {cert.issuer}
+                  {cert.issuer}
                 </div>
-
-                <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed mb-4">
+                <p className="text-xs text-slate-300 font-sans leading-relaxed mb-4">
                   {cert.desc}
                 </p>
               </div>
 
               <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-slate-400">
-                <span>Verified Credential</span>
+                <span>Verified Status</span>
                 <span className="text-emerald-400 flex items-center gap-1">
                   <FiCheckCircle className="text-xs" /> Verified
                 </span>

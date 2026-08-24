@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiBriefcase, FiAward, FiCheck, FiMapPin, FiCalendar } from 'react-icons/fi';
+import { FiBriefcase, FiAward, FiCalendar, FiMapPin, FiCheck } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 export default function Experience() {
@@ -18,20 +18,20 @@ export default function Experience() {
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           variants={fadeInUp}
-          className="flex flex-col items-start mb-14"
+          className="flex flex-col items-start mb-12"
         >
           <span className="text-xs font-mono font-semibold tracking-wider uppercase text-[#38bdf8] mb-2">
             // Experience & Education
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-sans tracking-tight">
-            Work History & Education
+          <h2 className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">
+            Work Experience & Degree
           </h2>
-          <p className="mt-2.5 text-sm sm:text-base text-slate-400 max-w-xl font-sans">
-            Professional software development internship experience building production internal tools and formal university computer science education.
+          <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-xl font-sans">
+            Hands-on software development internship and university computer science education.
           </p>
         </motion.div>
 
-        {/* Timeline Grid */}
+        {/* Experience & Education Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Internship Card */}
           <motion.div
@@ -39,7 +39,7 @@ export default function Experience() {
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="premium-card p-7 sm:p-8 rounded-xl border border-white/[0.08] bg-[#131622]/80 flex flex-col justify-between"
+            className="card p-7 sm:p-8 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.06]">
@@ -56,24 +56,24 @@ export default function Experience() {
               <h3 className="text-xl font-bold text-white font-sans">
                 {personalInfo.internship.role}
               </h3>
-              <div className="text-sm font-semibold text-[#38bdf8] mt-1 mb-3">
-                {personalInfo.internship.company} · <span className="text-slate-400 font-normal">{personalInfo.internship.type}</span>
+              <div className="text-sm font-semibold text-[#38bdf8] mt-1 mb-4 font-sans">
+                {personalInfo.internship.company} · <span className="text-slate-400 font-normal">{personalInfo.internship.location}</span>
               </div>
 
               <div className="space-y-2 mb-6">
-                {personalInfo.internship.bullets.map((b, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-300 font-sans">
+                {personalInfo.internship.highlights.map((bullet, bIdx) => (
+                  <div key={bIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 font-sans">
                     <FiCheck className="text-[#38bdf8] text-sm mt-0.5 shrink-0" />
-                    <span>{b}</span>
+                    <span>{bullet}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="pt-3 border-t border-white/[0.06] flex flex-wrap gap-1.5 font-mono text-xs">
-              {['Node.js', 'Express.js', 'MongoDB', 'JWT Auth', 'RBAC', 'REST APIs'].map((t, idx) => (
-                <span key={idx} className="px-2 py-0.5 rounded-md bg-[#090a0f] border border-white/[0.06] text-slate-300">
-                  {t}
+            <div className="pt-3.5 border-t border-white/[0.06] flex flex-wrap gap-1.5 font-mono text-xs">
+              {['Node.js', 'Express.js', 'MongoDB', 'JWT Auth', 'RBAC', 'REST APIs'].map((tag) => (
+                <span key={tag} className="px-2 py-0.5 rounded-md bg-[#090a0f] border border-white/[0.06] text-slate-300 text-[0.72rem]">
+                  {tag}
                 </span>
               ))}
             </div>
@@ -85,29 +85,29 @@ export default function Experience() {
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="premium-card p-7 sm:p-8 rounded-xl border border-white/[0.08] bg-[#131622]/80 flex flex-col justify-between"
+            className="card p-7 sm:p-8 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.06]">
                 <div className="flex items-center gap-2 text-indigo-400 font-semibold text-xs font-mono">
                   <FiAward />
-                  <span>UNIVERSITY DEGREE</span>
+                  <span>DEGREE</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs text-slate-400 font-mono">
                   <FiCalendar className="text-xs" />
-                  <span>2022 – 2026</span>
+                  <span>{personalInfo.education.period}</span>
                 </div>
               </div>
 
               <h3 className="text-xl font-bold text-white font-sans">
                 {personalInfo.education.degree}
               </h3>
-              <div className="text-sm font-semibold text-indigo-400 mt-1 mb-3">
-                {personalInfo.education.institution} · <span className="text-slate-400 font-normal">Graduated: {personalInfo.education.graduation}</span>
+              <div className="text-sm font-semibold text-indigo-400 mt-1 mb-4 font-sans">
+                {personalInfo.education.institution}
               </div>
 
               <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed mb-4">
-                Completed comprehensive coursework in Data Structures & Algorithms, Database Management Systems (DBMS), Operating Systems, Computer Networks, and Object-Oriented Programming (OOP).
+                Completed core computer science curriculum with distinction. Emphasized relational databases, operating systems, data structures, and computer networks.
               </p>
 
               <div className="p-3 rounded-lg bg-[#090a0f] border border-white/[0.04] flex items-center justify-between text-xs font-mono text-slate-300 mb-4">
@@ -116,9 +116,11 @@ export default function Experience() {
               </div>
             </div>
 
-            <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-slate-400">
-              <span>Location: Vadodara, Gujarat</span>
-              <span className="text-emerald-400">Verified Degree</span>
+            <div className="pt-3.5 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-slate-400">
+              <span className="flex items-center gap-1">
+                <FiMapPin className="text-xs" /> Vadodara, Gujarat
+              </span>
+              <span className="text-emerald-400 font-medium">Graduated 2026</span>
             </div>
           </motion.div>
         </div>

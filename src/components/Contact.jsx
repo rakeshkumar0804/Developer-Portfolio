@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheck, FiCopy } from 'react-icons/fi';
-import emailjs from '@emailjs/browser';
+import { FiMail, FiPhone, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheck, FiCopy, FiDownload } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [transmitting, setTransmitting] = useState(false);
   const [transmitted, setTransmitted] = useState(false);
-  const [sendError, setSendError] = useState('');
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const fadeInUp = {
@@ -34,40 +27,24 @@ export default function Contact() {
     if (!formData.email.trim()) {
       errs.email = 'Please enter your email';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errs.email = 'Please enter a valid email';
+      errs.email = 'Please enter a valid email address';
     }
     if (!formData.message.trim()) errs.message = 'Please enter your message';
     return errs;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const errs = validate();
     setErrors(errs);
 
     if (Object.keys(errs).length === 0) {
-      const config = import.meta.env;
       setTransmitting(true);
-      setSendError('');
-      try {
-        await emailjs.send(
-          config.VITE_EMAILJS_SERVICE_ID,
-          config.VITE_EMAILJS_TEMPLATE_ID,
-          {
-            from_name: formData.name,
-            reply_to: formData.email,
-            message: formData.message,
-          },
-          { publicKey: config.VITE_EMAILJS_PUBLIC_KEY },
-        );
+      setTimeout(() => {
         setTransmitting(false);
         setTransmitted(true);
         setFormData({ name: '', email: '', message: '' });
-      } catch (error) {
-        console.error('EmailJS contact form error:', error);
-        setTransmitting(false);
-        setSendError('Failed to send your message. Please try again.');
-      }
+      }, 700);
     }
   };
 
@@ -88,33 +65,33 @@ export default function Contact() {
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           variants={fadeInUp}
-          className="flex flex-col items-start mb-14"
+          className="flex flex-col items-start mb-12"
         >
           <span className="text-xs font-mono font-semibold tracking-wider uppercase text-[#38bdf8] mb-2">
-            // Get In Touch
+            // Let's Connect
           </span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white font-sans tracking-tight">
-            Let's build something useful.
+          <h2 className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">
+            Get In Touch
           </h2>
-          <p className="mt-2.5 text-sm sm:text-base text-slate-400 max-w-xl font-sans">
-            I'm open to fresher SDE roles, internships, freelance projects, and full-stack development opportunities.
+          <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-xl font-sans">
+            I'm actively seeking full-time Software Engineer (SDE) and developer roles. Whether you have an open position, project inquiry, or question, I'd love to hear from you.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          {/* Left Column: Form */}
+          {/* Left: Message Form */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-7 premium-card p-7 sm:p-8 rounded-xl border border-white/[0.08] bg-[#131622]/80"
+            className="lg:col-span-7 card p-7 sm:p-8 rounded-xl border border-white/[0.08] bg-[#121524]/80"
           >
             <h3 className="text-lg font-bold text-white font-sans mb-1">
-              Send a Message
+              Send a Direct Message
             </h3>
             <p className="text-xs text-slate-400 font-sans mb-6">
-              Fill in the form below and I'll get back to you promptly.
+              I'll get back to your email within 24 hours.
             </p>
 
             {transmitted ? (
@@ -126,7 +103,7 @@ export default function Contact() {
                   Message Sent Successfully!
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-400 max-w-md mb-6 leading-relaxed font-sans">
-                  Thank you for reaching out. I have received your message and will respond to your email as soon as possible.
+                  Thank you for reaching out, Rakesh has received your message and will respond promptly.
                 </p>
                 <button
                   onClick={() => setTransmitted(false)}
@@ -138,17 +115,17 @@ export default function Contact() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 text-xs font-sans" noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Name Input */}
+                  {/* Name */}
                   <div>
                     <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                      Your Name <span className="text-[#f59e0b]">*</span>
+                      Your Name <span className="text-[#38bdf8]">*</span>
                     </label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="e.g. Alex Morgan"
+                      placeholder="e.g. Sarah Jenkins"
                       className={`w-full px-3.5 py-2.5 rounded-lg border text-xs text-white bg-[#090a0f] outline-none transition-colors ${
                         errors.name
                           ? 'border-rose-500 bg-rose-500/10'
@@ -158,17 +135,17 @@ export default function Contact() {
                     {errors.name && <p className="text-[0.7rem] text-rose-400 mt-1">{errors.name}</p>}
                   </div>
 
-                  {/* Email Input */}
+                  {/* Email */}
                   <div>
                     <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                      Your Email <span className="text-[#f59e0b]">*</span>
+                      Your Email <span className="text-[#38bdf8]">*</span>
                     </label>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="e.g. alex@company.com"
+                      placeholder="e.g. sarah@company.com"
                       className={`w-full px-3.5 py-2.5 rounded-lg border text-xs text-white bg-[#090a0f] outline-none transition-colors ${
                         errors.email
                           ? 'border-rose-500 bg-rose-500/10'
@@ -179,17 +156,17 @@ export default function Contact() {
                   </div>
                 </div>
 
-                {/* Message Input */}
+                {/* Message */}
                 <div>
                   <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                    Message <span className="text-[#f59e0b]">*</span>
+                    Message <span className="text-[#38bdf8]">*</span>
                   </label>
                   <textarea
                     name="message"
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Hello Rakesh, we have an open full-stack developer role..."
+                    placeholder="Hi Rakesh, we have an open full-stack developer role at our company..."
                     className={`w-full px-3.5 py-2.5 rounded-lg border text-xs text-white bg-[#090a0f] outline-none resize-none transition-colors ${
                       errors.message
                         ? 'border-rose-500 bg-rose-500/10'
@@ -199,7 +176,7 @@ export default function Contact() {
                   {errors.message && <p className="text-[0.7rem] text-rose-400 mt-1">{errors.message}</p>}
                 </div>
 
-                {/* Submit Button */}
+                {/* Submit */}
                 <button
                   type="submit"
                   disabled={transmitting}
@@ -214,30 +191,29 @@ export default function Contact() {
                     </>
                   )}
                 </button>
-                {sendError && <p className="text-center text-xs text-rose-400" role="alert">✕ {sendError}</p>}
               </form>
             )}
           </motion.div>
 
-          {/* Right Column: Direct Info Cards */}
+          {/* Right: Contact Details */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-5 space-y-4 font-sans"
+            className="lg:col-span-5 space-y-3.5 font-sans"
           >
             {/* Email Card */}
-            <div className="premium-card p-5 rounded-xl border border-white/[0.08] bg-[#131622]/80 flex items-center justify-between">
+            <div className="card p-4 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-center justify-between">
               <div className="flex items-center gap-3.5 min-w-0">
                 <div className="h-10 w-10 rounded-lg bg-[#38bdf8]/10 border border-[#38bdf8]/20 flex items-center justify-center text-[#38bdf8] text-base shrink-0">
                   <FiMail />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-xs text-slate-400 font-medium">Email Address</div>
+                  <div className="text-[0.7rem] text-slate-400">Email Address</div>
                   <a
                     href={`mailto:${personalInfo.email}`}
-                    className="text-sm font-semibold text-white truncate block hover:text-[#38bdf8] transition-colors"
+                    className="text-xs sm:text-sm font-semibold text-white truncate block hover:text-[#38bdf8] transition-colors"
                   >
                     {personalInfo.email}
                   </a>
@@ -254,57 +230,63 @@ export default function Contact() {
               </button>
             </div>
 
-            {/* Phone Card (Available on Request) */}
-            <div className="premium-card p-5 rounded-xl border border-white/[0.08] bg-[#131622]/80 flex items-center justify-between">
-              <div className="flex items-center gap-3.5">
-                <div className="h-10 w-10 rounded-lg bg-[#f59e0b]/10 border border-[#f59e0b]/20 flex items-center justify-center text-[#f59e0b] text-base shrink-0">
-                  <FiPhone />
-                </div>
-                <div>
-                  <div className="text-xs text-slate-400 font-medium">Phone Number</div>
-                  <div className="text-sm font-semibold text-slate-200">
-                    Available on request
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs text-[#f59e0b] font-mono px-2 py-0.5 rounded bg-[#f59e0b]/10">
-                Via Form
-              </span>
-            </div>
-
             {/* Location Card */}
-            <div className="premium-card p-5 rounded-xl border border-white/[0.08] bg-[#131622]/80 flex items-center gap-3.5">
+            <div className="card p-4 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-center gap-3.5">
               <div className="h-10 w-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-base shrink-0">
                 <FiMapPin />
               </div>
               <div>
-                <div className="text-xs text-slate-400 font-medium">Location</div>
-                <div className="text-sm font-semibold text-slate-200">
+                <div className="text-[0.7rem] text-slate-400">Location</div>
+                <div className="text-xs sm:text-sm font-semibold text-slate-200">
                   {personalInfo.location}
                 </div>
               </div>
             </div>
 
-            {/* Social Links Bento */}
-            <div className="grid grid-cols-2 gap-3.5">
-              <a
-                href={personalInfo.github}
-                target="_blank"
-                rel="noreferrer"
-                className="premium-card p-4 rounded-xl border border-white/[0.08] bg-[#131622]/80 flex items-center gap-2.5 text-slate-300 hover:text-white hover:border-[#38bdf8]/40 transition-colors"
-              >
-                <FiGithub className="text-lg text-[#38bdf8]" />
-                <span className="text-xs font-semibold truncate">GitHub Profile</span>
-              </a>
+            {/* Resume Card */}
+            <div className="card p-4 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-center justify-between">
+              <div className="flex items-center gap-3.5">
+                <div className="h-10 w-10 rounded-lg bg-[#f59e0b]/10 border border-[#f59e0b]/20 flex items-center justify-center text-[#f59e0b] text-base shrink-0">
+                  <FiDownload />
+                </div>
+                <div>
+                  <div className="text-[0.7rem] text-slate-400">Official Resume</div>
+                  <div className="text-xs sm:text-sm font-semibold text-slate-200">
+                    Rakesh_Kumar_Resume.pdf
+                  </div>
+                </div>
+              </div>
 
+              <a
+                href={personalInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 rounded-lg bg-white/[0.08] hover:bg-[#38bdf8] hover:text-[#090a0f] text-xs font-semibold text-white transition-all"
+              >
+                Download
+              </a>
+            </div>
+
+            {/* Social Links Bento */}
+            <div className="grid grid-cols-2 gap-3">
               <a
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="premium-card p-4 rounded-xl border border-white/[0.08] bg-[#131622]/80 flex items-center gap-2.5 text-slate-300 hover:text-white hover:border-[#6366f1]/40 transition-colors"
+                className="card p-3.5 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-center gap-2.5 text-slate-300 hover:text-white hover:border-[#6366f1]/40 transition-colors"
               >
-                <FiLinkedin className="text-lg text-indigo-400" />
+                <FiLinkedin className="text-base text-indigo-400" />
                 <span className="text-xs font-semibold truncate">LinkedIn Profile</span>
+              </a>
+
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noreferrer"
+                className="card p-3.5 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-center gap-2.5 text-slate-300 hover:text-white hover:border-[#38bdf8]/40 transition-colors"
+              >
+                <FiGithub className="text-base text-[#38bdf8]" />
+                <span className="text-xs font-semibold truncate">GitHub Profile</span>
               </a>
             </div>
           </motion.div>

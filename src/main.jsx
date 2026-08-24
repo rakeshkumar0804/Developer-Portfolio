@@ -15,11 +15,11 @@ import BackToTop from './components/BackToTop';
 
 function App() {
   return (
-    <div className="relative min-h-screen bg-mesh text-[#f8fafc] font-sans selection:bg-[#38bdf8]/30 selection:text-[#38bdf8] overflow-x-hidden">
-      {/* Sticky Header Navbar */}
+    <div className="relative min-h-screen bg-subtle-grid text-[#f8fafc] font-sans selection:bg-[#38bdf8]/30 selection:text-[#38bdf8] overflow-x-hidden">
+      {/* Sticky Navigation Header */}
       <Navbar />
 
-      {/* Main Sections Stream */}
+      {/* Main Content Stream */}
       <main className="relative z-10">
         <Hero />
         <About />
@@ -31,7 +31,7 @@ function App() {
         <Contact />
       </main>
 
-      {/* Footer & Floating Return to Top */}
+      {/* Footer & Floating Back-to-Top */}
       <Footer />
       <BackToTop />
     </div>
