@@ -151,7 +151,7 @@ export const deployedSystems = [
       { label: 'Dashboard Analytics', type: 'analytics' },
     ],
     githubUrl: 'https://github.com/rakeshkumar0804/leaveflow-hr',
-    liveUrl: 'https://leaveflow-hr-hvfh.onrender.com/',
+    liveUrl: 'https://leaveflow-hr-ten.vercel.app/',
   },
   {
     id: 'portfoliopulse',
@@ -185,7 +185,7 @@ export const deployedSystems = [
       { label: 'Report Dashboard', type: 'analytics' },
     ],
     githubUrl: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
-    liveUrl: 'https://developer-portfolio-nu-rouge.vercel.app/',
+    liveUrl: 'https://dev-portfolio-checker.vercel.app/',
   },
   {
     id: 'kohli-analytics',
@@ -251,7 +251,7 @@ export const deployedSystems = [
       { label: 'MongoDB Layer', type: 'data' },
     ],
     githubUrl: 'https://github.com/rakeshkumar0804/taskflow',
-    liveUrl: 'https://github.com/rakeshkumar0804/taskflow',
+    liveUrl: 'https://taskflow-gules-rho.vercel.app/',
   },
 ];
 

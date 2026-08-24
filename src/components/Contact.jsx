@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiMail, FiPhone, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheck, FiCopy } from 'react-icons/fi';
+import emailjs from '@emailjs/browser';
 import { personalInfo } from '../data/portfolioData';
 
 export default function Contact() {
@@ -13,6 +14,7 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [transmitting, setTransmitting] = useState(false);
   const [transmitted, setTransmitted] = useState(false);
+  const [sendError, setSendError] = useState('');
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const fadeInUp = {
@@ -38,18 +40,34 @@ export default function Contact() {
     return errs;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     setErrors(errs);
 
     if (Object.keys(errs).length === 0) {
+      const config = import.meta.env;
       setTransmitting(true);
-      setTimeout(() => {
+      setSendError('');
+      try {
+        await emailjs.send(
+          config.VITE_EMAILJS_SERVICE_ID,
+          config.VITE_EMAILJS_TEMPLATE_ID,
+          {
+            from_name: formData.name,
+            reply_to: formData.email,
+            message: formData.message,
+          },
+          { publicKey: config.VITE_EMAILJS_PUBLIC_KEY },
+        );
         setTransmitting(false);
         setTransmitted(true);
         setFormData({ name: '', email: '', message: '' });
-      }, 900);
+      } catch (error) {
+        console.error('EmailJS contact form error:', error);
+        setTransmitting(false);
+        setSendError('Failed to send your message. Please try again.');
+      }
     }
   };
 
@@ -196,6 +214,7 @@ export default function Contact() {
                     </>
                   )}
                 </button>
+                {sendError && <p className="text-center text-xs text-rose-400" role="alert">✕ {sendError}</p>}
               </form>
             )}
           </motion.div>
