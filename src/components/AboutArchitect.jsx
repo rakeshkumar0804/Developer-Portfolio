@@ -1,16 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiUser, FiMapPin, FiAward, FiBriefcase, FiCheck, FiTerminal, FiLayers } from 'react-icons/fi';
+import { FiUser, FiMapPin, FiAward, FiBriefcase, FiCheck, FiTerminal } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 export default function AboutArchitect() {
   const fadeInUp = {
-    hidden: { opacity: 0, y: 25 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
   };
 
   return (
-    <section id="architect" className="py-24 relative border-t border-[#50aaff]/15">
+    <section id="architect" className="py-20 relative border-t border-sky-500/15">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         {/* Section Header */}
         <motion.div
@@ -18,85 +18,85 @@ export default function AboutArchitect() {
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           variants={fadeInUp}
-          className="flex flex-col items-start mb-14"
+          className="flex flex-col items-start mb-12"
         >
-          <div className="flex items-center gap-2 px-3 py-1 rounded-sm text-xs font-mono font-bold tracking-widest uppercase text-[#ffb23f] bg-[#ffb23f]/10 border border-[#ffb23f]/30 mb-3">
-            <span>05 // THE_ARCHITECT</span>
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded-xs text-xs font-mono font-bold tracking-widest uppercase text-[#fbbf24] bg-[#fbbf24]/10 border border-[#fbbf24]/25 mb-3">
+            <span>04 / THE_ARCHITECT</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight font-sans text-[#e6f1ff]">
-            Operator Profile <span className="text-[#38cfff]">& Service History</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight font-sans text-[#f8fafc]">
+            Operator Spec <span className="text-[#38bdf8]">& Service History</span>
           </h2>
-          <p className="mt-3 text-sm sm:text-base max-w-2xl text-[#8aa4bf] font-sans">
-            Technical profile, core specializations, production internship track record, and academic credentials.
+          <p className="mt-2.5 text-sm sm:text-base max-w-2xl text-[#94a3b8] font-sans">
+            Technical operator profile, production internship achievements, and verified computer science engineering background.
           </p>
         </motion.div>
 
         {/* Split Layout: Operator Spec vs Service History */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
           {/* Left Panel: Operator Spec */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-6 hud-panel p-7 sm:p-8 rounded-sm border border-[#50aaff]/25 bg-[#06101f]/85 relative"
+            className="lg:col-span-6 blueprint-panel p-6 sm:p-8 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 relative"
           >
-            <div className="hud-corner-tl" />
-            <div className="hud-corner-tr" />
-            <div className="hud-corner-bl" />
-            <div className="hud-corner-br" />
+            <div className="corner-bracket-tl" />
+            <div className="corner-bracket-tr" />
+            <div className="corner-bracket-bl" />
+            <div className="corner-bracket-br" />
 
             {/* Panel Header */}
-            <div className="flex items-center justify-between pb-4 mb-6 border-b border-[#50aaff]/15 font-mono text-xs">
-              <span className="text-[#38cfff] font-bold flex items-center gap-2">
+            <div className="flex items-center justify-between pb-3.5 mb-5 border-b border-sky-500/15 font-mono text-xs">
+              <span className="text-[#38bdf8] font-bold flex items-center gap-2">
                 <FiTerminal /> OPERATOR_SPECIFICATION
               </span>
-              <span className="text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30">
+              <span className="text-emerald-400 font-bold px-2 py-0.5 rounded-xs bg-emerald-500/10 border border-emerald-500/30">
                 ACTIVE
               </span>
             </div>
 
             {/* Spec Matrix Table */}
-            <div className="space-y-3.5 font-mono text-xs mb-8">
-              <div className="grid grid-cols-3 gap-2 pb-2.5 border-b border-[#50aaff]/10">
-                <span className="text-[#8aa4bf]">DESIGNATION</span>
-                <span className="col-span-2 text-[#e6f1ff] font-semibold">{personalInfo.designation}</span>
+            <div className="space-y-3 font-mono text-xs mb-7">
+              <div className="grid grid-cols-3 gap-2 pb-2 border-b border-sky-500/10">
+                <span className="text-[#94a3b8]">DESIGNATION</span>
+                <span className="col-span-2 text-[#f8fafc] font-semibold">{personalInfo.role}</span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 pb-2.5 border-b border-[#50aaff]/10">
-                <span className="text-[#8aa4bf]">BASE_STATION</span>
-                <span className="col-span-2 text-[#e6f1ff] flex items-center gap-1.5">
-                  <FiMapPin className="text-[#38cfff]" /> {personalInfo.location}
+              <div className="grid grid-cols-3 gap-2 pb-2 border-b border-sky-500/10">
+                <span className="text-[#94a3b8]">BASE_STATION</span>
+                <span className="col-span-2 text-[#f8fafc] flex items-center gap-1.5">
+                  <FiMapPin className="text-[#38bdf8]" /> {personalInfo.location}
                 </span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 pb-2.5 border-b border-[#50aaff]/10">
-                <span className="text-[#8aa4bf]">EDUCATION</span>
-                <span className="col-span-2 text-[#e6f1ff]">{personalInfo.education.degree}</span>
+              <div className="grid grid-cols-3 gap-2 pb-2 border-b border-sky-500/10">
+                <span className="text-[#94a3b8]">EDUCATION</span>
+                <span className="col-span-2 text-[#f8fafc]">{personalInfo.education.degree}</span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 pb-2.5 border-b border-[#50aaff]/10">
-                <span className="text-[#8aa4bf]">GRADUATION</span>
-                <span className="col-span-2 text-[#ffb23f] font-bold">{personalInfo.education.graduation}</span>
+              <div className="grid grid-cols-3 gap-2 pb-2 border-b border-sky-500/10">
+                <span className="text-[#94a3b8]">GRADUATION</span>
+                <span className="col-span-2 text-[#fbbf24] font-bold">{personalInfo.education.graduation}</span>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 pb-2.5 border-b border-[#50aaff]/10">
-                <span className="text-[#8aa4bf]">CORE_FOCUS</span>
-                <span className="col-span-2 text-[#38cfff]">MERN, RBAC, REST APIs, React, Backend Systems</span>
+              <div className="grid grid-cols-3 gap-2 pb-2 border-b border-sky-500/10">
+                <span className="text-[#94a3b8]">CORE_FOCUS</span>
+                <span className="col-span-2 text-[#38bdf8]">MERN, RBAC, REST APIs, React, backend systems</span>
               </div>
 
               <div className="grid grid-cols-3 gap-2">
-                <span className="text-[#8aa4bf]">AVAILABILITY</span>
+                <span className="text-[#94a3b8]">STATUS</span>
                 <span className="col-span-2 text-emerald-400 font-semibold">{personalInfo.availability}</span>
               </div>
             </div>
 
             {/* Narrative Bio */}
-            <div className="pt-6 border-t border-[#50aaff]/15">
-              <h4 className="text-xs font-mono font-bold uppercase text-[#ffb23f] tracking-wider mb-2.5">
+            <div className="pt-5 border-t border-sky-500/15">
+              <h4 className="text-xs font-mono font-bold uppercase text-[#fbbf24] tracking-wider mb-2">
                 // SYSTEM_NARRATIVE
               </h4>
-              <p className="text-sm leading-relaxed text-[#8aa4bf] font-sans">
+              <p className="text-sm leading-relaxed text-[#94a3b8] font-sans">
                 Full-Stack Web Developer and MERN Stack Engineer with hands-on experience building role-based systems, secure REST APIs, responsive React interfaces, and database-backed applications. I enjoy turning complex workflows into clean, usable products with strong backend logic and polished frontend experiences.
               </p>
             </div>
@@ -108,39 +108,39 @@ export default function AboutArchitect() {
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-6 space-y-6"
+            className="lg:col-span-6 space-y-5"
           >
             {/* Internship Entry */}
-            <div className="hud-panel p-7 rounded-sm border border-[#50aaff]/25 bg-[#06101f]/85 relative">
-              <div className="hud-corner-tl" />
-              <div className="hud-corner-tr" />
+            <div className="blueprint-panel p-6 sm:p-7 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 relative">
+              <div className="corner-bracket-tl" />
+              <div className="corner-bracket-tr" />
 
-              <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#50aaff]/15 font-mono text-xs">
-                <div className="flex items-center gap-2 text-[#ffb23f] font-bold">
+              <div className="flex items-center justify-between pb-2.5 mb-3.5 border-b border-sky-500/15 font-mono text-xs">
+                <div className="flex items-center gap-2 text-[#fbbf24] font-bold">
                   <FiBriefcase /> PRODUCTION INTERNSHIP
                 </div>
-                <span className="text-[#38cfff] font-bold">{personalInfo.internship.period}</span>
+                <span className="text-[#38bdf8] font-bold">{personalInfo.internship.period}</span>
               </div>
 
-              <h3 className="text-xl font-bold font-sans text-[#e6f1ff]">
+              <h3 className="text-xl font-bold font-sans text-[#f8fafc]">
                 {personalInfo.internship.role}
               </h3>
-              <h4 className="text-xs font-mono font-semibold text-[#5fa8ff] mt-0.5 mb-4">
+              <h4 className="text-xs font-mono font-semibold text-[#60a5fa] mt-0.5 mb-3.5">
                 {personalInfo.internship.company} · {personalInfo.internship.type}
               </h4>
 
-              <div className="space-y-2 mb-4">
+              <div className="space-y-1.5 mb-3.5">
                 {personalInfo.internship.bullets.map((b, bIdx) => (
-                  <div key={bIdx} className="flex items-start gap-2 text-xs text-[#8aa4bf] font-sans">
-                    <FiCheck className="text-[#38cfff] text-sm mt-0.5 shrink-0" />
+                  <div key={bIdx} className="flex items-start gap-2 text-xs text-[#94a3b8] font-sans">
+                    <FiCheck className="text-[#38bdf8] text-xs mt-0.5 shrink-0" />
                     <span>{b}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="pt-3 border-t border-[#50aaff]/10 flex flex-wrap gap-1.5 font-mono text-[0.65rem] text-[#8aa4bf]">
+              <div className="pt-2.5 border-t border-sky-500/10 flex flex-wrap gap-1.5 font-mono text-[0.65rem] text-[#94a3b8]">
                 {['Node.js', 'Express.js', 'MongoDB', 'JWT Auth', 'RBAC', 'REST APIs'].map((tag, tIdx) => (
-                  <span key={tIdx} className="px-2 py-0.5 rounded-sm bg-[#020712] border border-[#50aaff]/20 text-[#38cfff]">
+                  <span key={tIdx} className="px-2 py-0.5 rounded-xs bg-[#030712] border border-sky-500/20 text-[#38bdf8]">
                     {tag}
                   </span>
                 ))}
@@ -148,31 +148,31 @@ export default function AboutArchitect() {
             </div>
 
             {/* University Education Entry */}
-            <div className="hud-panel p-7 rounded-sm border border-[#50aaff]/25 bg-[#06101f]/85 relative">
-              <div className="hud-corner-bl" />
-              <div className="hud-corner-br" />
+            <div className="blueprint-panel p-6 sm:p-7 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 relative">
+              <div className="corner-bracket-bl" />
+              <div className="corner-bracket-br" />
 
-              <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#50aaff]/15 font-mono text-xs">
-                <div className="flex items-center gap-2 text-[#5fa8ff] font-bold">
+              <div className="flex items-center justify-between pb-2.5 mb-3.5 border-b border-sky-500/15 font-mono text-xs">
+                <div className="flex items-center gap-2 text-[#60a5fa] font-bold">
                   <FiAward /> UNIVERSITY EDUCATION
                 </div>
-                <span className="text-[#ffb23f] font-bold">2022 – 2026</span>
+                <span className="text-[#fbbf24] font-bold">2022 – 2026</span>
               </div>
 
-              <h3 className="text-xl font-bold font-sans text-[#e6f1ff]">
+              <h3 className="text-xl font-bold font-sans text-[#f8fafc]">
                 {personalInfo.education.degree}
               </h3>
-              <h4 className="text-xs font-mono font-semibold text-[#5fa8ff] mt-0.5 mb-3">
+              <h4 className="text-xs font-mono font-semibold text-[#60a5fa] mt-0.5 mb-2.5">
                 {personalInfo.education.institution} · Graduated: {personalInfo.education.graduation}
               </h4>
 
-              <p className="text-xs text-[#8aa4bf] font-sans leading-relaxed mb-4">
-                Coursework in {personalInfo.education.coursework}. Active competitive problem solver with 165+ LeetCode problems solved.
+              <p className="text-xs text-[#94a3b8] font-sans leading-relaxed mb-3.5">
+                Coursework: {personalInfo.education.coursework}. Active competitive problem solver with 165+ LeetCode problems solved.
               </p>
 
-              <div className="pt-3 border-t border-[#50aaff]/10 flex items-center justify-between font-mono text-[0.68rem] text-[#8aa4bf]">
+              <div className="pt-2.5 border-t border-sky-500/10 flex items-center justify-between font-mono text-[0.65rem] text-[#94a3b8]">
                 <span>DEGREE_VERIFIED</span>
-                <span className="text-[#38cfff] font-bold">165+ LEETCODE SOLVED</span>
+                <span className="text-[#38bdf8] font-bold">165+ LEETCODE SOLVED</span>
               </div>
             </div>
           </motion.div>

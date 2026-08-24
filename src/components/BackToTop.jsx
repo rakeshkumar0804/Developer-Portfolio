@@ -28,15 +28,15 @@ export default function BackToTop() {
     <AnimatePresence>
       {visible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+          initial={{ opacity: 0, scale: 0.85, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8, y: 10 }}
+          exit={{ opacity: 0, scale: 0.85, y: 10 }}
           transition={{ duration: 0.2 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-6 z-50 p-3 rounded-sm border border-[#38cfff]/60 bg-[#06101f]/95 text-[#38cfff] shadow-[0_0_15px_rgba(56,207,255,0.3)] hover:bg-[#38cfff] hover:text-[#020712] transition-all duration-200 cursor-pointer group"
+          className="fixed bottom-8 right-6 z-50 p-2.5 rounded-xs border border-sky-500/40 bg-[#060e1c]/95 text-[#38bdf8] hover:bg-[#38bdf8] hover:text-[#030712] transition-all duration-150 cursor-pointer group shadow-lg"
           aria-label="Scroll to top of page"
         >
-          <FiArrowUp className="text-base group-hover:-translate-y-0.5 transition-transform" />
+          <FiArrowUp className="text-sm group-hover:-translate-y-0.5 transition-transform" />
           <span className="sr-only">Back to top ({scrollPercent}%)</span>
         </motion.button>
       )}

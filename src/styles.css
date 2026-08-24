@@ -2,22 +2,16 @@
 
 @layer base {
   :root {
-    --bg-void: #020712;
-    --bg-panel: #06101f;
-    --bg-surface: #08111f;
-    --bg-surface-glass: rgba(6, 16, 31, 0.85);
-    --border-hud: rgba(80, 170, 255, 0.25);
-    --border-hud-bright: rgba(56, 207, 255, 0.6);
-    --text-primary: #e6f1ff;
-    --text-secondary: #8aa4bf;
-    --text-muted: #536d88;
-    --accent-cyan: #38cfff;
-    --accent-cyan-glow: rgba(56, 207, 255, 0.35);
-    --accent-blue: #5fa8ff;
-    --accent-amber: #ffb23f;
-    --accent-amber-glow: rgba(255, 178, 63, 0.35);
-    --accent-emerald: #10b981;
-    --grid-line: rgba(80, 170, 255, 0.07);
+    --bg-void: #030712;
+    --bg-surface: #060e1c;
+    --bg-elevated: #09152b;
+    --border-blueprint: rgba(56, 189, 248, 0.18);
+    --border-blueprint-bright: rgba(56, 189, 248, 0.45);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --accent-cyan: #38bdf8;
+    --accent-amber: #fbbf24;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
@@ -35,7 +29,7 @@ html {
 
 body {
   background-color: var(--bg-void);
-  color: var(--text-primary);
+  color: var(--text-main);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -43,143 +37,104 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  line-height: 1.5;
 }
 
 ::selection {
-  background: rgba(56, 207, 255, 0.3);
-  color: #38cfff;
+  background: rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
 }
 
-/* Cyber Blueprint Grid Background */
-.cyber-grid-bg {
-  background-color: #020712;
+/* Blueprint Precision Grid */
+.blueprint-grid-bg {
+  background-color: #030712;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(56, 207, 255, 0.12) 0%, transparent 55%),
-    radial-gradient(circle at 100% 30%, rgba(95, 168, 255, 0.08) 0%, transparent 45%),
-    radial-gradient(circle at 0% 70%, rgba(56, 207, 255, 0.07) 0%, transparent 45%),
-    linear-gradient(rgba(80, 170, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(80, 170, 255, 0.06) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
+    linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+  background-size: 100% 100%, 36px 36px, 36px 36px;
 }
 
-/* Scanlines overlay */
-.scanline-overlay {
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(56, 207, 255, 0.03) 0px,
-    rgba(56, 207, 255, 0.03) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-  pointer-events: none;
-}
-
-/* Cyber HUD Blueprint Card */
-.hud-panel {
-  background: rgba(6, 16, 31, 0.75);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(80, 170, 255, 0.22);
+/* Blueprint Panel Styling */
+.blueprint-panel {
+  background: rgba(6, 14, 28, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-blueprint);
   position: relative;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.hud-panel:hover {
-  border-color: rgba(56, 207, 255, 0.5);
-  box-shadow: 0 0 25px -5px rgba(56, 207, 255, 0.15);
+.blueprint-panel:hover {
+  border-color: var(--border-blueprint-bright);
 }
 
 /* Corner HUD Brackets */
-.hud-corner-tl {
+.corner-bracket-tl {
   position: absolute;
   top: -1px;
   left: -1px;
-  width: 8px;
-  height: 8px;
-  border-top: 2px solid #38cfff;
-  border-left: 2px solid #38cfff;
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid #38bdf8;
+  border-left: 2px solid #38bdf8;
   pointer-events: none;
 }
 
-.hud-corner-tr {
+.corner-bracket-tr {
   position: absolute;
   top: -1px;
   right: -1px;
-  width: 8px;
-  height: 8px;
-  border-top: 2px solid #38cfff;
-  border-right: 2px solid #38cfff;
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid #38bdf8;
+  border-right: 2px solid #38bdf8;
   pointer-events: none;
 }
 
-.hud-corner-bl {
+.corner-bracket-bl {
   position: absolute;
   bottom: -1px;
   left: -1px;
-  width: 8px;
-  height: 8px;
-  border-bottom: 2px solid #38cfff;
-  border-left: 2px solid #38cfff;
+  width: 6px;
+  height: 6px;
+  border-bottom: 2px solid #38bdf8;
+  border-left: 2px solid #38bdf8;
   pointer-events: none;
 }
 
-.hud-corner-br {
+.corner-bracket-br {
   position: absolute;
   bottom: -1px;
   right: -1px;
-  width: 8px;
-  height: 8px;
-  border-bottom: 2px solid #38cfff;
-  border-right: 2px solid #38cfff;
+  width: 6px;
+  height: 6px;
+  border-bottom: 2px solid #38bdf8;
+  border-right: 2px solid #38bdf8;
   pointer-events: none;
 }
 
-/* Amber HUD Brackets for Principles / Milestones */
-.hud-corner-amber-tl {
+/* Amber Corner Brackets for Section 01 */
+.corner-amber-tl {
   position: absolute;
   top: -1px;
   left: -1px;
-  width: 8px;
-  height: 8px;
-  border-top: 2px solid #ffb23f;
-  border-left: 2px solid #ffb23f;
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid #fbbf24;
+  border-left: 2px solid #fbbf24;
   pointer-events: none;
 }
 
-.hud-corner-amber-tr {
+.corner-amber-tr {
   position: absolute;
   top: -1px;
   right: -1px;
-  width: 8px;
-  height: 8px;
-  border-top: 2px solid #ffb23f;
-  border-right: 2px solid #ffb23f;
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid #fbbf24;
+  border-right: 2px solid #fbbf24;
   pointer-events: none;
-}
-
-/* Glowing text helpers */
-.text-cyan-glow {
-  color: #38cfff;
-  text-shadow: 0 0 12px rgba(56, 207, 255, 0.4);
-}
-
-.text-amber-glow {
-  color: #ffb23f;
-  text-shadow: 0 0 12px rgba(255, 178, 63, 0.4);
-}
-
-/* Radar Scan Animation */
-@keyframes radarSweep {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-radar-sweep {
-  animation: radarSweep 6s linear infinite;
 }
 
 /* Custom Cyber Scrollbar */
@@ -189,21 +144,20 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #020712;
+  background: #030712;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(80, 170, 255, 0.25);
+  background: rgba(56, 189, 248, 0.25);
   border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #38cfff;
-  box-shadow: 0 0 8px #38cfff;
+  background: #38bdf8;
 }
 
 /* Focus Visible */
 *:focus-visible {
-  outline: 2px solid #38cfff;
+  outline: 2px solid #38bdf8;
   outline-offset: 2px;
 }
