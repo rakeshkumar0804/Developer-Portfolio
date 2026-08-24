@@ -4,12 +4,13 @@
   :root {
     --bg-void: #030712;
     --bg-surface: #060e1c;
-    --bg-elevated: #09152b;
-    --border-blueprint: rgba(56, 189, 248, 0.18);
-    --border-blueprint-bright: rgba(56, 189, 248, 0.45);
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --text-dim: #64748b;
+    --bg-surface-elevated: #0a1528;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-cyan: rgba(56, 189, 248, 0.22);
+    --border-cyan-hover: rgba(56, 189, 248, 0.5);
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
     --accent-cyan: #38bdf8;
     --accent-amber: #fbbf24;
     --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -29,7 +30,7 @@ html {
 
 body {
   background-color: var(--bg-void);
-  color: var(--text-main);
+  color: var(--text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,7 +38,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 ::selection {
@@ -45,102 +46,70 @@ body {
   color: #38bdf8;
 }
 
-/* Blueprint Precision Grid */
+/* Quiet, Cinematic Blueprint Grid */
 .blueprint-grid-bg {
   background-color: #030712;
   background-image: 
-    radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 60%),
-    linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
-  background-size: 100% 100%, 36px 36px, 36px 36px;
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(56, 189, 248, 0.07), transparent),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
 }
 
-/* Blueprint Panel Styling */
-.blueprint-panel {
-  background: rgba(6, 14, 28, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-blueprint);
+/* Restrained Blueprint Panel */
+.blueprint-card {
+  background: rgba(6, 14, 28, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
   position: relative;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
 }
 
-.blueprint-panel:hover {
-  border-color: var(--border-blueprint-bright);
+.blueprint-card:hover {
+  border-color: var(--border-cyan);
 }
 
-/* Corner HUD Brackets */
-.corner-bracket-tl {
+/* Micro Corner Accents (Quiet & Subtle) */
+.micro-corner-tl {
   position: absolute;
   top: -1px;
   left: -1px;
-  width: 6px;
-  height: 6px;
-  border-top: 2px solid #38bdf8;
-  border-left: 2px solid #38bdf8;
+  width: 4px;
+  height: 4px;
+  border-top: 1.5px solid #38bdf8;
+  border-left: 1.5px solid #38bdf8;
   pointer-events: none;
 }
 
-.corner-bracket-tr {
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  width: 6px;
-  height: 6px;
-  border-top: 2px solid #38bdf8;
-  border-right: 2px solid #38bdf8;
-  pointer-events: none;
-}
-
-.corner-bracket-bl {
-  position: absolute;
-  bottom: -1px;
-  left: -1px;
-  width: 6px;
-  height: 6px;
-  border-bottom: 2px solid #38bdf8;
-  border-left: 2px solid #38bdf8;
-  pointer-events: none;
-}
-
-.corner-bracket-br {
+.micro-corner-br {
   position: absolute;
   bottom: -1px;
   right: -1px;
-  width: 6px;
-  height: 6px;
-  border-bottom: 2px solid #38bdf8;
-  border-right: 2px solid #38bdf8;
+  width: 4px;
+  height: 4px;
+  border-bottom: 1.5px solid #38bdf8;
+  border-right: 1.5px solid #38bdf8;
   pointer-events: none;
 }
 
-/* Amber Corner Brackets for Section 01 */
-.corner-amber-tl {
+/* Amber Micro Corner for Principles */
+.micro-amber-tl {
   position: absolute;
   top: -1px;
   left: -1px;
-  width: 6px;
-  height: 6px;
-  border-top: 2px solid #fbbf24;
-  border-left: 2px solid #fbbf24;
+  width: 4px;
+  height: 4px;
+  border-top: 1.5px solid #fbbf24;
+  border-left: 1.5px solid #fbbf24;
   pointer-events: none;
 }
 
-.corner-amber-tr {
-  position: absolute;
-  top: -1px;
-  right: -1px;
-  width: 6px;
-  height: 6px;
-  border-top: 2px solid #fbbf24;
-  border-right: 2px solid #fbbf24;
-  pointer-events: none;
-}
-
-/* Custom Cyber Scrollbar */
+/* Clean Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -148,7 +117,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(56, 189, 248, 0.25);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 2px;
 }
 
@@ -156,8 +125,7 @@ body {
   background: #38bdf8;
 }
 
-/* Focus Visible */
 *:focus-visible {
-  outline: 2px solid #38bdf8;
+  outline: 1.5px solid #38bdf8;
   outline-offset: 2px;
 }

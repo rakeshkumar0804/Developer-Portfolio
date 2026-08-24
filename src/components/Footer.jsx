@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiGithub, FiLinkedin, FiMail, FiClock } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { SiLeetcode } from 'react-icons/si';
 import { personalInfo } from '../data/portfolioData';
 
@@ -29,13 +29,13 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-sky-500/15 bg-[#030712] text-[#94a3b8] font-mono text-xs relative pb-14">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 py-10">
+    <footer className="border-t border-white/[0.06] bg-[#030712] text-slate-500 font-mono text-xs relative pb-12">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start justify-between">
           {/* Brand Spec */}
-          <div className="md:col-span-5 flex flex-col items-start">
-            <div className="flex items-center gap-2.5 mb-2.5">
-              <div className="h-6 w-6 rounded-xs bg-[#060e1c] border border-[#38bdf8]/60 flex items-center justify-center font-bold text-xs text-[#38bdf8]">
+          <div className="md:col-span-6 flex flex-col items-start">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="h-5 w-5 rounded-xs bg-[#060e1c] border border-[#38bdf8]/40 flex items-center justify-center font-bold text-[0.6rem] text-[#38bdf8]">
                 RK
               </div>
               <span className="font-sans font-bold text-sm text-[#f8fafc] tracking-tight">
@@ -43,8 +43,8 @@ export default function Footer() {
               </span>
             </div>
 
-            <p className="text-xs text-[#94a3b8] leading-relaxed max-w-sm mb-4 font-sans">
-              Full-Stack Web Developer building practical systems: auth, RBAC, dashboards, APIs, and real-time analytics.
+            <p className="text-xs text-slate-400 leading-relaxed max-w-sm mb-4 font-sans">
+              Full-Stack Web Developer building practical systems with authentication, RBAC, REST APIs, and analytics.
             </p>
 
             {/* Social Channels */}
@@ -53,7 +53,7 @@ export default function Footer() {
                 href={personalInfo.github}
                 target="_blank"
                 rel="noreferrer"
-                className="p-1.5 rounded-xs border border-sky-500/20 bg-[#060e1c] text-[#94a3b8] hover:text-[#38bdf8] hover:border-[#38bdf8] transition-colors"
+                className="p-1.5 rounded-xs border border-white/[0.08] bg-[#060e1c] text-slate-400 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
                 aria-label="GitHub Profile"
               >
                 <FiGithub />
@@ -63,7 +63,7 @@ export default function Footer() {
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="p-1.5 rounded-xs border border-sky-500/20 bg-[#060e1c] text-[#94a3b8] hover:text-[#60a5fa] hover:border-[#60a5fa] transition-colors"
+                className="p-1.5 rounded-xs border border-white/[0.08] bg-[#060e1c] text-slate-400 hover:text-[#60a5fa] hover:border-[#60a5fa]/40 transition-colors"
                 aria-label="LinkedIn Profile"
               >
                 <FiLinkedin />
@@ -73,7 +73,7 @@ export default function Footer() {
                 href={personalInfo.leetcode}
                 target="_blank"
                 rel="noreferrer"
-                className="p-1.5 rounded-xs border border-sky-500/20 bg-[#060e1c] text-[#94a3b8] hover:text-[#fbbf24] hover:border-[#fbbf24] transition-colors"
+                className="p-1.5 rounded-xs border border-white/[0.08] bg-[#060e1c] text-slate-400 hover:text-[#fbbf24] hover:border-[#fbbf24]/40 transition-colors"
                 aria-label="LeetCode Profile"
               >
                 <SiLeetcode />
@@ -81,7 +81,7 @@ export default function Footer() {
 
               <a
                 href={`mailto:${personalInfo.email}`}
-                className="p-1.5 rounded-xs border border-sky-500/20 bg-[#060e1c] text-[#94a3b8] hover:text-[#38bdf8] hover:border-[#38bdf8] transition-colors"
+                className="p-1.5 rounded-xs border border-white/[0.08] bg-[#060e1c] text-slate-400 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
                 aria-label="Email Address"
               >
                 <FiMail />
@@ -89,46 +89,28 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Subsystem Nav */}
-          <div className="md:col-span-4 flex flex-col items-start font-mono text-xs">
-            <h4 className="text-[0.65rem] font-bold uppercase tracking-wider text-[#38bdf8] mb-2.5">
-              // TELEMETRY_NAV
-            </h4>
-            <div className="grid grid-cols-2 gap-1.5 text-[0.68rem]">
-              <a href="#hero" className="hover:text-[#38bdf8] transition-colors">00_HERO</a>
-              <a href="#principles" className="hover:text-[#38bdf8] transition-colors">01_PRINCIPLES</a>
-              <a href="#systems" className="hover:text-[#38bdf8] transition-colors">02_SYSTEMS</a>
-              <a href="#signals" className="hover:text-[#38bdf8] transition-colors">03_SIGNALS</a>
-              <a href="#architect" className="hover:text-[#38bdf8] transition-colors">04_ARCHITECT</a>
-              <a href="#subsystems" className="hover:text-[#38bdf8] transition-colors">05_SUBSYSTEMS</a>
-              <a href="#recognition" className="hover:text-[#38bdf8] transition-colors">06_RECOGNITION</a>
-              <a href="#comms" className="hover:text-[#38bdf8] transition-colors">07_COMMS</a>
-            </div>
-          </div>
-
-          {/* System Telemetry & Back to Top */}
-          <div className="md:col-span-3 flex flex-col items-start md:items-end font-mono text-xs">
+          {/* Nav & Telemetry */}
+          <div className="md:col-span-6 flex flex-col md:items-end font-mono text-xs">
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xs border border-sky-500/30 bg-[#060e1c] text-[#38bdf8] hover:bg-[#38bdf8] hover:text-[#030712] mb-3 transition-all cursor-pointer text-xs"
+              className="px-3 py-1 rounded-xs border border-white/[0.08] bg-[#060e1c] text-slate-400 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 mb-3 transition-colors cursor-pointer text-[0.68rem]"
             >
-              <span>[ TOP_RETURN ↑ ]</span>
+              Back to Top ↑
             </button>
 
-            <div className="flex items-center gap-2 text-[#f8fafc]">
-              <FiClock className="text-[#38bdf8]" />
-              <span className="tabular-nums">{istTime} IST</span>
+            <div className="text-slate-400 text-xs">
+              {istTime} IST
             </div>
           </div>
         </div>
 
-        {/* Bottom Baseline */}
-        <div className="mt-8 pt-3 border-t border-sky-500/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-[0.62rem] text-[#64748b]">
+        {/* Baseline */}
+        <div className="mt-8 pt-3 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-2 text-[0.6rem] text-slate-600">
           <div>
-            © {new Date().getFullYear()} Rakesh Kumar · SYS_BUILD: v2.6-BLUEPRINT
+            © {new Date().getFullYear()} Rakesh Kumar · Built with React & Tailwind CSS
           </div>
           <div>
-            COORDINATES: 28.4595° N, 77.0266° E · GURUGRAM, IN
+            Gurugram, Haryana, India
           </div>
         </div>
       </div>

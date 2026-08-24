@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheckCircle, FiCopy, FiCheck, FiTerminal } from 'react-icons/fi';
+import { FiMail, FiPhone, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheck, FiCopy } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 export default function ContactConsole() {
@@ -16,7 +16,7 @@ export default function ContactConsole() {
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 16 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
   };
 
@@ -28,13 +28,13 @@ export default function ContactConsole() {
 
   const validate = () => {
     const errs = {};
-    if (!formData.name.trim()) errs.name = 'CALLSIGN / NAME REQUIRED';
+    if (!formData.name.trim()) errs.name = 'Name is required';
     if (!formData.email.trim()) {
-      errs.email = 'COMMS UPLINK / EMAIL REQUIRED';
+      errs.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errs.email = 'INVALID EMAIL FORMAT';
+      errs.email = 'Valid email is required';
     }
-    if (!formData.message.trim()) errs.message = 'PAYLOAD MESSAGE REQUIRED';
+    if (!formData.message.trim()) errs.message = 'Message is required';
     return errs;
   };
 
@@ -49,7 +49,7 @@ export default function ContactConsole() {
         setTransmitting(false);
         setTransmitted(true);
         setFormData({ name: '', email: '', message: '' });
-      }, 1000);
+      }, 900);
     }
   };
 
@@ -62,146 +62,136 @@ export default function ContactConsole() {
   };
 
   return (
-    <section id="comms" className="py-20 relative border-t border-sky-500/15">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+    <section id="comms" className="py-24 sm:py-32 relative border-t border-white/[0.06]">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8">
         {/* Section Header */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
           variants={fadeInUp}
-          className="flex flex-col items-start mb-12"
+          className="flex flex-col items-start mb-14"
         >
-          <div className="flex items-center gap-2 px-2.5 py-1 rounded-xs text-xs font-mono font-bold tracking-widest uppercase text-[#fbbf24] bg-[#fbbf24]/10 border border-[#fbbf24]/25 mb-3">
+          <div className="flex items-center gap-2 px-2.5 py-0.5 rounded-xs text-[0.68rem] font-mono text-[#fbbf24] bg-[#fbbf24]/10 border border-[#fbbf24]/20 mb-3 tracking-widest uppercase">
             <span>07 / ESTABLISH_COMMS</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight font-sans text-[#f8fafc]">
-            Let's build <span className="text-[#38bdf8]">something ambitious.</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-[#f8fafc]">
+            Establish Comms
           </h2>
-          <p className="mt-2.5 text-sm sm:text-base max-w-2xl text-[#94a3b8] font-sans">
+          <p className="mt-2.5 text-sm sm:text-base max-w-xl text-slate-400 font-sans">
             Recruiters, founders, and teams — if you need someone who can build clean interfaces, reliable APIs, and full-stack systems, the channel is open.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
-          {/* Left Column: Direct Comms Transmission Form */}
+          {/* Left Column: Form */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-7 blueprint-panel p-6 sm:p-8 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 relative"
+            className="lg:col-span-7 blueprint-card p-7 sm:p-8 rounded-xs"
           >
-            <div className="corner-bracket-tl" />
-            <div className="corner-bracket-tr" />
-            <div className="corner-bracket-bl" />
-            <div className="corner-bracket-br" />
+            <div className="micro-corner-tl" />
 
-            <div className="flex items-center justify-between pb-3 mb-5 border-b border-sky-500/15 font-mono text-xs">
-              <span className="text-[#38bdf8] font-bold flex items-center gap-2">
-                <FiTerminal /> TRANSMISSION_CONSOLE
-              </span>
-              <span className="text-[#94a3b8] text-[0.65rem]">CHANNEL: SECURE_TLS</span>
+            <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/[0.05] font-mono text-xs text-slate-400">
+              <span>TRANSMISSION CONSOLE</span>
+              <span className="text-[0.65rem]">SECURE TLS</span>
             </div>
 
             {transmitted ? (
-              <div className="py-10 flex flex-col items-center justify-center text-center font-mono">
-                <div className="w-12 h-12 rounded-xs bg-[#38bdf8]/10 border border-[#38bdf8]/40 flex items-center justify-center text-[#38bdf8] text-xl mb-3.5 shadow-[0_0_15px_rgba(56,189,248,0.3)]">
-                  <FiCheckCircle />
+              <div className="py-8 flex flex-col items-center justify-center text-center font-mono">
+                <div className="w-10 h-10 rounded-xs bg-[#38bdf8]/10 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] text-lg mb-3">
+                  <FiCheck />
                 </div>
-                <h3 className="text-lg font-bold font-sans text-[#f8fafc] mb-1.5">
-                  TRANSMISSION DISPATCHED // 200 OK
+                <h3 className="text-base font-bold font-sans text-[#f8fafc] mb-1">
+                  Message Dispatched (200 OK)
                 </h3>
-                <p className="text-xs text-[#94a3b8] max-w-md mb-5 leading-relaxed">
-                  Payload received and indexed into operator queue. A prompt response will be transmitted to your email.
+                <p className="text-xs text-slate-400 max-w-sm mb-4 leading-relaxed font-sans">
+                  Payload received. I will review your message and reply promptly.
                 </p>
                 <button
                   onClick={() => setTransmitted(false)}
-                  className="px-4 py-2 rounded-xs bg-[#38bdf8] text-[#030712] font-mono text-xs font-bold hover:bg-[#60a5fa] transition-all cursor-pointer"
+                  className="px-4 py-1.5 rounded-xs bg-[#38bdf8] text-[#030712] font-mono text-xs font-semibold hover:bg-[#60a5fa] transition-all cursor-pointer"
                 >
-                  [ NEW TRANSMISSION ]
+                  Send Another Message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs" noValidate>
+              <form onSubmit={handleSubmit} className="space-y-4 text-xs font-mono" noValidate>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Name Input */}
+                  {/* Name */}
                   <div>
-                    <label className="block text-[0.65rem] text-[#94a3b8] uppercase tracking-wider mb-1 font-bold">
-                      OPERATOR_NAME <span className="text-[#fbbf24]">*</span>
+                    <label className="block text-[0.65rem] text-slate-400 uppercase tracking-wider mb-1">
+                      Name <span className="text-[#fbbf24]">*</span>
                     </label>
                     <input
                       type="text"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      placeholder="Recruiter / Engineering Lead"
-                      className={`w-full px-3 py-2.5 rounded-xs border text-xs text-[#f8fafc] bg-[#030712] outline-none transition-colors ${
+                      placeholder="Recruiter / Founder"
+                      className={`w-full px-3 py-2 rounded-xs border text-xs text-slate-200 bg-[#02050c] outline-none transition-colors ${
                         errors.name
                           ? 'border-rose-500 bg-rose-500/10'
-                          : 'border-sky-500/30 focus:border-[#38bdf8]'
+                          : 'border-white/[0.08] focus:border-[#38bdf8]/50'
                       }`}
                     />
                     {errors.name && <p className="text-[0.62rem] text-rose-400 mt-1">{errors.name}</p>}
                   </div>
 
-                  {/* Email Input */}
+                  {/* Email */}
                   <div>
-                    <label className="block text-[0.65rem] text-[#94a3b8] uppercase tracking-wider mb-1 font-bold">
-                      UPLINK_EMAIL <span className="text-[#fbbf24]">*</span>
+                    <label className="block text-[0.65rem] text-slate-400 uppercase tracking-wider mb-1">
+                      Email <span className="text-[#fbbf24]">*</span>
                     </label>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      placeholder="hiring@techcorp.com"
-                      className={`w-full px-3 py-2.5 rounded-xs border text-xs text-[#f8fafc] bg-[#030712] outline-none transition-colors ${
+                      placeholder="hiring@company.com"
+                      className={`w-full px-3 py-2 rounded-xs border text-xs text-slate-200 bg-[#02050c] outline-none transition-colors ${
                         errors.email
                           ? 'border-rose-500 bg-rose-500/10'
-                          : 'border-sky-500/30 focus:border-[#38bdf8]'
+                          : 'border-white/[0.08] focus:border-[#38bdf8]/50'
                       }`}
                     />
                     {errors.email && <p className="text-[0.62rem] text-rose-400 mt-1">{errors.email}</p>}
                   </div>
                 </div>
 
-                {/* Message Payload */}
+                {/* Message */}
                 <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="block text-[0.65rem] text-[#94a3b8] uppercase tracking-wider font-bold">
-                      MESSAGE_PAYLOAD <span className="text-[#fbbf24]">*</span>
-                    </label>
-                    <span className="text-[0.6rem] text-[#64748b]">
-                      {formData.message.length} BYTES
-                    </span>
-                  </div>
+                  <label className="block text-[0.65rem] text-slate-400 uppercase tracking-wider mb-1">
+                    Message <span className="text-[#fbbf24]">*</span>
+                  </label>
                   <textarea
                     name="message"
                     rows={4}
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Hello Rakesh, we have an open full-stack role..."
-                    className={`w-full px-3 py-2.5 rounded-xs border text-xs text-[#f8fafc] bg-[#030712] outline-none resize-none transition-colors ${
+                    placeholder="Hello Rakesh, we are looking for a Full-Stack Developer..."
+                    className={`w-full px-3 py-2 rounded-xs border text-xs text-slate-200 bg-[#02050c] outline-none resize-none transition-colors ${
                       errors.message
                         ? 'border-rose-500 bg-rose-500/10'
-                        : 'border-sky-500/30 focus:border-[#38bdf8]'
+                        : 'border-white/[0.08] focus:border-[#38bdf8]/50'
                     }`}
                   />
                   {errors.message && <p className="text-[0.62rem] text-rose-400 mt-1">{errors.message}</p>}
                 </div>
 
-                {/* Submit Trigger */}
+                {/* Submit */}
                 <button
                   type="submit"
                   disabled={transmitting}
-                  className="w-full py-2.5 rounded-xs bg-[#38bdf8] hover:bg-[#60a5fa] text-[#030712] font-mono text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
+                  className="w-full py-2.5 rounded-xs bg-[#38bdf8] hover:bg-[#60a5fa] text-[#030712] font-mono text-xs font-semibold transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
                 >
                   {transmitting ? (
-                    <span>DISPATCHING PACKETS...</span>
+                    <span>Sending Transmission...</span>
                   ) : (
                     <>
-                      <span>[ INITIATE TRANSMISSION ▶ ]</span>
+                      <span>Initiate Transmission</span>
                       <FiSend className="text-xs" />
                     </>
                   )}
@@ -210,7 +200,7 @@ export default function ContactConsole() {
             )}
           </motion.div>
 
-          {/* Right Column: Direct Telemetry Channels */}
+          {/* Right Column: Direct Channels */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -219,16 +209,16 @@ export default function ContactConsole() {
             className="lg:col-span-5 space-y-3"
           >
             {/* Email Uplink */}
-            <div className="blueprint-panel p-4 sm:p-5 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 flex items-center justify-between group">
+            <div className="blueprint-card p-5 rounded-xs flex items-center justify-between">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-xs bg-[#38bdf8]/10 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] text-base shrink-0">
+                <div className="w-8 h-8 rounded-xs bg-[#38bdf8]/10 border border-[#38bdf8]/20 flex items-center justify-center text-[#38bdf8] text-sm shrink-0">
                   <FiMail />
                 </div>
                 <div className="min-w-0 font-mono">
-                  <div className="text-[0.6rem] text-[#94a3b8] uppercase">COMMS_EMAIL</div>
+                  <div className="text-[0.6rem] text-slate-500 uppercase">Email</div>
                   <a
                     href={`mailto:${personalInfo.email}`}
-                    className="text-xs text-[#f8fafc] font-semibold truncate block hover:text-[#38bdf8] transition-colors"
+                    className="text-xs text-slate-200 font-medium truncate block hover:text-[#38bdf8] transition-colors"
                   >
                     {personalInfo.email}
                   </a>
@@ -237,8 +227,8 @@ export default function ContactConsole() {
 
               <button
                 onClick={handleCopyEmail}
-                className="p-1.5 rounded-xs border border-sky-500/30 hover:border-[#38bdf8] text-[#94a3b8] hover:text-[#38bdf8] text-xs transition-colors shrink-0 cursor-pointer"
-                title="Copy email to clipboard"
+                className="p-1.5 rounded-xs border border-white/[0.08] hover:border-[#38bdf8]/40 text-slate-400 hover:text-[#38bdf8] text-xs transition-colors shrink-0 cursor-pointer"
+                title="Copy email"
                 aria-label="Copy email"
               >
                 {copiedEmail ? <FiCheck className="text-emerald-400" /> : <FiCopy />}
@@ -246,45 +236,45 @@ export default function ContactConsole() {
             </div>
 
             {/* Phone Channel (Available on Request) */}
-            <div className="blueprint-panel p-4 sm:p-5 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 flex items-center justify-between font-mono">
+            <div className="blueprint-card p-5 rounded-xs flex items-center justify-between font-mono">
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xs bg-[#fbbf24]/10 border border-[#fbbf24]/30 flex items-center justify-center text-[#fbbf24] text-base shrink-0">
+                <div className="w-8 h-8 rounded-xs bg-[#fbbf24]/10 border border-[#fbbf24]/20 flex items-center justify-center text-[#fbbf24] text-sm shrink-0">
                   <FiPhone />
                 </div>
                 <div>
-                  <div className="text-[0.6rem] text-[#94a3b8] uppercase">PHONE_CHANNEL</div>
-                  <div className="text-xs text-[#f8fafc] font-semibold">
+                  <div className="text-[0.6rem] text-slate-500 uppercase">Phone</div>
+                  <div className="text-xs text-slate-300 font-medium">
                     Available on request
                   </div>
                 </div>
               </div>
-              <span className="text-[0.62rem] text-[#fbbf24] px-1.5 py-0.5 rounded bg-[#fbbf24]/10 border border-[#fbbf24]/30">
-                VIA CONTACT FORM
+              <span className="text-[0.6rem] text-[#fbbf24] px-1.5 py-0.5 rounded bg-[#fbbf24]/10">
+                VIA FORM
               </span>
             </div>
 
             {/* Base Station / Location */}
-            <div className="blueprint-panel p-4 sm:p-5 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 flex items-center gap-3 font-mono">
-              <div className="w-9 h-9 rounded-xs bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-base shrink-0">
+            <div className="blueprint-card p-5 rounded-xs flex items-center gap-3 font-mono">
+              <div className="w-8 h-8 rounded-xs bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-sm shrink-0">
                 <FiMapPin />
               </div>
               <div>
-                <div className="text-[0.6rem] text-[#94a3b8] uppercase">PRIMARY_BASE</div>
-                <div className="text-xs text-[#f8fafc] font-semibold">
+                <div className="text-[0.6rem] text-slate-500 uppercase">Location</div>
+                <div className="text-xs text-slate-300 font-medium">
                   {personalInfo.location}
                 </div>
               </div>
             </div>
 
             {/* GitHub & LinkedIn Channels */}
-            <div className="grid grid-cols-2 gap-2.5 font-mono text-xs">
+            <div className="grid grid-cols-2 gap-3 font-mono text-xs">
               <a
                 href={personalInfo.github}
                 target="_blank"
                 rel="noreferrer"
-                className="blueprint-panel p-3.5 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 flex items-center gap-2 text-[#94a3b8] hover:text-[#38bdf8] hover:border-sky-500/50 transition-colors"
+                className="blueprint-card p-3.5 rounded-xs flex items-center gap-2 text-slate-400 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
               >
-                <FiGithub className="text-base text-[#38bdf8]" />
+                <FiGithub className="text-sm text-[#38bdf8]" />
                 <span className="truncate">@{personalInfo.githubUsername}</span>
               </a>
 
@@ -292,9 +282,9 @@ export default function ContactConsole() {
                 href={personalInfo.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="blueprint-panel p-3.5 rounded-xs border border-sky-500/20 bg-[#060e1c]/85 flex items-center gap-2 text-[#94a3b8] hover:text-[#60a5fa] hover:border-sky-500/50 transition-colors"
+                className="blueprint-card p-3.5 rounded-xs flex items-center gap-2 text-slate-400 hover:text-[#60a5fa] hover:border-[#60a5fa]/40 transition-colors"
               >
-                <FiLinkedin className="text-base text-[#60a5fa]" />
+                <FiLinkedin className="text-sm text-[#60a5fa]" />
                 <span className="truncate">in/rakesh-kumar</span>
               </a>
             </div>
