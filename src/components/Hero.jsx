@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FiArrowDown, FiDownload, FiMail, FiTerminal, FiLayers, FiActivity, FiShield } from 'react-icons/fi';
-import { personalInfo, heroStats } from '../data/portfolioData';
+import { personalInfo, heroStats, heroProofPoints } from '../data/portfolioData';
 
 export default function Hero() {
   const canvasRef = useRef(null);
@@ -187,36 +187,75 @@ export default function Hero() {
               </span>
             </motion.h1>
 
-            {/* Subtitle */}
+            {/* Headline */}
             <motion.div
               initial="hidden"
               animate="visible"
               custom={3}
               variants={fadeInUp}
-              className="mt-5 font-mono text-sm sm:text-base font-bold tracking-wide text-[#38cfff] flex items-center gap-2"
+              className="mt-4 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider text-[#38cfff] flex items-center gap-2"
             >
               <span className="text-[#ffb23f]">›</span>
-              <span>Full-Stack Web Developer / MERN Stack Engineer</span>
+              <span>{personalInfo.headline}</span>
             </motion.div>
 
-            {/* Core Description */}
+            {/* Subtitle & Core Pitch */}
             <motion.p
               initial="hidden"
               animate="visible"
               custom={4}
               variants={fadeInUp}
-              className="mt-4 text-sm sm:text-base leading-relaxed max-w-2xl text-[#8aa4bf] font-sans"
+              className="mt-3.5 text-sm sm:text-base font-semibold leading-relaxed max-w-2xl text-[#e6f1ff] font-sans"
             >
-              I build role-based web applications, secure REST APIs, responsive React interfaces, and production-ready MERN systems with clean architecture and practical problem solving.
+              {personalInfo.subhead}
             </motion.p>
+
+            {/* Work & Projects Summary */}
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              custom={5}
+              variants={fadeInUp}
+              className="mt-2.5 text-xs sm:text-sm leading-relaxed max-w-2xl text-[#8aa4bf] font-sans"
+            >
+              {personalInfo.description}
+            </motion.p>
+
+            {/* 3 Standout Proof Points (Above the Fold for Recruiters) */}
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              custom={6}
+              variants={fadeInUp}
+              className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-w-2xl"
+            >
+              {heroProofPoints.map((proof, pIdx) => (
+                <a
+                  key={pIdx}
+                  href={proof.link}
+                  onClick={(e) => handleNavClick(e, proof.link)}
+                  className="hud-panel p-2.5 rounded-sm border border-[#50aaff]/25 bg-[#020712]/90 hover:border-[#38cfff]/60 hover:bg-[#06101f] transition-all group block font-mono"
+                >
+                  <div className="flex items-center justify-between text-[0.6rem] text-[#38cfff] mb-1 font-bold">
+                    <span>{proof.title}</span>
+                    <span className="text-[#ffb23f] text-[0.55rem] px-1 py-0.2 rounded bg-[#ffb23f]/10">
+                      {proof.tag}
+                    </span>
+                  </div>
+                  <div className="text-[0.68rem] text-[#8aa4bf] group-hover:text-[#e6f1ff] transition-colors leading-tight font-sans">
+                    {proof.highlight}
+                  </div>
+                </a>
+              ))}
+            </motion.div>
 
             {/* Action CTA Triggers */}
             <motion.div
               initial="hidden"
               animate="visible"
-              custom={5}
+              custom={7}
               variants={fadeInUp}
-              className="mt-8 flex flex-wrap items-center gap-3.5"
+              className="mt-7 flex flex-wrap items-center gap-3.5"
             >
               <a
                 href="#systems"

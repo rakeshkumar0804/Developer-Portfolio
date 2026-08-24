@@ -5,12 +5,15 @@ export const personalInfo = {
   designation: 'Full-Stack Web Developer / MERN Stack Engineer',
   systemTag: 'OPERATOR // RAKESH-CORE',
   uplinkStatus: 'UPLINK ACTIVE // SYS_READY',
-  headline: 'Full-Stack Web Developer / MERN Stack Engineer',
+  headline: 'Full-Stack Developer building real-world systems, not just UI clones.',
   subhead:
-    'I build role-based web applications, secure REST APIs, responsive React interfaces, and production-ready MERN systems with clean architecture and practical problem solving.',
+    'I build practical web platforms with authentication, role-based workflows, API architecture, and data-driven dashboards — from incident intelligence tools to employee management systems.',
+  description:
+    'My work includes IncidentHub AI with OAuth integrations across engineering tools, LeaveFlow with employee-manager-admin approval flows, and PortfolioPulse, a GitHub-powered hiring-readiness analyzer.',
+  pitchBadge: 'I build real product workflows: auth, RBAC, dashboards, APIs, and analytics.',
   location: 'Gurugram, Haryana, India',
   email: 'rakeshchauhan6651@gmail.com',
-  phone: '+91-9306573459',
+  phone: 'Available on request',
   github: 'https://github.com/rakeshkumar0804',
   githubUsername: 'rakeshkumar0804',
   linkedin: 'https://www.linkedin.com/in/rakesh-kumar-520754246/',
@@ -36,8 +39,29 @@ export const personalInfo = {
   },
 };
 
+export const heroProofPoints = [
+  {
+    title: 'IncidentHub AI',
+    highlight: 'OAuth + engineering signal correlation',
+    tag: 'INTELLIGENCE',
+    link: '#systems',
+  },
+  {
+    title: 'LeaveFlow HR',
+    highlight: '3-role employee-manager-admin approval system',
+    tag: 'RBAC WORKFLOW',
+    link: '#systems',
+  },
+  {
+    title: 'PortfolioPulse',
+    highlight: 'GitHub-powered hiring-readiness scoring',
+    tag: 'DEV AUDITOR',
+    link: '#systems',
+  },
+];
+
 export const heroStats = [
-  { value: '3+', label: 'Major Projects', desc: 'Enterprise & AI Systems' },
+  { value: '3+', label: 'Major Systems', desc: 'Auth, RBAC & Cloud' },
   { value: '3', label: 'Role-Based Systems', desc: 'RBAC Access Layers' },
   { value: '20+', label: 'Hiring Signals Engine', desc: 'Portfolio & Code Auditor' },
   { value: '2026', label: 'CSE Graduate', desc: 'Parul University' },

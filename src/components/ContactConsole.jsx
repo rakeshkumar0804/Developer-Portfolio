@@ -261,24 +261,23 @@ export default function ContactConsole() {
               </button>
             </div>
 
-            {/* Phone Uplink */}
-            <a
-              href={`tel:${personalInfo.phone.replace(/[^0-9+]/g, '')}`}
-              className="hud-panel p-5 rounded-sm border border-[#50aaff]/25 bg-[#06101f]/85 flex items-center justify-between group hover:border-[#38cfff]/50 transition-colors block font-mono"
-            >
+            {/* Phone Channel (Available on Request) */}
+            <div className="hud-panel p-5 rounded-sm border border-[#50aaff]/25 bg-[#06101f]/85 flex items-center justify-between font-mono">
               <div className="flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-sm bg-[#ffb23f]/10 border border-[#ffb23f]/30 flex items-center justify-center text-[#ffb23f] text-base shrink-0">
                   <FiPhone />
                 </div>
                 <div>
-                  <div className="text-[0.62rem] text-[#8aa4bf] uppercase">TELEPHONE_CHANNEL</div>
-                  <div className="text-xs text-[#e6f1ff] font-semibold group-hover:text-[#ffb23f] transition-colors">
-                    {personalInfo.phone}
+                  <div className="text-[0.62rem] text-[#8aa4bf] uppercase">PHONE_CHANNEL</div>
+                  <div className="text-xs text-[#e6f1ff] font-semibold">
+                    Available on request
                   </div>
                 </div>
               </div>
-              <span className="text-[0.65rem] text-[#38cfff]">[ CALL ]</span>
-            </a>
+              <span className="text-[0.65rem] text-[#ffb23f] px-2 py-0.5 rounded bg-[#ffb23f]/10 border border-[#ffb23f]/30">
+                VIA CONTACT FORM
+              </span>
+            </div>
 
             {/* Base Station / Location */}
             <div className="hud-panel p-5 rounded-sm border border-[#50aaff]/25 bg-[#06101f]/85 flex items-center gap-3.5 font-mono">
