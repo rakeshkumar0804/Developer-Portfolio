@@ -1,19 +1,295 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { FiGithub, FiExternalLink, FiRefreshCw, FiArrowRight } from 'react-icons/fi';
+import { FiGithub, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
+
+// Dedicated SVG Architecture Diagram Component matching the reference 1:1
+function ArchitectureSchematic({ figNumber, nodes, connections }) {
+  return (
+    <div className="rounded-lg border border-white/[0.08] bg-[#070d18] p-4 sm:p-5 font-mono shadow-2xl relative">
+      {/* Titlebar */}
+      <div className="flex items-center justify-between pb-3 mb-3 text-[0.68rem] text-slate-400 border-b border-white/[0.06]">
+        <span className="tracking-wider text-slate-300 font-semibold">
+          FIG.{figNumber} - SYSTEM ARCHITECTURE
+        </span>
+        <span className="text-[#38bdf8] flex items-center gap-1.5 font-bold tracking-wider text-[0.65rem]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
+          STREAMING
+        </span>
+      </div>
+
+      {/* Inner Blueprint Canvas with faint grid */}
+      <div className="rounded-md border border-[#1e293b]/70 bg-[#040812] relative overflow-hidden p-2 sm:p-3">
+        {/* Subtle grid background */}
+        <div
+          className="absolute inset-0 pointer-events-none opacity-40"
+          style={{
+            backgroundImage: `
+              linear-gradient(to right, rgba(56, 189, 248, 0.07) 1px, transparent 1px),
+              linear-gradient(to bottom, rgba(56, 189, 248, 0.07) 1px, transparent 1px)
+            `,
+            backgroundSize: '24px 24px',
+          }}
+        />
+
+        {/* Vector SVG with Orthogonal Dashed Connectors & Labels */}
+        <svg
+          viewBox="0 0 680 230"
+          className="w-full h-auto block select-none relative z-10"
+          style={{ minHeight: '190px' }}
+        >
+          <defs>
+            {/* Glowing filter for nodes */}
+            <filter id={`glow-cyan-${figNumber}`} x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="2.5" floodColor="#38bdf8" floodOpacity="0.8" />
+            </filter>
+            <filter id={`glow-amber-${figNumber}`} x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="2.5" floodColor="#f59e0b" floodOpacity="0.8" />
+            </filter>
+          </defs>
+
+          {/* 1. Connecting Dashed Lines */}
+          {connections.map((conn, cIdx) => (
+            <g key={cIdx}>
+              {/* Glow background path */}
+              <path
+                d={conn.path}
+                fill="none"
+                stroke="#38bdf8"
+                strokeWidth="2.5"
+                strokeOpacity="0.15"
+              />
+              {/* Main dashed path with animated dash */}
+              <path
+                d={conn.path}
+                fill="none"
+                stroke="#38bdf8"
+                strokeWidth="1.2"
+                strokeDasharray="4 4"
+                strokeOpacity="0.75"
+                className="transition-all duration-300"
+              />
+              {/* Path Label */}
+              {conn.label && (
+                <text
+                  x={conn.labelX}
+                  y={conn.labelY}
+                  fill="#94a3b8"
+                  fontSize="9.5"
+                  fontFamily="JetBrains Mono, monospace"
+                  fontWeight="600"
+                  letterSpacing="1"
+                  textAnchor="middle"
+                >
+                  {conn.label}
+                </text>
+              )}
+            </g>
+          ))}
+
+          {/* 2. Rectangular Blueprint Nodes */}
+          {nodes.map((node, nIdx) => {
+            const isAmber = node.theme === 'amber';
+            const isDim = node.theme === 'dim';
+            const borderColor = isAmber ? '#f59e0b' : isDim ? '#475569' : '#38bdf8';
+            const borderOpacity = isAmber ? '0.7' : isDim ? '0.35' : '0.55';
+            const dotColor = isAmber ? '#f59e0b' : isDim ? '#64748b' : '#38bdf8';
+            const filter = isAmber
+              ? `url(#glow-amber-${figNumber})`
+              : isDim
+              ? 'none'
+              : `url(#glow-cyan-${figNumber})`;
+
+            return (
+              <g key={nIdx} className="cursor-pointer group">
+                {/* Node Box Background & Border */}
+                <rect
+                  x={node.x}
+                  y={node.y}
+                  width={node.w}
+                  height={node.h}
+                  rx="5"
+                  fill="#070e1b"
+                  fillOpacity="0.95"
+                  stroke={borderColor}
+                  strokeWidth="1.2"
+                  strokeOpacity={borderOpacity}
+                  className="transition-all duration-200 group-hover:stroke-opacity-100"
+                />
+
+                {/* Glowing Status Dot */}
+                <circle
+                  cx={node.x + 14}
+                  cy={node.y + 16}
+                  r="3.5"
+                  fill={dotColor}
+                  filter={filter}
+                />
+
+                {/* Primary Title */}
+                <text
+                  x={node.x + 24}
+                  y={node.y + 19}
+                  fill="#f8fafc"
+                  fontSize="11"
+                  fontWeight="700"
+                  fontFamily="JetBrains Mono, monospace"
+                >
+                  {node.title}
+                </text>
+
+                {/* Subtitle / Tech Spec */}
+                <text
+                  x={node.x + 14}
+                  y={node.y + 36}
+                  fill="#94a3b8"
+                  fontSize="8.5"
+                  fontWeight="500"
+                  fontFamily="JetBrains Mono, monospace"
+                  letterSpacing="0.8"
+                >
+                  {node.subtitle}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+
+      {/* Schematic Footer */}
+      <div className="mt-3.5 pt-2.5 border-t border-white/[0.06] flex items-center justify-between text-[0.65rem] text-slate-500">
+        <div className="flex items-center gap-1.5 text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
+          <FiRefreshCw className="text-[0.6rem]" />
+          <span>RECONSTRUCT BUILD HISTORY</span>
+        </div>
+        <div className="text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
+          SCRUB THE TIMELINE →
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Projects() {
-  const [activeStep, setActiveStep] = useState({});
-
   const fadeInUp = {
     hidden: { opacity: 0, y: 24 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
   };
 
+  /* =========================================================================
+     PROJECT 1 SCHEMATIC DATA (IncidentHub AI)
+     ========================================================================= */
+  const p1Nodes = [
+    { x: 15, y: 35, w: 110, h: 48, title: 'Client', subtitle: 'NEXT.JS SPA', theme: 'cyan' },
+    { x: 15, y: 145, w: 125, h: 48, title: 'OTP / OAuth', subtitle: 'PASSWORDLESS', theme: 'dim' },
+    { x: 185, y: 90, w: 145, h: 48, title: 'API Layer', subtitle: 'NODE / EXPRESS', theme: 'cyan' },
+    { x: 380, y: 35, w: 135, h: 48, title: 'Status Pipeline', subtitle: 'REAL-TIME WS', theme: 'cyan' },
+    { x: 390, y: 145, w: 120, h: 48, title: 'Cloudinary', subtitle: 'DOCUMENTS', theme: 'dim' },
+    { x: 545, y: 85, w: 120, h: 56, title: 'MongoDB', subtitle: 'CASE STORE', theme: 'amber' },
+  ];
+
+  const p1Connections = [
+    // Client -> API Layer (HTTPS)
+    { path: 'M 125 59 L 155 59 L 155 114 L 185 114', label: 'HTTPS', labelX: 155, labelY: 82 },
+    // API Layer -> OTP Auth (VERIFY)
+    { path: 'M 155 114 L 155 169 L 140 169', label: 'VERIFY', labelX: 155, labelY: 148 },
+    // API Layer -> Status Pipeline
+    { path: 'M 330 114 L 355 114 L 355 59 L 380 59' },
+    // API Layer -> Cloudinary (UPLOAD)
+    { path: 'M 330 114 L 355 114 L 355 169 L 390 169', label: 'UPLOAD', labelX: 355, labelY: 145 },
+    // API Layer -> MongoDB (CRUD)
+    { path: 'M 330 114 L 545 114', label: 'CRUD', labelX: 435, labelY: 108 },
+    // Status Pipeline -> MongoDB
+    { path: 'M 515 59 L 535 59 L 535 114 L 545 114' },
+  ];
+
+  /* =========================================================================
+     PROJECT 2 SCHEMATIC DATA (LeaveFlow HR)
+     ========================================================================= */
+  const p2Nodes = [
+    { x: 15, y: 35, w: 110, h: 48, title: 'Employee UI', subtitle: 'LEAVE PORTAL', theme: 'cyan' },
+    { x: 15, y: 145, w: 115, h: 48, title: 'Manager UI', subtitle: 'APPROVAL QUEUE', theme: 'dim' },
+    { x: 185, y: 90, w: 145, h: 48, title: 'Services', subtitle: 'NODE · RBAC', theme: 'cyan' },
+    { x: 380, y: 35, w: 130, h: 48, title: 'Leave Rules', subtitle: 'BALANCE CHECK', theme: 'cyan' },
+    { x: 390, y: 145, w: 120, h: 48, title: 'Audit Logger', subtitle: 'EVENT STREAM', theme: 'dim' },
+    { x: 545, y: 85, w: 120, h: 56, title: 'SQLite DB', subtitle: 'DATA STORE', theme: 'amber' },
+  ];
+
+  const p2Connections = [
+    { path: 'M 125 59 L 155 59 L 155 114 L 185 114', label: 'ROUTE', labelX: 155, labelY: 82 },
+    { path: 'M 155 114 L 155 169 L 130 169', label: 'AUTH', labelX: 155, labelY: 148 },
+    { path: 'M 330 114 L 355 114 L 355 59 L 380 59' },
+    { path: 'M 330 114 L 355 114 L 355 169 L 390 169', label: 'LOG', labelX: 355, labelY: 145 },
+    { path: 'M 330 114 L 545 114', label: 'STORE', labelX: 435, labelY: 108 },
+    { path: 'M 510 59 L 535 59 L 535 114 L 545 114' },
+  ];
+
+  /* =========================================================================
+     PROJECT 3 SCHEMATIC DATA (PortfolioPulse)
+     ========================================================================= */
+  const p3Nodes = [
+    { x: 15, y: 35, w: 115, h: 48, title: 'User Input', subtitle: 'GITHUB / URL', theme: 'cyan' },
+    { x: 15, y: 145, w: 125, h: 48, title: 'Resume Parser', subtitle: 'PDF / ATS', theme: 'dim' },
+    { x: 185, y: 90, w: 145, h: 48, title: 'Scoring Engine', subtitle: 'EXPRESS / NODE', theme: 'cyan' },
+    { x: 380, y: 35, w: 130, h: 48, title: 'Puppeteer', subtitle: 'SPA CRAWLER', theme: 'cyan' },
+    { x: 390, y: 145, w: 120, h: 48, title: 'GitHub API', subtitle: 'REPO METRICS', theme: 'dim' },
+    { x: 545, y: 85, w: 120, h: 56, title: 'MongoDB', subtitle: 'CANDIDATE LOGS', theme: 'amber' },
+  ];
+
+  const p3Connections = [
+    { path: 'M 130 59 L 155 59 L 155 114 L 185 114', label: 'INPUT', labelX: 155, labelY: 82 },
+    { path: 'M 155 114 L 155 169 L 140 169', label: 'PARSE', labelX: 155, labelY: 148 },
+    { path: 'M 330 114 L 355 114 L 355 59 L 380 59' },
+    { path: 'M 330 114 L 355 114 L 355 169 L 390 169', label: 'FETCH', labelX: 355, labelY: 145 },
+    { path: 'M 330 114 L 545 114', label: 'EVAL', labelX: 435, labelY: 108 },
+    { path: 'M 510 59 L 535 59 L 535 114 L 545 114' },
+  ];
+
+  /* =========================================================================
+     PROJECT 4 SCHEMATIC DATA (Kohli Analytics)
+     ========================================================================= */
+  const p4Nodes = [
+    { x: 15, y: 35, w: 115, h: 48, title: 'Cricket Logs', subtitle: 'BALL-BY-BALL', theme: 'cyan' },
+    { x: 15, y: 145, w: 125, h: 48, title: 'Pitch Heatmap', subtitle: 'COORDINATES', theme: 'dim' },
+    { x: 185, y: 90, w: 145, h: 48, title: 'D3.js Engine', subtitle: 'VECTOR VIZ', theme: 'cyan' },
+    { x: 380, y: 35, w: 130, h: 48, title: 'GSAP Motion', subtitle: 'SCROLL STORY', theme: 'cyan' },
+    { x: 390, y: 145, w: 120, h: 48, title: 'Aggregator', subtitle: 'STATS PARSER', theme: 'dim' },
+    { x: 545, y: 85, w: 120, h: 56, title: 'Dashboard', subtitle: 'RESPONSIVE UI', theme: 'amber' },
+  ];
+
+  const p4Connections = [
+    { path: 'M 130 59 L 155 59 L 155 114 L 185 114', label: 'STREAM', labelX: 155, labelY: 82 },
+    { path: 'M 155 114 L 155 169 L 140 169', label: 'MAP', labelX: 155, labelY: 148 },
+    { path: 'M 330 114 L 355 114 L 355 59 L 380 59' },
+    { path: 'M 330 114 L 355 114 L 355 169 L 390 169', label: 'PARSE', labelX: 355, labelY: 145 },
+    { path: 'M 330 114 L 545 114', label: 'RENDER', labelX: 435, labelY: 108 },
+    { path: 'M 510 59 L 535 59 L 535 114 L 545 114' },
+  ];
+
+  /* =========================================================================
+     PROJECT 5 SCHEMATIC DATA (TaskFlow)
+     ========================================================================= */
+  const p5Nodes = [
+    { x: 15, y: 35, w: 110, h: 48, title: 'Kanban UI', subtitle: 'REACT CLIENT', theme: 'cyan' },
+    { x: 15, y: 145, w: 120, h: 48, title: 'JWT / RBAC', subtitle: 'ROLE GUARD', theme: 'dim' },
+    { x: 185, y: 90, w: 145, h: 48, title: 'Express API', subtitle: 'NODE / SOCKET.IO', theme: 'cyan' },
+    { x: 380, y: 35, w: 130, h: 48, title: 'Task Service', subtitle: 'LANE STATE', theme: 'cyan' },
+    { x: 390, y: 145, w: 120, h: 48, title: 'Activity Log', subtitle: 'AUDIT TRAIL', theme: 'dim' },
+    { x: 545, y: 85, w: 120, h: 56, title: 'MongoDB', subtitle: 'DOC STORE', theme: 'amber' },
+  ];
+
+  const p5Connections = [
+    { path: 'M 125 59 L 155 59 L 155 114 L 185 114', label: 'WS / REST', labelX: 155, labelY: 82 },
+    { path: 'M 155 114 L 155 169 L 135 169', label: 'AUTH', labelX: 155, labelY: 148 },
+    { path: 'M 330 114 L 355 114 L 355 59 L 380 59' },
+    { path: 'M 330 114 L 355 114 L 355 169 L 390 169', label: 'AUDIT', labelX: 355, labelY: 145 },
+    { path: 'M 330 114 L 545 114', label: 'CRUD', labelX: 435, labelY: 108 },
+    { path: 'M 510 59 L 535 59 L 535 114 L 545 114' },
+  ];
+
   return (
     <section id="projects" className="py-28 relative border-t border-white/[0.08] font-sans">
       <div className="max-w-6xl mx-auto px-6 sm:px-8">
-        {/* Section Header with exact reference styling */}
+        {/* Section Header */}
         <div className="mb-20">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-4 border-b border-white/[0.08]">
             <div className="flex items-center gap-3">
@@ -40,7 +316,6 @@ export default function Projects() {
             {/* Left: Details */}
             <div className="lg:col-span-6 flex flex-col justify-between">
               <div>
-                {/* Meta Top Line */}
                 <div className="flex items-center justify-between text-xs font-mono text-slate-500 mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-400 font-bold">SYS-01</span>
@@ -55,19 +330,16 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Big Title */}
                 <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-1.5">
                   IncidentHub AI - Incident Intelligence Platform
                 </h3>
 
-                {/* Subtitle */}
                 <div className="text-xs font-mono text-[#38bdf8] tracking-wider uppercase mb-4 font-semibold">
                   FULL-STACK / INCIDENT INTELLIGENCE · INDEPENDENT BUILD
                 </div>
 
-                {/* Description */}
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-mono text-justify">
-                  An engineering incident intelligence platform that correlates GitHub, Sentry, Slack, and Jira signals for evidence-backed root-cause analysis and AI-generated postmortems. Architected with multi-tenant RBAC, real-time WebSockets, and Redis caching.
+                  A full-stack incident intelligence platform correlating GitHub, Sentry, Slack, and Jira signals with passwordless OAuth, a real-time status pipeline, and AI-generated postmortems. Architected and deployed end-to-end.
                 </p>
 
                 {/* 3 Metrics Box */}
@@ -86,23 +358,23 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Bullet Points with small amber squares */}
+                {/* Bullet Points */}
                 <div className="space-y-2 mb-6 text-xs text-slate-300 font-mono">
                   <div className="flex items-start gap-2">
                     <span className="text-[#f59e0b] text-[0.65rem] mt-0.5 shrink-0">▪</span>
-                    <span>OAuth integrations across GitHub, Sentry, Slack, and Jira webhooks</span>
+                    <span>Passwordless OAuth authentication flow & multi-tenant RBAC</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-[#f59e0b] text-[0.65rem] mt-0.5 shrink-0">▪</span>
-                    <span>Multi-tenant RBAC with granular permissions and team isolation</span>
+                    <span>Real-time application status pipeline & live incident triage rooms</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-[#f59e0b] text-[0.65rem] mt-0.5 shrink-0">▪</span>
-                    <span>Real-time WebSocket event triage rooms & automated AI postmortems</span>
+                    <span>PostgreSQL case store + Redis cache for instant telemetry retrieval</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-[#f59e0b] text-[0.65rem] mt-0.5 shrink-0">▪</span>
-                    <span>PostgreSQL persistence layer with Redis caching for instant query resolution</span>
+                    <span>Architected from system design to production cloud deployment</span>
                   </div>
                 </div>
 
@@ -141,88 +413,11 @@ export default function Projects() {
 
             {/* Right: Architecture Schematic Panel (FIG.1) */}
             <div className="lg:col-span-6">
-              <div className="rounded-xs border border-white/[0.1] bg-[#060e1c]/90 p-5 font-mono shadow-2xl relative">
-                {/* Schematic Titlebar */}
-                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/[0.06] text-[0.68rem] text-slate-400">
-                  <span className="tracking-wider text-slate-300 font-semibold">FIG.1 - SYSTEM ARCHITECTURE</span>
-                  <span className="text-[#38bdf8] flex items-center gap-1.5 font-bold">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                    STREAMING
-                  </span>
-                </div>
-
-                {/* Blueprint Nodes Map */}
-                <div className="grid grid-cols-12 gap-3 min-h-[260px] items-center relative py-2">
-                  {/* Left Column Nodes */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#38bdf8]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>Client UI</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">REACT 19 SPA</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-slate-300 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                        <span>OAuth / RBAC</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">SECURITY GUARD</div>
-                    </div>
-                  </div>
-
-                  {/* Middle Column Gateway */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-3 rounded-xs border border-[#38bdf8] bg-[#0d1c33] text-[0.68rem] shadow-[0_0_15px_rgba(56,189,248,0.15)]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-ping" />
-                        <span>Node API</span>
-                      </div>
-                      <div className="text-slate-300 text-[0.6rem] mt-0.5">EXPRESS / WS</div>
-                      <div className="mt-2 text-[0.55rem] text-[#38bdf8] border-t border-[#38bdf8]/30 pt-1 flex justify-between">
-                        <span>ROUTE</span>
-                        <span>TRIAGE</span>
-                      </div>
-                    </div>
-
-                    <div className="p-2 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.65rem] text-center">
-                      <div className="text-[#f59e0b] font-bold">AI Postmortem</div>
-                      <div className="text-slate-400 text-[0.58rem]">ROOT CAUSE</div>
-                    </div>
-                  </div>
-
-                  {/* Right Column Stores */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#f59e0b]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#f59e0b] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
-                        <span>PostgreSQL</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">PRIMARY STORE</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-rose-500/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-rose-400 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
-                        <span>Redis Cache</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">EVENT STREAM</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Schematic Bottom Bar */}
-                <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[0.62rem] text-slate-500">
-                  <div className="flex items-center gap-1.5 text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    <FiRefreshCw className="text-[0.6rem]" />
-                    <span>RECONSTRUCT BUILD HISTORY</span>
-                  </div>
-                  <div className="text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    SCRUB THE TIMELINE →
-                  </div>
-                </div>
-              </div>
+              <ArchitectureSchematic
+                figNumber="1"
+                nodes={p1Nodes}
+                connections={p1Connections}
+              />
             </div>
           </div>
 
@@ -232,94 +427,16 @@ export default function Projects() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Architecture Schematic Panel (FIG.2) */}
             <div className="lg:col-span-6 lg:order-1">
-              <div className="rounded-xs border border-white/[0.1] bg-[#060e1c]/90 p-5 font-mono shadow-2xl relative">
-                {/* Schematic Titlebar */}
-                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/[0.06] text-[0.68rem] text-slate-400">
-                  <span className="tracking-wider text-slate-300 font-semibold">FIG.2 - SYSTEM ARCHITECTURE</span>
-                  <span className="text-[#38bdf8] flex items-center gap-1.5 font-bold">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                    STREAMING
-                  </span>
-                </div>
-
-                {/* Blueprint Nodes Map */}
-                <div className="grid grid-cols-12 gap-3 min-h-[260px] items-center relative py-2">
-                  {/* Left Column Nodes */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#38bdf8]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>Employee UI</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">PORTAL / REQUEST</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-slate-300 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                        <span>Manager UI</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">APPROVAL QUEUE</div>
-                    </div>
-                  </div>
-
-                  {/* Middle Column Services */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-3 rounded-xs border border-[#38bdf8] bg-[#0d1c33] text-[0.68rem] shadow-[0_0_15px_rgba(56,189,248,0.15)]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>Leave Engine</span>
-                      </div>
-                      <div className="text-slate-300 text-[0.6rem] mt-0.5">NODE / RBAC</div>
-                      <div className="mt-2 text-[0.55rem] text-[#38bdf8] border-t border-[#38bdf8]/30 pt-1 flex justify-between">
-                        <span>VALIDATE</span>
-                        <span>DEDUCT</span>
-                      </div>
-                    </div>
-
-                    <div className="p-2 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.65rem] text-center">
-                      <div className="text-[#38bdf8] font-bold">Admin Ops</div>
-                      <div className="text-slate-400 text-[0.58rem]">ROSTER CONTROL</div>
-                    </div>
-                  </div>
-
-                  {/* Right Column Stores */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#f59e0b]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#f59e0b] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
-                        <span>SQLite Store</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">AUDIT & RECORDS</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-emerald-500/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-emerald-400 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                        <span>Analytics</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">BALANCE METRICS</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Schematic Bottom Bar */}
-                <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[0.62rem] text-slate-500">
-                  <div className="flex items-center gap-1.5 text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    <FiRefreshCw className="text-[0.6rem]" />
-                    <span>RECONSTRUCT BUILD HISTORY</span>
-                  </div>
-                  <div className="text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    SCRUB THE TIMELINE →
-                  </div>
-                </div>
-              </div>
+              <ArchitectureSchematic
+                figNumber="2"
+                nodes={p2Nodes}
+                connections={p2Connections}
+              />
             </div>
 
             {/* Right: Details */}
             <div className="lg:col-span-6 lg:order-2 flex flex-col justify-between">
               <div>
-                {/* Meta Top Line */}
                 <div className="flex items-center justify-between text-xs font-mono text-slate-500 mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-400 font-bold">SYS-02</span>
@@ -334,17 +451,14 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Big Title */}
                 <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-1.5">
                   LeaveFlow - Employee Leave Management System
                 </h3>
 
-                {/* Subtitle */}
                 <div className="text-xs font-mono text-[#38bdf8] tracking-wider uppercase mb-4 font-semibold">
                   HRMS / ROLE-BASED WORKFLOW · CORE BACKEND
                 </div>
 
-                {/* Description */}
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-mono text-justify">
                   A full-stack employee leave management system managing 3 role-isolated tiers (Employee, Manager, Admin). Includes automated balance validation at approval time, secure REST APIs, and SQLite audit logging.
                 </p>
@@ -426,7 +540,6 @@ export default function Projects() {
             {/* Left: Details */}
             <div className="lg:col-span-6 flex flex-col justify-between">
               <div>
-                {/* Meta Top Line */}
                 <div className="flex items-center justify-between text-xs font-mono text-slate-500 mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-400 font-bold">SYS-03</span>
@@ -441,17 +554,14 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Big Title */}
                 <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-1.5">
                   PortfolioPulse - Developer Portfolio Health Checker
                 </h3>
 
-                {/* Subtitle */}
                 <div className="text-xs font-mono text-[#38bdf8] tracking-wider uppercase mb-4 font-semibold">
                   CAREER INTELLIGENCE / GITHUB ANALYTICS · MERN APP
                 </div>
 
-                {/* Description */}
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-mono text-justify">
                   An evidence-based career intelligence platform that analyzes GitHub profiles, portfolio websites, and resumes to evaluate hiring readiness across ~20 recruiter-grade signals with actionable recommendations.
                 </p>
@@ -527,88 +637,11 @@ export default function Projects() {
 
             {/* Right: Architecture Schematic Panel (FIG.3) */}
             <div className="lg:col-span-6">
-              <div className="rounded-xs border border-white/[0.1] bg-[#060e1c]/90 p-5 font-mono shadow-2xl relative">
-                {/* Schematic Titlebar */}
-                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/[0.06] text-[0.68rem] text-slate-400">
-                  <span className="tracking-wider text-slate-300 font-semibold">FIG.3 - SYSTEM ARCHITECTURE</span>
-                  <span className="text-[#38bdf8] flex items-center gap-1.5 font-bold">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                    STREAMING
-                  </span>
-                </div>
-
-                {/* Blueprint Nodes Map */}
-                <div className="grid grid-cols-12 gap-3 min-h-[260px] items-center relative py-2">
-                  {/* Left Column Nodes */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#38bdf8]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>User Input</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">HANDLE / URL</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-slate-300 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                        <span>Puppeteer</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">SPA CRAWLER</div>
-                    </div>
-                  </div>
-
-                  {/* Middle Column Evaluator */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-3 rounded-xs border border-[#38bdf8] bg-[#0d1c33] text-[0.68rem] shadow-[0_0_15px_rgba(56,189,248,0.15)]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>Scoring Engine</span>
-                      </div>
-                      <div className="text-slate-300 text-[0.6rem] mt-0.5">20+ SIGNALS</div>
-                      <div className="mt-2 text-[0.55rem] text-[#38bdf8] border-t border-[#38bdf8]/30 pt-1 flex justify-between">
-                        <span>ANALYZE</span>
-                        <span>ATS AUDIT</span>
-                      </div>
-                    </div>
-
-                    <div className="p-2 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.65rem] text-center">
-                      <div className="text-[#f59e0b] font-bold">GitHub API</div>
-                      <div className="text-slate-400 text-[0.58rem]">REPO SIGNALS</div>
-                    </div>
-                  </div>
-
-                  {/* Right Column Stores */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#f59e0b]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#f59e0b] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
-                        <span>MongoDB</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">CANDIDATE LOGS</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-emerald-500/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-emerald-400 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                        <span>Dashboard</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">SCORE REPORT</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Schematic Bottom Bar */}
-                <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[0.62rem] text-slate-500">
-                  <div className="flex items-center gap-1.5 text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    <FiRefreshCw className="text-[0.6rem]" />
-                    <span>RECONSTRUCT BUILD HISTORY</span>
-                  </div>
-                  <div className="text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    SCRUB THE TIMELINE →
-                  </div>
-                </div>
-              </div>
+              <ArchitectureSchematic
+                figNumber="3"
+                nodes={p3Nodes}
+                connections={p3Connections}
+              />
             </div>
           </div>
 
@@ -618,94 +651,16 @@ export default function Projects() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Architecture Schematic Panel (FIG.4) */}
             <div className="lg:col-span-6 lg:order-1">
-              <div className="rounded-xs border border-white/[0.1] bg-[#060e1c]/90 p-5 font-mono shadow-2xl relative">
-                {/* Schematic Titlebar */}
-                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/[0.06] text-[0.68rem] text-slate-400">
-                  <span className="tracking-wider text-slate-300 font-semibold">FIG.4 - SYSTEM ARCHITECTURE</span>
-                  <span className="text-[#38bdf8] flex items-center gap-1.5 font-bold">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                    STREAMING
-                  </span>
-                </div>
-
-                {/* Blueprint Nodes Map */}
-                <div className="grid grid-cols-12 gap-3 min-h-[260px] items-center relative py-2">
-                  {/* Left Column Nodes */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#38bdf8]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>Match Logs</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">BALL-BY-BALL</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-slate-300 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                        <span>Data Parser</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">VECTOR ENGINE</div>
-                    </div>
-                  </div>
-
-                  {/* Middle Column Computation */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-3 rounded-xs border border-[#38bdf8] bg-[#0d1c33] text-[0.68rem] shadow-[0_0_15px_rgba(56,189,248,0.15)]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>D3.js Charts</span>
-                      </div>
-                      <div className="text-slate-300 text-[0.6rem] mt-0.5">VECTOR VIZ</div>
-                      <div className="mt-2 text-[0.55rem] text-[#38bdf8] border-t border-[#38bdf8]/30 pt-1 flex justify-between">
-                        <span>STRIKE RATE</span>
-                        <span>HEATMAP</span>
-                      </div>
-                    </div>
-
-                    <div className="p-2 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.65rem] text-center">
-                      <div className="text-indigo-400 font-bold">GSAP Motion</div>
-                      <div className="text-slate-400 text-[0.58rem]">SCROLL STORY</div>
-                    </div>
-                  </div>
-
-                  {/* Right Column Visualization */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#f59e0b]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#f59e0b] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
-                        <span>Pitch Map</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">COORDINATES</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-emerald-500/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-emerald-400 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                        <span>Dashboard UI</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">RESPONSIVE VIZ</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Schematic Bottom Bar */}
-                <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[0.62rem] text-slate-500">
-                  <div className="flex items-center gap-1.5 text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    <FiRefreshCw className="text-[0.6rem]" />
-                    <span>RECONSTRUCT BUILD HISTORY</span>
-                  </div>
-                  <div className="text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    SCRUB THE TIMELINE →
-                  </div>
-                </div>
-              </div>
+              <ArchitectureSchematic
+                figNumber="4"
+                nodes={p4Nodes}
+                connections={p4Connections}
+              />
             </div>
 
             {/* Right: Details */}
             <div className="lg:col-span-6 lg:order-2 flex flex-col justify-between">
               <div>
-                {/* Meta Top Line */}
                 <div className="flex items-center justify-between text-xs font-mono text-slate-500 mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-400 font-bold">SYS-04</span>
@@ -720,17 +675,14 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Big Title */}
                 <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-1.5">
                   Kohli Analytics - Cricket Data Visualization
                 </h3>
 
-                {/* Subtitle */}
                 <div className="text-xs font-mono text-[#38bdf8] tracking-wider uppercase mb-4 font-semibold">
                   DATA VISUALIZATION / SPORTS ANALYTICS · D3.JS + GSAP
                 </div>
 
-                {/* Description */}
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-mono text-justify">
                   An interactive sports analytics platform transforming ball-by-ball cricket data into original metrics, pitch heatmaps, and cinematic visual storytelling with D3.js and GSAP scroll animations.
                 </p>
@@ -812,7 +764,6 @@ export default function Projects() {
             {/* Left: Details */}
             <div className="lg:col-span-6 flex flex-col justify-between">
               <div>
-                {/* Meta Top Line */}
                 <div className="flex items-center justify-between text-xs font-mono text-slate-500 mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-400 font-bold">SYS-05</span>
@@ -827,17 +778,14 @@ export default function Projects() {
                   </div>
                 </div>
 
-                {/* Big Title */}
                 <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-1.5">
                   TaskFlow - Real-Time Collaborative Task Board
                 </h3>
 
-                {/* Subtitle */}
                 <div className="text-xs font-mono text-[#38bdf8] tracking-wider uppercase mb-4 font-semibold">
                   TASK MANAGEMENT / MERN APP · REAL-TIME SYSTEM
                 </div>
 
-                {/* Description */}
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-6 font-mono text-justify">
                   A modern full-stack task management application with JWT authentication, RBAC, project organization, and real-time state synchronization across team Kanban boards.
                 </p>
@@ -913,88 +861,11 @@ export default function Projects() {
 
             {/* Right: Architecture Schematic Panel (FIG.5) */}
             <div className="lg:col-span-6">
-              <div className="rounded-xs border border-white/[0.1] bg-[#060e1c]/90 p-5 font-mono shadow-2xl relative">
-                {/* Schematic Titlebar */}
-                <div className="flex items-center justify-between pb-3 mb-5 border-b border-white/[0.06] text-[0.68rem] text-slate-400">
-                  <span className="tracking-wider text-slate-300 font-semibold">FIG.5 - SYSTEM ARCHITECTURE</span>
-                  <span className="text-[#38bdf8] flex items-center gap-1.5 font-bold">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-                    STREAMING
-                  </span>
-                </div>
-
-                {/* Blueprint Nodes Map */}
-                <div className="grid grid-cols-12 gap-3 min-h-[260px] items-center relative py-2">
-                  {/* Left Column Nodes */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#38bdf8]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>Kanban UI</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">REACT BOARD</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-slate-300 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                        <span>JWT Auth</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">RBAC GUARD</div>
-                    </div>
-                  </div>
-
-                  {/* Middle Column Gateway */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-3 rounded-xs border border-[#38bdf8] bg-[#0d1c33] text-[0.68rem] shadow-[0_0_15px_rgba(56,189,248,0.15)]">
-                      <div className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8]" />
-                        <span>Express API</span>
-                      </div>
-                      <div className="text-slate-300 text-[0.6rem] mt-0.5">NODE GATEWAY</div>
-                      <div className="mt-2 text-[0.55rem] text-[#38bdf8] border-t border-[#38bdf8]/30 pt-1 flex justify-between">
-                        <span>PROJECT</span>
-                        <span>TASK</span>
-                      </div>
-                    </div>
-
-                    <div className="p-2 rounded-xs border border-white/[0.08] bg-[#090a0f] text-[0.65rem] text-center">
-                      <div className="text-[#38bdf8] font-bold">Task Service</div>
-                      <div className="text-slate-400 text-[0.58rem]">LANE OPS</div>
-                    </div>
-                  </div>
-
-                  {/* Right Column Stores */}
-                  <div className="col-span-4 space-y-4">
-                    <div className="p-2.5 rounded-xs border border-[#f59e0b]/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-[#f59e0b] font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" />
-                        <span>MongoDB</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">DOC STORE</div>
-                    </div>
-
-                    <div className="p-2.5 rounded-xs border border-emerald-500/40 bg-[#090a0f] text-[0.68rem]">
-                      <div className="flex items-center gap-1 text-emerald-400 font-bold">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                        <span>Sync Engine</span>
-                      </div>
-                      <div className="text-slate-400 text-[0.6rem] mt-0.5">LIVE AUDIT</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Schematic Bottom Bar */}
-                <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[0.62rem] text-slate-500">
-                  <div className="flex items-center gap-1.5 text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    <FiRefreshCw className="text-[0.6rem]" />
-                    <span>RECONSTRUCT BUILD HISTORY</span>
-                  </div>
-                  <div className="text-slate-400 hover:text-[#38bdf8] cursor-pointer transition-colors">
-                    SCRUB THE TIMELINE →
-                  </div>
-                </div>
-              </div>
+              <ArchitectureSchematic
+                figNumber="5"
+                nodes={p5Nodes}
+                connections={p5Connections}
+              />
             </div>
           </div>
         </div>
