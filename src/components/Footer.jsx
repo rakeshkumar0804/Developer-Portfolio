@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiGithub, FiLinkedin, FiMail, FiArrowUp } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail, FiArrowUp, FiFileText } from 'react-icons/fi';
 import { SiLeetcode } from 'react-icons/si';
 import { personalInfo } from '../data/portfolioData';
 
@@ -27,8 +27,19 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Social Links */}
+          {/* Social Links & Resume */}
           <div className="flex items-center gap-3">
+            <a
+              href={personalInfo.resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/[0.08] bg-[#131622] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors text-xs"
+              aria-label="Download Resume PDF"
+            >
+              <FiFileText className="text-sm" />
+              <span>Resume PDF</span>
+            </a>
+
             <a
               href={personalInfo.github}
               target="_blank"
