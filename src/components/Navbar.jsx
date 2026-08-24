@@ -1,132 +1,219 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiDownload } from 'react-icons/fi';
+import { FiMenu, FiX, FiDownload, FiSun, FiMoon, FiArrowUpRight } from 'react-icons/fi';
+import { useTheme } from '../context/ThemeContext';
+import { personalInfo } from '../data/portfolioData';
 
 const navLinks = [
-  { name: 'Home', href: '#hero' },
   { name: 'About', href: '#about' },
-  { name: 'Projects', href: '#projects' },
   { name: 'Skills', href: '#skills' },
+  { name: 'Projects', href: '#projects' },
+  { name: 'Services', href: '#services' },
   { name: 'Experience', href: '#experience' },
   { name: 'Contact', href: '#contact' },
 ];
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
+export default function Navbar() {
+  const { theme, toggleTheme, isDark } = useTheme();
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
+  // Scroll listener for sticky header background and active section
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 20);
 
-      const sections = navLinks.map(link => link.href.substring(1));
-      let current = '';
+      const sectionIds = ['hero', 'about', 'skills', 'projects', 'services', 'experience', 'contact'];
+      const scrollPos = window.scrollY + 180;
 
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            current = section;
-            break;
-          }
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const el = document.getElementById(sectionIds[i]);
+        if (el && el.offsetTop <= scrollPos) {
+          setActiveSection(sectionIds[i]);
+          break;
         }
-      }
-
-      if (current) {
-        setActiveSection(current);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
-    setIsOpen(false);
+    setMobileMenuOpen(false);
     const targetId = href.replace('#', '');
     const element = document.getElementById(targetId);
     if (element) {
-      const top = element.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top, behavior: 'smooth' });
+      const topOffset = element.getBoundingClientRect().top + window.scrollY - 75;
+      window.scrollTo({ top: topOffset, behavior: 'smooth' });
     }
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-[#1e1e2a] py-3' : 'bg-transparent py-5'}`}>
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-8 h-8 border border-[#6366f1] rounded text-[#6366f1] font-bold text-sm">
-              RK
-            </div>
-            <span className="text-[#e4e4e7] font-semibold tracking-wide hidden sm:block">Rakesh Kumar</span>
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'py-3.5 backdrop-blur-xl border-b shadow-lg ' +
+            (isDark
+              ? 'bg-[#08090E]/80 border-white/[0.08] shadow-black/40'
+              : 'bg-white/80 border-slate-200/80 shadow-slate-200/50')
+          : 'py-5 bg-transparent border-b border-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
+        {/* Brand Logo */}
+        <a
+          href="#hero"
+          onClick={(e) => handleNavClick(e, '#hero')}
+          className="flex items-center gap-3 group focus:outline-none"
+          aria-label="Rakesh Kumar Home"
+        >
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-mono font-bold text-sm text-white shadow-md shadow-indigo-500/25 group-hover:scale-105 group-hover:shadow-indigo-500/40 transition-all duration-200">
+            RK
           </div>
-
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
-            <div className="flex items-center gap-6">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link.href)}
-                  className={`text-sm font-medium transition-colors hover:text-[#6366f1] ${activeSection === link.href.substring(1) ? 'text-[#6366f1]' : 'text-[#71717a]'}`}
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2 bg-[#6366f1]/10 text-[#6366f1] border border-[#6366f1]/20 rounded-md hover:bg-[#6366f1] hover:text-white transition-colors text-sm font-medium">
-              <span>Resume</span>
-              <FiDownload />
-            </a>
+          <div className="flex flex-col">
+            <span
+              className={`font-semibold text-sm tracking-tight transition-colors ${
+                isDark ? 'text-slate-100 group-hover:text-indigo-400' : 'text-slate-900 group-hover:text-indigo-600'
+              }`}
+            >
+              {personalInfo.name}
+            </span>
+            <span className="flex items-center gap-1.5 text-[0.68rem] text-emerald-500 font-medium">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Open to work</span>
+            </span>
           </div>
+        </a>
 
-          {/* Mobile Menu Button */}
+        {/* Desktop Nav Links */}
+        <nav
+          className={`hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full border backdrop-blur-md ${
+            isDark
+              ? 'bg-slate-900/60 border-white/[0.08]'
+              : 'bg-slate-100/80 border-slate-200'
+          }`}
+        >
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href.replace('#', '');
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`relative px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                  isActive
+                    ? isDark
+                      ? 'text-white bg-indigo-600 shadow-sm shadow-indigo-600/30'
+                      : 'text-white bg-indigo-600 shadow-sm shadow-indigo-600/30'
+                    : isDark
+                    ? 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                }`}
+              >
+                {link.name}
+              </a>
+            );
+          })}
+        </nav>
+
+        {/* Desktop Actions: Theme Toggle + Resume Button */}
+        <div className="hidden md:flex items-center gap-3">
           <button
-            className="md:hidden text-[#e4e4e7] p-2 hover:bg-[#111118] rounded-md transition-colors"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
+            onClick={toggleTheme}
+            className={`p-2 rounded-xl border transition-all duration-200 ${
+              isDark
+                ? 'border-white/[0.08] bg-slate-900/60 text-amber-400 hover:bg-slate-800 hover:border-white/20'
+                : 'border-slate-200 bg-slate-100 text-indigo-600 hover:bg-slate-200'
+            }`}
+            aria-label="Toggle theme"
+            title={isDark ? 'Switch to Light mode' : 'Switch to Dark mode'}
           >
-            {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            {isDark ? <FiSun className="text-base" /> : <FiMoon className="text-base" />}
+          </button>
+
+          <a
+            href={personalInfo.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-semibold shadow-md shadow-indigo-600/25 hover:shadow-indigo-600/40 hover:-translate-y-0.5 transition-all duration-200"
+          >
+            <span>Resume</span>
+            <FiDownload className="text-xs" />
+          </a>
+        </div>
+
+        {/* Mobile Actions: Theme Toggle + Hamburger */}
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={toggleTheme}
+            className={`p-2 rounded-xl border ${
+              isDark ? 'border-white/[0.08] bg-slate-900 text-amber-400' : 'border-slate-200 bg-slate-100 text-indigo-600'
+            }`}
+            aria-label="Toggle theme"
+          >
+            {isDark ? <FiSun className="text-base" /> : <FiMoon className="text-base" />}
+          </button>
+
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`p-2 rounded-xl border ${
+              isDark ? 'border-white/[0.08] bg-slate-900 text-slate-200' : 'border-slate-200 bg-slate-100 text-slate-800'
+            }`}
+            aria-label="Toggle navigation menu"
+          >
+            {mobileMenuOpen ? <FiX className="text-lg" /> : <FiMenu className="text-lg" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Nav Drawer */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
-        {isOpen && (
+        {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#111118] border-b border-[#1e1e2a] overflow-hidden"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className={`md:hidden mt-3 mx-4 p-5 rounded-2xl border shadow-2xl backdrop-blur-2xl ${
+              isDark ? 'bg-slate-900/95 border-white/[0.1] text-white' : 'bg-white/95 border-slate-200 text-slate-900'
+            }`}
           >
-            <div className="flex flex-col px-6 py-4 space-y-4">
+            <nav className="flex flex-col gap-2">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`text-sm font-medium transition-colors hover:text-[#6366f1] ${activeSection === link.href.substring(1) ? 'text-[#6366f1]' : 'text-[#71717a]'}`}
+                  className={`px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                    activeSection === link.href.replace('#', '')
+                      ? 'bg-indigo-600 text-white'
+                      : isDark
+                      ? 'text-slate-300 hover:bg-slate-800'
+                      : 'text-slate-700 hover:bg-slate-100'
+                  }`}
                 >
                   {link.name}
                 </a>
               ))}
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-4 py-2 bg-[#6366f1] text-white rounded-md text-sm font-medium hover:bg-[#4f46e5] transition-colors">
-                <span>Download Resume</span>
-                <FiDownload />
-              </a>
-            </div>
+              <div className="pt-3 mt-2 border-t border-slate-700/40 flex flex-col gap-2">
+                <a
+                  href={personalInfo.resumeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-semibold shadow-md"
+                >
+                  <span>Download Resume</span>
+                  <FiDownload />
+                </a>
+              </div>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
-};
-
-export default Navbar;
+}
