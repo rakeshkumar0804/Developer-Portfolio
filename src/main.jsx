@@ -1,52 +1,49 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
+import HUDFrame from './components/HUDFrame';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Skills from './components/Skills';
+import OperatingPrinciples from './components/OperatingPrinciples';
 import Projects from './components/Projects';
-import Timeline from './components/Timeline';
-import Services from './components/Services';
-import CTASection from './components/CTASection';
-import Contact from './components/Contact';
+import GitHubSignals from './components/GitHubSignals';
+import AboutArchitect from './components/AboutArchitect';
+import SkillsMatrix from './components/SkillsMatrix';
+import Certifications from './components/Certifications';
+import ContactConsole from './components/ContactConsole';
+import SystemReview from './components/SystemReview';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 
-function PortfolioApp() {
-  const { isDark } = useTheme();
-
+function App() {
   return (
-    <div
-      className={`min-h-screen transition-colors duration-300 relative selection:bg-indigo-500/30 selection:text-indigo-400 ${
-        isDark ? 'bg-ambient-dark text-slate-100' : 'bg-ambient-light text-slate-900'
-      }`}
-    >
+    <div className="relative min-h-screen cyber-grid-bg text-[#e6f1ff] font-sans selection:bg-[#38cfff]/30 selection:text-[#38cfff] overflow-x-hidden">
+      {/* Subtle Scanlines Overlay */}
+      <div className="pointer-events-none fixed inset-0 z-30 scanline-overlay opacity-40" />
+
+      {/* Global Fixed HUD Telemetry Frame & Depth Rail */}
+      <HUDFrame />
+
+      {/* Sticky Cyber-HUD Navbar */}
       <Navbar />
 
+      {/* Main Command Center Stream */}
       <main className="relative z-10">
         <Hero />
-        <About />
-        <Skills />
+        <OperatingPrinciples />
         <Projects />
-        <Timeline />
-        <Services />
-        <CTASection />
-        <Contact />
+        <GitHubSignals />
+        <AboutArchitect />
+        <SkillsMatrix />
+        <Certifications />
+        <ContactConsole />
+        <SystemReview />
       </main>
 
+      {/* System Footer & Floating ReturntoTop */}
       <Footer />
       <BackToTop />
     </div>
-  );
-}
-
-export default function App() {
-  return (
-    <ThemeProvider>
-      <PortfolioApp />
-    </ThemeProvider>
   );
 }
 

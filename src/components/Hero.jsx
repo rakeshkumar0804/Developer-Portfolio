@@ -1,69 +1,140 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import {
-  FiArrowRight,
-  FiDownload,
-  FiMail,
-  FiGithub,
-  FiLinkedin,
-  FiCode,
-  FiCheckCircle,
-  FiTerminal,
-  FiLayers,
-} from 'react-icons/fi';
-import { SiLeetcode, SiReact, SiNodedotjs, SiMongodb, SiTypescript, SiTailwindcss } from 'react-icons/si';
+import { FiArrowDown, FiDownload, FiMail, FiTerminal, FiLayers, FiActivity, FiShield } from 'react-icons/fi';
 import { personalInfo, heroStats } from '../data/portfolioData';
-import { useTheme } from '../context/ThemeContext';
-
-const codeSnippets = {
-  'App.tsx': `// Rakesh Kumar — Full Stack Developer
-import { MERNStack, CleanArchitecture } from '@/core';
-
-export const SoftwareEngineer = () => {
-  const skills = ['React 19', 'Node.js', 'Express', 'MongoDB', 'TS'];
-  const focus = 'Clean UI & Robust Microservices';
-  
-  return {
-    status: 'Ready to build impactful web applications',
-    available: true,
-    hireMe: () => contact('rakeshchauhan6651@gmail.com')
-  };
-};`,
-  'LeaveFlow.js': `// Employee Leave Management Core Engine
-const handleLeaveApproval = async (req, res) => {
-  const { leaveId, action, managerId } = req.body;
-  const leave = await LeaveRequest.findById(leaveId);
-  
-  await leave.updateStatus(action, managerId);
-  await auditLog.record({ leaveId, action, timestamp: Date.now() });
-  
-  return res.json({ success: true, status: leave.status });
-};`,
-  'IncidentTriage.ts': `// IncidentHub AI — Live Webhook Ingestion
-export async function triageIncident(payload: WebhookEvent) {
-  const priority = calculateSeverity(payload.level);
-  const aiSummary = await gemini.summarize(payload.stack);
-  
-  socketServer.broadcast('incident:new', {
-    id: payload.id,
-    priority,
-    aiSummary
-  });
-}`,
-};
 
 export default function Hero() {
-  const { isDark } = useTheme();
-  const [activeTab, setActiveTab] = useState('App.tsx');
+  const canvasRef = useRef(null);
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 25 },
-    visible: (custom = 0) => ({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5, delay: custom * 0.1, ease: [0.22, 1, 0.36, 1] },
-    }),
-  };
+  // Animated Cyber Radar & Node Network Visualizer
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let angle = 0;
+
+    const resize = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const nodes = [
+      { label: 'CLIENT_UI (React)', xOffset: -100, yOffset: -60, color: '#38cfff', size: 5 },
+      { label: 'API_GATEWAY (Node)', xOffset: 0, yOffset: -90, color: '#5fa8ff', size: 6 },
+      { label: 'AUTH_RBAC (JWT)', xOffset: 95, yOffset: -50, color: '#ffb23f', size: 5 },
+      { label: 'STORAGE (Mongo/SQL)', xOffset: 85, yOffset: 65, color: '#10b981', size: 6 },
+      { label: 'CACHE (Redis)', xOffset: -90, yOffset: 60, color: '#f43f5e', size: 5 },
+      { label: 'CORE_OPERATOR', xOffset: 0, yOffset: 0, color: '#38cfff', size: 8 },
+    ];
+
+    const render = () => {
+      const rect = canvas.getBoundingClientRect();
+      const width = rect.width;
+      const height = rect.height;
+      const centerX = width / 2;
+      const centerY = height / 2;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // 1. Draw concentric radar grid rings
+      ctx.strokeStyle = 'rgba(80, 170, 255, 0.15)';
+      ctx.lineWidth = 1;
+      [40, 80, 120, 150].forEach((r) => {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Axis crosshairs
+      ctx.beginPath();
+      ctx.moveTo(centerX - 160, centerY);
+      ctx.lineTo(centerX + 160, centerY);
+      ctx.moveTo(centerX, centerY - 160);
+      ctx.lineTo(centerX, centerY + 160);
+      ctx.stroke();
+
+      // 2. Draw rotating radar sweep gradient
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate(angle);
+      const gradient = ctx.createLinearGradient(0, 0, 150, 0);
+      gradient.addColorStop(0, 'rgba(56, 207, 255, 0)');
+      gradient.addColorStop(1, 'rgba(56, 207, 255, 0.25)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.arc(0, 0, 150, 0, Math.PI / 3);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      // 3. Connect nodes with blueprint lines
+      ctx.strokeStyle = 'rgba(56, 207, 255, 0.25)';
+      ctx.setLineDash([4, 4]);
+      nodes.forEach((node) => {
+        if (node.label !== 'CORE_OPERATOR') {
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.lineTo(centerX + node.xOffset, centerY + node.yOffset);
+          ctx.stroke();
+        }
+      });
+      ctx.setLineDash([]);
+
+      // 4. Moving data packet pulse along paths
+      const pulseProgress = (Date.now() % 3000) / 3000;
+      nodes.forEach((node) => {
+        if (node.label !== 'CORE_OPERATOR') {
+          const px = centerX + node.xOffset * pulseProgress;
+          const py = centerY + node.yOffset * pulseProgress;
+          ctx.fillStyle = '#38cfff';
+          ctx.shadowColor = '#38cfff';
+          ctx.shadowBlur = 8;
+          ctx.beginPath();
+          ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      });
+
+      // 5. Draw node circles and monospace tags
+      nodes.forEach((node) => {
+        const nx = centerX + node.xOffset;
+        const ny = centerY + node.yOffset;
+
+        // Node Glow
+        ctx.fillStyle = node.color;
+        ctx.shadowColor = node.color;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(nx, ny, node.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Node Label
+        ctx.fillStyle = '#8aa4bf';
+        ctx.font = '9px "JetBrains Mono", monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText(node.label, nx, ny + node.size + 12);
+      });
+
+      angle += 0.015;
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener('resize', resize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
 
   const handleNavClick = (e, href) => {
     e.preventDefault();
@@ -75,188 +146,129 @@ export default function Hero() {
     }
   };
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (custom = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.45, delay: custom * 0.08, ease: [0.16, 1, 0.3, 1] },
+    }),
+  };
+
   return (
-    <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+    <section id="hero" className="relative pt-36 pb-20 md:pt-44 md:pb-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column: Personal Brand, Headline, & CTAs */}
+          {/* Left Column: Command Center Typography & CTAs */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            {/* Status Pill */}
+            {/* System Uplink Status */}
             <motion.div
               initial="hidden"
               animate="visible"
               custom={1}
               variants={fadeInUp}
-              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border text-xs font-medium w-fit mb-6 shadow-sm backdrop-blur-md transition-colors"
-              style={{
-                borderColor: isDark ? 'rgba(99, 102, 241, 0.3)' : 'rgba(99, 102, 241, 0.25)',
-                backgroundColor: isDark ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.08)',
-                color: isDark ? '#A5B4FC' : '#4F46E5',
-              }}
+              className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-sm border border-[#38cfff]/40 bg-[#38cfff]/10 text-xs font-mono font-semibold tracking-widest text-[#38cfff] w-fit mb-5 shadow-[0_0_15px_rgba(56,207,255,0.2)]"
             >
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span>{personalInfo.availability}</span>
+              <span className="h-2 w-2 rounded-full bg-[#38cfff] animate-ping" />
+              <span>RAKESH-CORE UPLINK ACTIVE // 2026</span>
             </motion.div>
 
-            {/* Name Heading */}
+            {/* Huge Display Name */}
             <motion.h1
               initial="hidden"
               animate="visible"
               custom={2}
               variants={fadeInUp}
-              className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] font-sans"
+              className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] font-sans select-none"
             >
-              <span className={isDark ? 'text-white' : 'text-slate-900'}>Hi, I'm </span>
-              <span className="text-gradient-accent">{personalInfo.name}</span>
+              <span className="block text-[#e6f1ff]">RAKESH</span>
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#38cfff] via-[#5fa8ff] to-[#ffb23f]">
+                KUMAR
+              </span>
             </motion.h1>
 
-            {/* Role & Headline */}
-            <motion.h2
+            {/* Subtitle */}
+            <motion.div
               initial="hidden"
               animate="visible"
               custom={3}
               variants={fadeInUp}
-              className={`mt-4 text-xl sm:text-2xl font-semibold tracking-tight ${
-                isDark ? 'text-slate-200' : 'text-slate-800'
-              }`}
+              className="mt-5 font-mono text-sm sm:text-base font-bold tracking-wide text-[#38cfff] flex items-center gap-2"
             >
-              {personalInfo.headline}
-            </motion.h2>
+              <span className="text-[#ffb23f]">›</span>
+              <span>Full-Stack Web Developer / MERN Stack Engineer</span>
+            </motion.div>
 
-            {/* Subhead / Bio */}
+            {/* Core Description */}
             <motion.p
               initial="hidden"
               animate="visible"
               custom={4}
               variants={fadeInUp}
-              className={`mt-4 text-sm sm:text-base leading-relaxed max-w-2xl font-sans ${
-                isDark ? 'text-slate-400' : 'text-slate-600'
-              }`}
+              className="mt-4 text-sm sm:text-base leading-relaxed max-w-2xl text-[#8aa4bf] font-sans"
             >
-              {personalInfo.subhead}
+              I build role-based web applications, secure REST APIs, responsive React interfaces, and production-ready MERN systems with clean architecture and practical problem solving.
             </motion.p>
 
-            {/* Action CTA Buttons */}
+            {/* Action CTA Triggers */}
             <motion.div
               initial="hidden"
               animate="visible"
               custom={5}
               variants={fadeInUp}
-              className="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4"
+              className="mt-8 flex flex-wrap items-center gap-3.5"
             >
               <a
-                href="#projects"
-                onClick={(e) => handleNavClick(e, '#projects')}
-                className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-sm font-semibold shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 hover:-translate-y-0.5 transition-all duration-200"
+                href="#systems"
+                onClick={(e) => handleNavClick(e, '#systems')}
+                className="flex items-center gap-2 px-5 py-3 rounded-sm bg-[#38cfff] hover:bg-[#5fa8ff] text-[#020712] font-mono text-xs font-bold shadow-[0_0_20px_rgba(56,207,255,0.4)] hover:shadow-[0_0_25px_#38cfff] hover:-translate-y-0.5 transition-all duration-200"
               >
-                <span>View Projects</span>
-                <FiArrowRight className="text-base" />
-              </a>
-
-              <a
-                href="#contact"
-                onClick={(e) => handleNavClick(e, '#contact')}
-                className={`flex items-center gap-2 px-5 py-3.5 rounded-xl border text-sm font-semibold transition-all duration-200 ${
-                  isDark
-                    ? 'border-white/[0.12] bg-slate-900/80 text-slate-200 hover:bg-slate-800 hover:border-indigo-500/50 hover:text-white'
-                    : 'border-slate-300 bg-white text-slate-800 hover:bg-slate-50 hover:border-indigo-500/60'
-                }`}
-              >
-                <FiMail className="text-indigo-400 text-base" />
-                <span>Contact Me</span>
+                <span>[ VIEW PROJECTS ↓ ]</span>
+                <FiArrowDown className="text-sm" />
               </a>
 
               <a
                 href={personalInfo.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`flex items-center gap-2 px-4 py-3.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-                  isDark
-                    ? 'text-slate-400 hover:text-slate-100 hover:bg-white/[0.05]'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                }`}
+                className="flex items-center gap-2 px-5 py-3 rounded-sm border border-[#38cfff]/60 bg-[#06101f]/80 text-[#e6f1ff] font-mono text-xs font-semibold hover:border-[#38cfff] hover:bg-[#38cfff]/15 hover:text-[#38cfff] transition-all duration-200"
               >
-                <FiDownload className="text-base" />
-                <span>Resume</span>
+                <FiDownload className="text-[#38cfff]" />
+                <span>[ DOWNLOAD RESUME ↗ ]</span>
+              </a>
+
+              <a
+                href="#comms"
+                onClick={(e) => handleNavClick(e, '#comms')}
+                className="flex items-center gap-2 px-4 py-3 rounded-sm border border-[#50aaff]/20 bg-transparent text-[#8aa4bf] font-mono text-xs hover:border-[#ffb23f] hover:text-[#ffb23f] transition-all duration-200"
+              >
+                <FiMail />
+                <span>[ CONTACT ME ]</span>
               </a>
             </motion.div>
 
-            {/* Social Pill Links */}
+            {/* 4 HUD Metric Stats Row */}
             <motion.div
               initial="hidden"
               animate="visible"
               custom={6}
               variants={fadeInUp}
-              className="mt-8 flex items-center gap-2.5 flex-wrap"
-            >
-              <span className={`text-xs font-medium mr-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Connect:
-              </span>
-              <a
-                href={personalInfo.github}
-                target="_blank"
-                rel="noreferrer"
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-all ${
-                  isDark
-                    ? 'border-white/[0.08] bg-slate-900/60 text-slate-300 hover:border-indigo-400 hover:text-white'
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-indigo-500 hover:text-indigo-600 shadow-sm'
-                }`}
-              >
-                <FiGithub />
-                <span>GitHub</span>
-              </a>
-
-              <a
-                href={personalInfo.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-all ${
-                  isDark
-                    ? 'border-white/[0.08] bg-slate-900/60 text-slate-300 hover:border-indigo-400 hover:text-white'
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-indigo-500 hover:text-indigo-600 shadow-sm'
-                }`}
-              >
-                <FiLinkedin className="text-sky-500" />
-                <span>LinkedIn</span>
-              </a>
-
-              <a
-                href={personalInfo.leetcode}
-                target="_blank"
-                rel="noreferrer"
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-all ${
-                  isDark
-                    ? 'border-white/[0.08] bg-slate-900/60 text-slate-300 hover:border-amber-400 hover:text-white'
-                    : 'border-slate-200 bg-white text-slate-700 hover:border-amber-500 hover:text-amber-600 shadow-sm'
-                }`}
-              >
-                <SiLeetcode className="text-amber-500" />
-                <span>LeetCode</span>
-              </a>
-            </motion.div>
-
-            {/* 4-Stat Metric Row */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              custom={7}
-              variants={fadeInUp}
-              className={`mt-10 pt-7 border-t grid grid-cols-2 sm:grid-cols-4 gap-4 ${
-                isDark ? 'border-white/[0.08]' : 'border-slate-200'
-              }`}
+              className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3.5"
             >
               {heroStats.map((stat, i) => (
-                <div key={i} className="flex flex-col">
-                  <div className="text-2xl sm:text-3xl font-extrabold font-mono tracking-tight text-gradient-accent">
+                <div
+                  key={i}
+                  className="hud-panel p-3.5 rounded-sm border border-[#50aaff]/20 bg-[#06101f]/70 relative"
+                >
+                  <div className="hud-corner-tl" />
+                  <div className="hud-corner-br" />
+                  <div className="text-xl sm:text-2xl font-black font-mono tracking-tight text-[#38cfff]">
                     {stat.value}
                   </div>
-                  <div className={`text-xs font-semibold mt-0.5 ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                  <div className="text-xs font-mono font-bold text-[#e6f1ff] mt-0.5">
                     {stat.label}
                   </div>
-                  <div className={`text-[0.7rem] font-sans ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  <div className="text-[0.65rem] font-mono text-[#8aa4bf] mt-0.5">
                     {stat.desc}
                   </div>
                 </div>
@@ -264,109 +276,48 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: Interactive Developer Workspace / IDE Dashboard Mockup */}
+          {/* Right Column: Interactive System Architecture Radar Visualizer */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 relative flex justify-center w-full"
+            transition={{ duration: 0.7, delay: 0.25 }}
+            className="lg:col-span-5 relative flex flex-col items-center justify-center w-full"
           >
-            {/* Subtle Gradient Glow Behind Mockup */}
-            <div className="absolute -inset-2 bg-gradient-to-tr from-indigo-500/20 via-violet-500/10 to-cyan-500/20 rounded-3xl blur-2xl -z-10" />
+            {/* HUD Bracket Window Frame */}
+            <div className="hud-panel w-full rounded-sm border border-[#50aaff]/30 bg-[#06101f]/85 p-4 sm:p-5 relative shadow-[0_0_30px_rgba(6,16,31,0.9)]">
+              <div className="hud-corner-tl" />
+              <div className="hud-corner-tr" />
+              <div className="hud-corner-bl" />
+              <div className="hud-corner-br" />
 
-            {/* IDE Window Frame */}
-            <div
-              className={`w-full rounded-2xl border shadow-2xl overflow-hidden backdrop-blur-xl transition-colors ${
-                isDark
-                  ? 'bg-slate-900/90 border-white/[0.12] shadow-black/60'
-                  : 'bg-white/95 border-slate-200 shadow-xl'
-              }`}
-            >
-              {/* Window Titlebar */}
-              <div
-                className={`flex items-center justify-between px-4 py-3 border-b text-xs select-none ${
-                  isDark ? 'bg-slate-950/70 border-white/[0.08]' : 'bg-slate-100 border-slate-200'
-                }`}
-              >
-                {/* Traffic lights */}
-                <div className="flex items-center gap-1.5">
-                  <span className="h-3 w-3 rounded-full bg-rose-500/90 inline-block" />
-                  <span className="h-3 w-3 rounded-full bg-amber-500/90 inline-block" />
-                  <span className="h-3 w-3 rounded-full bg-emerald-500/90 inline-block" />
+              {/* Titlebar */}
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#50aaff]/20 font-mono text-xs">
+                <div className="flex items-center gap-2 text-[#38cfff] font-bold">
+                  <FiActivity className="animate-pulse" />
+                  <span>SYSTEM_ARCHITECTURE_RADAR</span>
                 </div>
-
-                <div className={`font-mono text-[0.7rem] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                  rakesh-workspace · {activeTab}
-                </div>
-
-                <div className="flex items-center gap-1 text-[0.68rem] text-emerald-500 font-mono font-semibold">
-                  <FiCheckCircle className="text-xs" />
-                  <span>Ready</span>
-                </div>
+                <span className="text-[0.65rem] text-[#ffb23f] px-2 py-0.5 rounded bg-[#ffb23f]/10 border border-[#ffb23f]/30">
+                  LIVE TELEMETRY
+                </span>
               </div>
 
-              {/* Code Tab Switcher */}
-              <div
-                className={`flex items-center gap-1 px-3 pt-2 border-b overflow-x-auto text-xs font-mono ${
-                  isDark ? 'bg-slate-950/40 border-white/[0.06]' : 'bg-slate-50 border-slate-200'
-                }`}
-              >
-                {Object.keys(codeSnippets).map((tab) => {
-                  const isActive = activeTab === tab;
-                  return (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveTab(tab)}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-t-lg text-xs font-mono transition-all ${
-                        isActive
-                          ? isDark
-                            ? 'bg-slate-900 text-indigo-400 border-t-2 border-indigo-500 font-semibold'
-                            : 'bg-white text-indigo-600 border-t-2 border-indigo-600 font-semibold shadow-sm'
-                          : isDark
-                          ? 'text-slate-400 hover:text-slate-200'
-                          : 'text-slate-600 hover:text-slate-900'
-                      }`}
-                    >
-                      <FiCode className="text-xs" />
-                      <span>{tab}</span>
-                    </button>
-                  );
-                })}
+              {/* Canvas Canvas Graphic */}
+              <div className="relative w-full h-[280px] sm:h-[320px] bg-[#020712]/90 rounded-sm overflow-hidden flex items-center justify-center border border-[#50aaff]/15">
+                <canvas ref={canvasRef} className="w-full h-full block" />
               </div>
 
-              {/* Code Body */}
-              <div className="p-4 sm:p-5 font-mono text-[0.75rem] sm:text-[0.8rem] leading-relaxed overflow-x-auto min-h-[220px]">
-                <pre className={isDark ? 'text-slate-300' : 'text-slate-800'}>
-                  <code>{codeSnippets[activeTab]}</code>
-                </pre>
-              </div>
-
-              {/* Mockup Status Bar Footer */}
-              <div
-                className={`flex items-center justify-between px-4 py-2 border-t text-[0.68rem] font-mono select-none ${
-                  isDark ? 'bg-slate-950/80 border-white/[0.08] text-slate-400' : 'bg-slate-100 border-slate-200 text-slate-600'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-indigo-400 font-semibold flex items-center gap-1">
-                    <FiLayers className="text-xs" /> MERN Stack
-                  </span>
-                  <span>UTF-8</span>
-                </div>
+              {/* Bottom Telemetry HUD Output */}
+              <div className="mt-3 pt-3 border-t border-[#50aaff]/20 flex items-center justify-between font-mono text-[0.65rem] text-[#8aa4bf]">
                 <div className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  <span>Lint: 0 Errors</span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#38cfff] animate-ping" />
+                  <span>RADAR_SCAN: ACTIVE</span>
+                </div>
+                <div className="flex items-center gap-2 text-[#38cfff]">
+                  <span>NODE LATENCY: 14ms</span>
+                  <span>·</span>
+                  <span>PKT LOSS: 0.00%</span>
                 </div>
               </div>
-            </div>
-
-            {/* Floating Tech Stack Pills */}
-            <div className="absolute -bottom-5 -left-4 hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl border shadow-xl backdrop-blur-xl bg-slate-900/90 border-white/[0.12] text-xs font-mono text-white">
-              <SiReact className="text-[#61DAFB] text-base" />
-              <SiNodedotjs className="text-[#339933] text-base" />
-              <SiMongodb className="text-[#47A248] text-base" />
-              <SiTypescript className="text-[#3178C6] text-base" />
-              <SiTailwindcss className="text-[#06B6D4] text-base" />
             </div>
           </motion.div>
         </div>
