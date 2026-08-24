@@ -1,9 +1,9 @@
 export const personalInfo = {
   name: 'Rakesh Kumar',
   role: 'Full-Stack Web Developer / MERN Stack Engineer',
-  headline: 'I build practical full-stack systems with clean UI, secure APIs, and real product workflows.',
+  headline: 'I build full-stack products with clean interfaces, secure APIs, and real user workflows.',
   description:
-    'I’m a Computer Science graduate focused on building MERN applications with authentication, RBAC, dashboards, REST APIs, database design, and deployment-ready architecture.',
+    'Computer Science graduate focused on MERN applications, role-based access control, REST APIs, dashboards, database design, and deployment-ready architecture.',
   bio:
     'Full-Stack Web Developer and MERN Stack Engineer with hands-on experience building role-based systems, REST APIs, responsive interfaces, and database-backed applications. I enjoy solving real workflow problems and turning ideas into clean, usable products.',
   location: 'Gurugram, Haryana, India',
@@ -33,30 +33,6 @@ export const personalInfo = {
     ],
   },
 };
-
-export const heroProofPoints = [
-  {
-    id: 'incidenthub-ai',
-    title: 'IncidentHub AI',
-    highlight: 'Engineering signal correlation platform with OAuth integrations',
-    tag: 'Incident Triage',
-    link: '#projects',
-  },
-  {
-    id: 'leaveflow-hr',
-    title: 'LeaveFlow',
-    highlight: 'Employee-manager-admin approval workflow with 3-role RBAC',
-    tag: 'Role-Based System',
-    link: '#projects',
-  },
-  {
-    id: 'portfoliopulse',
-    title: 'PortfolioPulse',
-    highlight: 'GitHub-powered hiring-readiness analyzer scoring ~20 signals',
-    tag: 'Dev Auditor',
-    link: '#projects',
-  },
-];
 
 export const aboutHighlights = [
   {
@@ -108,118 +84,126 @@ export const skillsData = [
   },
 ];
 
-export const projectsData = [
-  {
-    id: 'incidenthub-ai',
-    title: 'IncidentHub AI',
-    subtitle: 'Incident Intelligence Platform',
-    category: 'Full-Stack / AI',
-    tech: ['TypeScript', 'React', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth'],
-    description:
-      'A multi-tenant incident intelligence platform that integrates GitHub, Sentry, Slack, and Jira signals to help engineering teams identify root causes faster.',
-    highlights: [
-      'OAuth integrations across engineering tools (GitHub, Slack, Jira, Sentry)',
-      'Multi-tenant RBAC with granular role permissions',
-      'Real-time WebSocket event triage and team synchronization',
-      'PostgreSQL + Redis caching data layer with AI-generated postmortems',
-    ],
-    architecture: ['React Client', 'API Gateway', 'OAuth & RBAC', 'PostgreSQL + Redis', 'WebSocket Live Sync'],
-    githubUrl: 'https://github.com/rakeshkumar0804/incidenthub-ai',
-    liveUrl: 'https://incidenthub-ai-web.vercel.app/',
-    featured: true,
-  },
+export const featuredProject = {
+  id: 'incidenthub-ai',
+  projectNum: '01',
+  title: 'IncidentHub AI',
+  subtitle: 'Incident Intelligence Platform',
+  category: 'Full-Stack / AI System',
+  problem: 'Engineering teams lose critical time correlating scattered signals across GitHub, Sentry, Slack, and Jira during major outages.',
+  description:
+    'Engineering incident intelligence platform that correlates GitHub and Sentry signals for evidence-backed root-cause analysis and AI postmortems.',
+  tech: ['TypeScript', 'React', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth', 'Docker'],
+  highlights: [
+    'GitHub and Sentry signal correlation across webhooks and commit logs',
+    'Multi-tenant RBAC with granular role permissions and team isolation',
+    'Real-time WebSocket updates for live incident triage rooms',
+    'PostgreSQL + Redis caching data layer with automated AI postmortems',
+  ],
+  metrics: '24 commits · 5 stars · Production-style architecture',
+  flowSteps: ['GitHub', 'Sentry', 'Slack / Jira', 'Incident Triage', 'AI Postmortem'],
+  githubUrl: 'https://github.com/rakeshkumar0804/incidenthub-ai',
+  liveUrl: 'https://incidenthub-ai-web.vercel.app/',
+};
+
+export const gridProjects = [
   {
     id: 'leaveflow-hr',
-    title: 'Employee Leave Management System (LeaveFlow)',
-    subtitle: 'Enterprise Role-Based Leave Management Portal',
-    category: 'Full-Stack / HR Tech',
-    tech: ['Node.js', 'Express.js', 'MongoDB', 'JWT', 'HTML', 'CSS', 'JavaScript', 'Tailwind CSS'],
+    projectNum: '02',
+    title: 'Employee Leave Management System / LeaveFlow',
+    subtitle: 'Role-Based HRMS Portal',
+    category: 'Full-Stack / HRMS',
+    problem: 'Companies struggle with manual spreadsheet leave tracking and unvalidated manager approvals.',
     description:
-      'A role-based leave management system with employee, manager, and admin dashboards, approval workflows, backend APIs, validation, and deployment.',
+      'Full-stack employee leave management system with role-based authentication, manager approvals, dashboards, leave balance validation, and REST APIs.',
+    tech: ['Node.js', 'SQLite', 'REST APIs', 'JavaScript', 'RBAC', 'HTML5', 'CSS3'],
     highlights: [
-      '3 role-based dashboards with isolated permissions for Employees, Managers, and Admins',
-      'Multi-step manager approval workflow with automated leave balance updates',
-      'Secure REST APIs with stateless JWT authentication middleware',
-      'MongoDB schema validation and production deployment on Render',
+      'Employee, manager, and admin isolated portal workflows',
+      'Approval-time leave balance validation with audit history',
+      'Interactive dashboard analytics with real-time balance tracking',
+      'End-to-end backend + database architecture included',
     ],
-    architecture: ['Client UI', 'Express Router', 'JWT / RBAC Guard', 'MongoDB Atlas', 'Render Cloud'],
+    metrics: '6 stars · Full-stack HRMS project',
+    flowSteps: ['Employee Request', 'Manager Review', 'Admin Dashboard', 'Status Update'],
     githubUrl: 'https://github.com/rakeshkumar0804/leaveflow-hr',
     liveUrl: 'https://leaveflow-hr-hvfh.onrender.com/',
-    featured: true,
   },
   {
     id: 'portfoliopulse',
-    title: 'PortfolioPulse',
-    subtitle: 'Developer Portfolio Health Checker & Auditor',
+    projectNum: '03',
+    title: 'PortfolioPulse / dev-portfolio-checker',
+    subtitle: 'Career Intelligence & Portfolio Auditor',
     category: 'MERN / Tooling',
-    tech: ['MERN Stack', 'GitHub API', 'Puppeteer', 'Tailwind CSS'],
+    problem: 'Developers apply to roles without knowing if their GitHub profiles and portfolio websites meet recruiter screening standards.',
     description:
-      'A developer portfolio analyzer that scores GitHub profiles, repositories, and portfolio websites across recruiter-focused hiring-readiness signals.',
+      'Evidence-based career intelligence platform that analyzes GitHub profiles, portfolio websites, and resumes to evaluate hiring readiness.',
+    tech: ['JavaScript', 'Express', 'Node.js', 'MongoDB', 'React', 'GitHub API', 'Puppeteer'],
     highlights: [
-      'Deep GitHub API integration analyzing repository regularity and code signals',
-      'Evaluates ~20 hiring-readiness signals with actionable recruiter-focused scoring',
-      'Headless SPA crawling using Puppeteer to audit portfolio live performance',
-      'Comprehensive scoring dashboard with clear remediation advice',
+      'Deep GitHub profile and repository signal analysis',
+      'Portfolio and resume screening with ~20 hiring readiness signals',
+      'ATS and recruiter simulation feedback engine',
+      'Personalized actionable recommendations for resume/repo upgrades',
     ],
-    architecture: ['React UI', 'Express Engine', 'GitHub API / Puppeteer', 'Signals Evaluator', 'Vercel'],
+    metrics: '45 commits · 5 stars',
+    flowSteps: ['GitHub Score', 'Portfolio Score', 'ATS Signals', 'Recommendations'],
     githubUrl: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
     liveUrl: 'https://developer-portfolio-nu-rouge.vercel.app/',
-    featured: false,
-  },
-  {
-    id: 'employee-management',
-    title: 'Internal Employee Management System',
-    subtitle: 'Internship Enterprise Operations Platform',
-    category: 'Backend / MERN',
-    tech: ['Node.js', 'Express.js', 'MongoDB', 'JWT', 'RBAC', 'REST API'],
-    description:
-      'An internal employee management system built during internship at Codetech IT Solutions to replace spreadsheet tracking with role-based APIs and structured workflows.',
-    highlights: [
-      'Comprehensive employee, department, and role management modules',
-      'Secure JWT authentication with bcrypt password encryption',
-      'Role-restricted API endpoints and middleware permission checks',
-      'Full CRUD workflows for internal roster management',
-    ],
-    architecture: ['React UI', 'API Gateway', 'JWT & RBAC Middleware', 'MongoDB Roster', 'Cloud Deploy'],
-    githubUrl: 'https://github.com/rakeshkumar0804',
-    liveUrl: 'https://github.com/rakeshkumar0804',
-    featured: false,
   },
   {
     id: 'kohli-analytics',
-    title: 'Kohli Analytics Dashboard',
-    subtitle: 'Sports Statistics & Data Visualization Dashboard',
+    projectNum: '04',
+    title: 'Kohli Analytics',
+    subtitle: 'Sports Statistics & Data Storytelling',
     category: 'Frontend / Data Viz',
-    tech: ['React 19', 'TypeScript', 'D3.js', 'GSAP', 'Tailwind CSS'],
+    problem: 'Standard sports scorecards are flat and fail to illustrate match momentum, pitch conditions, and historical trends.',
     description:
-      'Interactive sports intelligence and statistical computation dashboard analyzing match records across international formats with custom D3.js vector visualizations.',
+      'Interactive cricket analytics platform built with React, TypeScript, D3.js, and GSAP, transforming ball-by-ball data into original metrics and cinematic visualizations.',
+    tech: ['React', 'TypeScript', 'D3.js', 'GSAP', 'Vite', 'Tailwind CSS'],
     highlights: [
-      'Custom D3.js vector charts and interactive pitch heatmaps',
-      'Multi-dimensional filtering across match opponents, format, and years',
-      'Smooth client-side calculations and fluid transitions',
+      'Data storytelling transforming complex match logs into visual narratives',
+      'Custom cricket analytics with strike-rate trends & pitch heatmaps',
+      'Interactive multi-dimensional filtering by opponent, format, and year',
+      'Scroll-based cinematic visual experience powered by GSAP',
     ],
-    architecture: ['React 19 UI', 'TypeScript Engine', 'D3.js Viz', 'GSAP Motion', 'Vercel Edge'],
+    metrics: '26 commits · 5 stars',
+    flowSteps: ['Ball-by-Ball Data', 'D3.js Vector Engine', 'GSAP Transitions', 'Pitch Heatmaps'],
     githubUrl: 'https://github.com/rakeshkumar0804/kohli-analytics',
     liveUrl: 'https://kohli-analytics.vercel.app/',
-    featured: false,
   },
   {
     id: 'taskflow-pro',
-    title: 'TaskFlow Pro',
-    subtitle: 'Real-Time Collaborative Task Board',
+    projectNum: '05',
+    title: 'TaskFlow',
+    subtitle: 'Collaborative Task Management Board',
     category: 'Full-Stack / Real-Time',
-    tech: ['React', 'Node.js', 'Express', 'MongoDB', 'Socket.io', 'Tailwind CSS'],
+    problem: 'Teams lack lightweight, role-guarded task orchestration boards for fast sprint cycles.',
     description:
-      'Collaborative task management application featuring drag-and-drop workflow lanes, priority tags, due date reminders, and instant state broadcasting.',
+      'MERN task management platform with JWT authentication, RBAC, project organization, task tracking, and responsive dashboard.',
+    tech: ['React', 'Node.js', 'Express.js', 'MongoDB', 'JWT', 'RBAC', 'Socket.io'],
     highlights: [
-      'Real-time state synchronization across team members using Socket.io',
-      'Drag-and-drop Kanban workflow lanes with state persistence',
-      'Task priority filters, assignment tracking, and activity logs',
+      'Role-based task workflows with fine-grained access control',
+      'Project and task organization with priority indicators and due dates',
+      'Real-time team dashboard state broadcasting via Socket.io',
+      'Secure authentication and authorization layer',
     ],
-    architecture: ['React Client', 'Socket.io Client', 'Express Gateway', 'MongoDB Layer', 'Render'],
+    metrics: '9 commits · 5 stars',
+    flowSteps: ['To Do (3)', 'In Progress (2)', 'Review (1)', 'Done (8)'],
     githubUrl: 'https://github.com/rakeshkumar0804/taskflow',
     liveUrl: 'https://github.com/rakeshkumar0804/taskflow',
-    featured: false,
+  },
+];
+
+export const creativeExperiments = [
+  {
+    id: 'solar-system',
+    title: 'Solar System Explorer',
+    subtitle: '3D Celestial Orbital Mechanics',
+    category: 'Interactive WebGL',
+    description: '3D interactive celestial orbital mechanics visualizer built with WebGL and Three.js featuring real astronomical physics and planetary textures.',
+    tech: ['JavaScript', 'Three.js', 'WebGL', 'HTML5/CSS3'],
+    metrics: '5 stars',
+    githubUrl: 'https://github.com/rakeshkumar0804',
+    liveUrl: 'https://github.com/rakeshkumar0804',
   },
 ];
 

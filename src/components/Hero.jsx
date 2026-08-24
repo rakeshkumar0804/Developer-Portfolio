@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiArrowDown, FiDownload, FiMail, FiCheckCircle, FiServer, FiDatabase, FiShield, FiCode, FiLayers } from 'react-icons/fi';
-import { personalInfo, heroProofPoints } from '../data/portfolioData';
+import { FiArrowDown, FiDownload, FiMail, FiServer, FiDatabase, FiShield, FiLayers } from 'react-icons/fi';
+import { personalInfo } from '../data/portfolioData';
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState('api');
@@ -26,7 +26,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative pt-32 pb-20 md:pt-44 md:pb-28 overflow-hidden">
+    <section id="hero" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
           {/* Left Column: Hero Content */}
@@ -43,7 +43,7 @@ export default function Hero() {
               <span>Available for Full-Time SDE & Intern Roles</span>
             </motion.div>
 
-            {/* Name & Role */}
+            {/* Name */}
             <motion.h1
               initial="hidden"
               animate="visible"
@@ -54,6 +54,7 @@ export default function Hero() {
               {personalInfo.name}
             </motion.h1>
 
+            {/* Role */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -86,39 +87,11 @@ export default function Hero() {
               {personalInfo.description}
             </motion.p>
 
-            {/* 3 Standout Proof Cards */}
+            {/* 3 CTA Buttons (No project cards here) */}
             <motion.div
               initial="hidden"
               animate="visible"
               custom={6}
-              variants={fadeInUp}
-              className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl"
-            >
-              {heroProofPoints.map((proof) => (
-                <a
-                  key={proof.id}
-                  href={proof.link}
-                  onClick={(e) => handleNavClick(e, proof.link)}
-                  className="p-3.5 rounded-xl border border-white/[0.08] bg-[#131622]/80 hover:border-[#38bdf8]/50 hover:bg-[#181c2b] transition-all group block shadow-sm"
-                >
-                  <div className="flex items-center justify-between text-xs font-semibold text-[#38bdf8] mb-1">
-                    <span>{proof.title}</span>
-                    <span className="text-[0.65rem] text-[#f59e0b] px-1.5 py-0.5 rounded bg-[#f59e0b]/10 font-mono">
-                      {proof.tag}
-                    </span>
-                  </div>
-                  <div className="text-xs text-slate-400 group-hover:text-slate-200 transition-colors leading-relaxed">
-                    {proof.highlight}
-                  </div>
-                </a>
-              ))}
-            </motion.div>
-
-            {/* 3 CTA Buttons */}
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              custom={7}
               variants={fadeInUp}
               className="mt-8 flex flex-wrap items-center gap-3.5"
             >
@@ -152,7 +125,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: Developer-Focused Product & Architecture Console Preview */}
+          {/* Right Column: Refined, Compact Product Engineering Panel */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -313,7 +286,7 @@ export default function Hero() {
               {/* Console Footer */}
               <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[0.7rem] font-mono text-slate-400">
                 <span>Architecture: MERN + RBAC</span>
-                <span className="text-slate-300">Deployed Systems: 6</span>
+                <span className="text-slate-300">Production Ready</span>
               </div>
             </div>
           </motion.div>
