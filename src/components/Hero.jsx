@@ -6,8 +6,8 @@ import { personalInfo, codingStats } from '../data/portfolioData';
 
 const typewriterTitles = [
   'Full-Stack Web Developer',
-  'MERN Stack Engineer, JWT/RBAC & Real-Time Systems',
-  '165+ LeetCode · Problem Solver at Heart',
+  'MERN Stack Engineer, JWT & RBAC Systems',
+  'Building Real-Time Systems — SyncPad, IncidentHub AI & More',
 ];
 
 export default function Hero() {
