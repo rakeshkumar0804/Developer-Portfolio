@@ -1,10 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiArrowDown, FiDownload, FiMail, FiMapPin, FiAward, FiCode, FiGithub, FiLinkedin } from 'react-icons/fi';
 import { SiLeetcode } from 'react-icons/si';
 import { personalInfo, codingStats } from '../data/portfolioData';
 
+const typewriterTitles = [
+  'Full-Stack Web Developer',
+  'MERN Stack Engineer, JWT/RBAC & Real-Time Systems',
+  '165+ LeetCode · Problem Solver at Heart',
+];
+
 export default function Hero() {
+  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+  const [displayText, setDisplayText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Check user preference for reduced motion
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handler = (e) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  // Smooth Typewriter animation engine
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    const fullText = typewriterTitles[currentTitleIndex];
+    let timer;
+
+    if (!isDeleting && displayText === fullText) {
+      // Pause for 2 seconds at the end of the phrase
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 2000);
+    } else if (isDeleting && displayText === '') {
+      // Transition to next title after deletion
+      setIsDeleting(false);
+      setCurrentTitleIndex((prev) => (prev + 1) % typewriterTitles.length);
+    } else {
+      // Smooth typing (~50ms) or fast backspacing (~30ms)
+      const speed = isDeleting ? 30 : 50;
+      timer = setTimeout(() => {
+        setDisplayText((prev) =>
+          isDeleting
+            ? fullText.substring(0, prev.length - 1)
+            : fullText.substring(0, prev.length + 1)
+        );
+      }, speed);
+    }
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, currentTitleIndex, prefersReducedMotion]);
+
   const handleNavClick = (e, href) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
@@ -63,15 +115,27 @@ export default function Hero() {
               {personalInfo.name}
             </motion.h1>
 
-            {/* Role Title */}
+            {/* Dynamic Typewriter Subtitle Replacing Static Line */}
             <motion.div
               initial="hidden"
               animate="visible"
               custom={4}
               variants={fadeInUp}
-              className="text-xl sm:text-2xl font-bold text-slate-300 mt-3 mb-4 font-sans"
+              className="min-h-[3.25rem] sm:min-h-[2.5rem] flex items-center mt-3 mb-4"
             >
-              Full-Stack Developer & MERN Engineer
+              <div className="text-base sm:text-xl lg:text-2xl font-bold font-mono text-[#22d3ee] tracking-tight leading-snug">
+                {prefersReducedMotion ? (
+                  <span>Full-Stack Web Developer & MERN Engineer</span>
+                ) : (
+                  <>
+                    <span>{displayText}</span>
+                    <span
+                      className="inline-block w-2 sm:w-2.5 h-4 sm:h-5 ml-1 bg-[#22d3ee] shadow-[0_0_8px_#22d3ee] animate-pulse align-middle"
+                      aria-hidden="true"
+                    />
+                  </>
+                )}
+              </div>
             </motion.div>
 
             {/* Headline / Summary */}
