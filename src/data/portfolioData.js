@@ -84,25 +84,7 @@ export const projectsData = [
     tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth', 'Tailwind CSS'],
     githubUrl: 'https://github.com/rakeshkumar0804/incidenthub-ai',
     liveUrl: 'https://incidenthub-ai-web.vercel.app/',
-    featured: true,
-  },
-  {
-    id: 'leaveflow-hr',
-    title: 'LeaveFlow HR',
-    tagline: 'Enterprise Role-Based Leave Management System',
-    category: 'Full-Stack / HR Tech',
-    description:
-      'A full-stack employee leave management application with dedicated portals for Employees, Managers, and Admins. Features multi-step approval workflows, leave balance validation, and audit logs.',
-    highlights: [
-      '3 distinct role-based dashboards (Employee, Manager, Admin)',
-      'Manager review workflow with automated leave balance deduction and audit trail',
-      'Secure stateless JWT authentication middleware and password hashing with bcrypt',
-      'Full REST API architecture with structured error handling and database validation',
-    ],
-    tech: ['Node.js', 'Express.js', 'MongoDB', 'JavaScript', 'JWT', 'Tailwind CSS', 'HTML5'],
-    githubUrl: 'https://github.com/rakeshkumar0804/leaveflow-hr',
-    liveUrl: 'https://leaveflow-hr-hvfh.onrender.com/',
-    featured: true,
+    image: '', // Place screenshot/GIF in public/projects/incidenthub.png or pass URL
   },
   {
     id: 'portfoliopulse',
@@ -120,24 +102,7 @@ export const projectsData = [
     tech: ['React', 'Node.js', 'Express.js', 'MongoDB', 'GitHub API', 'Puppeteer', 'Tailwind CSS'],
     githubUrl: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
     liveUrl: 'https://developer-portfolio-nu-rouge.vercel.app/',
-    featured: false,
-  },
-  {
-    id: 'employee-management',
-    title: 'Internal Employee Management System',
-    tagline: 'Internship Project @ Codetech IT Solutions',
-    category: 'Backend / MERN',
-    description:
-      'An internal operations management platform built during internship to replace spreadsheet tracking with role-based REST APIs, department rosters, and structured employee workflows.',
-    highlights: [
-      'Complete CRUD workflows for employee records, departments, and payroll tiers',
-      'Role-restricted API endpoints guarded by custom JWT middleware',
-      'Database schema design with Mongoose ODM for clean relational data modeling',
-    ],
-    tech: ['Node.js', 'Express.js', 'MongoDB', 'JWT Auth', 'REST APIs', 'Postman'],
-    githubUrl: 'https://github.com/rakeshkumar0804',
-    liveUrl: 'https://github.com/rakeshkumar0804',
-    featured: false,
+    image: '', // Place screenshot/GIF in public/projects/portfoliopulse.png or pass URL
   },
   {
     id: 'kohli-analytics',
@@ -154,24 +119,25 @@ export const projectsData = [
     tech: ['React', 'TypeScript', 'D3.js', 'GSAP', 'Vite', 'Tailwind CSS'],
     githubUrl: 'https://github.com/rakeshkumar0804/kohli-analytics',
     liveUrl: 'https://kohli-analytics.vercel.app/',
-    featured: false,
+    image: '', // Place screenshot/GIF in public/projects/kohli-analytics.png or pass URL
   },
   {
-    id: 'taskflow-pro',
-    title: 'TaskFlow Pro',
-    tagline: 'Real-Time Collaborative Task Board',
-    category: 'Full-Stack / Real-Time',
+    id: 'leaveflow-hr',
+    title: 'LeaveFlow HR',
+    tagline: 'Enterprise Role-Based Leave Management System',
+    category: 'Full-Stack / HR Tech',
     description:
-      'A Kanban-style task management web application featuring drag-and-drop workflow lanes, priority tags, due date reminders, and real-time state synchronization via WebSockets.',
+      'A full-stack employee leave management application with dedicated portals for Employees, Managers, and Admins. Features multi-step approval workflows, leave balance validation, and audit logs.',
     highlights: [
-      'Real-time task updates and board synchronization across team members using Socket.io',
-      'Drag-and-drop workflow status lanes (To Do, In Progress, Review, Completed)',
-      'JWT user authentication and persistent board data in MongoDB',
+      '3 distinct role-based dashboards (Employee, Manager, Admin)',
+      'Manager review workflow with automated leave balance deduction and audit trail',
+      'Secure stateless JWT authentication middleware and password hashing with bcrypt',
+      'Full REST API architecture with structured error handling and database validation',
     ],
-    tech: ['React', 'Node.js', 'Express.js', 'MongoDB', 'Socket.io', 'Tailwind CSS'],
-    githubUrl: 'https://github.com/rakeshkumar0804/taskflow',
-    liveUrl: 'https://github.com/rakeshkumar0804/taskflow',
-    featured: false,
+    tech: ['Node.js', 'Express.js', 'MongoDB', 'JavaScript', 'JWT', 'Tailwind CSS', 'HTML5'],
+    githubUrl: 'https://github.com/rakeshkumar0804/leaveflow-hr',
+    liveUrl: 'https://leaveflow-hr-hvfh.onrender.com/',
+    image: '', // Place screenshot/GIF in public/projects/leaveflow.png or pass URL
   },
 ];
 

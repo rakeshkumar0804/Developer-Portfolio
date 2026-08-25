@@ -39,7 +39,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 text-xs font-medium text-emerald-400 w-fit mb-5"
             >
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Open to Software Engineer & Fresher Roles</span>
+              <span>Open to Software Engineer Roles</span>
             </motion.div>
 
             {/* Greeting & Name */}

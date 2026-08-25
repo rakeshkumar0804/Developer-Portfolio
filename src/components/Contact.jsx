@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiPhone, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheck, FiCopy, FiDownload } from 'react-icons/fi';
+import { FiMail, FiMapPin, FiGithub, FiLinkedin, FiSend, FiCheck, FiCopy, FiDownload, FiAlertCircle } from 'react-icons/fi';
+import emailjs from '@emailjs/browser';
 import { personalInfo } from '../data/portfolioData';
 
 export default function Contact() {
@@ -8,6 +9,7 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [transmitting, setTransmitting] = useState(false);
   const [transmitted, setTransmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [copiedEmail, setCopiedEmail] = useState(false);
 
   const fadeInUp = {
@@ -33,18 +35,75 @@ export default function Contact() {
     return errs;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage('');
     const errs = validate();
     setErrors(errs);
 
     if (Object.keys(errs).length === 0) {
       setTransmitting(true);
-      setTimeout(() => {
-        setTransmitting(false);
-        setTransmitted(true);
-        setFormData({ name: '', email: '', message: '' });
-      }, 700);
+
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      if (serviceId && templateId && publicKey) {
+        try {
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              from_name: formData.name,
+              from_email: formData.email,
+              reply_to: formData.email,
+              message: formData.message,
+              to_email: personalInfo.email,
+            },
+            publicKey
+          );
+          setTransmitting(false);
+          setTransmitted(true);
+          setFormData({ name: '', email: '', message: '' });
+          return;
+        } catch (err) {
+          console.error('EmailJS error:', err);
+          // Fall through to fallback
+        }
+      }
+
+      // Web3Forms / Direct submission fallback
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: import.meta.env.VITE_WEB3FORMS_KEY || 'YOUR_ACCESS_KEY_HERE',
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            to: personalInfo.email,
+          }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          setTransmitting(false);
+          setTransmitted(true);
+          setFormData({ name: '', email: '', message: '' });
+          return;
+        }
+      } catch {
+        // Fall through to mailto client fallback
+      }
+
+      // If no remote API key is configured yet, launch mailto pre-filled client fallback
+      setTransmitting(false);
+      const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
+      const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+      window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
+      setTransmitted(true);
+      setFormData({ name: '', email: '', message: '' });
     }
   };
 
@@ -54,6 +113,7 @@ export default function Contact() {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
+    if (errorMessage) setErrorMessage('');
   };
 
   return (
@@ -91,7 +151,7 @@ export default function Contact() {
               Send a Direct Message
             </h3>
             <p className="text-xs text-slate-400 font-sans mb-6">
-              I'll get back to your email within 24 hours.
+              Fill out the form below to connect directly with Rakesh.
             </p>
 
             {transmitted ? (
@@ -100,10 +160,10 @@ export default function Contact() {
                   <FiCheck />
                 </div>
                 <h4 className="text-lg font-bold text-white font-sans mb-1">
-                  Message Sent Successfully!
+                  Message Dispatched!
                 </h4>
                 <p className="text-xs sm:text-sm text-slate-400 max-w-md mb-6 leading-relaxed font-sans">
-                  Thank you for reaching out, Rakesh has received your message and will respond promptly.
+                  Thank you for reaching out. Rakesh will review your message and reply via email promptly.
                 </p>
                 <button
                   onClick={() => setTransmitted(false)}
@@ -114,6 +174,13 @@ export default function Contact() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4 text-xs font-sans" noValidate>
+                {errorMessage && (
+                  <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center gap-2 text-xs">
+                    <FiAlertCircle className="text-sm shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Name */}
                   <div>
@@ -183,7 +250,7 @@ export default function Contact() {
                   className="w-full py-3 rounded-lg bg-[#38bdf8] hover:bg-[#60a5fa] text-[#090a0f] font-semibold text-xs sm:text-sm transition-all cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-sky-500/10 disabled:opacity-60"
                 >
                   {transmitting ? (
-                    <span>Sending...</span>
+                    <span>Sending Message...</span>
                   ) : (
                     <>
                       <span>Send Message</span>

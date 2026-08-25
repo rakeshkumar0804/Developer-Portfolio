@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiStar, FiGitBranch, FiExternalLink } from 'react-icons/fi';
 import { codingStats } from '../data/portfolioData';
 
-const pinnedRepos = [
+const initialPinnedRepos = [
   {
     name: 'incidenthub-ai',
     desc: 'Incident triage and intelligence platform correlating GitHub and Sentry signals for evidence-backed postmortems.',
@@ -60,7 +60,83 @@ const pinnedRepos = [
   },
 ];
 
+const CACHE_KEY = 'gh_stats_rakeshkumar0804_v1';
+const CACHE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 Hours Cache
+
 export default function GitHubActivity() {
+  const [starsCount, setStarsCount] = useState(codingStats.github.stars);
+  const [pinnedList, setPinnedList] = useState(initialPinnedRepos);
+  const [publicReposCount, setPublicReposCount] = useState(null);
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    const fetchGitHubData = async () => {
+      try {
+        // 1. Check local cache
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (Date.now() - parsed.timestamp < CACHE_DURATION_MS) {
+            setStarsCount(parsed.totalStars);
+            setPublicReposCount(parsed.publicRepos);
+            if (parsed.pinned) setPinnedList(parsed.pinned);
+            setIsLive(true);
+            return;
+          }
+        }
+
+        // 2. Fetch live data from GitHub REST API
+        const userRes = await fetch('https://api.github.com/users/rakeshkumar0804');
+        const reposRes = await fetch('https://api.github.com/users/rakeshkumar0804/repos?per_page=100');
+
+        if (!userRes.ok || !reposRes.ok) {
+          return; // fallback silently on rate-limit (403) or network error
+        }
+
+        const userData = await userRes.json();
+        const reposData = await reposRes.json();
+
+        if (Array.isArray(reposData)) {
+          // Calculate total stars across all public repos
+          const totalStars = reposData.reduce((acc, r) => acc + (r.stargazers_count || 0), 0);
+          setStarsCount(String(totalStars));
+          setPublicReposCount(userData.public_repos || reposData.length);
+
+          // Update pinned repos star and fork counts if matched
+          const updatedPinned = initialPinnedRepos.map((pin) => {
+            const found = reposData.find((r) => r.name.toLowerCase() === pin.name.toLowerCase());
+            if (found) {
+              return {
+                ...pin,
+                stars: found.stargazers_count ?? pin.stars,
+                forks: found.forks_count ?? pin.forks,
+              };
+            }
+            return pin;
+          });
+
+          setPinnedList(updatedPinned);
+          setIsLive(true);
+
+          // Store in cache
+          localStorage.setItem(
+            CACHE_KEY,
+            JSON.stringify({
+              timestamp: Date.now(),
+              totalStars: String(totalStars),
+              publicRepos: userData.public_repos || reposData.length,
+              pinned: updatedPinned,
+            })
+          );
+        }
+      } catch {
+        // Fallback to baseline
+      }
+    };
+
+    fetchGitHubData();
+  }, []);
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
@@ -86,7 +162,7 @@ export default function GitHubActivity() {
                 GitHub Repositories & Coding Activity
               </h2>
               <p className="mt-2 text-sm sm:text-base text-slate-400 max-w-xl font-sans">
-                Open-source repositories, development commits, and code contributions.
+                Open-source repositories, live GitHub metrics, and coding contributions.
               </p>
             </div>
 
@@ -105,13 +181,19 @@ export default function GitHubActivity() {
         {/* Bento Stats Row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           <div className="card p-5 rounded-xl border border-white/[0.08] bg-[#121524]/80 text-center">
-            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">{codingStats.github.stars}</div>
-            <div className="text-xs text-slate-400 font-sans mt-1">Total Stars Earned</div>
+            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">{starsCount}</div>
+            <div className="text-xs text-slate-400 font-sans mt-1">
+              Total Stars {isLive && <span className="text-emerald-400 text-[0.65rem] font-mono font-normal">(Live)</span>}
+            </div>
           </div>
 
           <div className="card p-5 rounded-xl border border-white/[0.08] bg-[#121524]/80 text-center">
-            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">{codingStats.github.contributions}</div>
-            <div className="text-xs text-slate-400 font-sans mt-1">Contributions in 2026</div>
+            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono">
+              {publicReposCount !== null ? publicReposCount : codingStats.github.contributions}
+            </div>
+            <div className="text-xs text-slate-400 font-sans mt-1">
+              {publicReposCount !== null ? 'Public Repositories' : 'Contributions'}
+            </div>
           </div>
 
           <div className="card p-5 rounded-xl border border-white/[0.08] bg-[#121524]/80 text-center">
@@ -121,13 +203,13 @@ export default function GitHubActivity() {
 
           <div className="card p-5 rounded-xl border border-white/[0.08] bg-[#121524]/80 text-center">
             <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono">{codingStats.github.streak}</div>
-            <div className="text-xs text-slate-400 font-sans mt-1">Current Streak</div>
+            <div className="text-xs text-slate-400 font-sans mt-1">Active Streak</div>
           </div>
         </div>
 
         {/* Pinned Repos Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {pinnedRepos.map((repo, rIdx) => (
+          {pinnedList.map((repo, rIdx) => (
             <motion.div
               key={repo.name}
               initial="hidden"
