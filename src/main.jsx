@@ -8,7 +8,6 @@ import Principles from './components/Principles';
 import Projects from './components/Projects';
 import OpenSource from './components/OpenSource';
 import Architect from './components/Architect';
-import GitHubActivity from './components/GitHubActivity';
 import Contact from './components/Contact';
 import MissionDebrief from './components/MissionDebrief';
 import Footer from './components/Footer';
@@ -32,7 +31,6 @@ function App() {
         <Projects />
         <OpenSource />
         <Architect />
-        <GitHubActivity />
         <Contact />
         <MissionDebrief />
       </main>
