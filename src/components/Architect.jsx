@@ -147,7 +147,7 @@ export default function Architect() {
                 <div className="divide-y divide-slate-800/60 text-xs font-mono">
                   <div className="py-2.5 flex items-start justify-between gap-4">
                     <span className="text-slate-500 uppercase tracking-wider shrink-0">DESIGNATION</span>
-                    <span className="text-slate-200 text-right font-medium">Full-Stack Developer / MERN Stack Engineer</span>
+                    <span className="text-slate-200 text-right font-medium">Full-Stack Developer / Software Engineer</span>
                   </div>
                   <div className="py-2.5 flex items-start justify-between gap-4">
                     <span className="text-slate-500 uppercase tracking-wider shrink-0">BASE</span>
@@ -187,7 +187,7 @@ export default function Architect() {
               custom={1}
               className="lg:col-span-6 flex flex-col justify-between space-y-6 pl-2 md:pl-4"
             >
-              {/* Role 1: Software Development Intern */}
+              {/* Role 1: Software Development Intern (Verified Employment) */}
               <div className="p-6 rounded-xl border border-slate-800/80 bg-[#0B101B]/50 backdrop-blur-sm shadow-xl">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-2 mb-2 border-b border-slate-800/70">
                   <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
@@ -200,7 +200,7 @@ export default function Architect() {
                 </div>
 
                 <div className="text-xs font-mono text-cyan-400 mb-4">
-                  Codetech IT Solutions • Remote
+                  Codetech IT Solutions • Internship
                 </div>
 
                 <div className="space-y-2.5 text-xs text-slate-300 font-mono">
@@ -219,12 +219,12 @@ export default function Architect() {
                 </div>
               </div>
 
-              {/* Role 2: Independent Systems Architect */}
+              {/* Role 2: Open Source & Independent Engineering */}
               <div className="p-6 rounded-xl border border-slate-800/80 bg-[#0B101B]/50 backdrop-blur-sm shadow-xl">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-2 mb-2 border-b border-slate-800/70">
                   <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
                     <span className="text-amber-400">○</span>
-                    <span>Independent Systems Architect</span>
+                    <span>Open Source & Independent Engineering</span>
                   </h3>
                   <span className="text-xs text-slate-400 font-mono tracking-wider">
                     2025 – 2026
@@ -232,21 +232,21 @@ export default function Architect() {
                 </div>
 
                 <div className="text-xs font-mono text-amber-400 mb-4">
-                  Distributed Web & Developer Tooling
+                  Personal Systems Architecture & Tooling
                 </div>
 
                 <div className="space-y-2.5 text-xs text-slate-300 font-mono">
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>
-                    <span>Built IncidentHub AI: Multi-tenant incident intelligence platform with Redis-backed distributed locks, HMAC-verified webhooks, and 236/236 passing RBAC tests.</span>
+                    <span>IncidentHub AI: Built multi-tenant incident intelligence platform with Redis locks and 236/236 passing test suite.</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>
-                    <span>Built SyncPad: Real-time collaborative code editor with Yjs CRDT conflict-free synchronization and in-browser WASM/Pyodide execution.</span>
+                    <span>SyncPad: Engineered real-time collaborative code editor with Yjs CRDT synchronization and sandboxed Pyodide WASM runtime.</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>
-                    <span>Engineered PortfolioPulse: Rule-based career auditor integrating GitHub REST API crawling and Puppeteer headless scoring engines.</span>
+                    <span>PortfolioPulse: Authored deterministic hiring signals auditor using GitHub REST API and headless audit rules.</span>
                   </div>
                 </div>
               </div>

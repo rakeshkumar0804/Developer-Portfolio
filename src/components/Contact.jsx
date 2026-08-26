@@ -153,17 +153,20 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Row 2 / Col 2: Phone / WhatsApp */}
+              {/* Row 2 / Col 2: Resume / Verified Profile */}
               <div className="p-3 sm:p-4 flex flex-col justify-between sm:border-t sm:border-slate-800/80">
                 <div>
                   <div className="text-[10px] font-mono text-slate-500 tracking-widest uppercase mb-1">
-                    PHONE / WHATSAPP
+                    RESUME / VERIFIED PROFILE
                   </div>
                   <a
-                    href="tel:+919306573459"
-                    className="text-xs sm:text-sm font-mono text-slate-200 hover:text-cyan-400 transition-colors"
+                    href="/Rakesh_Kumar_Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs sm:text-sm font-mono text-slate-200 hover:text-cyan-400 transition-colors flex items-center gap-1"
                   >
-                    +91 93065 73459
+                    <span>View PDF / Credentials</span>
+                    <span>↗</span>
                   </a>
                 </div>
               </div>
