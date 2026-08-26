@@ -77,36 +77,34 @@ export default function Hero() {
     }),
   };
 
-  // Floating animation variants for orbiting tech nodes
-  const floatVariantTopLeft = {
+  // Smooth orbital floating animations
+  const floatVariantTop = {
     animate: {
-      y: [0, -10, 0],
-      x: [0, -4, 0],
-      transition: { duration: 4.2, repeat: Infinity, ease: 'easeInOut' },
+      y: [0, -9, 0],
+      transition: { duration: 3.8, repeat: Infinity, ease: 'easeInOut' },
     },
   };
 
-  const floatVariantTopRight = {
+  const floatVariantLeft = {
     animate: {
-      y: [0, -8, 0],
-      x: [0, 4, 0],
-      transition: { duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 },
+      x: [0, -7, 0],
+      y: [0, 4, 0],
+      transition: { duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.3 },
     },
   };
 
-  const floatVariantBottomLeft = {
+  const floatVariantRight = {
+    animate: {
+      x: [0, 7, 0],
+      y: [0, -4, 0],
+      transition: { duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.6 },
+    },
+  };
+
+  const floatVariantBottom = {
     animate: {
       y: [0, 8, 0],
-      x: [0, -3, 0],
-      transition: { duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 },
-    },
-  };
-
-  const floatVariantBottomRight = {
-    animate: {
-      y: [0, 10, 0],
-      x: [0, 3, 0],
-      transition: { duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.2 },
+      transition: { duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 },
     },
   };
 
@@ -248,7 +246,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: 3D Holographic Sci-Fi Terminal & Pedestal */}
+          {/* Right Column: 3D Holographic Sci-Fi Terminal, Pedestal & Orbiting Nodes */}
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -258,47 +256,47 @@ export default function Hero() {
           >
             {/* Background Holographic Atmosphere Glow */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-visible">
-              <div className="w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] rounded-full bg-gradient-to-tr from-[#22d3ee]/15 via-indigo-600/10 to-transparent blur-3xl" />
+              <div className="w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] rounded-full bg-gradient-to-tr from-[#22d3ee]/15 via-indigo-600/10 to-transparent blur-3xl" />
             </div>
 
-            {/* Orbiting Tech Node 1: React (Top-Left) */}
+            {/* Orbiting Tech Node 1: React (Top / 12 o'clock on circular orbit) */}
             <motion.div
-              variants={floatVariantTopLeft}
+              variants={floatVariantTop}
               animate="animate"
-              className="absolute -top-4 sm:-top-6 -left-2 sm:-left-6 z-30 group cursor-pointer"
+              className="absolute -top-7 sm:-top-9 left-1/2 -translate-x-1/2 z-30 group cursor-pointer"
             >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#61DAFB]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#61DAFB]/20 flex items-center justify-center p-2.5 ring-2 ring-[#61DAFB]/20 group-hover:scale-110 group-hover:border-[#61DAFB] transition-all">
-                <FaReact className="text-[#61DAFB] text-2xl animate-[spin_10s_linear_infinite]" />
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#61DAFB]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#61DAFB]/25 flex items-center justify-center p-2.5 ring-2 ring-[#61DAFB]/20 group-hover:scale-110 group-hover:border-[#61DAFB] transition-all">
+                <FaReact className="text-[#61DAFB] text-2xl animate-[spin_12s_linear_infinite]" />
               </div>
             </motion.div>
 
-            {/* Orbiting Tech Node 2: MongoDB (Top-Right) */}
+            {/* Orbiting Tech Node 2: Node.js (Left-Middle / 9 o'clock on circular orbit) */}
             <motion.div
-              variants={floatVariantTopRight}
+              variants={floatVariantLeft}
               animate="animate"
-              className="absolute -top-4 sm:-top-6 -right-2 sm:-right-6 z-30 group cursor-pointer"
+              className="absolute top-[48%] -left-5 sm:-left-8 -translate-y-1/2 z-30 group cursor-pointer"
             >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#47A248]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#47A248]/20 flex items-center justify-center p-2.5 ring-2 ring-[#47A248]/20 group-hover:scale-110 group-hover:border-[#47A248] transition-all">
-                <SiMongodb className="text-[#47A248] text-2xl" />
-              </div>
-            </motion.div>
-
-            {/* Orbiting Tech Node 3: Node.js (Bottom-Left) */}
-            <motion.div
-              variants={floatVariantBottomLeft}
-              animate="animate"
-              className="absolute -bottom-2 sm:-bottom-4 -left-3 sm:-left-7 z-30 group cursor-pointer"
-            >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#68A063]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#68A063]/20 flex items-center justify-center p-2.5 ring-2 ring-[#68A063]/20 group-hover:scale-110 group-hover:border-[#68A063] transition-all">
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#68A063]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#68A063]/25 flex items-center justify-center p-2.5 ring-2 ring-[#68A063]/20 group-hover:scale-110 group-hover:border-[#68A063] transition-all">
                 <SiNodedotjs className="text-[#68A063] text-2xl" />
               </div>
             </motion.div>
 
-            {/* Orbiting Tech Node 4: Express.js (Bottom-Right) */}
+            {/* Orbiting Tech Node 3: MongoDB (Right-Middle / 3 o'clock on circular orbit) */}
             <motion.div
-              variants={floatVariantBottomRight}
+              variants={floatVariantRight}
               animate="animate"
-              className="absolute -bottom-2 sm:-bottom-4 -right-3 sm:-right-7 z-30 group cursor-pointer"
+              className="absolute top-[48%] -right-5 sm:-right-8 -translate-y-1/2 z-30 group cursor-pointer"
+            >
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#47A248]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#47A248]/25 flex items-center justify-center p-2.5 ring-2 ring-[#47A248]/20 group-hover:scale-110 group-hover:border-[#47A248] transition-all">
+                <SiMongodb className="text-[#47A248] text-2xl" />
+              </div>
+            </motion.div>
+
+            {/* Orbiting Tech Node 4: Express.js (Bottom-Right on circular orbit) */}
+            <motion.div
+              variants={floatVariantBottom}
+              animate="animate"
+              className="absolute -bottom-4 sm:-bottom-6 right-6 sm:right-10 z-30 group cursor-pointer"
             >
               <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-slate-300/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-white/10 flex items-center justify-center p-2.5 ring-2 ring-white/15 group-hover:scale-110 group-hover:border-white transition-all">
                 <SiExpress className="text-white text-2xl" />
@@ -411,15 +409,15 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Bottom Tagline Badge */}
+            {/* Bottom Tagline Badge: Preserved Factual Projects Proof */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45 }}
-              className="mt-6 px-4 sm:px-5 py-2 rounded-full border border-[#22d3ee]/40 bg-[#070B12]/90 backdrop-blur-xl text-xs font-mono font-medium text-slate-200 shadow-xl shadow-cyan-950/40 flex items-center gap-2 z-20"
+              className="mt-6 px-4 sm:px-5 py-2 rounded-full border border-[#22d3ee]/40 bg-[#070B12]/95 backdrop-blur-xl text-xs font-mono font-medium text-slate-200 shadow-xl shadow-cyan-950/40 flex items-center gap-2 z-20"
             >
-              <span>Turning ideas into impactful digital solutions.</span>
-              <span className="text-[#22d3ee]">⚡</span>
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>6+ Production-Ready Full-Stack Projects</span>
             </motion.div>
           </motion.div>
         </div>
