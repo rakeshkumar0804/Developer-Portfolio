@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiDownload, FiTerminal } from 'react-icons/fi';
+import { FiMenu, FiX, FiTerminal } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 const navLinks = [
@@ -16,6 +16,27 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [timeString, setTimeString] = useState('');
+
+  // Live IST (India Standard Time) Clock Engine
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const options = {
+        timeZone: 'Asia/Kolkata',
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      };
+      const formatted = new Intl.DateTimeFormat('en-GB', options).format(now);
+      setTimeString(formatted);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,17 +113,24 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Resume Button */}
-        <div className="flex items-center gap-3">
-          <a
-            href={personalInfo.resumeUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded border border-[#22d3ee]/60 bg-[#22d3ee]/10 hover:bg-[#22d3ee] text-[#22d3ee] hover:text-[#0a0e14] text-xs font-bold transition-all shadow-[0_0_10px_rgba(34,211,238,0.15)]"
-          >
-            <FiDownload className="text-xs" />
-            <span>resume.pdf</span>
-          </a>
+        {/* Top-Right: Terminal Status Widget (Signal Bar & Live IST Clock) */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 px-3 py-1 rounded border border-white/[0.1] bg-[#0d1117] text-xs select-none">
+            {/* Signal Strength Ascending Bars */}
+            <div className="flex items-center gap-1 text-emerald-400">
+              <span className="text-[0.75rem] font-mono tracking-tighter" aria-label="Signal Full">▂▄▆█</span>
+              <span className="text-[0.65rem] font-bold text-slate-400">SIG</span>
+            </div>
+
+            <span className="text-slate-700">|</span>
+
+            {/* Live IST Clock */}
+            <div className="flex items-center gap-1 text-slate-300 text-xs">
+              <span className="text-[#38bdf8] font-bold">T</span>
+              <span className="text-slate-200 font-mono tracking-tight font-medium">{timeString || '14:00:00'}</span>
+              <span className="text-[0.65rem] text-slate-500 font-bold">IST</span>
+            </div>
+          </div>
 
           {/* Mobile Hamburger */}
           <button
