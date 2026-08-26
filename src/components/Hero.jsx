@@ -115,7 +115,7 @@ export default function Hero() {
               {personalInfo.name}
             </motion.h1>
 
-            {/* Dynamic Typewriter Subtitle Replacing Static Line */}
+            {/* Dynamic Typewriter Subtitle */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -221,6 +221,17 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="lg:col-span-5 relative flex items-center justify-center w-full"
           >
+            {/* Floating Tag */}
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35, duration: 0.4 }}
+              className="absolute -top-3.5 right-4 sm:right-6 px-3.5 py-1 rounded-full border border-[#38bdf8]/30 bg-[#090a0f] text-[0.7rem] font-mono font-semibold text-[#38bdf8] shadow-lg shadow-black/50 flex items-center gap-1.5 z-20"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
+              <span>6+ Production-Ready Full-Stack Projects</span>
+            </motion.div>
+
             <div className="w-full rounded-xl border border-white/[0.1] bg-[#121524]/90 backdrop-blur-xl shadow-2xl p-5 relative">
               {/* Window Bar */}
               <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.06]">
