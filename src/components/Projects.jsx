@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiGithub, FiExternalLink, FiTerminal, FiLayers } from 'react-icons/fi';
+import { FiGithub, FiExternalLink } from 'react-icons/fi';
 import { primarySystems, secondaryDeployments } from '../data/portfolioData';
 
 export default function Projects() {
@@ -14,7 +14,7 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-20 relative border-t border-white/[0.08] font-mono">
+    <section id="projects" className="py-20 relative border-t border-slate-800/40 font-mono">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <motion.div
@@ -22,20 +22,20 @@ export default function Projects() {
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-10"
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-10 pt-4"
         >
-          <div className="flex items-center gap-3">
-            <span className="text-amber-400 font-mono font-bold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]">
+          <div className="flex items-center">
+            <span className="text-[#f59e0b] font-mono font-bold text-2xl md:text-3xl drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
               02
             </span>
-            <span className="text-cyan-400 font-mono font-bold text-2xl md:text-3xl">/</span>
-            <h2 className="text-slate-100 font-sans font-bold tracking-wider uppercase text-xl md:text-2xl">
+            <span className="text-[#38bdf8] font-mono text-2xl md:text-3xl mx-2">/</span>
+            <h2 className="text-slate-100 font-mono font-bold tracking-wider uppercase text-xl md:text-2xl">
               DEPLOYED SYSTEMS
             </h2>
           </div>
 
-          <p className="text-slate-400 font-mono text-xs md:text-sm tracking-wider">
-            Production-ready distributed systems, developer tools, and data engines.
+          <p className="font-mono text-xs md:text-sm text-slate-400 tracking-wider">
+            Self-assembling architecture schematics - drawn as you read.
           </p>
         </motion.div>
 

@@ -4,9 +4,9 @@ import { FiMenu, FiX } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 const navLinks = [
-  { name: 'about', href: '#about' },
-  { name: 'skills', href: '#skills' },
-  { name: 'projects', href: '#projects' },
+  { name: 'philosophy', href: '#about' },
+  { name: 'principles', href: '#principles' },
+  { name: 'systems', href: '#projects' },
   { name: 'experience', href: '#experience' },
   { name: 'certifications', href: '#certifications' },
   { name: 'contact', href: '#contact' },
@@ -68,7 +68,7 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sectionIds = ['hero', 'about', 'skills', 'projects', 'experience', 'certifications', 'contact'];
+      const sectionIds = ['hero', 'about', 'principles', 'projects', 'experience', 'certifications', 'contact'];
       const scrollPos = window.scrollY + 140;
 
       for (let i = sectionIds.length - 1; i >= 0; i--) {
