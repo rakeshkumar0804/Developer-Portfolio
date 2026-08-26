@@ -231,14 +231,14 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: Illustration Layout with Concentric Radar/Globe Graphic & Circular Icon Badges */}
+          {/* Right Column: Illustration Layout with Concentric Radar, Energy Burst Light Source & Circular Badges */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-5 relative flex flex-col items-center justify-center w-full py-6"
           >
-            {/* Glowing Circular Radar/Globe Concentric Rings Graphic */}
+            {/* Background Glowing Circular Radar/Globe Concentric Rings Graphic */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-visible">
               {/* Outer Pulsing Concentric Ring 1 */}
               <div className="w-[440px] h-[440px] sm:w-[500px] sm:h-[500px] rounded-full border border-[#38bdf8]/10 animate-[ping_6s_cubic-bezier(0,0,0.2,1)_infinite]" />
@@ -374,12 +374,27 @@ export default function Hero() {
               </div>
             </div>
 
+            {/* Concentrated Glowing Radial Energy Burst & Concentric Rings Directly Beneath Code Card */}
+            <div className="absolute -bottom-2 sm:-bottom-3 left-1/2 -translate-x-1/2 flex items-center justify-center pointer-events-none z-0">
+              {/* Outer Burst Pulse Ring */}
+              <div className="w-[340px] h-[55px] sm:w-[440px] sm:h-[70px] rounded-[100%] border border-[#22d3ee]/35 animate-[ping_4s_cubic-bezier(0,0,0.2,1)_infinite]" />
+
+              {/* Middle Concentrated Glowing Ring */}
+              <div className="absolute w-[250px] h-[40px] sm:w-[330px] sm:h-[52px] rounded-[100%] border border-[#38bdf8]/70 shadow-[0_0_20px_#22d3ee] animate-[pulse_2.5s_ease-in-out_infinite]" />
+
+              {/* Inner High-Intensity Cyan Core Ring */}
+              <div className="absolute w-[160px] h-[26px] sm:w-[220px] sm:h-[36px] rounded-[100%] border-2 border-[#22d3ee] shadow-[0_0_25px_#22d3ee,inset_0_0_15px_#22d3ee]" />
+
+              {/* Bright Radial Spotlight Burst */}
+              <div className="absolute w-[220px] h-[75px] sm:w-[280px] sm:h-[95px] rounded-full bg-gradient-to-t from-[#22d3ee]/55 via-[#38bdf8]/35 to-transparent blur-2xl animate-pulse" />
+            </div>
+
             {/* Floating Tag Below Card */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45 }}
-              className="mt-6 px-4 py-1.5 rounded-full border border-white/[0.1] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono font-medium text-slate-300 shadow-xl flex items-center gap-2 z-20"
+              className="mt-6 px-4 py-1.5 rounded-full border border-[#22d3ee]/30 bg-[#090a0f]/95 backdrop-blur-md text-xs font-mono font-medium text-slate-200 shadow-xl shadow-cyan-950/40 flex items-center gap-2 z-20"
             >
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>6+ Production-Ready Full-Stack Projects</span>
