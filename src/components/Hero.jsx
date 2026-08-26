@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiArrowDown, FiDownload, FiMail, FiMapPin, FiAward, FiCode, FiGithub, FiLinkedin, FiLayers, FiCheck } from 'react-icons/fi';
-import { SiLeetcode, SiReact, SiNodedotjs, SiMongodb, SiExpress } from 'react-icons/si';
+import { SiLeetcode, SiNodedotjs, SiMongodb, SiExpress } from 'react-icons/si';
+import { FaReact } from 'react-icons/fa6';
 import { personalInfo, codingStats } from '../data/portfolioData';
 
 const typewriterTitles = [
@@ -76,20 +77,34 @@ export default function Hero() {
     }),
   };
 
-  // Floating animation variants for circular tech badges
-  const floatVariant1 = {
+  // Smooth Floating animation variants for circular orbit badges
+  const floatVariantTop = {
     animate: {
-      y: [0, -10, 0],
-      rotate: [0, 2, 0],
-      transition: { duration: 3.8, repeat: Infinity, ease: 'easeInOut' },
+      y: [0, -8, 0],
+      transition: { duration: 3.6, repeat: Infinity, ease: 'easeInOut' },
     },
   };
 
-  const floatVariant2 = {
+  const floatVariantLeft = {
     animate: {
-      y: [0, 10, 0],
-      rotate: [0, -2, 0],
-      transition: { duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.4 },
+      x: [0, -6, 0],
+      y: [0, 5, 0],
+      transition: { duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.3 },
+    },
+  };
+
+  const floatVariantRight = {
+    animate: {
+      x: [0, 6, 0],
+      y: [0, -5, 0],
+      transition: { duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.6 },
+    },
+  };
+
+  const floatVariantBottom = {
+    animate: {
+      y: [0, 8, 0],
+      transition: { duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 },
     },
   };
 
@@ -231,7 +246,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: Illustration Layout with Concentric Radar, Energy Burst Light Source & Circular Badges */}
+          {/* Right Column: Illustration Layout with Orbiting Tech Badges & Concentric Glow Platform */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -260,47 +275,47 @@ export default function Hero() {
               <div className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent" />
             </div>
 
-            {/* Circular Tech Badge 1: React (Top Right) */}
+            {/* 1. Evenly Spaced Circular Tech Badge: React (Top / 12 o'clock) */}
             <motion.div
-              variants={floatVariant1}
+              variants={floatVariantTop}
               animate="animate"
-              className="absolute -top-5 sm:-top-7 -right-3 sm:-right-5 z-20 group"
+              className="absolute -top-7 sm:-top-9 left-1/2 -translate-x-1/2 z-20 group"
             >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#61DAFB]/40 bg-[#090a0f]/90 backdrop-blur-xl shadow-xl shadow-[#61DAFB]/20 flex items-center justify-center p-2.5 ring-2 ring-[#61DAFB]/15 group-hover:scale-110 group-hover:border-[#61DAFB] transition-all">
-                <SiReact className="text-[#61DAFB] text-2xl" />
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#61DAFB]/50 bg-[#090a0f]/95 backdrop-blur-xl shadow-xl shadow-[#61DAFB]/25 flex items-center justify-center p-2.5 ring-2 ring-[#61DAFB]/20 group-hover:scale-110 group-hover:border-[#61DAFB] transition-all">
+                <FaReact className="text-[#61DAFB] text-2xl animate-[spin_12s_linear_infinite]" />
               </div>
             </motion.div>
 
-            {/* Circular Tech Badge 2: Node.js (Top Left) */}
+            {/* 2. Evenly Spaced Circular Tech Badge: Node.js (Left-Middle / 9 o'clock) */}
             <motion.div
-              variants={floatVariant2}
+              variants={floatVariantLeft}
               animate="animate"
-              className="absolute -top-6 sm:-top-8 -left-3 sm:-left-6 z-20 group"
+              className="absolute top-[48%] -left-5 sm:-left-8 -translate-y-1/2 z-20 group"
             >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#68A063]/40 bg-[#090a0f]/90 backdrop-blur-xl shadow-xl shadow-[#68A063]/20 flex items-center justify-center p-2.5 ring-2 ring-[#68A063]/15 group-hover:scale-110 group-hover:border-[#68A063] transition-all">
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#68A063]/50 bg-[#090a0f]/95 backdrop-blur-xl shadow-xl shadow-[#68A063]/25 flex items-center justify-center p-2.5 ring-2 ring-[#68A063]/20 group-hover:scale-110 group-hover:border-[#68A063] transition-all">
                 <SiNodedotjs className="text-[#68A063] text-2xl" />
               </div>
             </motion.div>
 
-            {/* Circular Tech Badge 3: Express (Bottom Left) */}
+            {/* 3. Evenly Spaced Circular Tech Badge: MongoDB (Right-Middle / 3 o'clock) */}
             <motion.div
-              variants={floatVariant1}
+              variants={floatVariantRight}
               animate="animate"
-              className="absolute -bottom-5 sm:-bottom-7 -left-3 sm:-left-5 z-20 group"
+              className="absolute top-[48%] -right-5 sm:-right-8 -translate-y-1/2 z-20 group"
             >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-slate-400/40 bg-[#090a0f]/90 backdrop-blur-xl shadow-xl shadow-white/10 flex items-center justify-center p-2.5 ring-2 ring-white/10 group-hover:scale-110 group-hover:border-white transition-all">
-                <SiExpress className="text-white text-2xl" />
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#47A248]/50 bg-[#090a0f]/95 backdrop-blur-xl shadow-xl shadow-[#47A248]/25 flex items-center justify-center p-2.5 ring-2 ring-[#47A248]/20 group-hover:scale-110 group-hover:border-[#47A248] transition-all">
+                <SiMongodb className="text-[#47A248] text-2xl" />
               </div>
             </motion.div>
 
-            {/* Circular Tech Badge 4: MongoDB (Bottom Right) */}
+            {/* 4. Evenly Spaced Circular Tech Badge: Express.js (Bottom-Right / ~5 o'clock) */}
             <motion.div
-              variants={floatVariant2}
+              variants={floatVariantBottom}
               animate="animate"
-              className="absolute -bottom-5 sm:-bottom-7 -right-3 sm:-right-5 z-20 group"
+              className="absolute -bottom-5 sm:-bottom-7 right-4 sm:right-8 z-20 group"
             >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#47A248]/40 bg-[#090a0f]/90 backdrop-blur-xl shadow-xl shadow-[#47A248]/20 flex items-center justify-center p-2.5 ring-2 ring-[#47A248]/15 group-hover:scale-110 group-hover:border-[#47A248] transition-all">
-                <SiMongodb className="text-[#47A248] text-2xl" />
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-slate-300/50 bg-[#090a0f]/95 backdrop-blur-xl shadow-xl shadow-white/10 flex items-center justify-center p-2.5 ring-2 ring-white/15 group-hover:scale-110 group-hover:border-white transition-all">
+                <SiExpress className="text-white text-2xl" />
               </div>
             </motion.div>
 
