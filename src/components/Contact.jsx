@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiMail, FiGithub, FiLinkedin, FiPhone, FiCheck, FiHeart } from 'react-icons/fi';
+import { FiMail, FiGithub, FiLinkedin, FiPhone, FiCheck, FiTerminal, FiSend } from 'react-icons/fi';
 
 export default function Contact() {
-  const [petCount, setPetCount] = useState(0);
-  const [isPurring, setIsPurring] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 15 },
@@ -15,22 +14,22 @@ export default function Contact() {
     }),
   };
 
-  const handlePet = () => {
-    setPetCount((p) => p + 1);
-    setIsPurring(true);
-    setTimeout(() => setIsPurring(false), 1500);
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('rakeshchauhan6651@gmail.com');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <section id="contact" className="py-20 relative border-t border-slate-800/40 font-mono scroll-mt-20">
+    <section id="contact" className="pt-24 pb-20 relative border-t border-slate-800/40 font-mono scroll-mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* ================= 1. Section Header ================= */}
+        {/* ================= 1. Section Header (With Clean Top Spacing) ================= */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-12 pt-4"
+          className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-12 pt-6"
         >
           <div className="flex items-center">
             <span className="text-[#f59e0b] font-mono font-bold text-2xl drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
@@ -94,7 +93,7 @@ export default function Contact() {
             </div>
           </motion.div>
 
-          {/* ================= 3. Right Column — 2x2 Comms Matrix & Mascot ================= */}
+          {/* ================= 3. Right Column — 2x2 Comms Matrix & Terminal ================= */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -170,120 +169,56 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* ================= 4. Interactive Cyber Mascot Widget ================= */}
-            <div
-              onClick={handlePet}
-              className="border border-slate-800/80 rounded-xl bg-[#0B101B]/40 p-5 flex flex-col justify-between min-h-[300px] relative overflow-hidden backdrop-blur-sm shadow-md group cursor-pointer select-none hover:border-cyan-500/50 transition-all"
-            >
-              {/* Top Status Tag */}
-              <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-cyan-400 font-bold tracking-widest text-[11px] flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
-                  NYX • PURR.SYS
+            {/* ================= 4. Interactive Transmission Uplink Terminal (TRANSMISSION.SYS) ================= */}
+            <div className="border border-slate-800/80 rounded-xl bg-[#0B101B]/50 p-5 flex flex-col justify-between h-56 relative overflow-hidden backdrop-blur-sm shadow-xl">
+              {/* Top Header */}
+              <div className="flex items-center justify-between text-xs font-mono pb-2 border-b border-slate-800/70">
+                <span className="text-cyan-400 font-mono text-[11px] tracking-[0.2em] font-semibold flex items-center gap-2">
+                  <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
+                  TERMINAL • TRANSMISSION_UPLINK
                 </span>
-                <span className="text-slate-400 text-[10px]">
-                  {isPurring ? 'STATUS: PURRING ♥' : 'STATUS: NOMINAL'}
+                <span className="text-slate-400 font-mono text-[10px] tracking-widest">
+                  STATUS: ONLINE • PORT 443
                 </span>
               </div>
 
-              {/* Center: Full Glowing Cyber-Cat Mascot Vector Canvas */}
-              <div className="relative w-full flex items-center justify-center select-none overflow-visible py-2 my-auto">
-                <motion.div
-                  animate={{
-                    y: isPurring ? [-3, 3, -3] : [0, -6, 0],
-                    scale: isPurring ? 1.06 : 1,
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: isPurring ? 0.3 : 3,
-                    ease: 'easeInOut',
-                  }}
-                  className="relative flex flex-col items-center"
+              {/* Inner Terminal Box & Live Telemetry */}
+              <div className="bg-slate-950/80 border border-slate-800/80 rounded-lg p-3.5 my-auto font-mono text-xs text-slate-300 space-y-1.5 shadow-inner select-text">
+                <div className="text-slate-400 truncate">
+                  &gt; sys.connect(target=&quot;rakesh.core&quot;, mode=&quot;direct_comm&quot;)
+                </div>
+                <div className="text-emerald-400/90 truncate">
+                  &gt; secure_handshake: 2048-bit TLS established [200 OK]
+                </div>
+                <div className="text-cyan-400/90 truncate">
+                  &gt; latency: ~18ms • timezone: IST (UTC+5:30) • location: GURUGRAM, HR
+                </div>
+                <div className="text-amber-400/90 truncate">
+                  &gt; channel_state: READY_FOR_DISPATCH
+                </div>
+                <div className="flex items-center pt-0.5">
+                  <span className="text-cyan-400 font-bold">root@rakesh:~$</span>
+                  <span className="inline-block w-2 h-3.5 bg-cyan-400 ml-1.5 animate-pulse" />
+                </div>
+              </div>
+
+              {/* Quick Action Buttons (Footer Bar) */}
+              <div className="flex items-center justify-between pt-2 border-t border-slate-800/60 font-mono text-[11px]">
+                <a
+                  href="mailto:rakeshchauhan6651@gmail.com?subject=Transmission%20from%20Portfolio"
+                  className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1 cursor-pointer font-medium"
                 >
-                  <svg
-                    viewBox="0 0 200 240"
-                    className="w-40 h-48 drop-shadow-[0_0_12px_rgba(56,189,248,0.45)] group-hover:drop-shadow-[0_0_20px_rgba(56,189,248,0.7)] group-hover:scale-105 transition-all duration-300"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {/* Pointed Ears */}
-                    <path
-                      d="M 60 70 L 45 28 L 82 48"
-                      stroke="#38bdf8"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M 140 70 L 155 28 L 118 48"
-                      stroke="#38bdf8"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                  <span>SEND_DISPATCH</span>
+                  <span>↗</span>
+                </a>
 
-                    {/* Rounded Head Outline */}
-                    <ellipse cx="100" cy="80" rx="46" ry="38" stroke="#38bdf8" strokeWidth="2.5" fill="#070b14" />
-
-                    {/* Large Round Outer Eyes */}
-                    <circle cx="82" cy="76" r="14" stroke="#38bdf8" strokeWidth="2.2" fill="#0b1726" />
-                    <circle cx="118" cy="76" r="14" stroke="#38bdf8" strokeWidth="2.2" fill="#0b1726" />
-
-                    {/* Eye Pupils */}
-                    <circle cx="82" cy="76" r="5" fill="#38bdf8" className="animate-pulse" />
-                    <circle cx="118" cy="76" r="5" fill="#38bdf8" className="animate-pulse" />
-
-                    {/* Nose & Mouth / Muzzle */}
-                    <path d="M 97 88 L 103 88 L 100 92 Z" fill="#38bdf8" />
-                    <path
-                      d="M 94 95 Q 100 99 100 93 Q 100 99 106 95"
-                      stroke="#38bdf8"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      fill="none"
-                    />
-
-                    {/* Whiskers */}
-                    <line x1="52" y1="84" x2="28" y2="82" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" />
-                    <line x1="52" y1="92" x2="30" y2="95" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" />
-                    <line x1="148" y1="84" x2="172" y2="82" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" />
-                    <line x1="148" y1="92" x2="170" y2="95" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" />
-
-                    {/* Sitting Oval Body */}
-                    <ellipse cx="100" cy="160" rx="48" ry="46" stroke="#38bdf8" strokeWidth="2.5" fill="#070b14" />
-
-                    {/* Front Paws */}
-                    <ellipse cx="86" cy="204" rx="11" ry="6" stroke="#38bdf8" strokeWidth="2" fill="#070b14" />
-                    <ellipse cx="114" cy="204" rx="11" ry="6" stroke="#38bdf8" strokeWidth="2" fill="#070b14" />
-
-                    {/* Curled Upright Tail */}
-                    <path
-                      d="M 144 175 C 168 185 180 150 162 125 C 158 120 152 122 153 128 C 156 142 150 165 138 168"
-                      stroke="#38bdf8"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-
-                  {/* Purr Floating Hearts Particle */}
-                  {isPurring && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: -18 }}
-                      exit={{ opacity: 0 }}
-                      className="absolute -top-5 flex items-center gap-1 text-cyan-300 text-xs font-mono"
-                    >
-                      <FiHeart className="text-rose-400 fill-rose-400 text-xs animate-bounce" />
-                      <span className="text-[10px] font-bold tracking-wider">PURR! ({petCount})</span>
-                    </motion.div>
-                  )}
-                </motion.div>
-              </div>
-
-              {/* Bottom Hint */}
-              <div className="text-slate-500 text-[10px] font-mono tracking-widest text-center pt-2 border-t border-slate-800/60">
-                TAP TO PET • DRAG TO PLAY • HOLD / RIGHT-CLICK
+                <button
+                  onClick={handleCopyEmail}
+                  className="text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
+                  title="Copy email address"
+                >
+                  {copied ? 'COPIED_TO_CLIPBOARD ✓' : 'COPY_EMAIL_CLIPBOARD'}
+                </button>
               </div>
             </div>
           </motion.div>
