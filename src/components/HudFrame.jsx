@@ -35,18 +35,10 @@ export default function HudFrame() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-40 select-none font-mono">
-      {/* 4 Technical Corner Brackets */}
-      <div className="absolute top-2 left-2 text-cyan-400/60 text-xs leading-none">┌</div>
-      <div className="absolute top-2 right-2 text-cyan-400/60 text-xs leading-none">┐</div>
-      <div className="absolute bottom-2 left-2 text-cyan-400/60 text-xs leading-none">└</div>
-      <div className="absolute bottom-2 right-2 text-cyan-400/60 text-xs leading-none">┘</div>
-
-      {/* Top Status Pill Under Navbar */}
-      <div className="hidden lg:flex absolute top-14 left-6 items-center gap-1.5 px-2 py-0.5 rounded border border-cyan-500/20 bg-[#050811]/90 text-[10px] tracking-widest text-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.15)]">
-        <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
-        <span>RAKESH-CORE UPLINK ACTIVE</span>
-      </div>
+    <div className="fixed inset-0 pointer-events-none z-30 select-none font-mono">
+      {/* Bottom Technical Corner Brackets */}
+      <div className="absolute bottom-2 left-2 text-slate-600 text-xs leading-none">└</div>
+      <div className="absolute bottom-2 right-2 text-slate-600 text-xs leading-none">┘</div>
 
       {/* Bottom Persistent Real-Time Telemetry Bar (Unboxed & Transparent Directly on Grid) */}
       <div className="absolute bottom-0 left-0 right-0 pb-3 pt-0 px-5 sm:px-8 bg-transparent backdrop-blur-none border-0 shadow-none flex items-center justify-between text-[11px] tracking-wider text-slate-400 font-mono">
