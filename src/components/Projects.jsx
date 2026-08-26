@@ -444,13 +444,8 @@ export default function Projects() {
           {/* Left Column: System Specification (Clean & Unboxed) */}
           <div className="lg:col-span-6 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-3 text-xs font-mono mb-2">
-                <span className="text-slate-400 font-mono">SYS-01</span>
-                <span className="text-slate-600">•</span>
-                <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider font-mono">
-                  <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-                  ONLINE 2026
-                </span>
+              <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
+                SYS-01
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -563,13 +558,8 @@ export default function Projects() {
           {/* Right Column: System Specification */}
           <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-3 text-xs font-mono mb-2">
-                <span className="text-slate-400 font-mono">SYS-02</span>
-                <span className="text-slate-600">•</span>
-                <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider font-mono">
-                  <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-                  ONLINE 2026
-                </span>
+              <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
+                SYS-02
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -672,13 +662,8 @@ export default function Projects() {
           {/* Left Column: System Specification */}
           <div className="lg:col-span-6 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-3 text-xs font-mono mb-2">
-                <span className="text-slate-400 font-mono">SYS-03</span>
-                <span className="text-slate-600">•</span>
-                <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider font-mono">
-                  <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-                  ONLINE 2026
-                </span>
+              <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
+                SYS-03
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -791,13 +776,8 @@ export default function Projects() {
           {/* Right Column: System Specification */}
           <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col justify-between">
             <div>
-              <div className="flex items-center gap-3 text-xs font-mono mb-2">
-                <span className="text-slate-400 font-mono">SYS-04</span>
-                <span className="text-slate-600">•</span>
-                <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider font-mono">
-                  <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-                  ONLINE 2026
-                </span>
+              <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
+                SYS-04
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
