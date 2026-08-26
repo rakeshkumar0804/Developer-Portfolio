@@ -39,10 +39,10 @@ export default function About() {
           >
             <div className="space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
               <p>
-                I'm a B.Tech Computer Science Engineering graduate (Class of 2026) from Parul University, based in Gurugram, India. I focus on building and shipping full-stack web applications with React, Node.js, Express, and MongoDB/PostgreSQL.
+                I'm a B.Tech Computer Science Engineering graduate (Class of 2026) from Parul University (Vadodara, Gujarat), based in my hometown of Gurugram, Haryana. I specialize in building and shipping production-ready full-stack web applications with React, TypeScript, Node.js, Express, and MongoDB/PostgreSQL.
               </p>
               <p>
-                During my software development internship at Codetech IT Solutions, I engineered an internal Employee Management System implementing stateless JWT authentication, Role-Based Access Control (RBAC) across Admin, Manager, and Employee portals, and structured RESTful API endpoints.
+                My engineering focus is on building resilient backend architectures, multi-tenant RBAC systems, stateless JWT auth workflows, and real-time collaborative features using WebSockets. Every project I build is designed with structured RESTful API design, database integrity, and dependable client-side state management.
               </p>
             </div>
 
