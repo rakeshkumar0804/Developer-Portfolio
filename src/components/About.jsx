@@ -38,7 +38,8 @@ export default function About() {
   };
 
   return (
-    <section id="philosophy" className="min-h-screen flex flex-col justify-center px-6 sm:px-8 md:px-16 py-16 md:py-24 relative font-mono scroll-mt-20">
+    <section id="operations" className="min-h-screen flex flex-col justify-center px-6 sm:px-8 md:px-16 py-16 md:py-24 relative font-mono scroll-mt-20">
+      <div id="philosophy" className="scroll-mt-20" />
       <div id="about" className="scroll-mt-20" />
       <div className="max-w-6xl mx-auto w-full">
         {/* Top Header & Manifesto */}
