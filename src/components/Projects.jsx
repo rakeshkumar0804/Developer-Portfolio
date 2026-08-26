@@ -256,7 +256,7 @@ function PortfolioPulseSchematic({ onReconstruct }) {
               PUPPETEER CRAWLER
             </div>
             <div className="text-xs font-sans font-medium text-slate-200 mt-1">Headless Inspector</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">~1.2s DOM load audit</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Headless SPA DOM audit</div>
           </div>
         </div>
 
@@ -331,7 +331,7 @@ function KohliAnalyticsSchematic({ onReconstruct }) {
         <div className="flex items-center justify-around text-[9px] font-mono text-cyan-400/80 px-2 py-0.5">
           <span>↕ VECTOR MATH PIPELINE</span>
           <span>↕ TIMELINE SYNC</span>
-          <span>↕ 60 FPS GSAP RENDER</span>
+          <span>↕ HW-ACCELERATED PIPELINE</span>
         </div>
 
         <div className="grid grid-cols-2 gap-3 relative z-10">
@@ -693,9 +693,9 @@ export default function Projects() {
                   </div>
                 </div>
                 <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">~1.2s</div>
+                  <div className="text-xl font-bold text-cyan-400 font-mono">HEADLESS</div>
                   <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    CRAWL LATENCY
+                    SPA CRAWL
                   </div>
                 </div>
               </div>
@@ -801,9 +801,9 @@ export default function Projects() {
                   </div>
                 </div>
                 <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">60 FPS</div>
+                  <div className="text-xl font-bold text-cyan-400 font-mono">60+ FPS</div>
                   <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    GSAP TRANSITIONS
+                    HARDWARE ACCELERATED
                   </div>
                 </div>
                 <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">

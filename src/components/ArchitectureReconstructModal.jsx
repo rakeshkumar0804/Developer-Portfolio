@@ -179,7 +179,7 @@ const reconstructionData = {
         activeNodes: ['frontend', 'api', 'github', 'engine', 'puppeteer', 'mongo'],
         activeLinks: ['rest', 'github', 'devtools', 'eval', 'db'],
         resolvedTitle: 'Live Production Launch',
-        resolvedDesc: 'Comprehensive hiring-readiness auditor with ~1.2s average crawl time and reproducible audit scorecard generation.',
+        resolvedDesc: 'Comprehensive hiring-readiness auditor with headless SPA crawling and reproducible audit scorecard generation.',
       },
     ],
     nodes: [
