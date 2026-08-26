@@ -173,7 +173,7 @@ export default function Contact() {
             {/* ================= 4. Interactive Cyber Mascot Widget ================= */}
             <div
               onClick={handlePet}
-              className="border border-slate-800/80 rounded-xl bg-[#0B101B]/40 p-5 flex flex-col justify-between h-48 relative overflow-hidden backdrop-blur-sm shadow-md group cursor-pointer select-none hover:border-cyan-500/40 transition-all"
+              className="border border-slate-800/80 rounded-xl bg-[#0B101B]/40 p-5 flex flex-col justify-between min-h-[300px] relative overflow-hidden backdrop-blur-sm shadow-md group cursor-pointer select-none hover:border-cyan-500/50 transition-all"
             >
               {/* Top Status Tag */}
               <div className="flex items-center justify-between text-xs font-mono">
@@ -181,85 +181,101 @@ export default function Contact() {
                   <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-pulse" />
                   NYX • PURR.SYS
                 </span>
-                <span className="text-slate-500 text-[10px]">
+                <span className="text-slate-400 text-[10px]">
                   {isPurring ? 'STATUS: PURRING ♥' : 'STATUS: NOMINAL'}
                 </span>
               </div>
 
-              {/* Center: Glowing Cyan Cyber Cat Wireframe Mascot */}
-              <div className="flex items-center justify-center relative my-auto">
+              {/* Center: Full Glowing Cyber-Cat Mascot Vector Canvas */}
+              <div className="relative w-full flex items-center justify-center select-none overflow-visible py-2 my-auto">
                 <motion.div
                   animate={{
-                    y: isPurring ? [-2, 2, -2] : [0, -3, 0],
-                    scale: isPurring ? 1.05 : 1,
+                    y: isPurring ? [-3, 3, -3] : [0, -6, 0],
+                    scale: isPurring ? 1.06 : 1,
                   }}
                   transition={{
                     repeat: Infinity,
-                    duration: isPurring ? 0.3 : 2.5,
+                    duration: isPurring ? 0.3 : 3,
                     ease: 'easeInOut',
                   }}
                   className="relative flex flex-col items-center"
                 >
-                  {/* Cyber Cat SVG Illustration */}
                   <svg
-                    width="100"
-                    height="64"
-                    viewBox="0 0 100 64"
+                    viewBox="0 0 200 240"
+                    className="w-40 h-48 drop-shadow-[0_0_12px_rgba(56,189,248,0.45)] group-hover:drop-shadow-[0_0_20px_rgba(56,189,248,0.7)] group-hover:scale-105 transition-all duration-300"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    className="text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.4)] transition-all group-hover:scale-105"
                   >
-                    {/* Ears */}
+                    {/* Pointed Ears */}
                     <path
-                      d="M28 28 L18 10 L38 20 Z"
-                      stroke="#22d3ee"
-                      strokeWidth="1.5"
-                      fill="#0d1f2d"
+                      d="M 60 70 L 45 28 L 82 48"
+                      stroke="#38bdf8"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     <path
-                      d="M72 28 L82 10 L62 20 Z"
-                      stroke="#22d3ee"
-                      strokeWidth="1.5"
-                      fill="#0d1f2d"
+                      d="M 140 70 L 155 28 L 118 48"
+                      stroke="#38bdf8"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
 
-                    {/* Head Outline */}
-                    <polygon
-                      points="25,24 75,24 85,42 75,56 25,56 15,42"
-                      stroke="#22d3ee"
-                      strokeWidth="1.5"
-                      fill="#09131e"
+                    {/* Rounded Head Outline */}
+                    <ellipse cx="100" cy="80" rx="46" ry="38" stroke="#38bdf8" strokeWidth="2.5" fill="#070b14" />
+
+                    {/* Large Round Outer Eyes */}
+                    <circle cx="82" cy="76" r="14" stroke="#38bdf8" strokeWidth="2.2" fill="#0b1726" />
+                    <circle cx="118" cy="76" r="14" stroke="#38bdf8" strokeWidth="2.2" fill="#0b1726" />
+
+                    {/* Eye Pupils */}
+                    <circle cx="82" cy="76" r="5" fill="#38bdf8" className="animate-pulse" />
+                    <circle cx="118" cy="76" r="5" fill="#38bdf8" className="animate-pulse" />
+
+                    {/* Nose & Mouth / Muzzle */}
+                    <path d="M 97 88 L 103 88 L 100 92 Z" fill="#38bdf8" />
+                    <path
+                      d="M 94 95 Q 100 99 100 93 Q 100 99 106 95"
+                      stroke="#38bdf8"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      fill="none"
                     />
 
-                    {/* Visor / Eye Trackers */}
-                    <ellipse cx="36" cy="38" rx="6" ry="7" fill="#082b38" stroke="#38bdf8" strokeWidth="1" />
-                    <ellipse cx="64" cy="38" rx="6" ry="7" fill="#082b38" stroke="#38bdf8" strokeWidth="1" />
+                    {/* Whiskers */}
+                    <line x1="52" y1="84" x2="28" y2="82" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" />
+                    <line x1="52" y1="92" x2="30" y2="95" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" />
+                    <line x1="148" y1="84" x2="172" y2="82" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" />
+                    <line x1="148" y1="92" x2="170" y2="95" stroke="#38bdf8" strokeWidth="1.8" strokeLinecap="round" />
 
-                    {/* Pupils (Glowing Cyan) */}
-                    <circle cx="36" cy="38" r="2.5" fill="#22d3ee" className="animate-pulse" />
-                    <circle cx="64" cy="38" r="2.5" fill="#22d3ee" className="animate-pulse" />
+                    {/* Sitting Oval Body */}
+                    <ellipse cx="100" cy="160" rx="48" ry="46" stroke="#38bdf8" strokeWidth="2.5" fill="#070b14" />
 
-                    {/* Nose & Whiskers */}
-                    <polygon points="50,46 47,43 53,43" fill="#38bdf8" />
-                    <line x1="20" y1="44" x2="3" y2="40" stroke="#38bdf8" strokeWidth="1" strokeOpacity="0.7" />
-                    <line x1="20" y1="48" x2="2" y2="48" stroke="#38bdf8" strokeWidth="1" strokeOpacity="0.7" />
-                    <line x1="80" y1="44" x2="97" y2="40" stroke="#38bdf8" strokeWidth="1" strokeOpacity="0.7" />
-                    <line x1="80" y1="48" x2="98" y2="48" stroke="#38bdf8" strokeWidth="1" strokeOpacity="0.7" />
+                    {/* Front Paws */}
+                    <ellipse cx="86" cy="204" rx="11" ry="6" stroke="#38bdf8" strokeWidth="2" fill="#070b14" />
+                    <ellipse cx="114" cy="204" rx="11" ry="6" stroke="#38bdf8" strokeWidth="2" fill="#070b14" />
 
-                    {/* Mouth Line */}
-                    <path d="M47 48 Q50 51 53 48" stroke="#38bdf8" strokeWidth="1" fill="none" />
+                    {/* Curled Upright Tail */}
+                    <path
+                      d="M 144 175 C 168 185 180 150 162 125 C 158 120 152 122 153 128 C 156 142 150 165 138 168"
+                      stroke="#38bdf8"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
 
-                  {/* Purr Hearts Animation */}
+                  {/* Purr Floating Hearts Particle */}
                   {isPurring && (
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: -15 }}
+                      animate={{ opacity: 1, y: -18 }}
                       exit={{ opacity: 0 }}
-                      className="absolute -top-4 flex items-center gap-1 text-cyan-300 text-xs font-mono"
+                      className="absolute -top-5 flex items-center gap-1 text-cyan-300 text-xs font-mono"
                     >
                       <FiHeart className="text-rose-400 fill-rose-400 text-xs animate-bounce" />
-                      <span className="text-[10px] font-bold">PURR! ({petCount})</span>
+                      <span className="text-[10px] font-bold tracking-wider">PURR! ({petCount})</span>
                     </motion.div>
                   )}
                 </motion.div>
