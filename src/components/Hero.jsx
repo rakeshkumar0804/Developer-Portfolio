@@ -7,8 +7,8 @@ import { personalInfo, codingStats } from '../data/portfolioData';
 
 const typewriterTitles = [
   'Full-Stack Web Developer',
-  'MERN Stack Engineer, JWT & RBAC Systems',
-  'Building Real-Time Systems — SyncPad, IncidentHub AI & More',
+  'MERN Stack & Real-Time System Builder',
+  'IncidentHub AI & SyncPad Creator',
 ];
 
 export default function Hero() {
@@ -80,14 +80,14 @@ export default function Hero() {
   // Smooth orbital floating animations
   const floatVariantTop = {
     animate: {
-      y: [0, -9, 0],
+      y: [0, -8, 0],
       transition: { duration: 3.8, repeat: Infinity, ease: 'easeInOut' },
     },
   };
 
   const floatVariantLeft = {
     animate: {
-      x: [0, -7, 0],
+      x: [0, -6, 0],
       y: [0, 4, 0],
       transition: { duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.3 },
     },
@@ -95,7 +95,7 @@ export default function Hero() {
 
   const floatVariantRight = {
     animate: {
-      x: [0, 7, 0],
+      x: [0, 6, 0],
       y: [0, -4, 0],
       transition: { duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.6 },
     },
@@ -103,7 +103,7 @@ export default function Hero() {
 
   const floatVariantBottom = {
     animate: {
-      y: [0, 8, 0],
+      y: [0, 7, 0],
       transition: { duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 },
     },
   };
@@ -147,22 +147,22 @@ export default function Hero() {
               {personalInfo.name}
             </motion.h1>
 
-            {/* Dynamic Typewriter Subtitle */}
+            {/* Dynamic Typewriter Subtitle - Single-Line Fixed Height to Prevent Layout Shift */}
             <motion.div
               initial="hidden"
               animate="visible"
               custom={4}
               variants={fadeInUp}
-              className="min-h-[3.25rem] sm:min-h-[2.5rem] flex items-center mt-3 mb-4"
+              className="h-10 sm:h-11 flex items-center mt-2 mb-3 overflow-hidden"
             >
-              <div className="text-base sm:text-xl lg:text-2xl font-bold font-mono text-[#22d3ee] tracking-tight leading-snug">
+              <div className="text-base sm:text-lg lg:text-xl xl:text-2xl font-bold font-mono text-[#22d3ee] tracking-tight leading-none whitespace-nowrap overflow-hidden text-ellipsis flex items-center">
                 {prefersReducedMotion ? (
-                  <span>Full-Stack Web Developer & MERN Engineer</span>
+                  <span>Full-Stack Web Developer</span>
                 ) : (
                   <>
                     <span>{displayText}</span>
                     <span
-                      className="inline-block w-2 sm:w-2.5 h-4 sm:h-5 ml-1 bg-[#22d3ee] shadow-[0_0_8px_#22d3ee] animate-pulse align-middle"
+                      className="inline-block w-2 sm:w-2.5 h-4 sm:h-5 ml-1 bg-[#22d3ee] shadow-[0_0_8px_#22d3ee] animate-pulse shrink-0"
                       aria-hidden="true"
                     />
                   </>
@@ -246,180 +246,182 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: 3D Holographic Sci-Fi Terminal, Pedestal & Orbiting Nodes */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.65, delay: 0.2 }}
-            className="lg:col-span-5 relative flex flex-col items-center justify-center w-full py-8"
-            style={{ perspective: '1200px' }}
-          >
-            {/* Background Holographic Atmosphere Glow */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-visible">
-              <div className="w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] rounded-full bg-gradient-to-tr from-[#22d3ee]/15 via-indigo-600/10 to-transparent blur-3xl" />
-            </div>
-
-            {/* Orbiting Tech Node 1: React (Top / 12 o'clock on circular orbit) */}
+          {/* Right Column: Strict 3D Holographic Container (Fixed Height & Locked Positioning) */}
+          <div className="lg:col-span-5 relative w-full h-[520px] flex items-center justify-center overflow-visible select-none">
             <motion.div
-              variants={floatVariantTop}
-              animate="animate"
-              className="absolute -top-7 sm:-top-9 left-1/2 -translate-x-1/2 z-30 group cursor-pointer"
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.65, delay: 0.2 }}
+              className="relative w-full max-w-[460px] h-full flex flex-col items-center justify-center"
+              style={{ perspective: '1200px' }}
             >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#61DAFB]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#61DAFB]/25 flex items-center justify-center p-2.5 ring-2 ring-[#61DAFB]/20 group-hover:scale-110 group-hover:border-[#61DAFB] transition-all">
-                <FaReact className="text-[#61DAFB] text-2xl animate-[spin_12s_linear_infinite]" />
+              {/* Background Holographic Atmosphere Glow */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-visible">
+                <div className="w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] rounded-full bg-gradient-to-tr from-[#22d3ee]/15 via-indigo-600/10 to-transparent blur-3xl" />
               </div>
+
+              {/* Orbiting Tech Node 1: React (Top / 12 o'clock on circular orbit) */}
+              <motion.div
+                variants={floatVariantTop}
+                animate="animate"
+                className="absolute top-2 left-1/2 -translate-x-1/2 z-30 group cursor-pointer"
+              >
+                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#61DAFB]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#61DAFB]/25 flex items-center justify-center p-2.5 ring-2 ring-[#61DAFB]/20 group-hover:scale-110 group-hover:border-[#61DAFB] transition-all">
+                  <FaReact className="text-[#61DAFB] text-2xl animate-[spin_12s_linear_infinite]" />
+                </div>
+              </motion.div>
+
+              {/* Orbiting Tech Node 2: Node.js (Left-Middle / 9 o'clock on circular orbit) */}
+              <motion.div
+                variants={floatVariantLeft}
+                animate="animate"
+                className="absolute top-[46%] -left-3 sm:-left-6 -translate-y-1/2 z-30 group cursor-pointer"
+              >
+                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#68A063]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#68A063]/25 flex items-center justify-center p-2.5 ring-2 ring-[#68A063]/20 group-hover:scale-110 group-hover:border-[#68A063] transition-all">
+                  <SiNodedotjs className="text-[#68A063] text-2xl" />
+                </div>
+              </motion.div>
+
+              {/* Orbiting Tech Node 3: MongoDB (Right-Middle / 3 o'clock on circular orbit) */}
+              <motion.div
+                variants={floatVariantRight}
+                animate="animate"
+                className="absolute top-[46%] -right-3 sm:-right-6 -translate-y-1/2 z-30 group cursor-pointer"
+              >
+                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#47A248]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#47A248]/25 flex items-center justify-center p-2.5 ring-2 ring-[#47A248]/20 group-hover:scale-110 group-hover:border-[#47A248] transition-all">
+                  <SiMongodb className="text-[#47A248] text-2xl" />
+                </div>
+              </motion.div>
+
+              {/* Orbiting Tech Node 4: Express.js (Bottom-Right on circular orbit) */}
+              <motion.div
+                variants={floatVariantBottom}
+                animate="animate"
+                className="absolute bottom-16 right-4 sm:right-6 z-30 group cursor-pointer"
+              >
+                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-slate-300/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-white/10 flex items-center justify-center p-2.5 ring-2 ring-white/15 group-hover:scale-110 group-hover:border-white transition-all">
+                  <SiExpress className="text-white text-2xl" />
+                </div>
+              </motion.div>
+
+              {/* 3D Angled Code Editor Card */}
+              <motion.div
+                whileHover={{ rotateY: -3, rotateX: 3, scale: 1.02 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                className="w-full rounded-2xl border border-[#22d3ee]/35 bg-[#070B12]/90 backdrop-blur-2xl shadow-[0_15px_40px_rgba(0,0,0,0.8),0_0_30px_rgba(34,211,238,0.12)] p-5 sm:p-6 relative z-20"
+                style={{
+                  transform: 'rotateY(-9deg) rotateX(6deg) rotateZ(1deg)',
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                {/* Window Header */}
+                <div className="flex items-center justify-between pb-3 mb-3.5 border-b border-white/[0.08]">
+                  {/* macOS control dots on the left */}
+                  <div className="flex items-center gap-2">
+                    <div className="h-3 w-3 rounded-full bg-rose-500/90 shadow-[0_0_6px_#f43f5e]" />
+                    <div className="h-3 w-3 rounded-full bg-amber-500/90 shadow-[0_0_6px_#f59e0b]" />
+                    <div className="h-3 w-3 rounded-full bg-emerald-500/90 shadow-[0_0_6px_#10b981]" />
+                  </div>
+
+                  {/* Filename in the center */}
+                  <div className="font-mono text-xs text-slate-300 font-semibold tracking-wide">
+                    developer.js
+                  </div>
+
+                  {/* Tagged JAVASCRIPT on the right */}
+                  <span className="text-[0.68rem] font-mono font-bold text-[#22d3ee] bg-[#22d3ee]/10 border border-[#22d3ee]/30 px-2.5 py-0.5 rounded tracking-wider">
+                    JAVASCRIPT
+                  </span>
+                </div>
+
+                {/* Syntax-Highlighted Code */}
+                <div className="font-mono text-xs leading-relaxed text-slate-300 space-y-1 overflow-x-auto py-1">
+                  <div>
+                    <span className="text-indigo-400 font-semibold">const</span>{' '}
+                    <span className="text-[#38bdf8]">developer</span> = &#123;
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-slate-400">name:</span>{' '}
+                    <span className="text-emerald-400">'Rakesh Kumar'</span>,
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-slate-400">education:</span>{' '}
+                    <span className="text-emerald-400">'B.Tech CSE, Parul University (2026)'</span>,
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-slate-400">internship:</span>{' '}
+                    <span className="text-emerald-400">'Codetech IT Solution (MERN Stack)'</span>,
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-slate-400">coreTech:</span> [
+                    <span className="text-[#38bdf8]">'React'</span>,{' '}
+                    <span className="text-[#38bdf8]">'Node.js'</span>,{' '}
+                    <span className="text-[#38bdf8]">'Express'</span>,{' '}
+                    <span className="text-[#38bdf8]">'MongoDB'</span>],
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-slate-400">focusAreas:</span> [
+                    <span className="text-amber-400">'REST APIs'</span>,{' '}
+                    <span className="text-amber-400">'JWT & RBAC'</span>,{' '}
+                    <span className="text-amber-400">'System Workflows'</span>],
+                  </div>
+                  <div className="pl-4">
+                    <span className="text-slate-400">status:</span>{' '}
+                    <span className="text-emerald-400">'Actively Interviewing for SDE Roles'</span>
+                  </div>
+                  <div>&#125;;</div>
+                </div>
+
+                {/* Mini Status Footer Bar */}
+                <div className="mt-3.5 pt-3 border-t border-white/[0.06] grid grid-cols-3 gap-2 text-center font-mono">
+                  <div className="p-1.5 rounded-lg bg-[#040810] border border-white/[0.04]">
+                    <div className="text-sm font-bold text-white">6+</div>
+                    <div className="text-[0.65rem] text-slate-400 uppercase">Projects</div>
+                  </div>
+                  <div className="p-1.5 rounded-lg bg-[#040810] border border-white/[0.04]">
+                    <div className="text-sm font-bold text-[#22d3ee]">165+</div>
+                    <div className="text-[0.65rem] text-slate-400 uppercase">LeetCode</div>
+                  </div>
+                  <div className="p-1.5 rounded-lg bg-[#040810] border border-white/[0.04]">
+                    <div className="text-sm font-bold text-emerald-400">2026</div>
+                    <div className="text-[0.65rem] text-slate-400 uppercase">Graduate</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Holographic Circular Pedestal Projection Platform */}
+              <div className="relative w-full flex flex-col items-center justify-center -mt-6 pt-2 pointer-events-none z-10">
+                {/* Upward Hologram Projection Rays */}
+                <div className="w-64 sm:w-80 h-16 bg-gradient-to-t from-[#22d3ee]/25 via-[#38bdf8]/10 to-transparent blur-xl" />
+
+                {/* Concentric Holographic Base Rings with Circuit Grid Projection */}
+                <div className="relative -mt-9 flex items-center justify-center">
+                  {/* Outer Hologram Projection Ring */}
+                  <div className="w-[340px] h-[50px] sm:w-[440px] sm:h-[65px] rounded-[100%] border border-[#22d3ee]/30 animate-[ping_4.5s_cubic-bezier(0,0,0.2,1)_infinite]" />
+
+                  {/* Circuit Grid Ring */}
+                  <div className="absolute w-[260px] h-[40px] sm:w-[340px] sm:h-[50px] rounded-[100%] border border-[#38bdf8]/55 border-dashed shadow-[0_0_15px_#22d3ee] animate-[spin_60s_linear_infinite]" />
+
+                  {/* Inner Glowing Holographic Platform Ring */}
+                  <div className="absolute w-[170px] h-[28px] sm:w-[220px] sm:h-[36px] rounded-[100%] border-2 border-[#22d3ee] shadow-[0_0_25px_#22d3ee,inset_0_0_15px_#22d3ee]" />
+
+                  {/* Intense Core Light Source */}
+                  <div className="absolute w-[200px] h-[50px] rounded-full bg-[#22d3ee]/40 blur-2xl animate-pulse" />
+                </div>
+              </div>
+
+              {/* Bottom Tagline Badge: Preserved Factual Projects Proof */}
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.45 }}
+                className="mt-4 px-4 sm:px-5 py-1.5 rounded-full border border-[#22d3ee]/40 bg-[#070B12]/95 backdrop-blur-xl text-xs font-mono font-medium text-slate-200 shadow-xl shadow-cyan-950/40 flex items-center gap-2 z-20 shrink-0"
+              >
+                <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>6+ Production-Ready Full-Stack Projects</span>
+              </motion.div>
             </motion.div>
-
-            {/* Orbiting Tech Node 2: Node.js (Left-Middle / 9 o'clock on circular orbit) */}
-            <motion.div
-              variants={floatVariantLeft}
-              animate="animate"
-              className="absolute top-[48%] -left-5 sm:-left-8 -translate-y-1/2 z-30 group cursor-pointer"
-            >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#68A063]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#68A063]/25 flex items-center justify-center p-2.5 ring-2 ring-[#68A063]/20 group-hover:scale-110 group-hover:border-[#68A063] transition-all">
-                <SiNodedotjs className="text-[#68A063] text-2xl" />
-              </div>
-            </motion.div>
-
-            {/* Orbiting Tech Node 3: MongoDB (Right-Middle / 3 o'clock on circular orbit) */}
-            <motion.div
-              variants={floatVariantRight}
-              animate="animate"
-              className="absolute top-[48%] -right-5 sm:-right-8 -translate-y-1/2 z-30 group cursor-pointer"
-            >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#47A248]/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-[#47A248]/25 flex items-center justify-center p-2.5 ring-2 ring-[#47A248]/20 group-hover:scale-110 group-hover:border-[#47A248] transition-all">
-                <SiMongodb className="text-[#47A248] text-2xl" />
-              </div>
-            </motion.div>
-
-            {/* Orbiting Tech Node 4: Express.js (Bottom-Right on circular orbit) */}
-            <motion.div
-              variants={floatVariantBottom}
-              animate="animate"
-              className="absolute -bottom-4 sm:-bottom-6 right-6 sm:right-10 z-30 group cursor-pointer"
-            >
-              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-slate-300/50 bg-[#070B12]/95 backdrop-blur-xl shadow-xl shadow-white/10 flex items-center justify-center p-2.5 ring-2 ring-white/15 group-hover:scale-110 group-hover:border-white transition-all">
-                <SiExpress className="text-white text-2xl" />
-              </div>
-            </motion.div>
-
-            {/* 3D Angled Code Editor Card */}
-            <motion.div
-              whileHover={{ rotateY: -3, rotateX: 3, scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              className="w-full rounded-2xl border border-[#22d3ee]/35 bg-[#070B12]/90 backdrop-blur-2xl shadow-[0_15px_40px_rgba(0,0,0,0.8),0_0_30px_rgba(34,211,238,0.12)] p-5 sm:p-6 relative z-20"
-              style={{
-                transform: 'rotateY(-9deg) rotateX(6deg) rotateZ(1deg)',
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              {/* Window Header */}
-              <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-white/[0.08]">
-                {/* macOS control dots on the left */}
-                <div className="flex items-center gap-2">
-                  <div className="h-3 w-3 rounded-full bg-rose-500/90 shadow-[0_0_6px_#f43f5e]" />
-                  <div className="h-3 w-3 rounded-full bg-amber-500/90 shadow-[0_0_6px_#f59e0b]" />
-                  <div className="h-3 w-3 rounded-full bg-emerald-500/90 shadow-[0_0_6px_#10b981]" />
-                </div>
-
-                {/* Filename in the center */}
-                <div className="font-mono text-xs text-slate-300 font-semibold tracking-wide">
-                  developer.js
-                </div>
-
-                {/* Tagged JAVASCRIPT on the right */}
-                <span className="text-[0.68rem] font-mono font-bold text-[#22d3ee] bg-[#22d3ee]/10 border border-[#22d3ee]/30 px-2.5 py-0.5 rounded tracking-wider">
-                  JAVASCRIPT
-                </span>
-              </div>
-
-              {/* Syntax-Highlighted Code */}
-              <div className="font-mono text-xs leading-relaxed text-slate-300 space-y-1 overflow-x-auto py-1">
-                <div>
-                  <span className="text-indigo-400 font-semibold">const</span>{' '}
-                  <span className="text-[#38bdf8]">developer</span> = &#123;
-                </div>
-                <div className="pl-4">
-                  <span className="text-slate-400">name:</span>{' '}
-                  <span className="text-emerald-400">'Rakesh Kumar'</span>,
-                </div>
-                <div className="pl-4">
-                  <span className="text-slate-400">education:</span>{' '}
-                  <span className="text-emerald-400">'B.Tech CSE, Parul University (2026)'</span>,
-                </div>
-                <div className="pl-4">
-                  <span className="text-slate-400">internship:</span>{' '}
-                  <span className="text-emerald-400">'Codetech IT Solution (MERN Stack)'</span>,
-                </div>
-                <div className="pl-4">
-                  <span className="text-slate-400">coreTech:</span> [
-                  <span className="text-[#38bdf8]">'React'</span>,{' '}
-                  <span className="text-[#38bdf8]">'Node.js'</span>,{' '}
-                  <span className="text-[#38bdf8]">'Express'</span>,{' '}
-                  <span className="text-[#38bdf8]">'MongoDB'</span>],
-                </div>
-                <div className="pl-4">
-                  <span className="text-slate-400">focusAreas:</span> [
-                  <span className="text-amber-400">'REST APIs'</span>,{' '}
-                  <span className="text-amber-400">'JWT & RBAC'</span>,{' '}
-                  <span className="text-amber-400">'System Workflows'</span>],
-                </div>
-                <div className="pl-4">
-                  <span className="text-slate-400">status:</span>{' '}
-                  <span className="text-emerald-400">'Actively Interviewing for SDE Roles'</span>
-                </div>
-                <div>&#125;;</div>
-              </div>
-
-              {/* Mini Status Footer Bar */}
-              <div className="mt-4 pt-3.5 border-t border-white/[0.06] grid grid-cols-3 gap-2 text-center font-mono">
-                <div className="p-2 rounded-lg bg-[#040810] border border-white/[0.04]">
-                  <div className="text-sm font-bold text-white">6+</div>
-                  <div className="text-[0.65rem] text-slate-400 uppercase">Projects</div>
-                </div>
-                <div className="p-2 rounded-lg bg-[#040810] border border-white/[0.04]">
-                  <div className="text-sm font-bold text-[#22d3ee]">165+</div>
-                  <div className="text-[0.65rem] text-slate-400 uppercase">LeetCode</div>
-                </div>
-                <div className="p-2 rounded-lg bg-[#040810] border border-white/[0.04]">
-                  <div className="text-sm font-bold text-emerald-400">2026</div>
-                  <div className="text-[0.65rem] text-slate-400 uppercase">Graduate</div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Holographic Circular Pedestal Projection Platform */}
-            <div className="relative w-full flex flex-col items-center justify-center -mt-5 pt-3 pointer-events-none z-10">
-              {/* Upward Hologram Projection Rays */}
-              <div className="w-64 sm:w-80 h-20 bg-gradient-to-t from-[#22d3ee]/25 via-[#38bdf8]/10 to-transparent blur-xl" />
-
-              {/* Concentric Holographic Base Rings with Circuit Grid Projection */}
-              <div className="relative -mt-10 flex items-center justify-center">
-                {/* Outer Hologram Projection Ring */}
-                <div className="w-[360px] h-[55px] sm:w-[460px] sm:h-[70px] rounded-[100%] border border-[#22d3ee]/30 animate-[ping_4.5s_cubic-bezier(0,0,0.2,1)_infinite]" />
-
-                {/* Circuit Grid Ring */}
-                <div className="absolute w-[280px] h-[44px] sm:w-[360px] sm:h-[56px] rounded-[100%] border border-[#38bdf8]/55 border-dashed shadow-[0_0_15px_#22d3ee] animate-[spin_60s_linear_infinite]" />
-
-                {/* Inner Glowing Holographic Platform Ring */}
-                <div className="absolute w-[180px] h-[30px] sm:w-[240px] sm:h-[40px] rounded-[100%] border-2 border-[#22d3ee] shadow-[0_0_25px_#22d3ee,inset_0_0_15px_#22d3ee]" />
-
-                {/* Intense Core Light Source */}
-                <div className="absolute w-[220px] h-[60px] rounded-full bg-[#22d3ee]/40 blur-2xl animate-pulse" />
-              </div>
-            </div>
-
-            {/* Bottom Tagline Badge: Preserved Factual Projects Proof */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45 }}
-              className="mt-6 px-4 sm:px-5 py-2 rounded-full border border-[#22d3ee]/40 bg-[#070B12]/95 backdrop-blur-xl text-xs font-mono font-medium text-slate-200 shadow-xl shadow-cyan-950/40 flex items-center gap-2 z-20"
-            >
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>6+ Production-Ready Full-Stack Projects</span>
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
