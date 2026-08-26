@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rakesh Kumar - Resume</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 0.45in 0.5in 0.45in 0.5in;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Times New Roman', Times, serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
+      color: #111;
+      line-height: 1.25;
+      font-size: 9.5pt;
+      background: #fff;
+    }
+    a {
+      color: #111;
+      text-decoration: underline;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .name {
+      font-size: 18pt;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .title {
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 3px;
+    }
+    .contacts {
+      font-size: 8.5pt;
+      color: #333;
+    }
+    .section {
+      margin-top: 7px;
+    }
+    .section-title {
+      font-size: 9.5pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #111;
+      padding-bottom: 1px;
+      margin-bottom: 4px;
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 4px;
+    }
+    .item-title {
+      font-weight: bold;
+      font-size: 9.5pt;
+    }
+    .item-date {
+      font-size: 9pt;
+      font-weight: normal;
+      color: #222;
+    }
+    .item-subtitle {
+      font-style: italic;
+      font-size: 9pt;
+      color: #333;
+      margin-bottom: 2px;
+    }
+    .skills-row {
+      margin-bottom: 2px;
+      font-size: 9pt;
+    }
+    .skills-row strong {
+      font-weight: bold;
+    }
+    ul {
+      list-style-type: disc;
+      margin-left: 16px;
+      margin-top: 2px;
+      margin-bottom: 4px;
+    }
+    li {
+      margin-bottom: 2.5px;
+      font-size: 9pt;
+      text-align: justify;
+    }
+    .cert-list {
+      list-style-type: disc;
+      margin-left: 16px;
+      margin-top: 3px;
+    }
+    .cert-list li {
+      margin-bottom: 1.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="name">RAKESH KUMAR</div>
+    <div class="title">Full-Stack Web Developer / MERN Stack Engineer</div>
+    <div class="contacts">
+      Gurugram, Haryana, India | +91-9306573459 | <a href="mailto:rakeshchauhan6651@gmail.com">rakeshchauhan6651@gmail.com</a> | <a href="https://www.linkedin.com/in/rakesh-kumar-520754246/">LinkedIn</a> | <a href="https://github.com/rakeshkumar0804">GitHub</a> | <a href="https://developer-portfolio-nu-rouge.vercel.app/">Portfolio</a>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">EDUCATION</div>
+    <div class="item-header">
+      <span class="item-title">Bachelor of Technology (B.Tech), Computer Science Engineering</span>
+      <span class="item-date">Graduated: May 2026</span>
+    </div>
+    <div class="item-subtitle">Parul University, Vadodara</div>
+    <div style="font-size: 8.5pt; color: #222; margin-top: 1px;">
+      <strong>Relevant Coursework:</strong> Data Structures & Algorithms, DBMS, Operating Systems, Computer Networks, OOP, Web Development.
+    </div>
+  </div>
+
+  <!-- TECHNICAL SKILLS -->
+  <div class="section">
+    <div class="section-title">TECHNICAL SKILLS</div>
+    <div class="skills-row"><strong>Languages:</strong> JavaScript (ES6+), TypeScript, Python, C++, SQL</div>
+    <div class="skills-row"><strong>Frontend:</strong> React.js (Hooks, Component Architecture), React Router, Redux, Axios, Tailwind CSS, HTML5, CSS3, Bootstrap</div>
+    <div class="skills-row"><strong>Backend & APIs:</strong> Node.js, Express.js, REST API Design, JWT Authentication, RBAC, bcrypt, WebSocket</div>
+    <div class="skills-row"><strong>Databases:</strong> MongoDB, Mongoose (Schema Design & Validation), MySQL, PostgreSQL, Redis</div>
+    <div class="skills-row"><strong>Tools, Process & Deployment:</strong> Git, GitHub, Postman, VS Code, Vercel, Render, npm, Agile</div>
+    <div class="skills-row"><strong>Core CS:</strong> Data Structures & Algorithms, DBMS, OOP, Operating Systems, Computer Networks</div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-title">PROJECTS</div>
+
+    <!-- IncidentHub AI -->
+    <div class="item-header">
+      <span class="item-title">IncidentHub AI — Incident Intelligence Platform | <a href="https://github.com/rakeshkumar0804/incidenthub-ai">GitHub</a> | <a href="https://incidenthub-ai-web.vercel.app">Demo</a></span>
+    </div>
+    <div class="item-subtitle" style="font-size: 8.5pt; margin-bottom: 2px;">
+      TypeScript | React | Node.js | PostgreSQL | Redis | WebSocket | OAuth
+    </div>
+    <ul>
+      <li>Built a multi-tenant incident intelligence platform with a deterministic correlation engine and an evidence-grounded AI investigation layer, integrating GitHub, Sentry, Slack, and Jira via real OAuth for root-cause analysis.</li>
+      <li>Implemented strict multi-tenant RBAC (Owner/Admin/Responder/Viewer), Redis-backed distributed locking, and idempotent HMAC-verified webhooks; validated with 236/236 passing tests including RBAC boundary and cross-tenant isolation suites.</li>
+      <li>Designed a citation-backed, versioned postmortem engine and authored complete technical documentation, including an honest limitations section on serverless/WebSocket hosting constraints.</li>
+    </ul>
+
+    <!-- SyncPad -->
+    <div class="item-header">
+      <span class="item-title">SyncPad — Real-Time Collaborative Code Editor | <a href="https://github.com/rakeshkumar0804/SyncPad">GitHub</a> | <a href="https://sync-pad-client.vercel.app">Demo</a></span>
+    </div>
+    <div class="item-subtitle" style="font-size: 8.5pt; margin-bottom: 2px;">
+      React | TypeScript | Node.js | Yjs (CRDT) | Monaco Editor | WebSocket | Pyodide (WASM)
+    </div>
+    <ul>
+      <li>Built a real-time collaborative code editor enabling multiple users to edit the same document simultaneously with conflict-free synchronization using Yjs CRDTs, including live multi-cursor presence and awareness.</li>
+      <li>Implemented sandboxed, fully in-browser multi-language code execution — JavaScript/TypeScript via Web Workers with timeout protection, and Python via Pyodide (WebAssembly) — removing dependency on third-party execution APIs.</li>
+      <li>Designed and deployed a WebSocket-based synchronization server (Node.js + y-websocket) on Render, paired with a React/Vite client on Vercel.</li>
+    </ul>
+
+    <!-- Developer Portfolio Health Checker -->
+    <div class="item-header">
+      <span class="item-title">Developer Portfolio Health Checker (PortfolioPulse) | <a href="https://github.com/rakeshkumar0804/dev-portfolio-checker">GitHub</a> | <a href="https://dev-portfolio-checker.vercel.app">Demo</a></span>
+    </div>
+    <div class="item-subtitle" style="font-size: 8.5pt; margin-bottom: 2px;">
+      React | Vite | Node.js | Express.js | MongoDB | JWT | GitHub REST API
+    </div>
+    <ul>
+      <li>Built a full-stack career intelligence platform that evaluates GitHub profiles, portfolio websites, and resumes using deterministic, rule-based scoring — every score is backed by explainable evidence, not a black-box output.</li>
+      <li>Integrated the GitHub REST API for repository analysis, added a resume/ATS analysis module and recruiter-screening simulation, and built a JWT-authenticated workspace for saved reports and PDF exports.</li>
+    </ul>
+  </div>
+
+  <!-- PROFESSIONAL EXPERIENCE -->
+  <div class="section">
+    <div class="section-title">PROFESSIONAL EXPERIENCE</div>
+    <div class="item-header">
+      <span class="item-title">Software Development Intern — Codetech IT Solutions | Remote</span>
+      <span class="item-date">Jan 2026 – Apr 2026</span>
+    </div>
+    <div class="item-subtitle" style="font-size: 8.5pt; margin-bottom: 2px;">
+      Node.js | Express.js | MongoDB | JWT | RBAC | REST API
+    </div>
+    <ul>
+      <li>Engineered an Internal Employee Management System (Node.js, Express.js, MongoDB) supporting 3 user roles, replacing manual spreadsheet tracking.</li>
+      <li>Secured the platform with JWT-based authentication and layered access control across 3 permission tiers (employee, manager, admin), locking down role-restricted API access.</li>
+      <li>Planned and validated RESTful API endpoints supporting full CRUD operations (Create, Read, Update, Delete) across 3 core modules: employee, department, and role.</li>
+    </ul>
+  </div>
+
+  <!-- CERTIFICATIONS & ACHIEVEMENTS -->
+  <div class="section">
+    <div class="section-title">CERTIFICATIONS & ACHIEVEMENTS</div>
+    <ul class="cert-list">
+      <li><strong>SQL (Advanced)</strong> — HackerRank</li>
+      <li><strong>C++ Programming</strong> — OpenEDG/Cisco</li>
+      <li><strong>Introduction to Internet of Things</strong> — NPTEL (IIT Kharagpur), Elite</li>
+      <li><strong>AMENTIS: Chartering the Unknown</strong> — Hackathon Participation, IEEE GTBIT Student Branch</li>
+      <li><strong>CodeKshetra – Coding Contest</strong> — Participation, GeeksforGeeks (GD Goenka)</li>
+    </ul>
+  </div>
+
+</body>
+</html>
