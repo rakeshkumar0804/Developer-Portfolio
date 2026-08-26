@@ -113,12 +113,12 @@ export default function OpenSource() {
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="border border-slate-800/80 rounded-xl bg-[#0B101B]/60 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/80 p-6 mb-8 backdrop-blur-sm shadow-xl"
+          className="border border-slate-800/80 rounded-xl bg-[#0B101B]/60 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/80 p-6 mb-6 backdrop-blur-sm shadow-xl"
         >
           {/* Column 1: Total Stars */}
           <div className="flex flex-col items-center md:items-start justify-center pb-4 md:pb-0 md:pr-6 text-center md:text-left">
-            <div className="text-amber-400 font-mono font-bold text-2xl">
-              30+ ★
+            <div className="text-amber-400 font-mono font-bold text-2xl md:text-3xl">
+              40+ ★
             </div>
             <div className="text-slate-500 font-mono text-[10px] tracking-widest uppercase mt-1">
               TOTAL STARS
@@ -127,8 +127,8 @@ export default function OpenSource() {
 
           {/* Column 2: Public Repos */}
           <div className="flex flex-col items-center md:items-start justify-center py-4 md:py-0 md:px-6 text-center md:text-left">
-            <div className="text-cyan-400 font-mono font-bold text-2xl">
-              15+
+            <div className="text-cyan-400 font-mono font-bold text-2xl md:text-3xl">
+              9
             </div>
             <div className="text-slate-500 font-mono text-[10px] tracking-widest uppercase mt-1">
               PUBLIC REPOS
