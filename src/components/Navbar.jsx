@@ -64,7 +64,7 @@ export default function Navbar() {
           onClick={(e) => handleNavClick(e, '#hero')}
           className="flex items-center gap-2 text-xs sm:text-sm text-slate-300 hover:text-[#22d3ee] transition-colors group"
         >
-          <span className="text-emerald-400 font-bold">guest@portfolio</span>
+          <span className="text-emerald-400 font-bold">rakesh@portfolio</span>
           <span className="text-slate-500">:</span>
           <span className="text-[#38bdf8]">~/{activeSection}</span>
           <span className="inline-block w-2 h-3.5 bg-[#22d3ee] animate-pulse" />

@@ -176,9 +176,6 @@ export default function Hero() {
                       <span className="text-[#38bdf8]">"degree"</span>: <span className="text-emerald-400">"B.Tech CSE (2026)"</span>,
                     </div>
                     <div className="pl-4">
-                      <span className="text-[#38bdf8]">"internship"</span>: <span className="text-emerald-400">"Codetech IT Solutions"</span>,
-                    </div>
-                    <div className="pl-4">
                       <span className="text-[#38bdf8]">"stack"</span>: [<span className="text-[#facc15]">"React"</span>, <span className="text-[#facc15]">"Node"</span>, <span className="text-[#facc15]">"Express"</span>, <span className="text-[#facc15]">"MongoDB"</span>],
                     </div>
                     <div className="pl-4">
