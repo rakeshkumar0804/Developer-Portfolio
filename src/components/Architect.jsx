@@ -277,8 +277,8 @@ export default function Architect() {
             <span className="text-xs text-slate-500 font-mono">PRODUCTION TECH STACK & RUNTIMES</span>
           </motion.div>
 
-          {/* 2x3 Matrix Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          {/* 2x3 Matrix Grid (Compact) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
             {matrixCategories.map((cat, idx) => (
               <motion.div
                 key={cat.title}
@@ -308,14 +308,19 @@ export default function Architect() {
             ))}
           </div>
 
-          {/* 3. Field Recognition & Primary Clickable 3-Card Row */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-30px' }}
-            variants={fadeInUp}
-            className="border border-slate-800/80 rounded-xl bg-[#0B101B]/50 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/80 p-6 backdrop-blur-sm shadow-xl mb-4"
-          >
+          {/* 3. Field Recognition Label & Primary Clickable 3-Card Row */}
+          <div className="mt-12 mb-4">
+            <div className="text-[11px] font-mono tracking-[0.25em] text-slate-500 uppercase mb-3">
+              FIELD RECOGNITION
+            </div>
+
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-30px' }}
+              variants={fadeInUp}
+              className="border border-slate-800/80 rounded-xl bg-[#0B101B]/50 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/80 p-6 backdrop-blur-sm shadow-xl"
+            >
             {primaryRecognitions.map((rec, idx) => (
               <a
                 key={rec.title}
@@ -351,7 +356,8 @@ export default function Architect() {
                 </div>
               </a>
             ))}
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* 4. Expandable Auxiliary Credentials Trigger Button */}
           <motion.div
