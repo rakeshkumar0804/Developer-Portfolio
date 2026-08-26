@@ -18,7 +18,7 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState('hero');
   const [timeString, setTimeString] = useState('');
 
-  // Live IST (India Standard Time) Clock Engine
+  // Live IST (India Standard Time) Digital Telemetry Clock
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
@@ -113,14 +113,28 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Top-Right Corner-Docked Terminal Status Widget */}
+        {/* Top-Right Cyber/Sci-Fi Live Telemetry Status Bar Widget */}
         <div className="flex items-center gap-2 shrink-0">
-          <div className="flex items-center gap-2 px-2.5 py-1 rounded border border-white/[0.08] bg-[#0d1117] text-[0.72rem] font-mono text-slate-400 select-none tracking-tight">
-            <span className="font-semibold text-slate-400">SIG</span>
-            <span className="text-[#38bdf8] font-mono tracking-tighter text-[0.75rem]" aria-label="Signal Strength">▂▄▆█</span>
-            <span className="text-[#38bdf8] font-bold ml-0.5">T</span>
-            <span className="text-slate-200 font-medium">{timeString || '14:00:00'}</span>
-            <span className="text-slate-500 font-bold text-[0.65rem]">IST</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-[#22d3ee]/20 bg-[#0d1117]/90 backdrop-blur-md text-xs font-mono text-slate-300 shadow-[0_0_12px_rgba(34,211,238,0.1)] select-none tracking-wider">
+            {/* 1. Label SIG */}
+            <span className="font-bold text-slate-400 text-[0.7rem]">SIG</span>
+
+            {/* 2. Cellular Signal Bars Icon (4 vertical bars with ascending heights and neon cyan glow) */}
+            <div className="flex items-end gap-[2.5px] h-3.5 pb-[1px]" aria-label="Signal Strength 100%">
+              <span className="w-[3px] h-1.5 rounded-[1px] bg-[#22d3ee] shadow-[0_0_6px_#22d3ee]" />
+              <span className="w-[3px] h-2 rounded-[1px] bg-[#22d3ee] shadow-[0_0_6px_#22d3ee]" />
+              <span className="w-[3px] h-2.5 rounded-[1px] bg-[#22d3ee] shadow-[0_0_6px_#22d3ee]" />
+              <span className="w-[3px] h-3.5 rounded-[1px] bg-[#22d3ee] shadow-[0_0_8px_#22d3ee]" />
+            </div>
+
+            {/* 3. Divider & Prefix T followed by Live Ticking Clock */}
+            <span className="text-[#38bdf8] font-bold text-xs ml-1">T</span>
+            <span className="text-white font-mono font-medium tracking-normal text-xs">
+              {timeString || '14:06:30'}
+            </span>
+
+            {/* 5. Timezone */}
+            <span className="text-slate-400 font-bold text-[0.65rem]">IST</span>
           </div>
 
           {/* Mobile Hamburger */}
