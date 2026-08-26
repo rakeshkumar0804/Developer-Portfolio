@@ -17,25 +17,34 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [timeString, setTimeString] = useState('');
+  const [signalLevel, setSignalLevel] = useState(4);
 
-  // Live IST (India Standard Time) Digital Telemetry Clock
+  // Live IST Clock & Dynamic Signal Strength Fluctuation
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      const options = {
-        timeZone: 'Asia/Kolkata',
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      };
-      const formatted = new Intl.DateTimeFormat('en-GB', options).format(now);
-      setTimeString(formatted);
+      setTimeString(
+        now.toLocaleTimeString('en-GB', {
+          timeZone: 'Asia/Kolkata',
+          hour12: false,
+        })
+      );
     };
 
     updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    const clockInterval = setInterval(updateTime, 1000);
+
+    // Realistic signal strength fluctuation
+    const signalInterval = setInterval(() => {
+      const levels = [2, 3, 4, 4, 4, 3, 4]; // Weighted toward strong connection
+      const next = levels[Math.floor(Math.random() * levels.length)];
+      setSignalLevel(next);
+    }, 3000);
+
+    return () => {
+      clearInterval(clockInterval);
+      clearInterval(signalInterval);
+    };
   }, []);
 
   useEffect(() => {
@@ -69,6 +78,13 @@ export default function Navbar() {
       window.scrollTo({ top: topOffset, behavior: 'smooth' });
     }
   };
+
+  const signalBars = [
+    { height: 'h-[35%]', level: 1 },
+    { height: 'h-[55%]', level: 2 },
+    { height: 'h-[75%]', level: 3 },
+    { height: 'h-[100%]', level: 4 },
+  ];
 
   return (
     <header
@@ -113,17 +129,26 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Top-Right Cyber/Sci-Fi Live Telemetry Status Bar Widget */}
+        {/* Top-Right Cyber/Sci-Fi Live Dynamic Telemetry Status Bar */}
         <div className="flex items-center gap-2 shrink-0">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-[#0b101b]/80 font-mono text-xs shadow-[0_0_12px_rgba(34,211,238,0.08)] select-none">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-[#0b101b]/80 font-mono text-xs select-none">
             <span className="text-slate-400 font-semibold tracking-wider">SIG</span>
 
-            {/* 4 distinct vertical bars aligned to the bottom */}
-            <div className="flex items-end gap-[3px] h-3.5" aria-label="Signal Strength 100%">
-              <span className="w-[3px] h-[35%] bg-cyan-400 rounded-[1px]" />
-              <span className="w-[3px] h-[55%] bg-cyan-400 rounded-[1px]" />
-              <span className="w-[3px] h-[75%] bg-cyan-400 rounded-[1px]" />
-              <span className="w-[3px] h-[100%] bg-cyan-400 rounded-[1px] shadow-[0_0_6px_#22d3ee]" />
+            {/* Dynamic Signal Bars */}
+            <div className="flex items-end gap-[3px] h-3.5" aria-label={`Signal Strength ${signalLevel * 25}%`}>
+              {signalBars.map((bar) => {
+                const isActive = signalLevel >= bar.level;
+                return (
+                  <span
+                    key={bar.level}
+                    className={`w-[3px] ${bar.height} rounded-[1px] transition-all duration-300 ${
+                      isActive
+                        ? 'bg-cyan-400 shadow-[0_0_6px_#22d3ee]'
+                        : 'bg-slate-700/60'
+                    }`}
+                  />
+                );
+              })}
             </div>
 
             <span className="text-cyan-400 font-bold ml-1">T</span>
