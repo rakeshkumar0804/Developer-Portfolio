@@ -23,8 +23,8 @@ export default function Skills() {
           variants={fadeInUp}
           className="mb-8"
         >
-          <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
-            <span className="text-emerald-400 font-bold">$</span>
+          <div className="flex items-center gap-2 text-sm text-emerald-400 font-mono mb-1">
+            <span className="font-bold">$</span>
             <span>tree ./skills</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
@@ -32,7 +32,7 @@ export default function Skills() {
           </h2>
         </motion.div>
 
-        {/* Skills Category Grid */}
+        {/* 6 Structured Skill Category Cards Across Responsive Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {skillsData.map((category, idx) => (
             <motion.div
@@ -42,19 +42,21 @@ export default function Skills() {
               viewport={{ once: true, margin: '-30px' }}
               custom={idx}
               variants={fadeInUp}
-              className="p-5 rounded-lg border border-white/[0.1] bg-[#0d1117] flex flex-col justify-between"
+              className="p-5 rounded-xl border border-slate-800/80 bg-[#0B101B]/80 flex flex-col justify-between hover:border-cyan-500/40 transition-all duration-200 shadow-md group"
             >
               <div>
-                <div className="flex items-center justify-between pb-2.5 mb-3 border-b border-white/[0.06] text-xs">
+                {/* Card Header with Category Filename and Item Counter */}
+                <div className="flex items-center justify-between pb-2.5 mb-3.5 border-b border-slate-800/60 text-xs">
                   <span className="text-[#38bdf8] font-bold">// {category.category}</span>
-                  <span className="text-slate-500 text-[0.7rem]">{category.skills.length} items</span>
+                  <span className="text-slate-400 text-[0.7rem] font-mono">{category.skills.length} items</span>
                 </div>
 
+                {/* Interactive Skill Pills */}
                 <div className="flex flex-wrap gap-1.5">
                   {category.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-2.5 py-1 rounded bg-[#161b22] border border-white/[0.08] text-xs text-slate-300 hover:border-[#38bdf8]/40 hover:text-[#38bdf8] transition-colors"
+                      className="px-2.5 py-1 rounded-md bg-[#161b22] border border-white/[0.08] text-xs text-slate-300 hover:border-cyan-400 hover:text-cyan-300 transition-colors cursor-default"
                     >
                       {skill}
                     </span>

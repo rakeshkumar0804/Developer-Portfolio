@@ -34,23 +34,33 @@ export const personalInfo = {
 
 export const skillsData = [
   {
-    category: 'Frontend',
-    skills: ['React.js', 'TypeScript', 'JavaScript (ES6+)', 'Redux Toolkit', 'Tailwind CSS', 'HTML5', 'CSS3', 'Bootstrap', 'Axios'],
+    category: '01_languages.ts',
+    label: 'Languages',
+    skills: ['JavaScript (ES6+)', 'TypeScript', 'Python', 'C++', 'SQL'],
   },
   {
-    category: 'Backend & APIs',
-    skills: ['Node.js', 'Express.js', 'RESTful API Design', 'JWT Authentication', 'Role-Based Access Control (RBAC)', 'Socket.io', 'bcrypt'],
+    category: '02_frontend.tsx',
+    label: 'Frontend',
+    skills: ['React.js', 'React Router', 'Redux Toolkit', 'Tailwind CSS', 'HTML5 / CSS3', 'Bootstrap', 'Axios'],
   },
   {
-    category: 'Databases',
+    category: '03_backend.js',
+    label: 'Backend & APIs',
+    skills: ['Node.js', 'Express.js', 'RESTful API Design', 'JWT Authentication', 'Role-Based Access Control (RBAC)', 'WebSocket / Socket.io', 'bcrypt'],
+  },
+  {
+    category: '04_databases.sql',
+    label: 'Databases',
     skills: ['MongoDB', 'Mongoose ODM', 'PostgreSQL', 'MySQL', 'Redis', 'SQLite'],
   },
   {
-    category: 'Developer Tools',
-    skills: ['Git & GitHub', 'Postman', 'VS Code', 'Docker', 'Vercel', 'Render', 'npm', 'Linux'],
+    category: '05_tools_devops.sh',
+    label: 'Tools & DevOps',
+    skills: ['Git & GitHub', 'Postman', 'Docker', 'Vercel', 'Render', 'npm', 'VS Code', 'Linux'],
   },
   {
-    category: 'Core CS Fundamentals',
+    category: '06_core_cs.cpp',
+    label: 'Core CS Fundamentals',
     skills: ['Data Structures & Algorithms', 'Database Management (DBMS)', 'Object-Oriented Programming (OOP)', 'Computer Networks', 'Operating Systems'],
   },
 ];
