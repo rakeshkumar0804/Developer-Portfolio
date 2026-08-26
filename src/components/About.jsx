@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiTerminal, FiMapPin, FiCode, FiLayers } from 'react-icons/fi';
-import { personalInfo } from '../data/portfolioData';
+import { FiLayers, FiServer, FiMapPin } from 'react-icons/fi';
 
 export default function About() {
   const fadeInUp = {
@@ -12,7 +11,7 @@ export default function About() {
   return (
     <section id="about" className="py-16 relative border-t border-white/[0.08] font-mono">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Terminal Header Prompt */}
+        {/* Section Header */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -20,8 +19,8 @@ export default function About() {
           variants={fadeInUp}
           className="mb-8"
         >
-          <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
-            <span className="text-emerald-400 font-bold">$</span>
+          <div className="flex items-center gap-2 text-sm text-emerald-400 font-mono mb-1">
+            <span className="font-bold">$</span>
             <span>cat about.txt</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
@@ -30,57 +29,68 @@ export default function About() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Bio Narrative */}
+          {/* Left Column: Terminal Bio Box */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-8 p-6 rounded-lg border border-white/[0.1] bg-[#0d1117] text-slate-300 text-xs sm:text-sm leading-relaxed font-sans shadow-md"
+            className="lg:col-span-7 bg-[#0B101B]/80 border border-slate-800/80 rounded-xl p-6 shadow-md hover:border-cyan-500/40 transition-all duration-200"
           >
-            <p className="mb-4">
-              I'm a B.Tech Computer Science graduate (2026) from Parul University, based in Gurugram, India. I specialize in building full-stack web applications using React, Node.js, Express, and MongoDB/PostgreSQL. During my internship at Codetech IT Solutions, I built an internal Employee Management System with JWT authentication, role-based access control (RBAC), and RESTful CRUD endpoints.
-            </p>
-            <p className="text-slate-400 text-xs font-mono">
-              // Core focus: clean APIs, scalable backends, role-based workflows, and dependable frontend state.
-            </p>
+            <div className="space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
+              <p>
+                I'm a B.Tech Computer Science Engineering graduate (Class of 2026) from Parul University, based in Gurugram, India. I focus on building and shipping full-stack web applications with React, Node.js, Express, and MongoDB/PostgreSQL.
+              </p>
+              <p>
+                During my software development internship at Codetech IT Solutions, I engineered an internal Employee Management System implementing stateless JWT authentication, Role-Based Access Control (RBAC) across Admin, Manager, and Employee portals, and structured RESTful API endpoints.
+              </p>
+            </div>
+
+            <div className="mt-5 pt-4 border-t border-slate-800/60">
+              <p className="text-xs text-[#7fa0c7] font-mono italic">
+                // Core focus: Multi-tenant RBAC, scalable REST APIs, WebSocket real-time updates, and robust frontend state.
+              </p>
+            </div>
           </motion.div>
 
-          {/* Stats & Metadata Badges */}
+          {/* Right Column: 3 Master Factual Cards */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-4 space-y-3"
+            className="lg:col-span-5 space-y-3.5"
           >
-            <div className="p-4 rounded-lg border border-white/[0.1] bg-[#0d1117] flex items-center gap-3">
-              <div className="h-8 w-8 rounded bg-[#38bdf8]/10 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] text-sm shrink-0">
+            {/* Card 1: Projects Shipped */}
+            <div className="p-4 rounded-xl border border-slate-800/80 bg-[#0B101B]/80 flex items-start gap-3.5 hover:border-cyan-500/40 transition-all duration-200 shadow-md">
+              <div className="h-9 w-9 rounded-lg bg-[#38bdf8]/10 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] text-base shrink-0 mt-0.5">
                 <FiLayers />
               </div>
               <div>
-                <div className="text-sm font-bold text-white font-mono">6+ Projects Shipped</div>
-                <div className="text-[0.7rem] text-slate-400 font-sans">Full-Stack Web Applications</div>
+                <h3 className="text-sm font-bold text-white font-mono">6+ Projects Shipped</h3>
+                <p className="text-xs text-slate-400 font-sans mt-0.5">Production-Ready Full-Stack Web Apps</p>
               </div>
             </div>
 
-            <div className="p-4 rounded-lg border border-white/[0.1] bg-[#0d1117] flex items-center gap-3">
-              <div className="h-8 w-8 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-sm shrink-0">
-                <FiCode />
+            {/* Card 2: Architecture & Systems Focus */}
+            <div className="p-4 rounded-xl border border-slate-800/80 bg-[#0B101B]/80 flex items-start gap-3.5 hover:border-emerald-500/40 transition-all duration-200 shadow-md">
+              <div className="h-9 w-9 rounded-lg bg-[#34d399]/10 border border-[#34d399]/30 flex items-center justify-center text-[#34d399] text-base shrink-0 mt-0.5">
+                <FiServer />
               </div>
               <div>
-                <div className="text-sm font-bold text-emerald-400 font-mono">165+ LeetCode Solved</div>
-                <div className="text-[0.7rem] text-slate-400 font-sans">Data Structures & Algorithms</div>
+                <h3 className="text-sm font-bold text-white font-mono">System & API Design</h3>
+                <p className="text-xs text-slate-400 font-sans mt-0.5">RBAC, JWT Auth & Real-Time WebSockets</p>
               </div>
             </div>
 
-            <div className="p-4 rounded-lg border border-white/[0.1] bg-[#0d1117] flex items-center gap-3">
-              <div className="h-8 w-8 rounded bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-sm shrink-0">
+            {/* Card 3: Target Role & Location */}
+            <div className="p-4 rounded-xl border border-slate-800/80 bg-[#0B101B]/80 flex items-start gap-3.5 hover:border-amber-500/40 transition-all duration-200 shadow-md">
+              <div className="h-9 w-9 rounded-lg bg-[#fbbf24]/10 border border-[#fbbf24]/30 flex items-center justify-center text-[#fbbf24] text-base shrink-0 mt-0.5">
                 <FiMapPin />
               </div>
               <div>
-                <div className="text-sm font-bold text-slate-200 font-mono">Gurugram, India</div>
-                <div className="text-[0.7rem] text-slate-400 font-sans">Location (Open to Relocation)</div>
+                <h3 className="text-sm font-bold text-slate-200 font-mono">Gurugram, India</h3>
+                <p className="text-xs text-slate-400 font-sans mt-0.5">Open to Full-Stack & Backend SDE Roles (Delhi NCR, Hybrid, Remote)</p>
               </div>
             </div>
           </motion.div>
