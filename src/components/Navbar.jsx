@@ -12,39 +12,57 @@ const navLinks = [
   { name: 'contact', href: '#contact' },
 ];
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
-  const [timeString, setTimeString] = useState('');
-  const [signalLevel, setSignalLevel] = useState(4);
+export const TelemetryStatus = () => {
+  const [time, setTime] = useState('');
+  const [barsActive, setBarsActive] = useState(4);
 
-  // Live IST Clock & Dynamic Signal Strength Fluctuation
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
-      setTimeString(
+      setTime(
         now.toLocaleTimeString('en-GB', {
           timeZone: 'Asia/Kolkata',
           hour12: false,
         })
       );
     };
-
     updateTime();
-    const clockInterval = setInterval(updateTime, 1000);
+    const timer = setInterval(updateTime, 1000);
 
-    // Realistic signal strength fluctuation
-    const signalInterval = setInterval(() => {
-      const levels = [3, 4, 4, 4, 3, 4, 2];
-      setSignalLevel(levels[Math.floor(Math.random() * levels.length)]);
-    }, 3500);
+    const sigTimer = setInterval(() => {
+      const pattern = [4, 4, 3, 4, 4, 2, 4, 3];
+      setBarsActive(pattern[Math.floor(Math.random() * pattern.length)]);
+    }, 3000);
 
     return () => {
-      clearInterval(clockInterval);
-      clearInterval(signalInterval);
+      clearInterval(timer);
+      clearInterval(sigTimer);
     };
   }, []);
+
+  return (
+    <div className="flex items-center space-x-3 font-mono text-[11px] tracking-[0.22em] text-[#7fa0c7] select-none bg-transparent p-0 border-0 shadow-none">
+      <span>SIG</span>
+
+      {/* Raw Crisp SVG Signal Bars - No Blur Glow */}
+      <svg width="18" height="13" viewBox="0 0 18 13" fill="none" className="overflow-visible">
+        <rect x="0" y="9.5" width="2.5" height="3.5" rx="0.5" fill={barsActive >= 1 ? '#38bdf8' : '#1e293b'} />
+        <rect x="5" y="6.5" width="2.5" height="6.5" rx="0.5" fill={barsActive >= 2 ? '#38bdf8' : '#1e293b'} />
+        <rect x="10" y="3.5" width="2.5" height="9.5" rx="0.5" fill={barsActive >= 3 ? '#38bdf8' : '#1e293b'} />
+        <rect x="15" y="0" width="2.5" height="13" rx="0.5" fill={barsActive >= 4 ? '#38bdf8' : '#1e293b'} />
+      </svg>
+
+      <span>T</span>
+      <span className="text-[#94a3b8]">{time || '19:15:29'}</span>
+      <span className="text-[#64748b]">IST</span>
+    </div>
+  );
+};
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,13 +95,6 @@ export default function Navbar() {
       window.scrollTo({ top: topOffset, behavior: 'smooth' });
     }
   };
-
-  const bars = [
-    { h: 'h-[35%]', lvl: 1 },
-    { h: 'h-[55%]', lvl: 2 },
-    { h: 'h-[80%]', lvl: 3 },
-    { h: 'h-[100%]', lvl: 4 },
-  ];
 
   return (
     <header
@@ -128,28 +139,9 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Top-Right Unboxed Lightweight Technical HUD Telemetry */}
+        {/* Top-Right Unboxed Raw SVG Telemetry Status */}
         <div className="flex items-center gap-3 shrink-0">
-          <div className="flex items-center gap-2.5 font-mono text-xs tracking-[0.15em] text-sky-400 bg-transparent select-none">
-            <span className="font-semibold text-sky-400/90">SIG</span>
-
-            {/* Crisp Flat Signal Bars (No Blurry Glow) */}
-            <div className="flex items-end gap-[2px] h-3" aria-label={`Signal Strength ${signalLevel * 25}%`}>
-              {bars.map((bar) => {
-                const isActive = signalLevel >= bar.lvl;
-                return (
-                  <span
-                    key={bar.lvl}
-                    className={`w-[2.5px] ${bar.h} rounded-[0.5px] transition-colors duration-200 ${
-                      isActive ? 'bg-sky-400' : 'bg-slate-800'
-                    }`}
-                  />
-                );
-              })}
-            </div>
-
-            <span className="text-sky-400 font-medium">T {timeString || '19:10:51'} IST</span>
-          </div>
+          <TelemetryStatus />
 
           {/* Mobile Hamburger */}
           <button
