@@ -4,7 +4,7 @@ export const personalInfo = {
   headline: "Hi, I'm Rakesh Kumar — B.Tech CSE Graduate · Full-Stack Developer",
   pitch: 'I build fast, reliable full-stack applications and enjoy turning real-world requirements into clean, working code.',
   shortBio:
-    "I'm a B.Tech Computer Science graduate (2026) from Parul University, based in Gurugram, India. I specialize in building full-stack web applications using React, Node.js, Express, and MongoDB/PostgreSQL. During my internship at Codetech IT Solutions, I built an internal Employee Management System with JWT authentication, role-based access control (RBAC), and RESTful CRUD endpoints.",
+    "I graduated with a B.Tech in Computer Science Engineering (Class of 2026) from Parul University in Vadodara, Gujarat. I am currently based in my hometown of Gurugram, Haryana. I specialize in building and shipping production-ready full-stack web applications with React, TypeScript, Node.js, Express, and MongoDB/PostgreSQL.",
   location: 'Gurugram, India',
   email: 'rakeshchauhan6651@gmail.com',
   github: 'https://github.com/rakeshkumar0804',
