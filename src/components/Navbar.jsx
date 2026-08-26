@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiTerminal } from 'react-icons/fi';
+import { FiMenu, FiX } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 const navLinks = [
@@ -74,16 +74,16 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 font-mono ${
         scrolled
-          ? 'py-2.5 bg-[#0a0e14]/95 backdrop-blur-md border-b border-[#22d3ee]/20 shadow-lg shadow-black/40'
-          : 'py-4 bg-[#0a0e14]/80 backdrop-blur-sm border-b border-white/[0.06]'
+          ? 'py-2 bg-[#0a0e14]/95 backdrop-blur-md border-b border-[#22d3ee]/20 shadow-lg shadow-black/40'
+          : 'py-3 bg-[#0a0e14]/80 backdrop-blur-sm border-b border-white/[0.06]'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+      <div className="w-full px-3 sm:px-6 flex items-center justify-between">
         {/* Terminal Brand Prompt */}
         <a
           href="#hero"
           onClick={(e) => handleNavClick(e, '#hero')}
-          className="flex items-center gap-2 text-xs sm:text-sm text-slate-300 hover:text-[#22d3ee] transition-colors group"
+          className="flex items-center gap-2 text-xs sm:text-sm text-slate-300 hover:text-[#22d3ee] transition-colors group shrink-0"
         >
           <span className="text-emerald-400 font-bold">rakesh@portfolio</span>
           <span className="text-slate-500">:</span>
@@ -113,23 +113,14 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Top-Right: Terminal Status Widget (Signal Bar & Live IST Clock) */}
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-2 px-3 py-1 rounded border border-white/[0.1] bg-[#0d1117] text-xs select-none">
-            {/* Signal Strength Ascending Bars */}
-            <div className="flex items-center gap-1 text-emerald-400">
-              <span className="text-[0.75rem] font-mono tracking-tighter" aria-label="Signal Full">▂▄▆█</span>
-              <span className="text-[0.65rem] font-bold text-slate-400">SIG</span>
-            </div>
-
-            <span className="text-slate-700">|</span>
-
-            {/* Live IST Clock */}
-            <div className="flex items-center gap-1 text-slate-300 text-xs">
-              <span className="text-[#38bdf8] font-bold">T</span>
-              <span className="text-slate-200 font-mono tracking-tight font-medium">{timeString || '14:00:00'}</span>
-              <span className="text-[0.65rem] text-slate-500 font-bold">IST</span>
-            </div>
+        {/* Top-Right Corner-Docked Terminal Status Widget */}
+        <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded border border-white/[0.08] bg-[#0d1117] text-[0.72rem] font-mono text-slate-400 select-none tracking-tight">
+            <span className="font-semibold text-slate-400">SIG</span>
+            <span className="text-[#38bdf8] font-mono tracking-tighter text-[0.75rem]" aria-label="Signal Strength">▂▄▆█</span>
+            <span className="text-[#38bdf8] font-bold ml-0.5">T</span>
+            <span className="text-slate-200 font-medium">{timeString || '14:00:00'}</span>
+            <span className="text-slate-500 font-bold text-[0.65rem]">IST</span>
           </div>
 
           {/* Mobile Hamburger */}
