@@ -315,6 +315,14 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
     return 'bg-cyan-400';
   };
 
+  // Prevent background scrolling while modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   return (
     <AnimatePresence>
       <motion.div
@@ -343,10 +351,11 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
 
             <button
               onClick={onClose}
-              className="flex items-center gap-1 px-3 py-1 rounded border border-slate-700 hover:border-cyan-400 hover:text-white bg-[#0b101b] text-slate-400 transition-colors text-xs font-bold cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono text-slate-400 bg-slate-900/80 border border-slate-700/80 hover:border-rose-500 hover:text-rose-400 hover:bg-rose-950/20 transition-all cursor-pointer z-50 shadow-sm"
+              title="Close modal (Esc)"
             >
               <span>ESC</span>
-              <FiX className="text-sm" />
+              <span className="text-sm leading-none font-bold">×</span>
             </button>
           </div>
         </div>
