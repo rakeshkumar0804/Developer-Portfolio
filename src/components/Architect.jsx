@@ -34,18 +34,21 @@ const primaryRecognitions = [
     title: 'SQL (Advanced)',
     issuer: 'HackerRank Skill Certification • ID: EFB3EF1D1DAC',
     badgeColor: 'text-amber-400',
+    pdfUrl: '/certificates/sql_advanced_certificate.pdf',
   },
   {
     header: 'JUL-OCT 2025 • ELITE HONOR (TOP TIER)',
     title: 'Introduction to Internet of Things',
     issuer: 'NPTEL — IIT Kharagpur (12-Week Proctored)',
     badgeColor: 'text-emerald-400',
+    pdfUrl: '/certificates/Introduction_to_Internet_of_Things.pdf',
   },
   {
     header: 'FEB 2024 • STATEMENT OF ACHIEVEMENT',
     title: 'CPA: Programming Essentials in C++',
     issuer: 'OpenEDG C++ Institute & Cisco Networking Academy',
     badgeColor: 'text-cyan-400',
+    pdfUrl: '/certificates/RakeshKumar-CPA_Programmin_certificate.pdf',
   },
 ];
 
@@ -54,21 +57,31 @@ const auxiliaryRecognitions = [
     title: 'CodeKshetra Coding Contest',
     issuer: 'GeeksforGeeks / GD Goenka (Apr 2026)',
     type: 'COMPETITION',
+    pdfUrl: '/certificates/CodeKshetra_certificate.pdf',
   },
   {
     title: 'AMENTIS: Chartering the Unknown',
     issuer: 'IEEE GTBIT Student Branch',
     type: 'HACKATHON',
+    pdfUrl: '/certificates/AMENTIS_certificate.pdf',
   },
   {
     title: 'Python Programming Masterclass',
     issuer: 'Udemy (Feb 2025)',
     type: 'CERTIFICATION',
+    pdfUrl: '/certificates/Python_Masterclass_Udemy.pdf',
   },
   {
-    title: 'Cyber Security Practical Guide & Full Stack Crash Course',
+    title: 'Learn Cyber Security Practical Guide',
     issuer: 'Udemy (Feb 2025)',
     type: 'CERTIFICATION',
+    pdfUrl: '/certificates/Cyber_Security_Udemy.pdf',
+  },
+  {
+    title: 'CSS, Bootstrap, JS, PHP Full Stack Crash Course',
+    issuer: 'Udemy (Feb 2025)',
+    type: 'CERTIFICATION',
+    pdfUrl: '/certificates/Full_Stack_Crash_Course_Udemy.pdf',
   },
 ];
 
@@ -295,7 +308,7 @@ export default function Architect() {
             ))}
           </div>
 
-          {/* 3. Field Recognition & Primary 3-Card Row */}
+          {/* 3. Field Recognition & Primary Clickable 3-Card Row */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -304,18 +317,31 @@ export default function Architect() {
             className="border border-slate-800/80 rounded-xl bg-[#0B101B]/50 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/80 p-6 backdrop-blur-sm shadow-xl mb-4"
           >
             {primaryRecognitions.map((rec, idx) => (
-              <div
+              <a
                 key={rec.title}
-                className={`flex flex-col justify-between ${
-                  idx === 0 ? 'pb-4 md:pb-0 md:pr-6' : idx === 1 ? 'py-4 md:py-0 md:px-6' : 'pt-4 md:pt-0 md:pl-6'
+                href={rec.pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`group cursor-pointer hover:bg-[#0B101B]/80 transition-all duration-200 flex flex-col justify-between ${
+                  idx === 0
+                    ? 'pb-4 md:pb-0 md:pr-6'
+                    : idx === 1
+                    ? 'py-4 md:py-0 md:px-6'
+                    : 'pt-4 md:pt-0 md:pl-6'
                 }`}
               >
                 <div>
-                  <div className="text-slate-400 font-mono text-[10px] tracking-widest uppercase mb-1">
-                    {rec.header}
+                  <div className="flex items-center justify-between text-xs font-mono mb-1">
+                    <span className="text-slate-400 text-[10px] tracking-widest uppercase">
+                      {rec.header}
+                    </span>
+                    <span className="font-mono text-[10px] text-cyan-400 group-hover:text-cyan-300 font-semibold transition-colors flex items-center gap-0.5">
+                      <span>VIEW PDF</span>
+                      <span>↗</span>
+                    </span>
                   </div>
 
-                  <h3 className="text-slate-100 text-base font-semibold font-mono mt-1">
+                  <h3 className="text-slate-100 text-base font-semibold font-mono mt-1 group-hover:text-cyan-300 transition-colors">
                     {rec.title}
                   </h3>
 
@@ -323,7 +349,7 @@ export default function Architect() {
                     {rec.issuer}
                   </p>
                 </div>
-              </div>
+              </a>
             ))}
           </motion.div>
 
@@ -338,12 +364,12 @@ export default function Architect() {
               onClick={() => setShowAllCerts(!showAllCerts)}
               className="flex items-center justify-between w-full px-4 py-2.5 text-xs font-mono text-slate-400 border border-slate-800/80 rounded-lg bg-[#0B101B]/30 hover:border-cyan-500/40 hover:text-cyan-300 transition-all cursor-pointer shadow-sm"
             >
-              <span>// AUXILIARY CERTIFICATIONS & HACKATHONS ({showAllCerts ? 'COLLAPSE' : 'EXPAND +4'})</span>
+              <span>// AUXILIARY CERTIFICATIONS & HACKATHONS ({showAllCerts ? 'COLLAPSE' : 'EXPAND +5'})</span>
               <span className="text-cyan-400">{showAllCerts ? '▲' : '▼'}</span>
             </button>
           </motion.div>
 
-          {/* 5. Collapsible Auxiliary Sub-Grid */}
+          {/* 5. Collapsible Auxiliary Sub-Grid (All Clickable Cards with Live PDFs) */}
           <AnimatePresence>
             {showAllCerts && (
               <motion.div
@@ -355,21 +381,27 @@ export default function Architect() {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                   {auxiliaryRecognitions.map((aux) => (
-                    <div
+                    <a
                       key={aux.title}
-                      className="p-4 rounded-lg border border-slate-800/80 bg-[#0B101B]/40 hover:border-cyan-500/30 transition-all flex flex-col justify-between"
+                      href={aux.pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-4 rounded-lg border border-slate-800/80 bg-[#0B101B]/40 hover:border-cyan-500/50 hover:bg-[#0B101B]/70 transition-all duration-200 flex flex-col justify-between group cursor-pointer"
                     >
                       <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 uppercase mb-1">
                         <span>{aux.type}</span>
-                        <span className="text-cyan-400 font-bold">VERIFIED</span>
+                        <span className="text-cyan-400 group-hover:text-cyan-300 font-bold flex items-center gap-0.5 transition-colors">
+                          <span>VERIFIED</span>
+                          <span>↗</span>
+                        </span>
                       </div>
-                      <h4 className="text-sm font-semibold text-slate-100 font-mono">
+                      <h4 className="text-sm font-semibold text-slate-100 font-mono group-hover:text-cyan-300 transition-colors">
                         {aux.title}
                       </h4>
                       <p className="text-xs text-slate-400 font-mono mt-1">
                         {aux.issuer}
                       </p>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </motion.div>
