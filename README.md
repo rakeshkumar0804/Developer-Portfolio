@@ -2,6 +2,8 @@
 
 A modern and responsive Full-Stack Developer Portfolio built with React + Vite.
 
+This README contains the project overview, setup instructions, available features, and deployment information.
+
 ---
 
 ## 🚀 Live Demo
