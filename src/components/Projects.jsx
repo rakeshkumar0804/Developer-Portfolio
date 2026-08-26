@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
 import { secondaryDeployments } from '../data/portfolioData';
+import ArchitectureReconstructModal from './ArchitectureReconstructModal';
 
 // FIG.1: IncidentHub AI Interactive Schematic
-function IncidentHubSchematic() {
+function IncidentHubSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/80 rounded-xl bg-[#0B101B]/80 backdrop-blur-md p-5 sm:p-6 shadow-2xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
@@ -86,18 +87,26 @@ function IncidentHubSchematic() {
       </div>
 
       <div className="pt-3.5 mt-2 border-t border-slate-800/70 flex items-center justify-between text-[10px] font-mono text-slate-400">
-        <span className="flex items-center gap-1 hover:text-cyan-300 cursor-pointer transition-colors">
+        <button
+          onClick={() => onReconstruct('incidenthub-ai')}
+          className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
+        >
           <FiRefreshCw className="text-cyan-400" />
           RECONSTRUCT BUILD HISTORY
-        </span>
-        <span className="text-slate-500">SCRUB THE TIMELINE →</span>
+        </button>
+        <button
+          onClick={() => onReconstruct('incidenthub-ai')}
+          className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+        >
+          SCRUB THE TIMELINE →
+        </button>
       </div>
     </div>
   );
 }
 
 // FIG.2: SyncPad Interactive Schematic
-function SyncPadSchematic() {
+function SyncPadSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/80 rounded-xl bg-[#0B101B]/80 backdrop-blur-md p-5 sm:p-6 shadow-2xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
@@ -172,18 +181,26 @@ function SyncPadSchematic() {
       </div>
 
       <div className="pt-3.5 mt-2 border-t border-slate-800/70 flex items-center justify-between text-[10px] font-mono text-slate-400">
-        <span className="flex items-center gap-1 hover:text-cyan-300 cursor-pointer transition-colors">
+        <button
+          onClick={() => onReconstruct('syncpad')}
+          className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
+        >
           <FiRefreshCw className="text-cyan-400" />
           RECONSTRUCT BUILD HISTORY
-        </span>
-        <span className="text-slate-500">SCRUB THE TIMELINE →</span>
+        </button>
+        <button
+          onClick={() => onReconstruct('syncpad')}
+          className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+        >
+          SCRUB THE TIMELINE →
+        </button>
       </div>
     </div>
   );
 }
 
 // FIG.3: PortfolioPulse Interactive Schematic
-function PortfolioPulseSchematic() {
+function PortfolioPulseSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/80 rounded-xl bg-[#0B101B]/80 backdrop-blur-md p-5 sm:p-6 shadow-2xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
@@ -258,18 +275,26 @@ function PortfolioPulseSchematic() {
       </div>
 
       <div className="pt-3.5 mt-2 border-t border-slate-800/70 flex items-center justify-between text-[10px] font-mono text-slate-400">
-        <span className="flex items-center gap-1 hover:text-cyan-300 cursor-pointer transition-colors">
+        <button
+          onClick={() => onReconstruct('portfoliopulse')}
+          className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
+        >
           <FiRefreshCw className="text-cyan-400" />
           RECONSTRUCT BUILD HISTORY
-        </span>
-        <span className="text-slate-500">SCRUB THE TIMELINE →</span>
+        </button>
+        <button
+          onClick={() => onReconstruct('portfoliopulse')}
+          className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+        >
+          SCRUB THE TIMELINE →
+        </button>
       </div>
     </div>
   );
 }
 
 // FIG.4: Kohli Analytics Interactive Schematic
-function KohliAnalyticsSchematic() {
+function KohliAnalyticsSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/80 rounded-xl bg-[#0B101B]/80 backdrop-blur-md p-5 sm:p-6 shadow-2xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
@@ -344,17 +369,27 @@ function KohliAnalyticsSchematic() {
       </div>
 
       <div className="pt-3.5 mt-2 border-t border-slate-800/70 flex items-center justify-between text-[10px] font-mono text-slate-400">
-        <span className="flex items-center gap-1 hover:text-cyan-300 cursor-pointer transition-colors">
+        <button
+          onClick={() => onReconstruct('kohli-analytics')}
+          className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
+        >
           <FiRefreshCw className="text-cyan-400" />
           RECONSTRUCT BUILD HISTORY
-        </span>
-        <span className="text-slate-500">SCRUB THE TIMELINE →</span>
+        </button>
+        <button
+          onClick={() => onReconstruct('kohli-analytics')}
+          className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+        >
+          SCRUB THE TIMELINE →
+        </button>
       </div>
     </div>
   );
 }
 
 export default function Projects() {
+  const [reconstructProjectId, setReconstructProjectId] = useState(null);
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 15 },
     visible: (custom = 0) => ({
@@ -366,6 +401,14 @@ export default function Projects() {
 
   return (
     <section id="projects" className="py-20 relative border-t border-slate-800/40 font-mono">
+      {/* Interactive Architecture Reconstruction & Timeline Scrubber Modal */}
+      {reconstructProjectId && (
+        <ArchitectureReconstructModal
+          projectId={reconstructProjectId}
+          onClose={() => setReconstructProjectId(null)}
+        />
+      )}
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
         <motion.div
@@ -497,7 +540,7 @@ export default function Projects() {
 
           {/* Right Column: FIG.1 Schematic */}
           <div className="lg:col-span-6">
-            <IncidentHubSchematic />
+            <IncidentHubSchematic onReconstruct={setReconstructProjectId} />
           </div>
         </motion.div>
 
@@ -511,7 +554,7 @@ export default function Projects() {
         >
           {/* Left Column: FIG.2 Schematic */}
           <div className="lg:col-span-6 order-2 lg:order-1">
-            <SyncPadSchematic />
+            <SyncPadSchematic onReconstruct={setReconstructProjectId} />
           </div>
 
           {/* Right Column: System Specification */}
@@ -719,7 +762,7 @@ export default function Projects() {
 
           {/* Right Column: FIG.3 Schematic */}
           <div className="lg:col-span-6">
-            <PortfolioPulseSchematic />
+            <PortfolioPulseSchematic onReconstruct={setReconstructProjectId} />
           </div>
         </motion.div>
 
@@ -733,7 +776,7 @@ export default function Projects() {
         >
           {/* Left Column: FIG.4 Schematic */}
           <div className="lg:col-span-6 order-2 lg:order-1">
-            <KohliAnalyticsSchematic />
+            <KohliAnalyticsSchematic onReconstruct={setReconstructProjectId} />
           </div>
 
           {/* Right Column: System Specification */}
