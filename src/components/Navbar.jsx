@@ -32,11 +32,20 @@ export const TelemetryStatus = () => {
   }, []);
 
   return (
-    <div className="flex items-center space-x-2 font-mono text-[12px] tracking-[0.2em] text-slate-200 select-none bg-transparent p-0 border-0 shadow-none">
-      <span className="text-cyan-400">SIG 📶</span>
-      <span className="text-slate-600">•</span>
-      <span>T {time || '19:10:51'}</span>
-      <span className="text-slate-400">IST</span>
+    <div className="flex items-center gap-1.5 font-mono text-xs text-slate-400 select-none">
+      <span className="tracking-wider text-slate-400">SIG</span>
+      <svg
+        className="w-3.5 h-3 text-cyan-400"
+        viewBox="0 0 14 12"
+        fill="currentColor"
+      >
+        <rect x="0" y="9" width="2" height="3" rx="0.5" opacity="0.4" />
+        <rect x="4" y="6" width="2" height="6" rx="0.5" opacity="0.6" />
+        <rect x="8" y="3" width="2" height="9" rx="0.5" opacity="0.8" />
+        <rect x="12" y="0" width="2" height="12" rx="0.5" />
+      </svg>
+      <span className="mx-1 text-slate-600">•</span>
+      <span className="text-slate-300 font-mono">T {time || '19:10:51'} IST</span>
     </div>
   );
 };
@@ -115,8 +124,8 @@ export default function Navbar() {
           <span className="inline-block w-2 h-3.5 bg-[#22d3ee] animate-pulse" />
         </a>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-1 border border-white/[0.1] bg-[#0d1117] px-3 py-1 rounded-md text-xs">
+        {/* Center Desktop Nav Links */}
+        <nav className="hidden md:flex items-center gap-1.5 bg-transparent p-0 border-0 text-xs">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace('#', '');
             return (
@@ -124,20 +133,20 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`px-2.5 py-1 rounded transition-colors ${
+                className={`px-2.5 py-1 transition-all ${
                   isActive
-                    ? 'text-emerald-400 bg-emerald-500/10 font-bold border border-emerald-500/20'
-                    : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
+                    ? 'text-cyan-400 border-b border-cyan-400/80 bg-cyan-950/20 rounded-t font-semibold'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04] rounded'
                 }`}
               >
-                <span className="text-slate-600 mr-0.5">$</span>
+                <span className="text-slate-500 mr-0.5">$</span>
                 {link.name}
               </a>
             );
           })}
         </nav>
 
-        {/* Top-Right Unboxed Raw SVG Telemetry Status */}
+        {/* Top-Right Clean SVG Signal & Timestamp Telemetry Status */}
         <div className="flex items-center gap-3 shrink-0">
           <TelemetryStatus />
 
