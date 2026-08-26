@@ -78,33 +78,42 @@ export default function Hero() {
   };
 
   // Smooth orbital floating animations
-  const floatVariantTop = {
+  const floatVariantReact = {
     animate: {
       y: [0, -8, 0],
+      x: [0, -3, 0],
       transition: { duration: 3.8, repeat: Infinity, ease: 'easeInOut' },
     },
   };
 
-  const floatVariantLeft = {
+  const floatVariantNode = {
     animate: {
-      x: [0, -6, 0],
-      y: [0, 4, 0],
+      y: [0, 8, 0],
+      x: [0, -4, 0],
       transition: { duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.3 },
     },
   };
 
-  const floatVariantRight = {
+  const floatVariantMongo = {
     animate: {
-      x: [0, 6, 0],
-      y: [0, -4, 0],
+      y: [0, -7, 0],
+      x: [0, 4, 0],
       transition: { duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.6 },
     },
   };
 
-  const floatVariantBottom = {
+  const floatVariantExpress = {
     animate: {
       y: [0, 7, 0],
+      x: [0, 3, 0],
       transition: { duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 0.2 },
+    },
+  };
+
+  const cardFloat = {
+    animate: {
+      y: [0, -6, 0],
+      transition: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
     },
   };
 
@@ -282,76 +291,72 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: 3D Isometric Holographic Terminal on Projected Grid Floor */}
+          {/* Right Column: True 3D Isometric Holographic Terminal on Cybernetic Pedestal */}
           <div className="lg:col-span-5 relative w-full h-[540px] flex items-center justify-center overflow-visible select-none">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.65, delay: 0.2 }}
-              className="relative w-full max-w-[460px] h-full flex flex-col items-center justify-center"
-              style={{ perspective: '1200px' }}
-            >
-              {/* Concentric Neon Cyan Backlight Behind 3D Elements */}
+            <div className="relative w-full max-w-[460px] h-full flex flex-col items-center justify-center">
+              {/* Concentric Neon Cyan Ambient Backlight */}
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-visible">
                 <div className="w-[360px] h-[360px] sm:w-[460px] sm:h-[460px] rounded-full bg-gradient-to-tr from-[#22d3ee]/20 via-[#38bdf8]/15 to-transparent blur-3xl" />
               </div>
 
-              {/* Orbiting Tech Logo 1: React (Top / 12 o'clock with Cyan Halo) */}
+              {/* 1. Orbiting Tech Node: React (Floating Outside Top-Left) */}
               <motion.div
-                variants={floatVariantTop}
+                variants={floatVariantReact}
                 animate="animate"
-                className="absolute top-1 left-1/2 -translate-x-1/2 z-30 group cursor-pointer"
+                className="absolute top-[-20px] left-[-30px] z-30 group cursor-pointer"
               >
-                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#22d3ee]/60 bg-[#070B12]/95 backdrop-blur-xl shadow-[0_0_18px_rgba(34,211,238,0.35)] flex items-center justify-center p-2.5 ring-2 ring-[#22d3ee]/25 group-hover:scale-110 group-hover:border-[#22d3ee] transition-all">
+                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#22d3ee]/70 bg-[#070B12]/95 backdrop-blur-xl shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center p-2.5 ring-2 ring-[#22d3ee]/25 group-hover:scale-110 group-hover:border-[#22d3ee] transition-all">
                   <FaReact className="text-[#61DAFB] text-2xl animate-[spin_12s_linear_infinite]" />
                 </div>
               </motion.div>
 
-              {/* Orbiting Tech Logo 2: Node.js (Left-Middle / 9 o'clock with Cyan Halo) */}
+              {/* 2. Orbiting Tech Node: Node.js (Floating Outside Bottom-Left) */}
               <motion.div
-                variants={floatVariantLeft}
+                variants={floatVariantNode}
                 animate="animate"
-                className="absolute top-[45%] -left-3 sm:-left-6 -translate-y-1/2 z-30 group cursor-pointer"
+                className="absolute bottom-[120px] left-[-35px] z-30 group cursor-pointer"
               >
-                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#22d3ee]/60 bg-[#070B12]/95 backdrop-blur-xl shadow-[0_0_18px_rgba(34,211,238,0.35)] flex items-center justify-center p-2.5 ring-2 ring-[#22d3ee]/25 group-hover:scale-110 group-hover:border-[#22d3ee] transition-all">
+                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#22d3ee]/70 bg-[#070B12]/95 backdrop-blur-xl shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center p-2.5 ring-2 ring-[#22d3ee]/25 group-hover:scale-110 group-hover:border-[#22d3ee] transition-all">
                   <SiNodedotjs className="text-[#68A063] text-2xl" />
                 </div>
               </motion.div>
 
-              {/* Orbiting Tech Logo 3: MongoDB (Right-Middle / 3 o'clock with Cyan Halo) */}
+              {/* 3. Orbiting Tech Node: MongoDB (Floating Outside Middle-Right) */}
               <motion.div
-                variants={floatVariantRight}
+                variants={floatVariantMongo}
                 animate="animate"
-                className="absolute top-[45%] -right-3 sm:-right-6 -translate-y-1/2 z-30 group cursor-pointer"
+                className="absolute top-[80px] right-[-35px] z-30 group cursor-pointer"
               >
-                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#22d3ee]/60 bg-[#070B12]/95 backdrop-blur-xl shadow-[0_0_18px_rgba(34,211,238,0.35)] flex items-center justify-center p-2.5 ring-2 ring-[#22d3ee]/25 group-hover:scale-110 group-hover:border-[#22d3ee] transition-all">
+                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#22d3ee]/70 bg-[#070B12]/95 backdrop-blur-xl shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center p-2.5 ring-2 ring-[#22d3ee]/25 group-hover:scale-110 group-hover:border-[#22d3ee] transition-all">
                   <SiMongodb className="text-[#47A248] text-2xl" />
                 </div>
               </motion.div>
 
-              {/* Orbiting Tech Logo 4: Express (Bottom-Right with Cyan Halo) */}
+              {/* 4. Orbiting Tech Node: Express (Floating Outside Bottom-Right) */}
               <motion.div
-                variants={floatVariantBottom}
+                variants={floatVariantExpress}
                 animate="animate"
-                className="absolute bottom-16 right-4 sm:right-6 z-30 group cursor-pointer"
+                className="absolute bottom-[40px] right-[-25px] z-30 group cursor-pointer"
               >
-                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#22d3ee]/60 bg-[#070B12]/95 backdrop-blur-xl shadow-[0_0_18px_rgba(34,211,238,0.35)] flex items-center justify-center p-2.5 ring-2 ring-[#22d3ee]/25 group-hover:scale-110 group-hover:border-[#22d3ee] transition-all">
+                <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#22d3ee]/70 bg-[#070B12]/95 backdrop-blur-xl shadow-[0_0_20px_rgba(34,211,238,0.4)] flex items-center justify-center p-2.5 ring-2 ring-[#22d3ee]/25 group-hover:scale-110 group-hover:border-[#22d3ee] transition-all">
                   <SiExpress className="text-white text-2xl" />
                 </div>
               </motion.div>
 
-              {/* 3D Isometric Angled Glass Terminal with Line Numbers & Syntax Highlighting */}
+              {/* 3D Isometric Angled Glass Terminal with Pure Code & Line Numbers */}
               <motion.div
-                whileHover={{ rotateY: -3, rotateX: 3, scale: 1.02 }}
+                variants={cardFloat}
+                animate="animate"
+                whileHover={{ rotateY: -6, rotateX: 6, scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-                className="w-full rounded-2xl border border-[#22d3ee]/40 bg-[#070B12]/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_35px_rgba(34,211,238,0.18)] p-5 sm:p-6 relative z-20"
+                className="w-full rounded-2xl border border-[#22d3ee]/40 bg-[#070B12]/90 backdrop-blur-2xl shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_40px_rgba(34,211,238,0.2)] p-5 sm:p-6 relative z-20"
                 style={{
-                  transform: 'rotateY(-9deg) rotateX(6deg) rotateZ(1deg)',
+                  transform: 'perspective(1000px) rotateY(-12deg) rotateX(10deg) rotateZ(-2deg)',
                   transformStyle: 'preserve-3d',
                 }}
               >
                 {/* Window Header */}
-                <div className="flex items-center justify-between pb-3 mb-3.5 border-b border-white/[0.08]">
+                <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-white/[0.08]">
                   {/* macOS Control Dots on the Upper-Left */}
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-rose-500/90 shadow-[0_0_6px_#f43f5e]" />
@@ -359,8 +364,8 @@ export default function Hero() {
                     <div className="h-3 w-3 rounded-full bg-emerald-500/90 shadow-[0_0_6px_#10b981]" />
                   </div>
 
-                  {/* Filename developer.js (Monospace, Right-Aligned) */}
-                  <div className="flex items-center gap-2">
+                  {/* Clean Filename & Tag on the Right */}
+                  <div className="flex items-center gap-2.5">
                     <span className="font-mono text-xs text-slate-300 font-semibold tracking-wide">
                       developer.js
                     </span>
@@ -431,56 +436,50 @@ export default function Hero() {
                     <div>&#125;;</div>
                   </div>
                 </div>
-
-                {/* Terminal Footer Proof Badges */}
-                <div className="mt-3.5 pt-3 border-t border-white/[0.06] grid grid-cols-3 gap-2 text-center font-mono">
-                  <div className="p-1.5 rounded-lg bg-[#040810] border border-white/[0.04]">
-                    <div className="text-sm font-bold text-white">6+</div>
-                    <div className="text-[0.65rem] text-slate-400 uppercase">Projects</div>
-                  </div>
-                  <div className="p-1.5 rounded-lg bg-[#040810] border border-white/[0.04]">
-                    <div className="text-sm font-bold text-[#22d3ee]">165+</div>
-                    <div className="text-[0.65rem] text-slate-400 uppercase">LeetCode</div>
-                  </div>
-                  <div className="p-1.5 rounded-lg bg-[#040810] border border-white/[0.04]">
-                    <div className="text-sm font-bold text-emerald-400">2026</div>
-                    <div className="text-[0.65rem] text-slate-400 uppercase">Graduate</div>
-                  </div>
-                </div>
               </motion.div>
 
-              {/* Advanced Concentric Holographic Light Platform with Grid Projection */}
-              <div className="relative w-full flex flex-col items-center justify-center -mt-6 pt-2 pointer-events-none z-10">
+              {/* Concentric Cybernetic Holographic Pedestal Platform */}
+              <div className="relative w-full flex flex-col items-center justify-center -mt-8 pt-2 pointer-events-none z-10">
                 {/* Holographic Projection Rays Upward */}
-                <div className="w-64 sm:w-80 h-16 bg-gradient-to-t from-[#22d3ee]/30 via-[#38bdf8]/15 to-transparent blur-xl" />
+                <div className="w-64 sm:w-80 h-16 bg-gradient-to-t from-[#22d3ee]/35 via-[#38bdf8]/15 to-transparent blur-xl" />
 
-                {/* Concentric Light Rings Projected on Grid Floor */}
+                {/* Perspective Floor Grid Layer */}
+                <div
+                  className="absolute -bottom-6 w-[420px] h-[140px] opacity-25"
+                  style={{
+                    backgroundImage: 'linear-gradient(to right, rgba(34,211,238,0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(34,211,238,0.2) 1px, transparent 1px)',
+                    backgroundSize: '24px 24px',
+                    transform: 'perspective(500px) rotateX(65deg)',
+                  }}
+                />
+
+                {/* Concentric Cybernetic Platform Rings */}
                 <div className="relative -mt-9 flex items-center justify-center">
-                  {/* Outer Pulsing Projection Ring */}
-                  <div className="w-[350px] h-[52px] sm:w-[450px] sm:h-[68px] rounded-[100%] border border-[#22d3ee]/35 shadow-[0_0_20px_rgba(34,211,238,0.2)] animate-[ping_4.5s_cubic-bezier(0,0,0.2,1)_infinite]" />
+                  {/* Outer Metallic Ring with Track Markers */}
+                  <div className="w-[360px] h-[55px] sm:w-[460px] sm:h-[72px] rounded-[100%] border border-[#22d3ee]/40 bg-gradient-to-r from-transparent via-[#22d3ee]/10 to-transparent shadow-[0_0_25px_rgba(34,211,238,0.25)] animate-[ping_5s_cubic-bezier(0,0,0.2,1)_infinite]" />
 
-                  {/* Circuit Grid Rotating Ring */}
-                  <div className="absolute w-[270px] h-[42px] sm:w-[350px] sm:h-[52px] rounded-[100%] border border-[#38bdf8]/60 border-dashed shadow-[0_0_18px_#22d3ee] animate-[spin_60s_linear_infinite]" />
+                  {/* Rotating Cybernetic Circuit Track */}
+                  <div className="absolute w-[280px] h-[44px] sm:w-[360px] sm:h-[56px] rounded-[100%] border border-[#38bdf8]/70 border-dashed shadow-[0_0_20px_#22d3ee] animate-[spin_50s_linear_infinite]" />
 
-                  {/* Inner Intense Platform Core Ring */}
-                  <div className="absolute w-[180px] h-[30px] sm:w-[230px] sm:h-[38px] rounded-[100%] border-2 border-[#22d3ee] shadow-[0_0_30px_#22d3ee,inset_0_0_15px_#22d3ee]" />
+                  {/* Inner Glowing Teal Energy Core Ring */}
+                  <div className="absolute w-[180px] h-[30px] sm:w-[240px] sm:h-[40px] rounded-[100%] border-2 border-[#22d3ee] shadow-[0_0_35px_#22d3ee,inset_0_0_18px_#22d3ee]" />
 
-                  {/* Concentrated Light Source */}
-                  <div className="absolute w-[210px] h-[55px] rounded-full bg-[#22d3ee]/45 blur-2xl animate-pulse" />
+                  {/* Concentrated Core Light Source */}
+                  <div className="absolute w-[220px] h-[60px] rounded-full bg-[#22d3ee]/50 blur-2xl animate-pulse" />
                 </div>
               </div>
 
-              {/* Centered Pill-Badge at the Very Bottom with Glowing Lightning Bolt */}
+              {/* Centered Pill-Badge at Bottom with Glowing Lightning Bolt */}
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.45 }}
-                className="mt-4 px-4 sm:px-5 py-1.5 rounded-full border border-[#22d3ee]/50 bg-[#070B12]/95 backdrop-blur-xl text-xs font-mono font-medium text-slate-200 shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center gap-2 z-20 shrink-0"
+                className="mt-4 px-4 sm:px-5 py-1.5 rounded-full border border-[#22d3ee]/50 bg-[#070B12]/95 backdrop-blur-md text-xs font-mono font-medium text-slate-200 shadow-[0_0_20px_rgba(34,211,238,0.25)] flex items-center gap-2 z-20 shrink-0"
               >
                 <span>Turning ideas into impactful digital solutions.</span>
                 <span className="text-[#22d3ee] shadow-[0_0_8px_#22d3ee] font-bold">⚡</span>
               </motion.div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
