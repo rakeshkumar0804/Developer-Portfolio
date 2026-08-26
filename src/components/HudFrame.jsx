@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const depthSections = [
   { id: 'hero', label: 'SYS' },
@@ -13,6 +13,38 @@ const depthSections = [
 
 export default function HudFrame() {
   const [activeSection, setActiveSection] = useState('hero');
+  const [fps, setFps] = useState(144);
+  const [sysLoad, setSysLoad] = useState(38);
+  const frameCount = useRef(0);
+  const lastTime = useRef(performance.now());
+
+  // Real-time requestAnimationFrame FPS calculation & System Load fluctuation
+  useEffect(() => {
+    let animationId;
+
+    const calcFps = (now) => {
+      frameCount.current++;
+      if (now - lastTime.current >= 1000) {
+        const currentFps = Math.round((frameCount.current * 1000) / (now - lastTime.current));
+        setFps(Math.min(currentFps, 240));
+        frameCount.current = 0;
+        lastTime.current = now;
+      }
+      animationId = requestAnimationFrame(calcFps);
+    };
+
+    animationId = requestAnimationFrame(calcFps);
+
+    // Realistic subtle CPU/Memory load fluctuation
+    const loadInterval = setInterval(() => {
+      setSysLoad(Math.floor(Math.random() * (45 - 28 + 1)) + 28);
+    }, 2500);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      clearInterval(loadInterval);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,17 +123,21 @@ export default function HudFrame() {
         </div>
       </div>
 
-      {/* Bottom Persistent Status Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-7 px-4 sm:px-6 bg-[#050811]/95 backdrop-blur-md border-t border-slate-800/80 flex items-center justify-between text-[10px] tracking-wider text-slate-500">
-        <div className="flex items-center gap-2 sm:gap-4 truncate">
-          <span className="text-slate-400 font-medium">GURUGRAM, HR, INDIA</span>
+      {/* Bottom Persistent Real-Time Status Bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-7 px-4 sm:px-6 bg-[#050811]/95 backdrop-blur-md border-t border-slate-800/80 flex items-center justify-between text-[11px] tracking-wider text-slate-400 font-mono">
+        <div className="flex items-center gap-4 truncate">
+          <span>GURUGRAM, HR, INDIA</span>
           <span>•</span>
-          <span className="text-slate-400">FPS 144</span>
+          <span>
+            FPS <strong className="text-cyan-400 font-normal">{fps}</strong>
+          </span>
           <span>•</span>
-          <span className="text-cyan-400">SYS LOAD 18%</span>
+          <span>
+            SYS LOAD <strong className="text-cyan-400 font-normal">{sysLoad}%</strong>
+          </span>
         </div>
 
-        <div className="flex items-center gap-2 text-slate-500 shrink-0">
+        <div className="flex items-center gap-2 text-slate-500 text-[10px] shrink-0">
           <span>....</span>
           <span>AUDIO OFF</span>
         </div>

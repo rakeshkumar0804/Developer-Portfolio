@@ -54,15 +54,15 @@ export default function About() {
             <span>OPERATING PHILOSOPHY</span>
           </div>
 
-          {/* Statement Headline */}
-          <div className="space-y-2 leading-tight">
-            <h2 className="text-slate-100 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight">
+          {/* Statement Headline with Refined Medium Weight */}
+          <div className="space-y-1.5 max-w-4xl">
+            <h2 className="text-slate-200 font-medium text-2xl md:text-3xl leading-snug tracking-tight">
               Every system begins with clean architecture.
             </h2>
-            <h2 className="text-slate-100 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight">
+            <h2 className="text-slate-200 font-medium text-2xl md:text-3xl leading-snug tracking-tight">
               Every API demands deterministic security.
             </h2>
-            <h2 className="text-cyan-400 font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight drop-shadow-[0_0_15px_rgba(34,211,238,0.3)]">
+            <h2 className="text-[#38bdf8] font-medium text-2xl md:text-3xl leading-snug tracking-tight drop-shadow-[0_0_10px_rgba(56,189,248,0.3)]">
               Every infrastructure becomes a living network.
             </h2>
           </div>
@@ -102,11 +102,11 @@ export default function About() {
                   {op.id}
                 </span>
 
-                <div className="min-w-0">
-                  <h3 className="text-slate-100 font-mono font-bold text-sm sm:text-base group-hover:text-cyan-300 transition-colors">
+                <div className="min-w-0 flex flex-col gap-1">
+                  <h3 className="text-slate-100 font-mono font-medium text-sm sm:text-base group-hover:text-cyan-300 transition-colors">
                     {op.title}
                   </h3>
-                  <p className="text-slate-400 text-xs sm:text-sm font-sans mt-0.5 leading-relaxed">
+                  <p className="text-slate-400 text-xs font-mono leading-relaxed">
                     {op.description}
                   </p>
                 </div>
