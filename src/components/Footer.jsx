@@ -9,73 +9,71 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-white/[0.08] bg-[#090a0f] text-slate-400 text-xs relative">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="border-t border-white/[0.08] bg-[#0a0e14] text-slate-400 text-xs font-mono relative py-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-white/[0.06]">
           {/* Brand Info */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <div className="flex items-center gap-2.5 mb-1.5">
-              <div className="h-7 w-7 rounded-lg bg-[#121524] border border-[#38bdf8]/40 flex items-center justify-center font-bold text-xs text-[#38bdf8]">
-                RK
-              </div>
-              <span className="font-bold text-base text-white tracking-tight">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-emerald-400 font-bold">$</span>
+              <span className="font-bold text-sm text-white tracking-tight">
                 {personalInfo.name}
               </span>
+              <span className="text-[0.7rem] text-[#38bdf8]">[SDE Candidate]</span>
             </div>
-            <p className="text-xs text-slate-400 max-w-sm">
-              B.Tech CSE Graduate (2026) & Full-Stack Web Developer seeking SDE opportunities.
+            <p className="text-xs text-slate-400 font-sans max-w-sm">
+              B.Tech CSE Graduate (2026) & Full-Stack Developer seeking SDE roles.
             </p>
           </div>
 
           {/* Social Links & Resume */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <a
               href={personalInfo.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors text-xs"
-              aria-label="Download Resume PDF"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-[#22d3ee]/40 bg-[#22d3ee]/10 text-[#22d3ee] hover:bg-[#22d3ee] hover:text-[#0a0e14] transition-all text-xs font-bold"
             >
-              <FiFileText className="text-sm" />
-              <span>Resume PDF</span>
+              <FiFileText className="text-xs" />
+              <span>resume.pdf</span>
             </a>
 
             <a
               href={personalInfo.github}
               target="_blank"
               rel="noreferrer"
-              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
+              className="p-2 rounded border border-white/[0.1] bg-[#0d1117] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
               aria-label="GitHub Profile"
             >
-              <FiGithub className="text-sm" />
+              <FiGithub className="text-xs" />
             </a>
 
             <a
               href={personalInfo.linkedin}
               target="_blank"
               rel="noreferrer"
-              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-indigo-400 hover:border-indigo-400/40 transition-colors"
+              className="p-2 rounded border border-white/[0.1] bg-[#0d1117] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
               aria-label="LinkedIn Profile"
             >
-              <FiLinkedin className="text-sm" />
+              <FiLinkedin className="text-xs" />
             </a>
 
             <a
               href={personalInfo.leetcode}
               target="_blank"
               rel="noreferrer"
-              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-[#f59e0b] hover:border-[#f59e0b]/40 transition-colors"
+              className="p-2 rounded border border-white/[0.1] bg-[#0d1117] text-slate-300 hover:text-[#f59e0b] hover:border-[#f59e0b]/40 transition-colors"
               aria-label="LeetCode Profile"
             >
-              <SiLeetcode className="text-sm" />
+              <SiLeetcode className="text-xs" />
             </a>
 
             <a
               href={`mailto:${personalInfo.email}`}
-              className="p-2.5 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
+              className="p-2 rounded border border-white/[0.1] bg-[#0d1117] text-slate-300 hover:text-[#38bdf8] hover:border-[#38bdf8]/40 transition-colors"
               aria-label="Email"
             >
-              <FiMail className="text-sm" />
+              <FiMail className="text-xs" />
             </a>
           </div>
 
@@ -83,21 +81,22 @@ export default function Footer() {
           <div>
             <button
               onClick={scrollToTop}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-white/[0.08] bg-[#121524] text-slate-300 hover:text-white hover:border-[#38bdf8]/40 transition-colors cursor-pointer text-xs font-medium"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-white/[0.1] bg-[#0d1117] text-slate-300 hover:text-white hover:border-[#38bdf8]/40 transition-colors cursor-pointer text-xs"
             >
-              <span>Back to Top</span>
+              <span>^top</span>
               <FiArrowUp className="text-xs" />
             </button>
           </div>
         </div>
 
-        {/* Copyright Baseline */}
-        <div className="mt-10 pt-6 border-t border-white/[0.04] flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-400 text-xs">
+        {/* Copyright & Terminal Prompt */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500 text-[0.75rem]">
           <div>
-            © {new Date().getFullYear()} Rakesh Kumar. Built with React, Tailwind CSS & Vite.
+            © {new Date().getFullYear()} Rakesh Kumar · Built with React & Tailwind CSS
           </div>
-          <div>
-            Gurugram, Haryana, India
+          <div className="flex items-center gap-2 text-emerald-400 font-mono">
+            <span>exit 0</span>
+            <span className="inline-block w-1.5 h-3 bg-emerald-400 animate-pulse" />
           </div>
         </div>
       </div>

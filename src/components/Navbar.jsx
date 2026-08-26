@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiMenu, FiX, FiDownload } from 'react-icons/fi';
+import { FiMenu, FiX, FiDownload, FiTerminal } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 const navLinks = [
-  { name: 'About', href: '#about' },
-  { name: 'Skills', href: '#skills' },
-  { name: 'Projects', href: '#projects' },
-  { name: 'Experience', href: '#experience' },
-  { name: 'Certifications', href: '#certifications' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'about', href: '#about' },
+  { name: 'skills', href: '#skills' },
+  { name: 'projects', href: '#projects' },
+  { name: 'experience', href: '#experience' },
+  { name: 'certifications', href: '#certifications' },
+  { name: 'contact', href: '#contact' },
 ];
 
 export default function Navbar() {
@@ -44,43 +44,34 @@ export default function Navbar() {
     const targetId = href.replace('#', '');
     const element = document.getElementById(targetId);
     if (element) {
-      const topOffset = element.getBoundingClientRect().top + window.scrollY - 80;
+      const topOffset = element.getBoundingClientRect().top + window.scrollY - 75;
       window.scrollTo({ top: topOffset, behavior: 'smooth' });
     }
   };
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 font-mono ${
         scrolled
-          ? 'py-3.5 bg-[#090a0f]/90 backdrop-blur-xl border-b border-white/[0.08] shadow-md shadow-black/20'
-          : 'py-5 bg-transparent'
+          ? 'py-2.5 bg-[#0a0e14]/95 backdrop-blur-md border-b border-[#22d3ee]/20 shadow-lg shadow-black/40'
+          : 'py-4 bg-[#0a0e14]/80 backdrop-blur-sm border-b border-white/[0.06]'
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 flex items-center justify-between">
-        {/* Brand Name */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+        {/* Terminal Brand Prompt */}
         <a
           href="#hero"
           onClick={(e) => handleNavClick(e, '#hero')}
-          className="flex items-center gap-3 group"
+          className="flex items-center gap-2 text-xs sm:text-sm text-slate-300 hover:text-[#22d3ee] transition-colors group"
         >
-          <div className="h-9 w-9 rounded-lg bg-gradient-to-tr from-[#38bdf8] to-[#6366f1] p-[1px]">
-            <div className="h-full w-full bg-[#090a0f] rounded-[7px] flex items-center justify-center font-bold text-xs text-[#38bdf8] group-hover:text-white transition-colors">
-              RK
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-sm text-slate-100 tracking-tight group-hover:text-[#38bdf8] transition-colors">
-              {personalInfo.name}
-            </span>
-            <span className="text-[0.7rem] text-slate-400 font-mono hidden sm:inline">
-              Full-Stack Developer
-            </span>
-          </div>
+          <span className="text-emerald-400 font-bold">guest@portfolio</span>
+          <span className="text-slate-500">:</span>
+          <span className="text-[#38bdf8]">~/{activeSection}</span>
+          <span className="inline-block w-2 h-3.5 bg-[#22d3ee] animate-pulse" />
         </a>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-1 rounded-full border border-white/[0.08] bg-[#121524]/70 px-4 py-1.5 backdrop-blur-md text-xs font-medium text-slate-300">
+        <nav className="hidden md:flex items-center gap-1 border border-white/[0.1] bg-[#0d1117] px-3 py-1 rounded-md text-xs">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace('#', '');
             return (
@@ -88,12 +79,13 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`px-3 py-1.5 rounded-full transition-all duration-200 ${
+                className={`px-2.5 py-1 rounded transition-colors ${
                   isActive
-                    ? 'text-white bg-white/[0.12] font-semibold'
+                    ? 'text-emerald-400 bg-emerald-500/10 font-bold border border-emerald-500/20'
                     : 'text-slate-400 hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
+                <span className="text-slate-600 mr-0.5">$</span>
                 {link.name}
               </a>
             );
@@ -106,19 +98,19 @@ export default function Navbar() {
             href={personalInfo.resumeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#38bdf8] hover:bg-[#60a5fa] text-[#090a0f] text-xs font-semibold transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded border border-[#22d3ee]/60 bg-[#22d3ee]/10 hover:bg-[#22d3ee] text-[#22d3ee] hover:text-[#0a0e14] text-xs font-bold transition-all shadow-[0_0_10px_rgba(34,211,238,0.15)]"
           >
-            <span>Resume</span>
             <FiDownload className="text-xs" />
+            <span>resume.pdf</span>
           </a>
 
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg border border-white/[0.1] bg-[#121524] text-slate-300 hover:text-white transition-colors"
+            className="md:hidden p-1.5 rounded border border-white/[0.1] bg-[#0d1117] text-slate-300 hover:text-white transition-colors"
             aria-label="Toggle navigation menu"
           >
-            {mobileMenuOpen ? <FiX className="text-lg" /> : <FiMenu className="text-lg" />}
+            {mobileMenuOpen ? <FiX className="text-base" /> : <FiMenu className="text-base" />}
           </button>
         </div>
       </div>
@@ -130,21 +122,21 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-b border-white/[0.08] bg-[#090a0f]/95 backdrop-blur-2xl px-6 py-5 space-y-2"
+            className="md:hidden border-b border-[#22d3ee]/20 bg-[#0a0e14]/98 px-6 py-4 space-y-1.5 text-xs font-mono"
           >
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`flex items-center justify-between px-4 py-2.5 rounded-lg text-sm transition-colors ${
+                className={`flex items-center justify-between px-3 py-2 rounded transition-colors ${
                   activeSection === link.href.replace('#', '')
-                    ? 'bg-[#38bdf8]/10 text-[#38bdf8] font-semibold'
+                    ? 'bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20'
                     : 'text-slate-400 hover:bg-white/[0.04] hover:text-white'
                 }`}
               >
-                <span>{link.name}</span>
-                <span className="text-xs text-slate-600">→</span>
+                <span>$ {link.name}</span>
+                <span className="text-slate-600">→</span>
               </a>
             ))}
           </motion.div>

@@ -1,92 +1,86 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiAward, FiBriefcase, FiCode, FiCheckCircle } from 'react-icons/fi';
+import { FiTerminal, FiMapPin, FiCode, FiLayers } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 export default function About() {
   const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+    hidden: { opacity: 0, y: 15 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
   };
 
   return (
-    <section id="about" className="py-24 relative border-t border-white/[0.08]">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8">
-        {/* Section Header */}
+    <section id="about" className="py-16 relative border-t border-white/[0.08] font-mono">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        {/* Terminal Header Prompt */}
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="flex flex-col items-start mb-12"
+          className="mb-8"
         >
-          <span className="text-xs font-mono font-semibold tracking-wider uppercase text-[#38bdf8] mb-2">
-            // About Me
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white font-sans tracking-tight">
-            Background & Engineering Journey
+          <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
+            <span className="text-emerald-400 font-bold">$</span>
+            <span>cat about.txt</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+            A little about me
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          {/* Left Column: Bio Narrative */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Bio Narrative */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-7 space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed font-sans"
+            className="lg:col-span-8 p-6 rounded-lg border border-white/[0.1] bg-[#0d1117] text-slate-300 text-xs sm:text-sm leading-relaxed font-sans shadow-md"
           >
-            {personalInfo.fullBio.map((paragraph, idx) => (
-              <p key={idx}>{paragraph}</p>
-            ))}
+            <p className="mb-4">
+              I'm a B.Tech Computer Science graduate (2026) from Parul University, based in Gurugram, India. I specialize in building full-stack web applications using React, Node.js, Express, and MongoDB/PostgreSQL. During my internship at Codetech IT Solutions, I built an internal Employee Management System with JWT authentication, role-based access control (RBAC), and RESTful CRUD endpoints.
+            </p>
+            <p className="text-slate-400 text-xs font-mono">
+              // Core focus: clean APIs, scalable backends, role-based workflows, and dependable frontend state.
+            </p>
           </motion.div>
 
-          {/* Right Column: 4 Clean Highlights */}
+          {/* Stats & Metadata Badges */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
             variants={fadeInUp}
-            className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3.5"
+            className="lg:col-span-4 space-y-3"
           >
-            <div className="card p-4 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-start gap-3.5">
-              <div className="h-9 w-9 rounded-lg bg-[#38bdf8]/10 border border-[#38bdf8]/20 flex items-center justify-center text-[#38bdf8] text-base shrink-0 mt-0.5">
-                <FiAward />
+            <div className="p-4 rounded-lg border border-white/[0.1] bg-[#0d1117] flex items-center gap-3">
+              <div className="h-8 w-8 rounded bg-[#38bdf8]/10 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] text-sm shrink-0">
+                <FiLayers />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-white">B.Tech CSE Graduate</h4>
-                <p className="text-xs text-slate-400 mt-0.5">Parul University (Class of 2026)</p>
+                <div className="text-sm font-bold text-white font-mono">6+ Projects Shipped</div>
+                <div className="text-[0.7rem] text-slate-400 font-sans">Full-Stack Web Applications</div>
               </div>
             </div>
 
-            <div className="card p-4 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-start gap-3.5">
-              <div className="h-9 w-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 text-base shrink-0 mt-0.5">
-                <FiBriefcase />
-              </div>
-              <div>
-                <h4 className="text-sm font-bold text-white">Software Development Intern</h4>
-                <p className="text-xs text-slate-400 mt-0.5">Codetech IT Solutions (MERN & RBAC)</p>
-              </div>
-            </div>
-
-            <div className="card p-4 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-start gap-3.5">
-              <div className="h-9 w-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-base shrink-0 mt-0.5">
+            <div className="p-4 rounded-lg border border-white/[0.1] bg-[#0d1117] flex items-center gap-3">
+              <div className="h-8 w-8 rounded bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-sm shrink-0">
                 <FiCode />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-white">Full-Stack MERN Stack</h4>
-                <p className="text-xs text-slate-400 mt-0.5">React, Node.js, Express, MongoDB, REST APIs</p>
+                <div className="text-sm font-bold text-emerald-400 font-mono">165+ LeetCode Solved</div>
+                <div className="text-[0.7rem] text-slate-400 font-sans">Data Structures & Algorithms</div>
               </div>
             </div>
 
-            <div className="card p-4 rounded-xl border border-white/[0.08] bg-[#121524]/80 flex items-start gap-3.5">
-              <div className="h-9 w-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-base shrink-0 mt-0.5">
-                <FiCheckCircle />
+            <div className="p-4 rounded-lg border border-white/[0.1] bg-[#0d1117] flex items-center gap-3">
+              <div className="h-8 w-8 rounded bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-sm shrink-0">
+                <FiMapPin />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-white">Problem Solving</h4>
-                <p className="text-xs text-slate-400 mt-0.5">165+ LeetCode DSA Problems Solved</p>
+                <div className="text-sm font-bold text-slate-200 font-mono">Gurugram, India</div>
+                <div className="text-[0.7rem] text-slate-400 font-sans">Location (Open to Relocation)</div>
               </div>
             </div>
           </motion.div>
