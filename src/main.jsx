@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Principles from './components/Principles';
 import Projects from './components/Projects';
+import OpenSource from './components/OpenSource';
 import Experience from './components/Experience';
 import GitHubActivity from './components/GitHubActivity';
 import Certifications from './components/Certifications';
@@ -29,6 +30,7 @@ function App() {
         <About />
         <Principles />
         <Projects />
+        <OpenSource />
         <Experience />
         <GitHubActivity />
         <Certifications />
