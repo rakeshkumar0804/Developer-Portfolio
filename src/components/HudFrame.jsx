@@ -75,8 +75,8 @@ export default function HudFrame() {
       {/* 4 Technical Corner Brackets */}
       <div className="absolute top-2 left-2 text-cyan-400/60 text-xs leading-none">┌</div>
       <div className="absolute top-2 right-2 text-cyan-400/60 text-xs leading-none">┐</div>
-      <div className="absolute bottom-8 left-2 text-cyan-400/60 text-xs leading-none">└</div>
-      <div className="absolute bottom-8 right-2 text-cyan-400/60 text-xs leading-none">┘</div>
+      <div className="absolute bottom-2 left-2 text-cyan-400/60 text-xs leading-none">└</div>
+      <div className="absolute bottom-2 right-2 text-cyan-400/60 text-xs leading-none">┘</div>
 
       {/* Top Status Pill Under Navbar */}
       <div className="hidden lg:flex absolute top-14 left-6 items-center gap-1.5 px-2 py-0.5 rounded border border-cyan-500/20 bg-[#050811]/90 text-[10px] tracking-widest text-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.15)]">
@@ -122,8 +122,8 @@ export default function HudFrame() {
         </div>
       </div>
 
-      {/* Bottom Persistent Real-Time Status Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-7 px-4 sm:px-6 bg-[#050811]/95 backdrop-blur-md border-t border-slate-800/80 flex items-center justify-between text-[11px] tracking-wider text-slate-400 font-mono">
+      {/* Bottom Persistent Real-Time Telemetry Bar (Unboxed & Transparent Directly on Grid) */}
+      <div className="absolute bottom-0 left-0 right-0 pb-3 pt-0 px-5 sm:px-8 bg-transparent backdrop-blur-none border-0 shadow-none flex items-center justify-between text-[11px] tracking-wider text-slate-400 font-mono">
         <div className="flex items-center gap-4 truncate">
           <span>GURUGRAM, HR, INDIA</span>
           <span>•</span>
