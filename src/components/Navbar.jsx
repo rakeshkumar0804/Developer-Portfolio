@@ -41,10 +41,10 @@ export const TelemetryStatus = () => {
   }, []);
 
   return (
-    <div className="flex items-center space-x-3 font-mono text-[11px] tracking-[0.22em] text-[#7fa0c7] select-none bg-transparent p-0 border-0 shadow-none">
+    <div className="flex items-center space-x-3 font-mono text-[12px] tracking-[0.22em] text-slate-200 select-none bg-transparent p-0 border-0 shadow-none">
       <span>SIG</span>
 
-      {/* Raw Crisp SVG Signal Bars - No Blur Glow */}
+      {/* Dynamic Cyan Signal Bars */}
       <svg width="18" height="13" viewBox="0 0 18 13" fill="none" className="overflow-visible">
         <rect x="0" y="9.5" width="2.5" height="3.5" rx="0.5" fill={barsActive >= 1 ? '#38bdf8' : '#1e293b'} />
         <rect x="5" y="6.5" width="2.5" height="6.5" rx="0.5" fill={barsActive >= 2 ? '#38bdf8' : '#1e293b'} />
@@ -53,8 +53,8 @@ export const TelemetryStatus = () => {
       </svg>
 
       <span>T</span>
-      <span className="text-[#94a3b8]">{time || '19:15:29'}</span>
-      <span className="text-[#64748b]">IST</span>
+      <span>{time || '19:10:51'}</span>
+      <span className="text-slate-400">IST</span>
     </div>
   );
 };
