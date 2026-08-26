@@ -789,7 +789,7 @@ export default function Projects() {
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                An interactive sports statistics and vector data visualization dashboard analyzing international cricket records with custom original performance metrics (Clutch Index, Pressure Maps) using D3.js and smooth GSAP transitions.
+                An interactive sports statistics and vector data visualization dashboard analyzing international cricket records with custom original performance metrics (Clutch Index, Pressure Maps) using D3.js and Hardware-Accelerated Transitions.
               </p>
 
               {/* 3-Column Metrics */}

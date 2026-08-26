@@ -105,7 +105,7 @@ export const primarySystems = [
     title: 'Kohli Analytics',
     tagline: 'Sports Statistics & High-Performance Data Visualization Dashboard',
     highlights:
-      'Interactive vector analytics computing custom original performance metrics (Clutch Index, Pressure Maps) using D3.js and smooth GSAP state transitions.',
+      'Interactive vector analytics computing custom original performance metrics (Clutch Index, Pressure Maps) using D3.js and Hardware-Accelerated Transitions.',
     stack: ['React', 'TypeScript', 'D3.js', 'GSAP', 'Vite', 'Tailwind CSS'],
     githubUrl: 'https://github.com/rakeshkumar0804/kohli-analytics',
     liveUrl: 'https://kohli-analytics.vercel.app',
