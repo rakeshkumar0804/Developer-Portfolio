@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlay, FiPause, FiChevronLeft, FiChevronRight, FiPlus, FiMinus, FiRotateCcw, FiCheckCircle } from 'react-icons/fi';
 
@@ -275,17 +276,13 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
   );
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
-
-  // Lock body scroll completely while modal is open
-  useEffect(() => {
     document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [handleKeyDown]);
 
   // Auto-play timeline step advancement
   useEffect(() => {
@@ -323,34 +320,37 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
     return 'bg-cyan-400';
   };
 
-  return (
+  // Render directly into document.body via React Portal to ensure true fullscreen overlay above all page elements
+  return createPortal(
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 w-screen h-screen z-[100] bg-[#050811] flex flex-col justify-between p-6 overflow-hidden select-none font-mono text-slate-300"
+        className="fixed inset-0 z-[999999] w-screen h-screen bg-[#050811] flex flex-col justify-between p-6 overflow-hidden select-none font-mono text-slate-300"
       >
         {/* ================= 1. Top Header Bar ================= */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-800/80 shrink-0 w-full">
+        <div className="flex items-center justify-between border-b border-slate-800/80 pb-3 shrink-0 w-full">
           {/* Left Title */}
-          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-[0.2em] uppercase font-bold">
-            <span>—</span>
-            <span>{data.fig} • {data.title.toUpperCase()} • RECONSTRUCTION</span>
+          <div className="flex items-center gap-3">
+            <span className="text-cyan-400 text-xs tracking-[0.25em] font-semibold">
+              — {data.fig} • {data.title.toUpperCase()} • RECONSTRUCTION
+            </span>
           </div>
 
           {/* Right Controls */}
-          <div className="flex items-center">
-            <span className="text-slate-400 font-mono text-xs tracking-widest mr-4 hidden sm:inline-block">
-              RECONSTRUCTION ACTIVE
+          <div className="flex items-center gap-4">
+            <span className="text-slate-400 text-xs tracking-widest hidden sm:inline">
+              ANALYZING...
             </span>
 
             <button
               onClick={onClose}
-              className="px-2.5 py-1 text-xs font-mono text-slate-300 border border-slate-700/80 rounded bg-slate-900/80 hover:border-rose-500 hover:text-rose-400 transition-all cursor-pointer"
-              title="Close modal (Esc)"
+              className="flex items-center gap-1.5 px-3 py-1 text-xs font-mono text-slate-300 border border-slate-700 rounded bg-slate-900/90 hover:border-rose-500 hover:text-rose-400 transition-colors cursor-pointer"
+              title="Press ESC to close"
             >
-              ESC ×
+              <span>ESC</span>
+              <span className="font-bold text-sm leading-none">×</span>
             </button>
           </div>
         </div>
@@ -358,7 +358,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
         {/* ================= 2. Central Layout (Canvas col-span-9 | Commit Log col-span-3) ================= */}
         <div className="flex-1 grid grid-cols-12 gap-6 my-4 min-h-0">
           {/* Left: Interactive Canvas (col-span-9) */}
-          <div className="col-span-12 lg:col-span-9 h-full border border-slate-800/80 rounded-lg relative overflow-hidden bg-[#070b14]/50 flex flex-col justify-between p-6 shadow-2xl">
+          <div className="col-span-12 lg:col-span-9 h-full border border-slate-800/80 rounded-lg relative overflow-hidden bg-[#070b14]/70 p-6 flex flex-col justify-between shadow-2xl">
             {/* Zoom Controls */}
             <div className="absolute top-4 right-4 z-20 flex items-center gap-1 bg-[#050811]/90 border border-slate-800 rounded-lg p-1">
               <button
@@ -424,8 +424,8 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
             </div>
 
             {/* Canvas Bottom Subtitle */}
-            <div className="flex items-center justify-between text-[10px] text-slate-500 pt-3 border-t border-slate-800/70 shrink-0">
-              <span>{zoom.toFixed(1)}x ZOOM • [A / D] TO SCRUB TIMELINE</span>
+            <div className="flex items-center justify-between text-[11px] text-slate-500 pt-3 border-t border-slate-800/70 shrink-0">
+              <span>{zoom.toFixed(1)}x SCROLL TO ZOOM • DRAG TO PAN</span>
               <span className="text-cyan-400/80">COMMIT {activeMilestone.hash} ACTIVE</span>
             </div>
           </div>
@@ -433,7 +433,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
           {/* Right: Commit Log & Insights (col-span-3) */}
           <div className="col-span-12 lg:col-span-3 h-full flex flex-col justify-between gap-4 min-h-0">
             {/* Top: Build Commit Log */}
-            <div className="flex-1 border border-slate-800/80 rounded-lg bg-[#070b14]/50 p-4 flex flex-col justify-between overflow-hidden">
+            <div className="flex-1 border border-slate-800/80 rounded-lg bg-[#070b14]/70 p-4 flex flex-col justify-between overflow-hidden">
               <div>
                 <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800/70 text-xs font-mono">
                   <span className="text-cyan-400 font-bold tracking-wider uppercase">
@@ -491,7 +491,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
         </div>
 
         {/* ================= 3. Bottom Fullscreen Timeline Scrubber ================= */}
-        <div className="border border-slate-800/80 rounded-lg bg-[#070b14]/70 p-4 shrink-0 flex flex-col gap-3 shadow-2xl">
+        <div className="border-t border-slate-800/80 pt-3 shrink-0 flex flex-col gap-3">
           {/* Tick Marks */}
           <div className="relative flex items-center gap-1.5 w-full">
             {data.milestones.map((m) => {
@@ -554,6 +554,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
           </div>
         </div>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
