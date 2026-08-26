@@ -76,18 +76,20 @@ export default function Hero() {
     }),
   };
 
-  // Floating animation variants for tech badges
+  // Floating animation variants for circular tech badges
   const floatVariant1 = {
     animate: {
-      y: [0, -8, 0],
-      transition: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
+      y: [0, -10, 0],
+      rotate: [0, 2, 0],
+      transition: { duration: 3.8, repeat: Infinity, ease: 'easeInOut' },
     },
   };
 
   const floatVariant2 = {
     animate: {
-      y: [0, 8, 0],
-      transition: { duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 },
+      y: [0, 10, 0],
+      rotate: [0, -2, 0],
+      transition: { duration: 4.2, repeat: Infinity, ease: 'easeInOut', delay: 0.4 },
     },
   };
 
@@ -229,61 +231,77 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: Illustration Layout with developer.js, Globe/Circuit Graphics & Floating Tech Badges */}
+          {/* Right Column: Illustration Layout with Concentric Radar/Globe Graphic & Circular Icon Badges */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-5 relative flex flex-col items-center justify-center w-full py-6"
           >
-            {/* Glowing Circuit Globe Background Graphic */}
+            {/* Glowing Circular Radar/Globe Concentric Rings Graphic */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-visible">
-              {/* Outer Cyan Ring */}
-              <div className="w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] rounded-full border border-[#38bdf8]/15 border-dashed animate-[spin_60s_linear_infinite]" />
-              {/* Middle Orbital Ring */}
-              <div className="absolute w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] rounded-full border border-indigo-500/20" />
-              {/* Inner Glowing Orb */}
-              <div className="absolute w-[200px] h-[200px] rounded-full bg-gradient-to-tr from-[#38bdf8]/10 via-indigo-500/10 to-transparent blur-2xl" />
+              {/* Outer Pulsing Concentric Ring 1 */}
+              <div className="w-[440px] h-[440px] sm:w-[500px] sm:h-[500px] rounded-full border border-[#38bdf8]/10 animate-[ping_6s_cubic-bezier(0,0,0.2,1)_infinite]" />
+              
+              {/* Outer Dashed Rotating Ring 2 */}
+              <div className="absolute w-[360px] h-[360px] sm:w-[420px] sm:h-[420px] rounded-full border border-[#38bdf8]/20 border-dashed animate-[spin_50s_linear_infinite]" />
+              
+              {/* Middle Concentric Ring 3 with Radar Pulse */}
+              <div className="absolute w-[280px] h-[280px] sm:w-[330px] sm:h-[330px] rounded-full border border-indigo-500/30 animate-[pulse_4s_ease-in-out_infinite]" />
+              
+              {/* Inner Coordinate Ring 4 */}
+              <div className="absolute w-[190px] h-[190px] rounded-full border border-[#38bdf8]/25" />
+              
+              {/* Center Glowing Orbital Core */}
+              <div className="absolute w-[220px] h-[220px] rounded-full bg-gradient-to-tr from-[#38bdf8]/20 via-indigo-500/15 to-transparent blur-3xl" />
+              
+              {/* Crosshair Radar Axes */}
+              <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
+              <div className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent" />
             </div>
 
-            {/* Floating Tech Badge 1: React (Top Right) */}
+            {/* Circular Tech Badge 1: React (Top Right) */}
             <motion.div
               variants={floatVariant1}
               animate="animate"
-              className="absolute -top-3 sm:-top-5 -right-2 sm:-right-4 px-3 py-1.5 rounded-xl border border-white/[0.12] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono text-white shadow-xl shadow-cyan-950/30 flex items-center gap-2 z-20"
+              className="absolute -top-5 sm:-top-7 -right-3 sm:-right-5 z-20 group"
             >
-              <SiReact className="text-[#61DAFB] text-base" />
-              <span className="font-semibold text-[0.75rem]">React.js</span>
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#61DAFB]/40 bg-[#090a0f]/90 backdrop-blur-xl shadow-xl shadow-[#61DAFB]/20 flex items-center justify-center p-2.5 ring-2 ring-[#61DAFB]/15 group-hover:scale-110 group-hover:border-[#61DAFB] transition-all">
+                <SiReact className="text-[#61DAFB] text-2xl" />
+              </div>
             </motion.div>
 
-            {/* Floating Tech Badge 2: Node.js (Top Left) */}
+            {/* Circular Tech Badge 2: Node.js (Top Left) */}
             <motion.div
               variants={floatVariant2}
               animate="animate"
-              className="absolute -top-4 sm:-top-6 -left-2 sm:-left-5 px-3 py-1.5 rounded-xl border border-white/[0.12] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono text-white shadow-xl shadow-green-950/30 flex items-center gap-2 z-20"
+              className="absolute -top-6 sm:-top-8 -left-3 sm:-left-6 z-20 group"
             >
-              <SiNodedotjs className="text-[#68A063] text-base" />
-              <span className="font-semibold text-[0.75rem]">Node.js</span>
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#68A063]/40 bg-[#090a0f]/90 backdrop-blur-xl shadow-xl shadow-[#68A063]/20 flex items-center justify-center p-2.5 ring-2 ring-[#68A063]/15 group-hover:scale-110 group-hover:border-[#68A063] transition-all">
+                <SiNodedotjs className="text-[#68A063] text-2xl" />
+              </div>
             </motion.div>
 
-            {/* Floating Tech Badge 3: Express (Bottom Left) */}
+            {/* Circular Tech Badge 3: Express (Bottom Left) */}
             <motion.div
               variants={floatVariant1}
               animate="animate"
-              className="absolute -bottom-4 sm:-bottom-5 -left-3 sm:-left-4 px-3 py-1.5 rounded-xl border border-white/[0.12] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono text-white shadow-xl shadow-black/40 flex items-center gap-2 z-20"
+              className="absolute -bottom-5 sm:-bottom-7 -left-3 sm:-left-5 z-20 group"
             >
-              <SiExpress className="text-slate-200 text-base" />
-              <span className="font-semibold text-[0.75rem]">Express.js</span>
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-slate-400/40 bg-[#090a0f]/90 backdrop-blur-xl shadow-xl shadow-white/10 flex items-center justify-center p-2.5 ring-2 ring-white/10 group-hover:scale-110 group-hover:border-white transition-all">
+                <SiExpress className="text-white text-2xl" />
+              </div>
             </motion.div>
 
-            {/* Floating Tech Badge 4: MongoDB (Bottom Right) */}
+            {/* Circular Tech Badge 4: MongoDB (Bottom Right) */}
             <motion.div
               variants={floatVariant2}
               animate="animate"
-              className="absolute -bottom-4 sm:-bottom-5 -right-2 sm:-right-4 px-3 py-1.5 rounded-xl border border-white/[0.12] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono text-white shadow-xl shadow-emerald-950/30 flex items-center gap-2 z-20"
+              className="absolute -bottom-5 sm:-bottom-7 -right-3 sm:-right-5 z-20 group"
             >
-              <SiMongodb className="text-[#47A248] text-base" />
-              <span className="font-semibold text-[0.75rem]">MongoDB</span>
+              <div className="h-12 w-12 sm:h-13 sm:w-13 rounded-full border border-[#47A248]/40 bg-[#090a0f]/90 backdrop-blur-xl shadow-xl shadow-[#47A248]/20 flex items-center justify-center p-2.5 ring-2 ring-[#47A248]/15 group-hover:scale-110 group-hover:border-[#47A248] transition-all">
+                <SiMongodb className="text-[#47A248] text-2xl" />
+              </div>
             </motion.div>
 
             {/* Main developer.js Code Card */}
