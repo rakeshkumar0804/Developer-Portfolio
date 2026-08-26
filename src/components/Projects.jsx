@@ -800,10 +800,12 @@ export default function Projects() {
                     CUSTOM METRICS
                   </div>
                 </div>
-                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">60+ FPS</div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
+                  <div className="text-base sm:text-lg font-bold text-cyan-400 font-mono tracking-tight">
+                    HW-ACCELERATED
+                  </div>
                   <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    HARDWARE ACCELERATED
+                    GSAP TRANSITIONS
                   </div>
                 </div>
                 <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">

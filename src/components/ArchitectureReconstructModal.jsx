@@ -84,7 +84,7 @@ const reconstructionData = {
         activeNodes: ['monaco', 'worker'],
         activeLinks: ['ipc'],
         resolvedTitle: 'DOM Thread Blocking Avoided',
-        resolvedDesc: 'Offloaded heavy syntax parsing and code compilation to background Web Workers to guarantee constant 60 FPS typing responsiveness.',
+        resolvedDesc: 'Offloaded heavy syntax parsing and code compilation to background Web Workers to guarantee smooth typing responsiveness.',
       },
       {
         step: 2,
