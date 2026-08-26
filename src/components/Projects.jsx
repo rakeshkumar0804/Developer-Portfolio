@@ -400,7 +400,7 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-20 relative border-t border-slate-800/40 font-mono">
+    <section id="projects" className="pt-24 md:pt-28 pb-20 relative border-t border-slate-800/40 font-mono scroll-mt-20">
       {/* Interactive Architecture Reconstruction & Timeline Scrubber Modal */}
       {reconstructProjectId && (
         <ArchitectureReconstructModal
