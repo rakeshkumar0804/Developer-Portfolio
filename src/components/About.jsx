@@ -1,6 +1,35 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiLayers, FiServer, FiMapPin } from 'react-icons/fi';
+
+const operationsList = [
+  {
+    id: 'OP-01',
+    title: 'SyncPad',
+    description: 'Real-time collaborative code editor with Yjs CRDT synchronization and in-browser WASM runtime.',
+    status: 'ACTIVE',
+    statusColor: 'text-cyan-400',
+    dotColor: 'bg-cyan-400',
+    pulse: true,
+  },
+  {
+    id: 'OP-02',
+    title: 'IncidentHub AI',
+    description: 'Multi-tenant incident intelligence platform with real OAuth correlation, RBAC, and triage rooms.',
+    status: 'ACTIVE',
+    statusColor: 'text-cyan-400',
+    dotColor: 'bg-cyan-400',
+    pulse: true,
+  },
+  {
+    id: 'OP-03',
+    title: 'Distributed Systems & Real-Time Sync',
+    description: 'Deep dive into Redis concurrency control, WebSocket telemetry, and idempotent event architectures.',
+    status: 'RESEARCH',
+    statusColor: 'text-amber-400',
+    dotColor: 'bg-amber-400',
+    pulse: false,
+  },
+];
 
 export default function About() {
   const fadeInUp = {
@@ -9,92 +38,94 @@ export default function About() {
   };
 
   return (
-    <section id="about" className="py-16 relative border-t border-white/[0.08] font-mono">
+    <section id="about" className="py-20 relative border-t border-white/[0.08] font-mono">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        {/* Section Header */}
+        {/* Top Header & Manifesto */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="mb-8"
+          className="mb-10"
         >
-          <div className="flex items-center gap-2 text-sm text-emerald-400 font-mono mb-1">
-            <span className="font-bold">$</span>
-            <span>cat about.txt</span>
+          {/* Category Tag */}
+          <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-widest uppercase mb-4">
+            <span>//</span>
+            <span>OPERATING PHILOSOPHY</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-            A little about me
-          </h2>
+
+          {/* Statement Headline */}
+          <div className="space-y-1.5 leading-snug">
+            <h2 className="text-slate-100 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+              Every system begins with clean architecture.
+            </h2>
+            <h2 className="text-slate-100 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+              Every API demands deterministic security.
+            </h2>
+            <h2 className="text-cyan-400 text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight drop-shadow-[0_0_12px_rgba(34,211,238,0.25)]">
+              Every infrastructure becomes a living network.
+            </h2>
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column: Terminal Bio Box */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-40px' }}
-            variants={fadeInUp}
-            className="lg:col-span-7 bg-[#0B101B]/80 border border-slate-800/80 rounded-xl p-6 shadow-md hover:border-cyan-500/40 transition-all duration-200"
-          >
-            <div className="space-y-4 text-slate-300 text-xs sm:text-sm leading-relaxed font-sans">
-              <p>
-                I graduated with a B.Tech in Computer Science Engineering (Class of 2026) from Parul University in Vadodara, Gujarat. I am currently based in my hometown of Gurugram, Haryana. I specialize in building and shipping production-ready full-stack web applications with React, TypeScript, Node.js, Express, and MongoDB/PostgreSQL.
-              </p>
-              <p>
-                My engineering focus is on building resilient backend architectures, multi-tenant RBAC systems, stateless JWT auth workflows, and real-time collaborative features using WebSockets. Every project I build is designed with structured RESTful API design, database integrity, and dependable client-side state management.
-              </p>
-            </div>
+        {/* Current Operations Log Header */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-40px' }}
+          variants={fadeInUp}
+          className="flex items-center gap-2 text-slate-400 font-mono text-xs tracking-[0.2em] uppercase mt-12 mb-4"
+        >
+          <span>CURRENT OPERATIONS</span>
+          <span>•</span>
+          <span className="flex items-center gap-1.5 text-cyan-400 font-semibold">
+            LIVE
+            <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
+          </span>
+        </motion.div>
 
-            <div className="mt-5 pt-4 border-t border-slate-800/60">
-              <p className="text-xs text-[#7fa0c7] font-mono italic">
-                // Core focus: Multi-tenant RBAC, scalable REST APIs, WebSocket real-time updates, and robust frontend state.
-              </p>
-            </div>
-          </motion.div>
+        {/* Operations Telemetry List */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-30px' }}
+          variants={fadeInUp}
+          className="border border-slate-800/80 rounded-xl overflow-hidden divide-y divide-slate-800/80 bg-[#0B101B]/60 shadow-lg backdrop-blur-sm"
+        >
+          {operationsList.map((op) => (
+            <div
+              key={op.id}
+              className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-800/30 transition-colors group"
+            >
+              <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
+                <span className="text-slate-500 font-mono text-xs w-14 shrink-0 font-bold">
+                  {op.id}
+                </span>
 
-          {/* Right Column: 3 Master Factual Cards */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-40px' }}
-            variants={fadeInUp}
-            className="lg:col-span-5 space-y-3.5"
-          >
-            {/* Card 1: Projects Shipped */}
-            <div className="p-4 rounded-xl border border-slate-800/80 bg-[#0B101B]/80 flex items-start gap-3.5 hover:border-cyan-500/40 transition-all duration-200 shadow-md">
-              <div className="h-9 w-9 rounded-lg bg-[#38bdf8]/10 border border-[#38bdf8]/30 flex items-center justify-center text-[#38bdf8] text-base shrink-0 mt-0.5">
-                <FiLayers />
+                <div className="min-w-0">
+                  <h3 className="text-slate-100 font-mono font-bold text-sm sm:text-base group-hover:text-cyan-300 transition-colors">
+                    {op.title}
+                  </h3>
+                  <p className="text-slate-400 text-xs sm:text-sm font-sans mt-0.5 leading-relaxed">
+                    {op.description}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-white font-mono">6+ Projects Shipped</h3>
-                <p className="text-xs text-slate-400 font-sans mt-0.5">Production-Ready Full-Stack Web Apps</p>
-              </div>
-            </div>
 
-            {/* Card 2: Architecture & Systems Focus */}
-            <div className="p-4 rounded-xl border border-slate-800/80 bg-[#0B101B]/80 flex items-start gap-3.5 hover:border-emerald-500/40 transition-all duration-200 shadow-md">
-              <div className="h-9 w-9 rounded-lg bg-[#34d399]/10 border border-[#34d399]/30 flex items-center justify-center text-[#34d399] text-base shrink-0 mt-0.5">
-                <FiServer />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-white font-mono">System & API Design</h3>
-                <p className="text-xs text-slate-400 font-sans mt-0.5">RBAC, JWT Auth & Real-Time WebSockets</p>
-              </div>
-            </div>
-
-            {/* Card 3: Target Role & Location */}
-            <div className="p-4 rounded-xl border border-slate-800/80 bg-[#0B101B]/80 flex items-start gap-3.5 hover:border-amber-500/40 transition-all duration-200 shadow-md">
-              <div className="h-9 w-9 rounded-lg bg-[#fbbf24]/10 border border-[#fbbf24]/30 flex items-center justify-center text-[#fbbf24] text-base shrink-0 mt-0.5">
-                <FiMapPin />
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-slate-200 font-mono">Gurugram, India</h3>
-                <p className="text-xs text-slate-400 font-sans mt-0.5">Open to Full-Stack & Backend SDE Roles (Delhi NCR, Hybrid, Remote)</p>
+              {/* Status Badge */}
+              <div className="flex items-center gap-1.5 self-start sm:self-center shrink-0 pl-14 sm:pl-0">
+                <span
+                  className={`inline-block h-2 w-2 rounded-full ${op.dotColor} ${
+                    op.pulse ? 'animate-pulse' : ''
+                  }`}
+                />
+                <span className={`text-xs font-mono font-semibold tracking-wider ${op.statusColor}`}>
+                  {op.status}
+                </span>
               </div>
             </div>
-          </motion.div>
-        </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
