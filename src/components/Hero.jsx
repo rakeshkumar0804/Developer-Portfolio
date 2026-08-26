@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FiArrowDown, FiDownload, FiMail, FiMapPin, FiAward, FiCode, FiGithub, FiLinkedin } from 'react-icons/fi';
-import { SiLeetcode } from 'react-icons/si';
+import { FiArrowDown, FiDownload, FiMail, FiMapPin, FiAward, FiCode, FiGithub, FiLinkedin, FiLayers, FiCheck } from 'react-icons/fi';
+import { SiLeetcode, SiReact, SiNodedotjs, SiMongodb, SiExpress } from 'react-icons/si';
 import { personalInfo, codingStats } from '../data/portfolioData';
 
 const typewriterTitles = [
@@ -74,6 +74,21 @@ export default function Hero() {
       y: 0,
       transition: { duration: 0.45, delay: custom * 0.08, ease: [0.16, 1, 0.3, 1] },
     }),
+  };
+
+  // Floating animation variants for tech badges
+  const floatVariant1 = {
+    animate: {
+      y: [0, -8, 0],
+      transition: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
+    },
+  };
+
+  const floatVariant2 = {
+    animate: {
+      y: [0, 8, 0],
+      transition: { duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 },
+    },
   };
 
   return (
@@ -214,39 +229,79 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Column: Clean Developer Profile Code Card */}
+          {/* Right Column: Illustration Layout with developer.js, Globe/Circuit Graphics & Floating Tech Badges */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:col-span-5 relative flex items-center justify-center w-full"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-5 relative flex flex-col items-center justify-center w-full py-6"
           >
-            {/* Floating Tag */}
+            {/* Glowing Circuit Globe Background Graphic */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10 overflow-visible">
+              {/* Outer Cyan Ring */}
+              <div className="w-[360px] h-[360px] sm:w-[440px] sm:h-[440px] rounded-full border border-[#38bdf8]/15 border-dashed animate-[spin_60s_linear_infinite]" />
+              {/* Middle Orbital Ring */}
+              <div className="absolute w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] rounded-full border border-indigo-500/20" />
+              {/* Inner Glowing Orb */}
+              <div className="absolute w-[200px] h-[200px] rounded-full bg-gradient-to-tr from-[#38bdf8]/10 via-indigo-500/10 to-transparent blur-2xl" />
+            </div>
+
+            {/* Floating Tech Badge 1: React (Top Right) */}
             <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35, duration: 0.4 }}
-              className="absolute -top-3.5 right-4 sm:right-6 px-3.5 py-1 rounded-full border border-[#38bdf8]/30 bg-[#090a0f] text-[0.7rem] font-mono font-semibold text-[#38bdf8] shadow-lg shadow-black/50 flex items-center gap-1.5 z-20"
+              variants={floatVariant1}
+              animate="animate"
+              className="absolute -top-3 sm:-top-5 -right-2 sm:-right-4 px-3 py-1.5 rounded-xl border border-white/[0.12] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono text-white shadow-xl shadow-cyan-950/30 flex items-center gap-2 z-20"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-[#38bdf8] animate-pulse" />
-              <span>6+ Production-Ready Full-Stack Projects</span>
+              <SiReact className="text-[#61DAFB] text-base" />
+              <span className="font-semibold text-[0.75rem]">React.js</span>
             </motion.div>
 
-            <div className="w-full rounded-xl border border-white/[0.1] bg-[#121524]/90 backdrop-blur-xl shadow-2xl p-5 relative">
-              {/* Window Bar */}
-              <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.06]">
+            {/* Floating Tech Badge 2: Node.js (Top Left) */}
+            <motion.div
+              variants={floatVariant2}
+              animate="animate"
+              className="absolute -top-4 sm:-top-6 -left-2 sm:-left-5 px-3 py-1.5 rounded-xl border border-white/[0.12] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono text-white shadow-xl shadow-green-950/30 flex items-center gap-2 z-20"
+            >
+              <SiNodedotjs className="text-[#68A063] text-base" />
+              <span className="font-semibold text-[0.75rem]">Node.js</span>
+            </motion.div>
+
+            {/* Floating Tech Badge 3: Express (Bottom Left) */}
+            <motion.div
+              variants={floatVariant1}
+              animate="animate"
+              className="absolute -bottom-4 sm:-bottom-5 -left-3 sm:-left-4 px-3 py-1.5 rounded-xl border border-white/[0.12] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono text-white shadow-xl shadow-black/40 flex items-center gap-2 z-20"
+            >
+              <SiExpress className="text-slate-200 text-base" />
+              <span className="font-semibold text-[0.75rem]">Express.js</span>
+            </motion.div>
+
+            {/* Floating Tech Badge 4: MongoDB (Bottom Right) */}
+            <motion.div
+              variants={floatVariant2}
+              animate="animate"
+              className="absolute -bottom-4 sm:-bottom-5 -right-2 sm:-right-4 px-3 py-1.5 rounded-xl border border-white/[0.12] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono text-white shadow-xl shadow-emerald-950/30 flex items-center gap-2 z-20"
+            >
+              <SiMongodb className="text-[#47A248] text-base" />
+              <span className="font-semibold text-[0.75rem]">MongoDB</span>
+            </motion.div>
+
+            {/* Main developer.js Code Card */}
+            <div className="w-full rounded-2xl border border-white/[0.12] bg-[#121524]/95 backdrop-blur-2xl shadow-2xl shadow-black/60 p-5 sm:p-6 relative z-10">
+              {/* Window Header */}
+              <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-rose-500/80" />
                   <div className="h-3 w-3 rounded-full bg-amber-500/80" />
                   <div className="h-3 w-3 rounded-full bg-emerald-500/80" />
-                  <span className="ml-2 font-mono text-xs text-slate-400">developer-spec.ts</span>
+                  <span className="ml-2 font-mono text-xs text-slate-300 font-semibold">developer.js</span>
                 </div>
-                <span className="text-[0.7rem] font-mono text-slate-400 bg-white/[0.04] px-2 py-0.5 rounded">
-                  TypeScript
+                <span className="text-[0.7rem] font-mono text-[#38bdf8] bg-[#38bdf8]/10 border border-[#38bdf8]/20 px-2 py-0.5 rounded">
+                  JavaScript
                 </span>
               </div>
 
-              {/* Code Snippet */}
+              {/* Code Snippet with Real, Factual Developer Object */}
               <div className="font-mono text-xs leading-relaxed text-slate-300 space-y-1 overflow-x-auto py-1">
                 <div>
                   <span className="text-indigo-400 font-semibold">const</span>{' '}
@@ -284,7 +339,7 @@ export default function Hero() {
                 <div>&#125;;</div>
               </div>
 
-              {/* Stat Highlights at bottom of card */}
+              {/* Mini Stat Summary Footer */}
               <div className="mt-4 pt-3.5 border-t border-white/[0.06] grid grid-cols-3 gap-2 text-center font-mono">
                 <div className="p-2 rounded-lg bg-[#090a0f] border border-white/[0.04]">
                   <div className="text-sm font-bold text-white">6+</div>
@@ -300,6 +355,17 @@ export default function Hero() {
                 </div>
               </div>
             </div>
+
+            {/* Floating Tag Below Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45 }}
+              className="mt-6 px-4 py-1.5 rounded-full border border-white/[0.1] bg-[#090a0f]/90 backdrop-blur-md text-xs font-mono font-medium text-slate-300 shadow-xl flex items-center gap-2 z-20"
+            >
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>6+ Production-Ready Full-Stack Projects</span>
+            </motion.div>
           </motion.div>
         </div>
       </div>
