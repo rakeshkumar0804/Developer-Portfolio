@@ -10,6 +10,7 @@ import OpenSource from './components/OpenSource';
 import Architect from './components/Architect';
 import GitHubActivity from './components/GitHubActivity';
 import Contact from './components/Contact';
+import MissionDebrief from './components/MissionDebrief';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
 import HudFrame from './components/HudFrame';
@@ -33,6 +34,7 @@ function App() {
         <Architect />
         <GitHubActivity />
         <Contact />
+        <MissionDebrief />
       </main>
 
       {/* Footer & Floating Back-to-Top */}
