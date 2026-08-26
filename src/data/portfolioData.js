@@ -65,46 +65,77 @@ export const skillsData = [
   },
 ];
 
-export const projectsData = [
+export const primarySystems = [
   {
+    sysId: 'SYS-01',
     id: 'incidenthub-ai',
     title: 'IncidentHub AI',
-    tagline: 'Incident Intelligence & Root-Cause Analysis Platform',
-    description:
-      'A multi-tenant engineering incident intelligence platform that correlates signals from GitHub, Sentry, Slack, and Jira to help engineering teams triage outages faster with AI-generated postmortems.',
-    tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth', 'Tailwind CSS'],
+    tagline: 'Engineering Incident Intelligence & Root-Cause Analysis Platform',
+    highlights:
+      'Multi-tenant RBAC boundary isolation, real OAuth flows (GitHub, Sentry, Slack, Jira), Redis distributed locking, and live WebSocket triage rooms.',
+    stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth'],
     githubUrl: 'https://github.com/rakeshkumar0804/incidenthub-ai',
-    liveUrl: 'https://incidenthub-ai-web.vercel.app/',
+    liveUrl: 'https://incidenthub-ai-web.vercel.app',
   },
   {
+    sysId: 'SYS-02',
+    id: 'syncpad',
+    title: 'SyncPad',
+    tagline: 'Real-Time Collaborative Code Editor with In-Browser Execution',
+    highlights:
+      'Conflict-free peer synchronization using Yjs CRDTs, live multi-cursor awareness, and fully sandboxed in-browser code execution (JS/TS via Web Workers, Python via Pyodide/WebAssembly).',
+    stack: ['React', 'TypeScript', 'Yjs (CRDT)', 'Monaco Editor', 'Node.js', 'WebSocket', 'Pyodide (WASM)'],
+    githubUrl: 'https://github.com/rakeshkumar0804/SyncPad',
+    liveUrl: 'https://sync-pad-client.vercel.app',
+  },
+  {
+    sysId: 'SYS-03',
     id: 'portfoliopulse',
     title: 'PortfolioPulse',
-    tagline: 'Developer Portfolio & GitHub Profile Auditor',
-    description:
-      'An automated career intelligence platform that audits developer GitHub profiles, portfolio repositories, and web performance across ~20 hiring-readiness signals.',
-    tech: ['React', 'Node.js', 'Express.js', 'MongoDB', 'GitHub API', 'Puppeteer', 'Tailwind CSS'],
+    tagline: 'Developer Portfolio & GitHub Profile Hiring Readiness Auditor',
+    highlights:
+      'Deterministic 20-point rule-based scoring engine integrating GitHub REST APIs and headless SPA performance crawling with Puppeteer.',
+    stack: ['React', 'Vite', 'Node.js', 'Express.js', 'MongoDB', 'Puppeteer', 'GitHub API'],
     githubUrl: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
-    liveUrl: 'https://dev-portfolio-checker.vercel.app/',
+    liveUrl: 'https://dev-portfolio-checker.vercel.app',
   },
   {
+    sysId: 'SYS-04',
     id: 'kohli-analytics',
     title: 'Kohli Analytics',
-    tagline: 'Sports Statistics & Data Visualization Dashboard',
-    description:
-      'An interactive sports statistics and data visualization dashboard analyzing international cricket records with custom D3.js vector visualizations and GSAP transitions.',
-    tech: ['React', 'TypeScript', 'D3.js', 'GSAP', 'Vite', 'Tailwind CSS'],
+    tagline: 'Sports Statistics & High-Performance Data Visualization Dashboard',
+    highlights:
+      'Interactive vector analytics computing custom original performance metrics (Clutch Index, Pressure Maps) using D3.js and smooth GSAP state transitions.',
+    stack: ['React', 'TypeScript', 'D3.js', 'GSAP', 'Vite', 'Tailwind CSS'],
     githubUrl: 'https://github.com/rakeshkumar0804/kohli-analytics',
-    liveUrl: 'https://kohli-analytics.vercel.app/',
+    liveUrl: 'https://kohli-analytics.vercel.app',
+  },
+];
+
+export const secondaryDeployments = [
+  {
+    id: 'solar-system-explorer',
+    title: 'Solar-System-Explorer',
+    description: '3D interactive celestial orbital visualizer with real astronomical data and orbital physics.',
+    tech: ['React', 'Three.js', 'TypeScript', 'Zustand'],
+    githubUrl: 'https://github.com/rakeshkumar0804/Solar-System-Explorer',
+    liveUrl: 'https://solar-system-explorer-ten-phi.vercel.app',
+  },
+  {
+    id: 'taskflow',
+    title: 'TaskFlow',
+    description: 'Real-time collaborative Kanban task board with live WebSocket synchronization and JWT RBAC.',
+    tech: ['MERN', 'Socket.io', 'JWT', 'RBAC'],
+    githubUrl: 'https://github.com/rakeshkumar0804/taskflow',
+    liveUrl: 'https://taskflow-gules-rho.vercel.app',
   },
   {
     id: 'leaveflow-hr',
     title: 'LeaveFlow HR',
-    tagline: 'Enterprise Role-Based Leave Management System',
-    description:
-      'A full-stack employee leave management application with dedicated portals for Employees, Managers, and Admins, featuring multi-step approval workflows, leave balance validation, and audit logs.',
-    tech: ['Node.js', 'Express.js', 'MongoDB', 'JWT', 'Tailwind CSS', 'HTML5'],
+    description: 'Enterprise role-based leave management system with approval workflows and audit logs.',
+    tech: ['Node.js', 'Express', 'SQLite', 'JWT'],
     githubUrl: 'https://github.com/rakeshkumar0804/leaveflow-hr',
-    liveUrl: 'https://leaveflow-hr-hvfh.onrender.com/',
+    liveUrl: 'https://leaveflow-hr-ten.vercel.app',
   },
 ];
 
