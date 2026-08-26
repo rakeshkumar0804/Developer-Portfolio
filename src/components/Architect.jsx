@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const matrixCategories = [
   {
@@ -28,31 +28,53 @@ const matrixCategories = [
   },
 ];
 
-const recognitions = [
+const primaryRecognitions = [
   {
-    type: 'DATABASE CERTIFICATION',
-    date: 'VERIFIED ADVANCED',
-    title: 'SQL (Advanced) Certification',
-    issuer: 'HackerRank',
+    header: 'MAY 2026 • VERIFIED ASSESSMENT',
+    title: 'SQL (Advanced)',
+    issuer: 'HackerRank Skill Certification • ID: EFB3EF1D1DAC',
     badgeColor: 'text-amber-400',
   },
   {
-    type: 'SYSTEMS CERTIFICATION',
-    date: 'ELITE CERTIFICATION',
+    header: 'JUL-OCT 2025 • ELITE HONOR (TOP TIER)',
     title: 'Introduction to Internet of Things',
-    issuer: 'NPTEL — IIT Kharagpur',
+    issuer: 'NPTEL — IIT Kharagpur (12-Week Proctored)',
     badgeColor: 'text-emerald-400',
   },
   {
-    type: 'ENGINEERING & HACKATHONS',
-    date: 'COMPETITIONS & CORE',
-    title: 'CodeKshetra & AMENTIS Hackathons',
-    issuer: 'GeeksforGeeks / IEEE Student Branch',
+    header: 'FEB 2024 • STATEMENT OF ACHIEVEMENT',
+    title: 'CPA: Programming Essentials in C++',
+    issuer: 'OpenEDG C++ Institute & Cisco Networking Academy',
     badgeColor: 'text-cyan-400',
   },
 ];
 
+const auxiliaryRecognitions = [
+  {
+    title: 'CodeKshetra Coding Contest',
+    issuer: 'GeeksforGeeks / GD Goenka (Apr 2026)',
+    type: 'COMPETITION',
+  },
+  {
+    title: 'AMENTIS: Chartering the Unknown',
+    issuer: 'IEEE GTBIT Student Branch',
+    type: 'HACKATHON',
+  },
+  {
+    title: 'Python Programming Masterclass',
+    issuer: 'Udemy (Feb 2025)',
+    type: 'CERTIFICATION',
+  },
+  {
+    title: 'Cyber Security Practical Guide & Full Stack Crash Course',
+    issuer: 'Udemy (Feb 2025)',
+    type: 'CERTIFICATION',
+  },
+];
+
 export default function Architect() {
+  const [showAllCerts, setShowAllCerts] = useState(false);
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 15 },
     visible: (custom = 0) => ({
@@ -123,7 +145,7 @@ export default function Architect() {
                     <span className="text-slate-200 text-right font-medium">Production-Grade MERN & Distributed Systems</span>
                   </div>
                   <div className="py-2.5 flex items-start justify-between gap-4">
-                    <span className="text-slate-500 uppercase tracking-wider shrink-0">FOCUS</span>
+                    <span className="text-cyan-400 uppercase tracking-wider shrink-0">FOCUS</span>
                     <span className="text-cyan-400 text-right font-medium">Real-Time Sync • CRDTs • Deterministic Architectures</span>
                   </div>
                   <div className="py-2.5 flex items-start justify-between gap-4">
@@ -273,15 +295,15 @@ export default function Architect() {
             ))}
           </div>
 
-          {/* 3. Field Recognition & Certifications (Bottom 3-Card Row) */}
+          {/* 3. Field Recognition & Primary 3-Card Row */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-30px' }}
             variants={fadeInUp}
-            className="border border-slate-800/80 rounded-xl bg-[#0B101B]/50 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/80 p-6 backdrop-blur-sm shadow-xl"
+            className="border border-slate-800/80 rounded-xl bg-[#0B101B]/50 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/80 p-6 backdrop-blur-sm shadow-xl mb-4"
           >
-            {recognitions.map((rec, idx) => (
+            {primaryRecognitions.map((rec, idx) => (
               <div
                 key={rec.title}
                 className={`flex flex-col justify-between ${
@@ -289,26 +311,70 @@ export default function Architect() {
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between text-xs font-mono mb-2">
-                    <span className="text-slate-500 text-[10px] tracking-widest uppercase">
-                      {rec.type}
-                    </span>
-                    <span className={`text-xs font-mono font-bold ${rec.badgeColor}`}>
-                      {rec.date}
-                    </span>
+                  <div className="text-slate-400 font-mono text-[10px] tracking-widest uppercase mb-1">
+                    {rec.header}
                   </div>
 
-                  <h3 className="text-base font-bold text-slate-100 font-mono mb-1">
+                  <h3 className="text-slate-100 text-base font-semibold font-mono mt-1">
                     {rec.title}
                   </h3>
 
-                  <p className="text-xs text-slate-400 font-mono">
+                  <p className="text-slate-400 font-mono text-xs mt-1 leading-relaxed">
                     {rec.issuer}
                   </p>
                 </div>
               </div>
             ))}
           </motion.div>
+
+          {/* 4. Expandable Auxiliary Credentials Trigger Button */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-20px' }}
+            variants={fadeInUp}
+          >
+            <button
+              onClick={() => setShowAllCerts(!showAllCerts)}
+              className="flex items-center justify-between w-full px-4 py-2.5 text-xs font-mono text-slate-400 border border-slate-800/80 rounded-lg bg-[#0B101B]/30 hover:border-cyan-500/40 hover:text-cyan-300 transition-all cursor-pointer shadow-sm"
+            >
+              <span>// AUXILIARY CERTIFICATIONS & HACKATHONS ({showAllCerts ? 'COLLAPSE' : 'EXPAND +4'})</span>
+              <span className="text-cyan-400">{showAllCerts ? '▲' : '▼'}</span>
+            </button>
+          </motion.div>
+
+          {/* 5. Collapsible Auxiliary Sub-Grid */}
+          <AnimatePresence>
+            {showAllCerts && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                  {auxiliaryRecognitions.map((aux) => (
+                    <div
+                      key={aux.title}
+                      className="p-4 rounded-lg border border-slate-800/80 bg-[#0B101B]/40 hover:border-cyan-500/30 transition-all flex flex-col justify-between"
+                    >
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 uppercase mb-1">
+                        <span>{aux.type}</span>
+                        <span className="text-cyan-400 font-bold">VERIFIED</span>
+                      </div>
+                      <h4 className="text-sm font-semibold text-slate-100 font-mono">
+                        {aux.title}
+                      </h4>
+                      <p className="text-xs text-slate-400 font-mono mt-1">
+                        {aux.issuer}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
     </div>
