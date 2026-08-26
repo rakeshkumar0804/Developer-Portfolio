@@ -51,7 +51,7 @@ export default function HudFrame() {
       {/* Bottom Persistent Real-Time Telemetry Bar (Unboxed & Transparent Directly on Grid) */}
       <div className="absolute bottom-0 left-0 right-0 pb-3 pt-0 px-5 sm:px-8 bg-transparent backdrop-blur-none border-0 shadow-none flex items-center justify-between text-[11px] tracking-wider text-slate-400 font-mono">
         <div className="flex items-center gap-4 truncate">
-          <span>GURUGRAM, HR, INDIA</span>
+          <span>└ GURUGRAM, HR, INDIA</span>
           <span>•</span>
           <span>
             FPS <strong className="text-cyan-400 font-normal">{fps}</strong>
@@ -62,9 +62,8 @@ export default function HudFrame() {
           </span>
         </div>
 
-        <div className="flex items-center gap-2 text-slate-500 text-[10px] shrink-0">
-          <span>....</span>
-          <span>AUDIO OFF</span>
+        <div className="text-cyan-400/60 text-xs shrink-0">
+          ┘
         </div>
       </div>
     </div>

@@ -4,9 +4,9 @@ import { FiMenu, FiX } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 
 const navLinks = [
-  { name: 'philosophy', href: '#about' },
+  { name: 'philosophy', href: '#philosophy' },
   { name: 'principles', href: '#principles' },
-  { name: 'systems', href: '#projects' },
+  { name: 'systems', href: '#systems' },
   { name: 'open-source', href: '#opensource' },
   { name: 'architect', href: '#architect' },
   { name: 'matrix', href: '#matrix' },
@@ -15,7 +15,6 @@ const navLinks = [
 
 export const TelemetryStatus = () => {
   const [time, setTime] = useState('');
-  const [barsActive, setBarsActive] = useState(4);
 
   useEffect(() => {
     const updateTime = () => {
@@ -29,32 +28,14 @@ export const TelemetryStatus = () => {
     };
     updateTime();
     const timer = setInterval(updateTime, 1000);
-
-    const sigTimer = setInterval(() => {
-      const pattern = [4, 4, 3, 4, 4, 2, 4, 3];
-      setBarsActive(pattern[Math.floor(Math.random() * pattern.length)]);
-    }, 3000);
-
-    return () => {
-      clearInterval(timer);
-      clearInterval(sigTimer);
-    };
+    return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="flex items-center space-x-3 font-mono text-[12px] tracking-[0.22em] text-slate-200 select-none bg-transparent p-0 border-0 shadow-none">
-      <span>SIG</span>
-
-      {/* Dynamic Cyan Signal Bars */}
-      <svg width="18" height="13" viewBox="0 0 18 13" fill="none" className="overflow-visible">
-        <rect x="0" y="9.5" width="2.5" height="3.5" rx="0.5" fill={barsActive >= 1 ? '#38bdf8' : '#1e293b'} />
-        <rect x="5" y="6.5" width="2.5" height="6.5" rx="0.5" fill={barsActive >= 2 ? '#38bdf8' : '#1e293b'} />
-        <rect x="10" y="3.5" width="2.5" height="9.5" rx="0.5" fill={barsActive >= 3 ? '#38bdf8' : '#1e293b'} />
-        <rect x="15" y="0" width="2.5" height="13" rx="0.5" fill={barsActive >= 4 ? '#38bdf8' : '#1e293b'} />
-      </svg>
-
-      <span>T</span>
-      <span>{time || '19:10:51'}</span>
+    <div className="flex items-center space-x-2 font-mono text-[12px] tracking-[0.2em] text-slate-200 select-none bg-transparent p-0 border-0 shadow-none">
+      <span className="text-cyan-400">SIG 📶</span>
+      <span className="text-slate-600">•</span>
+      <span>T {time || '19:10:51'}</span>
       <span className="text-slate-400">IST</span>
     </div>
   );
@@ -69,13 +50,29 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sectionIds = ['hero', 'about', 'principles', 'projects', 'experience', 'certifications', 'contact'];
+      const sectionIds = [
+        'hero',
+        'philosophy',
+        'about',
+        'principles',
+        'systems',
+        'projects',
+        'opensource',
+        'architect',
+        'matrix',
+        'contact',
+        'debrief',
+      ];
       const scrollPos = window.scrollY + 140;
 
       for (let i = sectionIds.length - 1; i >= 0; i--) {
         const el = document.getElementById(sectionIds[i]);
         if (el && el.offsetTop <= scrollPos) {
-          setActiveSection(sectionIds[i]);
+          const mapToNav = {
+            about: 'philosophy',
+            projects: 'systems',
+          };
+          setActiveSection(mapToNav[sectionIds[i]] || sectionIds[i]);
           break;
         }
       }
