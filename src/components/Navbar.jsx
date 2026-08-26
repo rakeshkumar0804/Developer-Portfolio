@@ -36,10 +36,9 @@ export default function Navbar() {
 
     // Realistic signal strength fluctuation
     const signalInterval = setInterval(() => {
-      const levels = [2, 3, 4, 4, 4, 3, 4]; // Weighted toward strong connection
-      const next = levels[Math.floor(Math.random() * levels.length)];
-      setSignalLevel(next);
-    }, 3000);
+      const levels = [3, 4, 4, 4, 3, 4, 2];
+      setSignalLevel(levels[Math.floor(Math.random() * levels.length)]);
+    }, 3500);
 
     return () => {
       clearInterval(clockInterval);
@@ -79,11 +78,11 @@ export default function Navbar() {
     }
   };
 
-  const signalBars = [
-    { height: 'h-[35%]', level: 1 },
-    { height: 'h-[55%]', level: 2 },
-    { height: 'h-[75%]', level: 3 },
-    { height: 'h-[100%]', level: 4 },
+  const bars = [
+    { h: 'h-[35%]', lvl: 1 },
+    { h: 'h-[55%]', lvl: 2 },
+    { h: 'h-[80%]', lvl: 3 },
+    { h: 'h-[100%]', lvl: 4 },
   ];
 
   return (
@@ -129,31 +128,27 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Top-Right Cyber/Sci-Fi Live Dynamic Telemetry Status Bar */}
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-800 bg-[#0b101b]/80 font-mono text-xs select-none">
-            <span className="text-slate-400 font-semibold tracking-wider">SIG</span>
+        {/* Top-Right Unboxed Lightweight Technical HUD Telemetry */}
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 font-mono text-xs tracking-[0.15em] text-sky-400 bg-transparent select-none">
+            <span className="font-semibold text-sky-400/90">SIG</span>
 
-            {/* Dynamic Signal Bars */}
-            <div className="flex items-end gap-[3px] h-3.5" aria-label={`Signal Strength ${signalLevel * 25}%`}>
-              {signalBars.map((bar) => {
-                const isActive = signalLevel >= bar.level;
+            {/* Crisp Flat Signal Bars (No Blurry Glow) */}
+            <div className="flex items-end gap-[2px] h-3" aria-label={`Signal Strength ${signalLevel * 25}%`}>
+              {bars.map((bar) => {
+                const isActive = signalLevel >= bar.lvl;
                 return (
                   <span
-                    key={bar.level}
-                    className={`w-[3px] ${bar.height} rounded-[1px] transition-all duration-300 ${
-                      isActive
-                        ? 'bg-cyan-400 shadow-[0_0_6px_#22d3ee]'
-                        : 'bg-slate-700/60'
+                    key={bar.lvl}
+                    className={`w-[2.5px] ${bar.h} rounded-[0.5px] transition-colors duration-200 ${
+                      isActive ? 'bg-sky-400' : 'bg-slate-800'
                     }`}
                   />
                 );
               })}
             </div>
 
-            <span className="text-cyan-400 font-bold ml-1">T</span>
-            <span className="text-slate-100 font-medium tracking-wide">{timeString || '14:06:30'}</span>
-            <span className="text-slate-500 text-[10px] tracking-wider">IST</span>
+            <span className="text-sky-400 font-medium">T {timeString || '19:10:51'} IST</span>
           </div>
 
           {/* Mobile Hamburger */}
