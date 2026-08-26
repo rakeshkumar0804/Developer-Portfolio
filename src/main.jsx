@@ -7,9 +7,8 @@ import About from './components/About';
 import Principles from './components/Principles';
 import Projects from './components/Projects';
 import OpenSource from './components/OpenSource';
-import Experience from './components/Experience';
+import Architect from './components/Architect';
 import GitHubActivity from './components/GitHubActivity';
-import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import BackToTop from './components/BackToTop';
@@ -31,9 +30,8 @@ function App() {
         <Principles />
         <Projects />
         <OpenSource />
-        <Experience />
+        <Architect />
         <GitHubActivity />
-        <Certifications />
         <Contact />
       </main>
 

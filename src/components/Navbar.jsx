@@ -8,8 +8,8 @@ const navLinks = [
   { name: 'principles', href: '#principles' },
   { name: 'systems', href: '#projects' },
   { name: 'open-source', href: '#opensource' },
-  { name: 'experience', href: '#experience' },
-  { name: 'certifications', href: '#certifications' },
+  { name: 'architect', href: '#architect' },
+  { name: 'matrix', href: '#matrix' },
   { name: 'contact', href: '#contact' },
 ];
 
