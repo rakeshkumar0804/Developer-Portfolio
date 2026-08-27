@@ -7,6 +7,7 @@ export const personalInfo = {
     "I graduated with a B.Tech in Computer Science Engineering (Class of 2026) from Parul University in Vadodara, Gujarat. I am currently based in my hometown of Gurugram, Haryana. I specialize in building and shipping production-ready full-stack web applications with React, TypeScript, Node.js, Express, and MongoDB/PostgreSQL.",
   location: 'Gurugram, India',
   email: 'rakeshchauhan6651@gmail.com',
+  gmailComposeUrl: 'https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com',
   github: 'https://github.com/rakeshkumar0804',
   githubUsername: 'rakeshkumar0804',
   linkedin: 'https://www.linkedin.com/in/rakesh-kumar-520754246/',

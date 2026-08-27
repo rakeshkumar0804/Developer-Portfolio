@@ -144,9 +144,12 @@ export default function Hero() {
                       <FiLinkedin />
                     </a>
                     <a
-                      href={`mailto:${personalInfo.email}`}
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
-                      aria-label="Email"
+                      aria-label="Send Email via Gmail"
+                      title="Send Email via Gmail"
                     >
                       <FiMail />
                     </a>
