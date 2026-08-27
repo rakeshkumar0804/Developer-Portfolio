@@ -35,23 +35,23 @@ export default function HudFrame() {
   }, []);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none px-6 py-3 bg-transparent flex items-center justify-between text-[11px] tracking-wider text-slate-400 font-mono select-none">
-      {/* Bottom Persistent Real-Time Telemetry Bar (Unboxed & Transparent Directly on Grid) */}
-      <div className="flex items-center gap-4 truncate">
-        <span>└ GURUGRAM, HR, INDIA</span>
-        <span>•</span>
-        <span>
-          FPS <strong className="text-cyan-400 font-normal">{fps}</strong>
+    <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 pointer-events-none select-none bg-transparent font-mono">
+      {/* Left-Hand Corner Bracket & Telemetry */}
+      <div className="flex items-center gap-2 text-[11px] text-slate-400">
+        <span className="text-slate-600 text-sm leading-none">└</span>
+        <span className="tracking-widest">GURUGRAM, HR, INDIA</span>
+        <span className="text-slate-600">•</span>
+        <span className="tracking-wider">
+          FPS <span className="text-cyan-400">{fps}</span>
         </span>
-        <span>•</span>
-        <span>
-          SYS LOAD <strong className="text-cyan-400 font-normal">{sysLoad}%</strong>
+        <span className="text-slate-600">•</span>
+        <span className="tracking-wider">
+          SYS LOAD <span className="text-cyan-400">{sysLoad}%</span>
         </span>
       </div>
 
-      <div className="text-slate-600 text-xs shrink-0">
-        ┘
-      </div>
+      {/* Right-Hand Symmetrical Corner Bracket */}
+      <span className="text-slate-600 text-sm leading-none">┘</span>
     </div>
   );
 }
