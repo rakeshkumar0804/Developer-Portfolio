@@ -5,8 +5,8 @@ import { personalInfo } from '../data/portfolioData';
 
 export default function Footer() {
   return (
-    <footer className="bg-transparent border-t border-slate-800/80 px-8 py-5 max-w-7xl mx-auto w-full font-mono text-xs text-slate-400 relative z-20 pb-12 sm:pb-14">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-4 border-b border-slate-800/60">
+    <footer className="bg-transparent border-t border-slate-800/80 px-8 pt-6 pb-20 max-w-7xl mx-auto w-full font-mono text-xs text-slate-400 relative z-20 mb-6">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-5 border-b border-slate-800/80">
         {/* Brand Info */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left">
           <div className="flex items-center gap-2 mb-0.5">
@@ -74,7 +74,7 @@ export default function Footer() {
       </div>
 
       {/* Copyright & Terminal Prompt */}
-      <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-500 text-[0.75rem]">
+      <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-500 text-[0.75rem]">
         <div>
           © {new Date().getFullYear()} Rakesh Kumar · Built with React & Tailwind CSS
         </div>

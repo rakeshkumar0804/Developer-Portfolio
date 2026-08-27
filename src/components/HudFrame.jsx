@@ -35,28 +35,22 @@ export default function HudFrame() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-50 select-none font-mono">
-      {/* Bottom Technical Corner Brackets */}
-      <div className="absolute bottom-2 left-2 text-slate-600 text-xs leading-none">└</div>
-      <div className="absolute bottom-2 right-2 text-slate-600 text-xs leading-none">┘</div>
-
+    <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none px-6 py-3 bg-transparent flex items-center justify-between text-[11px] tracking-wider text-slate-400 font-mono select-none">
       {/* Bottom Persistent Real-Time Telemetry Bar (Unboxed & Transparent Directly on Grid) */}
-      <div className="absolute bottom-0 left-0 right-0 pb-3 pt-0 px-5 sm:px-8 bg-transparent backdrop-blur-none border-0 shadow-none flex items-center justify-between text-[11px] tracking-wider text-slate-400 font-mono">
-        <div className="flex items-center gap-4 truncate">
-          <span>└ GURUGRAM, HR, INDIA</span>
-          <span>•</span>
-          <span>
-            FPS <strong className="text-cyan-400 font-normal">{fps}</strong>
-          </span>
-          <span>•</span>
-          <span>
-            SYS LOAD <strong className="text-cyan-400 font-normal">{sysLoad}%</strong>
-          </span>
-        </div>
+      <div className="flex items-center gap-4 truncate">
+        <span>└ GURUGRAM, HR, INDIA</span>
+        <span>•</span>
+        <span>
+          FPS <strong className="text-cyan-400 font-normal">{fps}</strong>
+        </span>
+        <span>•</span>
+        <span>
+          SYS LOAD <strong className="text-cyan-400 font-normal">{sysLoad}%</strong>
+        </span>
+      </div>
 
-        <div className="text-cyan-400/60 text-xs shrink-0">
-          ┘
-        </div>
+      <div className="text-slate-600 text-xs shrink-0">
+        ┘
       </div>
     </div>
   );
