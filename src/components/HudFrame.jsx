@@ -35,7 +35,7 @@ export default function HudFrame() {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-30 select-none font-mono">
+    <div className="fixed inset-0 pointer-events-none z-50 select-none font-mono">
       {/* Bottom Technical Corner Brackets */}
       <div className="absolute bottom-2 left-2 text-slate-600 text-xs leading-none">└</div>
       <div className="absolute bottom-2 right-2 text-slate-600 text-xs leading-none">┘</div>
