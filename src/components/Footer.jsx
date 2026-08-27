@@ -2,6 +2,7 @@ import React from 'react';
 import { FiGithub, FiLinkedin, FiMail, FiFileText } from 'react-icons/fi';
 import { SiLeetcode } from 'react-icons/si';
 import { personalInfo } from '../data/portfolioData';
+import { openEmailClient } from '../utils/emailHandler';
 
 export default function Footer() {
   return (
@@ -67,9 +68,10 @@ export default function Footer() {
             href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors"
-            aria-label="Send Email via Gmail"
-            title="Send Email via Gmail"
+            onClick={(e) => openEmailClient(e)}
+            className="p-2 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors cursor-pointer"
+            aria-label="Send Email"
+            title="Send Email"
           >
             <FiMail className="text-xs" />
           </a>

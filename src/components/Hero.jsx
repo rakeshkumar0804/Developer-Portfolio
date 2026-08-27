@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FiDownload, FiArrowDown, FiMail, FiGithub, FiLinkedin, FiTerminal, FiCheck } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
+import { openEmailClient } from '../utils/emailHandler';
 
 export default function Hero() {
   const handleNavClick = (e, href) => {
@@ -147,9 +148,10 @@ export default function Hero() {
                       href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
-                      aria-label="Send Email via Gmail"
-                      title="Send Email via Gmail"
+                      onClick={(e) => openEmailClient(e)}
+                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all cursor-pointer"
+                      aria-label="Send Email"
+                      title="Send Email"
                     >
                       <FiMail />
                     </a>

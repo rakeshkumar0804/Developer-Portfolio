@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FiMail, FiGithub, FiLinkedin, FiPhone, FiCheck, FiTerminal, FiSend } from 'react-icons/fi';
+import { openEmailClient } from '../utils/emailHandler';
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -86,6 +87,7 @@ export default function Contact() {
                   href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => openEmailClient(e)}
                   className="inline-flex items-center gap-2 px-6 py-3 mt-2 text-xs font-mono tracking-widest text-cyan-400 border border-cyan-500/60 rounded bg-cyan-950/20 hover:bg-cyan-500/20 hover:border-cyan-400 transition-all uppercase cursor-pointer shadow-[0_0_15px_rgba(34,211,238,0.15)]"
                 >
                   <span>INITIATE TRANSMISSION</span>
@@ -116,7 +118,8 @@ export default function Contact() {
                     href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs sm:text-sm font-mono text-slate-200 hover:text-cyan-400 transition-colors break-all"
+                    onClick={(e) => openEmailClient(e)}
+                    className="text-xs sm:text-sm font-mono text-slate-200 hover:text-cyan-400 transition-colors break-all cursor-pointer"
                   >
                     rakeshchauhan6651@gmail.com
                   </a>
@@ -215,6 +218,7 @@ export default function Contact() {
                   href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com&su=Transmission%20from%20Portfolio"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={(e) => openEmailClient(e, 'Transmission from Portfolio')}
                   className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1 cursor-pointer font-medium"
                 >
                   <span>SEND_DISPATCH</span>

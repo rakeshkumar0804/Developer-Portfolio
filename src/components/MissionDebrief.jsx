@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { openEmailClient } from '../utils/emailHandler';
 
 const reviewItems = [
   {
@@ -130,6 +131,7 @@ export default function MissionDebrief() {
               href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => openEmailClient(e)}
               className="border border-cyan-500/50 bg-cyan-950/20 rounded-lg p-5 flex items-center justify-between hover:border-cyan-400 hover:bg-cyan-950/30 transition-all cursor-pointer group shadow-[0_0_15px_rgba(34,211,238,0.15)]"
             >
               <div>
