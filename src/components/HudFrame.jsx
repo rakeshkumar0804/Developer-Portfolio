@@ -37,8 +37,8 @@ export default function HudFrame() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 pointer-events-none select-none bg-transparent font-mono">
       {/* Left-Hand Corner Bracket & Telemetry */}
-      <div className="flex items-center gap-2 text-[11px] text-slate-400">
-        <span className="text-slate-600 text-sm leading-none">└</span>
+      <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400">
+        <span className="text-slate-600 text-sm leading-none select-none">└</span>
         <span className="tracking-widest">GURUGRAM, HR, INDIA</span>
         <span className="text-slate-600">•</span>
         <span className="tracking-wider">
@@ -51,7 +51,7 @@ export default function HudFrame() {
       </div>
 
       {/* Right-Hand Symmetrical Corner Bracket */}
-      <span className="text-slate-600 text-sm leading-none">┘</span>
+      <span className="text-slate-600 text-sm leading-none select-none">┘</span>
     </div>
   );
 }
