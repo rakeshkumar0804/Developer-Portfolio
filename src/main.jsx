@@ -11,7 +11,6 @@ import Architect from './components/Architect';
 import Contact from './components/Contact';
 import MissionDebrief from './components/MissionDebrief';
 import Footer from './components/Footer';
-import BackToTop from './components/BackToTop';
 import HudFrame from './components/HudFrame';
 
 function App() {
@@ -35,9 +34,8 @@ function App() {
         <MissionDebrief />
       </main>
 
-      {/* Footer & Floating Back-to-Top */}
+      {/* Footer */}
       <Footer />
-      <BackToTop />
     </div>
   );
 }
