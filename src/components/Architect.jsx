@@ -169,6 +169,10 @@ export default function Architect() {
                     <span className="text-slate-500 uppercase tracking-wider shrink-0">STATUS</span>
                     <span className="text-emerald-400 text-right font-bold">Open to Full Stack / Backend Roles</span>
                   </div>
+                  <div className="py-2.5 flex items-start justify-between gap-4">
+                    <span className="text-slate-500 uppercase tracking-wider shrink-0">PROBLEM SOLVING</span>
+                    <span className="text-slate-200 text-right font-medium">170+ LeetCode Solved (DSA)</span>
+                  </div>
                 </div>
 
                 {/* Expanded Bio (Seamless Text Block — NO nested inner card wrapper) */}
