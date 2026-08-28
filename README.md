@@ -15,22 +15,6 @@ The project uses Vite for fast development and optimized production builds.
 
 ---
 
-## 📸 Preview
-
-### Hero Section
-
-![Hero](./images/hero.png)
-
-### Certifications
-
-![Certifications](./images/certification.png)
-
-### Contact
-
-![Contact](./images/contact.png)
-
----
-
 ## ✨ Features
 
 - Modern Dark UI
