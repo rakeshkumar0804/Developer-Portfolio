@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
 import { secondaryDeployments } from '../data/portfolioData';
@@ -389,6 +389,12 @@ function KohliAnalyticsSchematic({ onReconstruct }) {
 
 export default function Projects() {
   const [reconstructProjectId, setReconstructProjectId] = useState(null);
+
+  useEffect(() => {
+    const handleClose = () => setReconstructProjectId(null);
+    window.addEventListener('close-modals', handleClose);
+    return () => window.removeEventListener('close-modals', handleClose);
+  }, []);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 15 },

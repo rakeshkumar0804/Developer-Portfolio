@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const matrixCategories = [
@@ -87,6 +87,12 @@ const auxiliaryRecognitions = [
 
 export default function Architect() {
   const [showAllCerts, setShowAllCerts] = useState(false);
+
+  useEffect(() => {
+    const handleClose = () => setShowAllCerts(false);
+    window.addEventListener('close-modals', handleClose);
+    return () => window.removeEventListener('close-modals', handleClose);
+  }, []);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 15 },
