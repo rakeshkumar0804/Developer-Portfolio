@@ -21,7 +21,7 @@ function App() {
   const [booting, setBooting] = useState(() => {
     // Only boot on first session visit
     if (typeof window !== 'undefined') {
-      return !sessionStorage.getItem('hasBooted');
+      return !sessionStorage.getItem('rakesh_core_booted');
     }
     return false;
   });
@@ -91,7 +91,7 @@ function App() {
     };
 
     const handleReboot = () => {
-      sessionStorage.removeItem('hasBooted');
+      sessionStorage.removeItem('rakesh_core_booted');
       setBooting(true);
     };
 

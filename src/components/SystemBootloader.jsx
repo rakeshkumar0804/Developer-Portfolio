@@ -28,10 +28,10 @@ export default function SystemBootloader({ onComplete }) {
       if (pct < 100) {
         frameId = requestAnimationFrame(updateProgress);
       } else {
-        // Trigger exit animation at 100%
+        // Hold for 150ms at 100%, then trigger smooth exit animation
         setTimeout(() => {
           setIsExiting(true);
-          sessionStorage.setItem('hasBooted', 'true');
+          sessionStorage.setItem('rakesh_core_booted', 'true');
           setTimeout(() => {
             if (onComplete) onComplete();
           }, 450);
@@ -55,6 +55,9 @@ export default function SystemBootloader({ onComplete }) {
     };
   }, [onComplete]);
 
+  // Clean formatting: 00% to 09% -> 10% to 99% -> 100%
+  const displayProgress = progress < 10 ? `0${progress}%` : `${progress}%`;
+
   return (
     <AnimatePresence>
       {!isExiting && (
@@ -63,8 +66,8 @@ export default function SystemBootloader({ onComplete }) {
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.04,
-            filter: 'blur(10px)',
+            scale: 1.03,
+            filter: 'blur(8px)',
             transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
           }}
           className="fixed inset-0 z-[9999] bg-[#050811] flex flex-col justify-between items-center p-6 md:p-10 font-mono text-slate-300 select-none overflow-hidden"
@@ -128,7 +131,7 @@ export default function SystemBootloader({ onComplete }) {
               <div className="pt-3 border-t border-slate-800/60">
                 <div className="flex items-center justify-between text-xs text-slate-400 mb-1.5 font-mono">
                   <span className="tracking-widest">LOADING ASSETS</span>
-                  <span className="text-cyan-400 font-bold">{progress.toString().padStart(3, '0')}%</span>
+                  <span className="text-cyan-400 font-bold">{displayProgress}</span>
                 </div>
                 <div className="w-full h-1.5 bg-slate-900 rounded-full overflow-hidden p-[1px] border border-slate-800">
                   <div
