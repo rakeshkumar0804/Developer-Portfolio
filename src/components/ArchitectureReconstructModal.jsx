@@ -201,8 +201,8 @@ const reconstructionData = {
     ],
   },
   'portfoliopulse': {
-    fig: 'FIG.3',
-    sysId: 'SYS-03',
+    fig: 'FIG.4',
+    sysId: 'SYS-04',
     title: 'PortfolioPulse',
     subtitle: 'AUTOMATED CODEBASE AUDITING • 20-SIGNAL SCORING ENGINE',
     milestones: [
@@ -256,66 +256,10 @@ const reconstructionData = {
       { id: 'mongo', label: 'MongoDB Store', sub: 'Historical Audit Runs', x: 500, y: 220, type: 'amber' },
     ],
   },
-  'kohli-analytics': {
-    fig: 'FIG.4',
-    sysId: 'SYS-04',
-    title: 'Kohli Analytics',
-    subtitle: 'CUSTOM VECTOR ENGINE • D3.JS DATA VISUALIZATION',
-    milestones: [
-      {
-        step: 1,
-        hash: 'e1029ab',
-        time: 'T-30:00',
-        message: 'data: Ingestion & parsing of 500+ international ball-by-ball JSONs',
-        activeNodes: ['dataset', 'parser'],
-        activeLinks: ['norm'],
-        resolvedTitle: 'Sparse Record Harmonization',
-        resolvedDesc: 'Standardized heterogeneous match scorecards from Tests, ODIs, and T20Is into unified TypeScript vector schemas.',
-      },
-      {
-        step: 2,
-        hash: 'f9104bc',
-        time: 'T-20:00',
-        message: 'math: Implementation of Clutch Index & Run-Chase pressure algorithms',
-        activeNodes: ['dataset', 'parser', 'math'],
-        activeLinks: ['norm', 'calc'],
-        resolvedTitle: 'High-Leverage Impact Metrics',
-        resolvedDesc: 'Calculated original context-weighted batting indices based on required run rate spikes, match stage, and wicket fall intervals.',
-      },
-      {
-        step: 3,
-        hash: 'a8109cd',
-        time: 'T-10:00',
-        message: 'viz: D3.js polar coordinate mapping for wagon wheels and pitch heatmaps',
-        activeNodes: ['dataset', 'parser', 'math', 'd3', 'gsap'],
-        activeLinks: ['norm', 'calc', 'd3', 'gsap'],
-        resolvedTitle: 'Sub-Pixel Vector Accuracy',
-        resolvedDesc: 'Mapped stadium polar trajectories into scalable vector math with instant multi-facet opponent filtering.',
-      },
-      {
-        step: 4,
-        hash: 'e921d70',
-        time: 'T-00:00 [PROD]',
-        message: 'release: Hardware-Accelerated transitions and live production deployment',
-        activeNodes: ['dataset', 'parser', 'math', 'd3', 'gsap', 'canvas'],
-        activeLinks: ['norm', 'calc', 'd3', 'gsap', 'render'],
-        resolvedTitle: 'Production Deployment',
-        resolvedDesc: 'Hardware-accelerated analytics dashboard with zero-frame-drop interactive chart updates.',
-      },
-    ],
-    nodes: [
-      { id: 'dataset', label: 'Inning Dataset', sub: 'Ball-by-Ball JSON', x: 70, y: 70, type: 'cyan' },
-      { id: 'parser', label: 'Data Ingestion', sub: 'JSON Parser', x: 230, y: 70, type: 'cyan' },
-      { id: 'math', label: 'Stat Normalization', sub: 'Metric Pipeline', x: 390, y: 70, type: 'cyan' },
-      { id: 'd3', label: 'D3.js Visualization', sub: 'Polar & Radar Plots', x: 150, y: 220, type: 'amber' },
-      { id: 'gsap', label: 'GSAP Motion Controller', sub: 'Hardware-Accelerated Sync', x: 290, y: 220, type: 'emerald' },
-      { id: 'canvas', label: 'Responsive SVG Layer', sub: 'Zero Frame Drops', x: 500, y: 220, type: 'cyan' },
-    ],
-  },
 };
 
 export default function ArchitectureReconstructModal({ projectId, onClose }) {
-  const data = reconstructionData[projectId] || reconstructionData['incidenthub-ai'];
+  const data = reconstructionData[projectId] || reconstructionData['trace'] || reconstructionData['incidenthub-ai'];
   const [currentStep, setCurrentStep] = useState(data.milestones.length);
   const [isPlaying, setIsPlaying] = useState(false);
   const [zoom, setZoom] = useState(1);

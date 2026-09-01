@@ -4,17 +4,6 @@ import { FiGithub, FiExternalLink } from 'react-icons/fi';
 
 const openSourceRepos = [
   {
-    id: 'trace',
-    category: 'AI • INCIDENT INVESTIGATION',
-    stars: '89.5% ACC',
-    title: 'TRACE — Causal RCA Engine',
-    description:
-      'Temporal root-cause analysis & causal inference engine benchmarked across 19 hidden-ground-truth production incidents with adversarial falsification.',
-    tech: 'Python / FastAPI',
-    techColor: 'bg-cyan-400',
-    url: 'https://github.com/rakeshkumar0804/trace-rca-engine',
-  },
-  {
     id: 'solar-system',
     category: 'WEBGL • 3D',
     stars: '5 ★',
@@ -70,15 +59,15 @@ const openSourceRepos = [
     url: 'https://github.com/rakeshkumar0804/SyncPad',
   },
   {
-    id: 'portfoliopulse',
-    category: 'AUTOMATION • CRAWLER',
+    id: 'kohli-analytics',
+    category: 'D3.JS • GSAP • SPORTS DATA',
     stars: '5 ★',
-    title: 'PortfolioPulse',
+    title: 'Kohli Analytics',
     description:
-      'Deterministic portfolio and GitHub readiness analyzer running ~20 audit rules and headless SPA performance crawling.',
-    tech: 'JavaScript',
-    techColor: 'bg-amber-400',
-    url: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
+      'Sports statistics and vector data visualization dashboard analyzing international match datasets with D3.js and hardware-accelerated transitions.',
+    tech: 'TypeScript',
+    techColor: 'bg-cyan-400',
+    url: 'https://github.com/rakeshkumar0804/kohli-analytics',
   },
 ];
 

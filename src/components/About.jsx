@@ -29,6 +29,15 @@ const operationsList = [
     dotColor: 'bg-cyan-400',
     pulse: true,
   },
+  {
+    id: 'OP-04',
+    title: 'Distributed Systems & Real-Time Sync',
+    description: 'Deep dive into Redis concurrency control, WebSocket telemetry, and idempotent event architectures.',
+    status: 'RESEARCH',
+    statusColor: 'text-amber-400',
+    dotColor: 'bg-amber-400',
+    pulse: false,
+  },
 ];
 
 export default function About() {
