@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { motion } from 'framer-motion';
 import Lenis from 'lenis';
@@ -14,17 +14,8 @@ import Architect from './components/Architect';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import HudFrame from './components/HudFrame';
-import SystemBootloader from './components/SystemBootloader';
 
 function App() {
-  const [booting, setBooting] = useState(() => {
-    // Only boot on first session visit
-    if (typeof window !== 'undefined') {
-      return !sessionStorage.getItem('rakesh_core_booted');
-    }
-    return false;
-  });
-
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll with Lighter, Effortless Physics
     const lenis = new Lenis({
@@ -44,16 +35,8 @@ function App() {
     }
     animationFrameId = requestAnimationFrame(raf);
 
-    const handleReboot = () => {
-      sessionStorage.removeItem('rakesh_core_booted');
-      setBooting(true);
-    };
-
-    window.addEventListener('reboot-system', handleReboot);
-
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('reboot-system', handleReboot);
       lenis.destroy();
       window.lenis = null;
     };
@@ -61,11 +44,6 @@ function App() {
 
   return (
     <div className="relative min-h-screen bg-subtle-grid text-[#f8fafc] font-sans selection:bg-[#22d3ee]/30 selection:text-[#22d3ee] overflow-x-hidden pb-8">
-      {/* Initial System Uplink Preloader */}
-      {booting && (
-        <SystemBootloader onComplete={() => setBooting(false)} />
-      )}
-
       <HudFrame />
 
       {/* Sticky Navigation Header */}

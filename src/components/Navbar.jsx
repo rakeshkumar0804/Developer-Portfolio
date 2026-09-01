@@ -13,6 +13,7 @@ const topics = [
 export const TopHud = () => {
   const [timeString, setTimeString] = useState('');
   const [activeSection, setActiveSection] = useState('operations');
+  const [signalStrength, setSignalStrength] = useState(3);
 
   useEffect(() => {
     const updateTime = () => {
@@ -51,6 +52,16 @@ export const TopHud = () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', handleScroll);
     };
+  }, []);
+
+  useEffect(() => {
+    const updateSignal = () => {
+      const strengths = [2, 3, 3, 4];
+      setSignalStrength(strengths[Math.floor(Math.random() * strengths.length)]);
+    };
+
+    const timer = window.setInterval(updateSignal, 1400);
+    return () => window.clearInterval(timer);
   }, []);
 
   const handleNavClick = (e, href) => {
@@ -108,11 +119,19 @@ export const TopHud = () => {
 
       <div className="flex items-center gap-3 pointer-events-auto font-mono text-[11px] tracking-widest text-slate-300">
         <span className="text-slate-400">SIG</span>
-        <svg className="w-4 h-3 flex-shrink-0" viewBox="0 0 16 12" fill="none" aria-hidden="true">
-          <rect x="0" y="8.5" width="2.5" height="3.5" rx="0.5" fill="#38bdf8" />
-          <rect x="4.5" y="6" width="2.5" height="6" rx="0.5" fill="#38bdf8" />
-          <rect x="9" y="3.5" width="2.5" height="8.5" rx="0.5" fill="#38bdf8" />
-          <rect x="13.5" y="0.5" width="2.5" height="11.5" rx="0.5" fill="#1e3a5f" opacity="0.6" />
+        <svg className="w-4 h-3 flex-shrink-0" viewBox="0 0 16 12" fill="none" aria-label="Live signal strength">
+          {[8.5, 6, 3.5, 0.5].map((y, index) => (
+            <rect
+              key={y}
+              x={index * 4.5}
+              y={y}
+              width="2.5"
+              height={3.5 + index * 2.5}
+              rx="0.5"
+              fill={index < signalStrength ? '#38bdf8' : '#1e3a5f'}
+              className="transition-colors duration-500"
+            />
+          ))}
         </svg>
         <span className="text-slate-300 ml-2 font-mono">T {timeString || '00:00:00'} IST</span>
         <span className="text-slate-600 text-sm leading-none select-none ml-1">┐</span>
