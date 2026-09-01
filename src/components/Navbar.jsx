@@ -2,31 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const topics = [
-  { name: '$ops', href: '#operations', sectionId: 'operations' },
-  { name: '$principles', href: '#principles', sectionId: 'principles' },
-  { name: '$systems', href: '#systems', sectionId: 'systems' },
-  { name: '$signals', href: '#opensource', sectionId: 'opensource' },
-  { name: '$architect', href: '#architect', sectionId: 'architect' },
-  { name: '$comms', href: '#contact', sectionId: 'contact' },
+  { name: 'About', href: '#operations', sectionId: 'operations' },
+  { name: 'Skills', href: '#principles', sectionId: 'principles' },
+  { name: 'Projects', href: '#systems', sectionId: 'systems' },
+  { name: 'GitHub', href: '#opensource', sectionId: 'opensource' },
+  { name: 'Journey', href: '#architect', sectionId: 'architect' },
+  { name: 'Contact', href: '#contact', sectionId: 'contact' },
 ];
 
 export const TopHud = () => {
-  const [timeString, setTimeString] = useState('');
   const [activeSection, setActiveSection] = useState('operations');
 
   useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTimeString(
-        now.toLocaleTimeString('en-GB', {
-          timeZone: 'Asia/Kolkata',
-          hour12: false,
-        })
-      );
-    };
-    updateTime();
-    const timer = setInterval(updateTime, 1000);
-
     let rafId;
     const handleScroll = () => {
       cancelAnimationFrame(rafId);
@@ -49,7 +36,6 @@ export const TopHud = () => {
     handleScroll();
 
     return () => {
-      clearInterval(timer);
       cancelAnimationFrame(rafId);
       window.removeEventListener('scroll', handleScroll);
     };
@@ -75,8 +61,8 @@ export const TopHud = () => {
       <div className="flex items-center gap-2 pointer-events-auto">
         <span className="text-slate-600 text-sm leading-none select-none">┌</span>
         <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#38bdf8] mr-1 animate-pulse" />
-        <span className="text-[11px] tracking-[0.25em] text-slate-300 font-medium uppercase">
-          RAKESH-CORE UPLINK ACTIVE
+        <span className="text-[11px] tracking-[0.18em] text-slate-300 font-medium uppercase">
+          Rakesh Kumar
         </span>
       </div>
 
@@ -108,23 +94,9 @@ export const TopHud = () => {
         })}
       </nav>
 
-      {/* 3. Right Header Item (Exact Clone of Reference Image) */}
-      <div className="flex items-center gap-3 pointer-events-auto font-mono text-[11px] tracking-widest text-slate-300">
-        <span className="text-slate-400">SIG</span>
-
-        {/* 4-Bar Signal SVG Clone */}
-        <svg className="w-4 h-3 flex-shrink-0" viewBox="0 0 16 12" fill="none">
-          <rect x="0" y="8.5" width="2.5" height="3.5" rx="0.5" fill="#38bdf8" />
-          <rect x="4.5" y="6" width="2.5" height="6" rx="0.5" fill="#38bdf8" />
-          <rect x="9" y="3.5" width="2.5" height="8.5" rx="0.5" fill="#38bdf8" />
-          <rect x="13.5" y="0.5" width="2.5" height="11.5" rx="0.5" fill="#1e3a5f" opacity="0.6" />
-        </svg>
-
-        <span className="text-slate-300 ml-2 font-mono">
-          T {timeString || '01:03:05'} IST
-        </span>
-
-        <span className="text-slate-600 text-sm leading-none select-none ml-1">┐</span>
+      <div className="hidden lg:flex items-center gap-2 pointer-events-auto font-mono text-[11px] tracking-wider text-slate-400">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+        <span>OPEN TO WORK</span>
       </div>
     </header>
   );

@@ -66,7 +66,7 @@ export default function SystemBootloader({ onComplete }) {
 
           <div className="mb-3 flex items-center justify-between text-xs">
             <span className="text-slate-300">{steps[step]}</span>
-            <span className="font-semibold text-cyan-300">{String(progress).padStart(3, '0')}%</span>
+            <span className="font-semibold text-cyan-300">{progress}%</span>
           </div>
           <div className="h-1 overflow-hidden bg-slate-800">
             <motion.div className="h-full bg-gradient-to-r from-cyan-400 to-emerald-400" animate={{ width: `${progress}%` }} transition={{ duration: 0.08, ease: 'linear' }} />
