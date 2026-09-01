@@ -183,7 +183,7 @@ export default function Architect() {
 
                 {/* Expanded Bio (Seamless Text Block — NO nested inner card wrapper) */}
                 <div className="border-t border-slate-800/80 pt-5 mt-4 text-xs md:text-sm font-mono text-slate-300 leading-relaxed">
-                  Full-Stack Web Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production-grade backend systems, deterministic AI reasoning engines, and real-time synchronization. Proven track record architecting and shipping complex full-stack web applications end-to-end—from temporal root-cause investigation engines (TRACE) and collaborative in-browser WASM code studios (SyncPad) to multi-tenant incident intelligence platforms (IncidentHub AI). Strong foundation in data structures, RESTful API design, RBAC permission security, database modeling, and client-side performance optimization.
+                  Full-Stack Web Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production-grade backend systems, deterministic AI reasoning engines, and real-time synchronization. Proven track record architecting and shipping complex full-stack web applications end-to-end—from temporal root-cause investigation engines (TRACE) and constraint-satisfaction scheduling engines (CHRONOS) to collaborative in-browser WASM code studios (SyncPad) and multi-tenant incident intelligence platforms (IncidentHub AI). Strong foundation in data structures, RESTful API design, RBAC permission security, database modeling, and client-side performance optimization.
                 </div>
               </div>
             </motion.div>
@@ -252,7 +252,7 @@ export default function Architect() {
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>
-                    <span>IncidentHub AI: Built multi-tenant incident intelligence platform with Redis locks and 236/236 passing test suite.</span>
+                    <span>CHRONOS: Developed CSP timetable scheduling engine with MRV/LCV heuristics and interactive D3.js constraint graph comparison.</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>
@@ -260,7 +260,7 @@ export default function Architect() {
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>
-                    <span>PortfolioPulse: Authored deterministic hiring signals auditor using GitHub REST API and headless audit rules.</span>
+                    <span>IncidentHub AI: Built multi-tenant incident intelligence platform with Redis locks and 236/236 passing test suite.</span>
                   </div>
                 </div>
               </div>

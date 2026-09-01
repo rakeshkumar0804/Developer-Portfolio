@@ -13,6 +13,15 @@ const operationsList = [
   },
   {
     id: 'OP-02',
+    title: 'CHRONOS',
+    description: 'Constraint satisfaction scheduling engine using backtracking with MRV/LCV heuristics and live D3.js visualizer.',
+    status: 'ACTIVE',
+    statusColor: 'text-cyan-400',
+    dotColor: 'bg-cyan-400',
+    pulse: true,
+  },
+  {
+    id: 'OP-03',
     title: 'SyncPad',
     description: 'Real-time collaborative code editor with Yjs CRDT synchronization and in-browser WASM runtime.',
     status: 'ACTIVE',
@@ -21,22 +30,13 @@ const operationsList = [
     pulse: true,
   },
   {
-    id: 'OP-03',
+    id: 'OP-04',
     title: 'IncidentHub AI',
     description: 'Multi-tenant incident intelligence platform with real OAuth correlation, RBAC, and triage rooms.',
     status: 'ACTIVE',
     statusColor: 'text-cyan-400',
     dotColor: 'bg-cyan-400',
     pulse: true,
-  },
-  {
-    id: 'OP-04',
-    title: 'Distributed Systems & Real-Time Sync',
-    description: 'Deep dive into Redis concurrency control, WebSocket telemetry, and idempotent event architectures.',
-    status: 'RESEARCH',
-    statusColor: 'text-amber-400',
-    dotColor: 'bg-amber-400',
-    pulse: false,
   },
 ];
 

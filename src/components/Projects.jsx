@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
-import { secondaryDeployments } from '../data/portfolioData';
 import ArchitectureReconstructModal from './ArchitectureReconstructModal';
 
 // FIG.1: TRACE Interactive Schematic
@@ -98,13 +97,107 @@ function TraceSchematic({ onReconstruct }) {
   );
 }
 
-// FIG.2: SyncPad Interactive Schematic
-function SyncPadSchematic({ onReconstruct }) {
+// FIG.2: CHRONOS Interactive Schematic
+function ChronosSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/90 rounded-lg p-6 bg-slate-950/40 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
         <span className="text-slate-400 font-bold tracking-wider">
           FIG.2 — SYSTEM ARCHITECTURE
+        </span>
+        <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider">
+          <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
+          SOLVER ACTIVE
+        </span>
+      </div>
+
+      <div className="relative py-3 flex flex-col gap-3">
+        <div className="grid grid-cols-2 gap-3 relative z-10">
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+              CONSTRAINT SOLVER CORE
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Backtracking + MRV/LCV</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Search-Space Pruning</div>
+          </div>
+
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              NL PARSING LAYER
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Gemini API</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Constraint Extraction</div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-around text-[9px] font-mono text-cyan-400/80 px-2 py-0.5">
+          <span>↕ CSP SEARCH TREE</span>
+          <span>↕ HEURISTIC EVAL</span>
+          <span>↕ REAL-TIME D3 STATE</span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 relative z-10">
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-purple-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
+              D3.JS VISUALIZER
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Search-Tree Rendering</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Real-Time State Morphing</div>
+          </div>
+
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              BOTTLENECK BENCHMARK
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Naive vs Smart Comp</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Zero Frame Drops</div>
+          </div>
+        </div>
+
+        <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-[10px] text-slate-300 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+              DETERMINISTIC HEURISTIC PRUNING
+            </div>
+            <span className="text-[9px] font-mono text-emerald-400 font-bold">2,328 vs 46 NODES</span>
+          </div>
+          <div className="text-[10px] font-mono text-slate-500 mt-0.5">
+            MRV and LCV heuristics reduce backtrack space by 98% on identical scheduling instances
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-3.5 mt-2 border-t border-slate-800/70 flex items-center justify-between text-[10px] font-mono text-slate-400">
+        <button
+          onClick={() => onReconstruct('chronos')}
+          className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
+        >
+          <FiRefreshCw className="text-cyan-400" />
+          RECONSTRUCT BUILD HISTORY
+        </button>
+        <button
+          onClick={() => onReconstruct('chronos')}
+          className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+        >
+          SCRUB THE TIMELINE →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// FIG.3: SyncPad Interactive Schematic
+function SyncPadSchematic({ onReconstruct }) {
+  return (
+    <div className="border border-slate-800/90 rounded-lg p-6 bg-slate-950/40 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full relative overflow-hidden group">
+      <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
+        <span className="text-slate-400 font-bold tracking-wider">
+          FIG.3 — SYSTEM ARCHITECTURE
         </span>
         <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider">
           <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -192,13 +285,13 @@ function SyncPadSchematic({ onReconstruct }) {
   );
 }
 
-// FIG.3: IncidentHub AI Interactive Schematic
+// FIG.4: IncidentHub AI Interactive Schematic
 function IncidentHubSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/90 rounded-lg p-6 bg-slate-950/40 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
         <span className="text-slate-400 font-bold tracking-wider">
-          FIG.3 — SYSTEM ARCHITECTURE
+          FIG.4 — SYSTEM ARCHITECTURE
         </span>
         <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider">
           <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -284,100 +377,6 @@ function IncidentHubSchematic({ onReconstruct }) {
         </button>
         <button
           onClick={() => onReconstruct('incidenthub-ai')}
-          className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
-        >
-          SCRUB THE TIMELINE →
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// FIG.4: PortfolioPulse Interactive Schematic
-function PortfolioPulseSchematic({ onReconstruct }) {
-  return (
-    <div className="border border-slate-800/90 rounded-lg p-6 bg-slate-950/40 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full relative overflow-hidden group">
-      <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
-        <span className="text-slate-400 font-bold tracking-wider">
-          FIG.4 — SYSTEM ARCHITECTURE
-        </span>
-        <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider">
-          <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-          STREAMING
-        </span>
-      </div>
-
-      <div className="relative py-3 flex flex-col gap-3">
-        <div className="grid grid-cols-2 gap-3 relative z-10">
-          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-              FRONTEND / REACT + VITE
-            </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Audit Score Dashboard</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Real-time report UI</div>
-          </div>
-
-          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-              EXPRESS API & AUTH
-            </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Node.js Gateway</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Rate limiter & Cache</div>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-around text-[9px] font-mono text-cyan-400/80 px-2 py-0.5">
-          <span>↕ REST DATA INGESTION</span>
-          <span>↕ HEADLESS DEVTOOLS PROTOCOL</span>
-          <span>↕ AGGREGATION</span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 relative z-10">
-          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-              GITHUB REST COLLECTOR
-            </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Profile & Repo Data</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Commit cadence signals</div>
-          </div>
-
-          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-purple-400 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
-              PUPPETEER CRAWLER
-            </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Headless Inspector</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Headless SPA DOM audit</div>
-          </div>
-        </div>
-
-        <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 text-[10px] text-slate-300 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-              DETERMINISTIC 20-SIGNAL SCORING + MONGODB
-            </div>
-            <span className="text-[9px] font-mono text-emerald-400">100% REPRODUCIBLE</span>
-          </div>
-          <div className="text-[10px] font-mono text-slate-500 mt-0.5">
-            Rules engine evaluates codebase health, responsive markup & deployment integrity
-          </div>
-        </div>
-      </div>
-
-      <div className="pt-3.5 mt-2 border-t border-slate-800/70 flex items-center justify-between text-[10px] font-mono text-slate-400">
-        <button
-          onClick={() => onReconstruct('portfoliopulse')}
-          className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
-        >
-          <FiRefreshCw className="text-cyan-400" />
-          RECONSTRUCT BUILD HISTORY
-        </button>
-        <button
-          onClick={() => onReconstruct('portfoliopulse')}
           className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
         >
           SCRUB THE TIMELINE →
@@ -549,7 +548,7 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        {/* ================= SLIDE 2: SyncPad (SYS-02) (Alternated Layout) ================= */}
+        {/* ================= SLIDE 2: CHRONOS (SYS-02) (Alternated Layout) ================= */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -559,7 +558,7 @@ export default function Projects() {
         >
           {/* Left Column: FIG.2 Schematic */}
           <div className="lg:col-span-6 order-2 lg:order-1">
-            <SyncPadSchematic onReconstruct={setReconstructProjectId} />
+            <ChronosSchematic onReconstruct={setReconstructProjectId} />
           </div>
 
           {/* Right Column: System Specification */}
@@ -567,6 +566,110 @@ export default function Projects() {
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
                 SYS-02
+              </div>
+
+              <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
+                CHRONOS — Constraint-Based Timetable Scheduling Engine
+              </h3>
+              <p className="text-xs font-mono tracking-widest text-slate-400 uppercase mt-1 mb-4">
+                CSP BACKTRACKING · LIVE CONSTRAINT VISUALIZATION
+              </p>
+
+              <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
+                A timetable scheduling engine solving constraint satisfaction problems (CSP) via backtracking search with MRV (Minimum Remaining Values) and LCV (Least Constraining Value) heuristics, with a live D3.js visualization comparing naive vs. optimized search — the signature demo shows naive backtracking taking 2,328 backtracks vs. 46 nodes for the heuristic-guided search on the same problem.
+              </p>
+
+              {/* 3-Column Metrics */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
+                  <div className="text-base sm:text-lg font-bold text-cyan-400 font-mono">2,328 vs 46</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
+                    NAIVE VS SMART SEARCH
+                  </div>
+                </div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
+                  <div className="text-sm sm:text-base font-bold text-cyan-400 font-mono">CSP + MRV/LCV</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
+                    HEURISTIC GUIDED
+                  </div>
+                </div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
+                  <div className="text-sm sm:text-base font-bold text-cyan-400 font-mono">LIVE D3.JS</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
+                    CONSTRAINT VISUALIZER
+                  </div>
+                </div>
+              </div>
+
+              {/* Bullets */}
+              <div className="space-y-2.5 text-xs text-slate-300 font-mono mb-6">
+                <div className="flex items-start gap-2">
+                  <span className="text-cyan-400">▪</span>
+                  <span>Backtracking search with MRV and LCV heuristics for efficient constraint satisfaction</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-cyan-400">▪</span>
+                  <span>Natural language constraint parsing via Gemini API</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-cyan-400">▪</span>
+                  <span>Live D3.js visualization of the search process, including a &quot;Naive vs Smart Bottleneck Demo&quot;</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-cyan-400">▪</span>
+                  <span>GSAP-powered smooth animation transitions</span>
+                </div>
+              </div>
+
+              {/* Tech Badges */}
+              <div className="flex flex-wrap gap-1.5 mb-6">
+                {['React', 'Node.js', 'PostgreSQL', 'Gemini API', 'D3.js', 'GSAP', 'Tailwind CSS'].map((t) => (
+                  <span
+                    key={t}
+                    className="border border-slate-700/60 bg-transparent text-slate-400 text-xs px-2.5 py-1 rounded-md font-mono"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-4 flex items-center gap-3">
+              <a
+                href="https://chronos-web-kappa.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#22d3ee]/40 bg-[#22d3ee]/10 hover:bg-[#22d3ee] text-[#22d3ee] hover:text-[#050811] transition-all text-xs font-bold shadow-[0_0_12px_rgba(34,211,238,0.15)]"
+              >
+                <span>Live Demo</span>
+                <FiExternalLink className="text-xs" />
+              </a>
+              <a
+                href="https://github.com/rakeshkumar0804/chronos-engine"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-700 bg-transparent text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all text-xs font-semibold"
+              >
+                <FiGithub className="text-xs text-cyan-400" />
+                <span>Source Code</span>
+              </a>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ================= SLIDE 3: SyncPad (SYS-03) ================= */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-40px' }}
+          variants={fadeInUp}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32"
+        >
+          {/* Left Column: System Specification */}
+          <div className="lg:col-span-6 flex flex-col justify-between">
+            <div>
+              <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
+                SYS-03
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -656,21 +759,31 @@ export default function Projects() {
               </a>
             </div>
           </div>
+
+          {/* Right Column: FIG.3 Schematic */}
+          <div className="lg:col-span-6">
+            <SyncPadSchematic onReconstruct={setReconstructProjectId} />
+          </div>
         </motion.div>
 
-        {/* ================= SLIDE 3: IncidentHub AI (SYS-03) ================= */}
+        {/* ================= SLIDE 4: IncidentHub AI (SYS-04) (Alternated Layout) ================= */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-20"
         >
-          {/* Left Column: System Specification */}
-          <div className="lg:col-span-6 flex flex-col justify-between">
+          {/* Left Column: FIG.4 Schematic */}
+          <div className="lg:col-span-6 order-2 lg:order-1">
+            <IncidentHubSchematic onReconstruct={setReconstructProjectId} />
+          </div>
+
+          {/* Right Column: System Specification */}
+          <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col justify-between">
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
-                SYS-03
+                SYS-04
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -751,120 +864,6 @@ export default function Projects() {
               </a>
               <a
                 href="https://github.com/rakeshkumar0804/incidenthub-ai"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-700 bg-transparent text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all text-xs font-semibold"
-              >
-                <FiGithub className="text-xs text-cyan-400" />
-                <span>Source Code</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Right Column: FIG.3 Schematic */}
-          <div className="lg:col-span-6">
-            <IncidentHubSchematic onReconstruct={setReconstructProjectId} />
-          </div>
-        </motion.div>
-
-        {/* ================= SLIDE 4: PortfolioPulse (SYS-04) (Alternated Layout) ================= */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-40px' }}
-          variants={fadeInUp}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-20"
-        >
-          {/* Left Column: FIG.4 Schematic */}
-          <div className="lg:col-span-6 order-2 lg:order-1">
-            <PortfolioPulseSchematic onReconstruct={setReconstructProjectId} />
-          </div>
-
-          {/* Right Column: System Specification */}
-          <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col justify-between">
-            <div>
-              <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
-                SYS-04
-              </div>
-
-              <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
-                PortfolioPulse — Career Readiness Auditor
-              </h3>
-              <p className="text-xs font-mono tracking-widest text-slate-400 uppercase mt-1 mb-4">
-                AUTOMATED CODEBASE AUDITING • 20-SIGNAL SCORING ENGINE
-              </p>
-
-              <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                An automated engineering career intelligence platform that audits developer GitHub profiles, portfolio repositories, and web performance across ~20 hiring-readiness signals with headless SPA crawling.
-              </p>
-
-              {/* 3-Column Metrics */}
-              <div className="grid grid-cols-3 gap-3 mb-6">
-                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">20</div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    AUDIT SIGNALS
-                  </div>
-                </div>
-                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">100%</div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    DETERMINISTIC
-                  </div>
-                </div>
-                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">HEADLESS</div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    SPA CRAWL
-                  </div>
-                </div>
-              </div>
-
-              {/* Bullets */}
-              <div className="space-y-2.5 text-xs text-slate-300 font-mono mb-6">
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>Deterministic 20-point rule-based scoring engine integrating GitHub REST APIs</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>Headless SPA performance crawling and markup analysis with Puppeteer</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>Express API layer with in-memory caching and request deduplication</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>MongoDB database storing cached audit runs and historical score tracking</span>
-                </div>
-              </div>
-
-              {/* Tech Badges */}
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {['React', 'Vite', 'Node.js', 'Express.js', 'MongoDB', 'Puppeteer', 'GitHub API'].map((t) => (
-                  <span
-                    key={t}
-                    className="border border-slate-700/60 bg-transparent text-slate-400 text-xs px-2.5 py-1 rounded-md font-mono"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-4 flex items-center gap-3">
-              <a
-                href="https://dev-portfolio-checker.vercel.app"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#22d3ee]/40 bg-[#22d3ee]/10 hover:bg-[#22d3ee] text-[#22d3ee] hover:text-[#050811] transition-all text-xs font-bold shadow-[0_0_12px_rgba(34,211,238,0.15)]"
-              >
-                <span>Live Demo</span>
-                <FiExternalLink className="text-xs" />
-              </a>
-              <a
-                href="https://github.com/rakeshkumar0804/dev-portfolio-checker"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-700 bg-transparent text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all text-xs font-semibold"

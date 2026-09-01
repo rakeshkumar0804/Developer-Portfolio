@@ -80,6 +80,17 @@ export const primarySystems = [
   },
   {
     sysId: 'SYS-02',
+    id: 'chronos',
+    title: 'CHRONOS — Constraint-Based Timetable Scheduling Engine',
+    tagline: 'Constraint Satisfaction Problem (CSP) Backtracking & Heuristic Engine',
+    highlights:
+      'CSP solving via backtracking search with MRV and LCV heuristics, natural language constraint extraction via Gemini API, and live D3.js constraint graph comparison (2,328 vs 46 search nodes).',
+    stack: ['React', 'Node.js', 'PostgreSQL', 'Gemini API', 'D3.js', 'GSAP', 'Tailwind CSS'],
+    githubUrl: 'https://github.com/rakeshkumar0804/chronos-engine',
+    liveUrl: 'https://chronos-web-kappa.vercel.app',
+  },
+  {
+    sysId: 'SYS-03',
     id: 'syncpad',
     title: 'SyncPad',
     tagline: 'Real-Time Collaborative Code Editor with In-Browser Execution',
@@ -90,7 +101,7 @@ export const primarySystems = [
     liveUrl: 'https://sync-pad-client.vercel.app',
   },
   {
-    sysId: 'SYS-03',
+    sysId: 'SYS-04',
     id: 'incidenthub-ai',
     title: 'IncidentHub AI',
     tagline: 'Engineering Incident Intelligence & Root-Cause Analysis Platform',
@@ -99,17 +110,6 @@ export const primarySystems = [
     stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth'],
     githubUrl: 'https://github.com/rakeshkumar0804/incidenthub-ai',
     liveUrl: 'https://incidenthub-ai-web.vercel.app',
-  },
-  {
-    sysId: 'SYS-04',
-    id: 'portfoliopulse',
-    title: 'PortfolioPulse',
-    tagline: 'Developer Portfolio & GitHub Profile Hiring Readiness Auditor',
-    highlights:
-      'Deterministic 20-point rule-based scoring engine integrating GitHub REST APIs and headless SPA performance crawling with Puppeteer.',
-    stack: ['React', 'Vite', 'Node.js', 'Express.js', 'MongoDB', 'Puppeteer', 'GitHub API'],
-    githubUrl: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
-    liveUrl: 'https://dev-portfolio-checker.vercel.app',
   },
 ];
 

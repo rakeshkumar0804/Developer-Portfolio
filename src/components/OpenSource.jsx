@@ -37,15 +37,15 @@ const openSourceRepos = [
     url: 'https://github.com/rakeshkumar0804/leaveflow-hr',
   },
   {
-    id: 'incidenthub',
-    category: 'SRE • INTELLIGENCE',
+    id: 'portfoliopulse',
+    category: 'AUTOMATION • CRAWLER',
     stars: '5 ★',
-    title: 'IncidentHub AI Engine',
+    title: 'PortfolioPulse',
     description:
-      'Multi-tenant incident intelligence platform correlating GitHub, Sentry, Slack, and Jira signals for automated root-cause analysis.',
-    tech: 'TypeScript',
-    techColor: 'bg-cyan-400',
-    url: 'https://github.com/rakeshkumar0804/incidenthub-ai',
+      'Deterministic portfolio and GitHub readiness analyzer running ~20 audit rules and headless SPA performance crawling.',
+    tech: 'JavaScript',
+    techColor: 'bg-amber-400',
+    url: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
   },
   {
     id: 'syncpad',
