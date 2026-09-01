@@ -13,6 +13,7 @@ import OpenSource from './components/OpenSource';
 import Architect from './components/Architect';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import HudFrame from './components/HudFrame';
 import SystemBootloader from './components/SystemBootloader';
 
 function App() {
@@ -64,6 +65,8 @@ function App() {
       {booting && (
         <SystemBootloader onComplete={() => setBooting(false)} />
       )}
+
+      <HudFrame />
 
       {/* Sticky Navigation Header */}
       <Navbar />
