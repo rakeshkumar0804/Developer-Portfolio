@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink } from 'react-icons/fi';
+import { useGitHubStats } from '../hooks/useGitHubStats';
 
 const openSourceRepos = [
   {
@@ -72,6 +73,8 @@ const openSourceRepos = [
 ];
 
 export default function OpenSource() {
+  const stats = useGitHubStats('rakeshkumar0804');
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 15 },
     visible: (custom = 0) => ({
@@ -117,8 +120,9 @@ export default function OpenSource() {
         >
           {/* Column 1: Total Stars */}
           <div className="flex flex-col items-center md:items-start justify-center pb-4 md:pb-0 md:pr-6 text-center md:text-left">
-            <div className="text-amber-400 font-mono font-bold text-2xl md:text-3xl">
-              40+ ★
+            <div className="text-amber-400 font-mono font-bold text-2xl md:text-3xl flex items-center gap-1">
+              <span>{stats.totalStars}+</span>
+              <span className="text-amber-400">★</span>
             </div>
             <div className="text-slate-500 font-mono text-[10px] tracking-widest uppercase mt-1">
               TOTAL STARS
@@ -128,7 +132,7 @@ export default function OpenSource() {
           {/* Column 2: Public Repos */}
           <div className="flex flex-col items-center md:items-start justify-center py-4 md:py-0 md:px-6 text-center md:text-left">
             <div className="text-cyan-400 font-mono font-bold text-2xl md:text-3xl">
-              9
+              {stats.publicRepos}
             </div>
             <div className="text-slate-500 font-mono text-[10px] tracking-widest uppercase mt-1">
               PUBLIC REPOS
