@@ -4,6 +4,17 @@ import { FiGithub, FiExternalLink } from 'react-icons/fi';
 
 const openSourceRepos = [
   {
+    id: 'trace',
+    category: 'AI • INCIDENT INVESTIGATION',
+    stars: '89.5% ACC',
+    title: 'TRACE — Causal RCA Engine',
+    description:
+      'Temporal root-cause analysis & causal inference engine benchmarked across 19 hidden-ground-truth production incidents with adversarial falsification.',
+    tech: 'Python / FastAPI',
+    techColor: 'bg-cyan-400',
+    url: 'https://github.com/rakeshkumar0804/trace-rca-engine',
+  },
+  {
     id: 'solar-system',
     category: 'WEBGL • 3D',
     stars: '5 ★',

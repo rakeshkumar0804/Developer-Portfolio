@@ -69,14 +69,14 @@ export const skillsData = [
 export const primarySystems = [
   {
     sysId: 'SYS-01',
-    id: 'incidenthub-ai',
-    title: 'IncidentHub AI',
-    tagline: 'Engineering Incident Intelligence & Root-Cause Analysis Platform',
+    id: 'trace',
+    title: 'TRACE — Temporal Root-cause Analysis & Causal Engine',
+    tagline: 'AI-Assisted Production Incident Investigation Engine',
     highlights:
-      'Multi-tenant RBAC boundary isolation, real OAuth flows (GitHub, Sentry, Slack, Jira), Redis distributed locking, and live WebSocket triage rooms.',
-    stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth'],
-    githubUrl: 'https://github.com/rakeshkumar0804/incidenthub-ai',
-    liveUrl: 'https://incidenthub-ai-web.vercel.app',
+      'Multi-hypothesis competition engine running real-time adversarial falsification loops across 19 hidden-ground-truth production incidents benchmarked at 89.5% accuracy.',
+    stack: ['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'Gemini API', 'Next.js', 'TypeScript', 'D3.js', 'GSAP', 'Tailwind CSS'],
+    githubUrl: 'https://github.com/rakeshkumar0804/trace-rca-engine',
+    liveUrl: 'https://trace-rca-engine.vercel.app',
   },
   {
     sysId: 'SYS-02',
@@ -91,6 +91,17 @@ export const primarySystems = [
   },
   {
     sysId: 'SYS-03',
+    id: 'incidenthub-ai',
+    title: 'IncidentHub AI',
+    tagline: 'Engineering Incident Intelligence & Root-Cause Analysis Platform',
+    highlights:
+      'Multi-tenant RBAC boundary isolation, real OAuth flows (GitHub, Sentry, Slack, Jira), Redis distributed locking, and live WebSocket triage rooms.',
+    stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth'],
+    githubUrl: 'https://github.com/rakeshkumar0804/incidenthub-ai',
+    liveUrl: 'https://incidenthub-ai-web.vercel.app',
+  },
+  {
+    sysId: 'SYS-04',
     id: 'portfoliopulse',
     title: 'PortfolioPulse',
     tagline: 'Developer Portfolio & GitHub Profile Hiring Readiness Auditor',
@@ -101,7 +112,7 @@ export const primarySystems = [
     liveUrl: 'https://dev-portfolio-checker.vercel.app',
   },
   {
-    sysId: 'SYS-04',
+    sysId: 'SYS-05',
     id: 'kohli-analytics',
     title: 'Kohli Analytics',
     tagline: 'Sports Statistics & High-Performance Data Visualization Dashboard',

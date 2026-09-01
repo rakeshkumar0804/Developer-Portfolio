@@ -183,7 +183,7 @@ export default function Architect() {
 
                 {/* Expanded Bio (Seamless Text Block — NO nested inner card wrapper) */}
                 <div className="border-t border-slate-800/80 pt-5 mt-4 text-xs md:text-sm font-mono text-slate-300 leading-relaxed">
-                  Full-Stack Web Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production-grade MERN architectures, deterministic backend systems, and real-time synchronization. Proven track record architecting and shipping complex full-stack web applications end-to-end—from collaborative in-browser WASM code studios (SyncPad) and multi-tenant incident intelligence platforms (IncidentHub AI) to automated career intelligence engines (PortfolioPulse). Strong foundation in data structures, RESTful API design, RBAC permission security, database modeling, and client-side performance optimization.
+                  Full-Stack Web Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production-grade backend systems, deterministic AI reasoning engines, and real-time synchronization. Proven track record architecting and shipping complex full-stack web applications end-to-end—from temporal root-cause investigation engines (TRACE) and collaborative in-browser WASM code studios (SyncPad) to multi-tenant incident intelligence platforms (IncidentHub AI). Strong foundation in data structures, RESTful API design, RBAC permission security, database modeling, and client-side performance optimization.
                 </div>
               </div>
             </motion.div>
@@ -246,6 +246,10 @@ export default function Architect() {
                 </div>
 
                 <div className="space-y-2.5 text-xs text-slate-300 font-mono">
+                  <div className="flex items-start gap-2">
+                    <span className="text-amber-400">▪</span>
+                    <span>TRACE: Architected temporal root-cause analysis engine with adversarial hypothesis competition achieving 89.5% accuracy across 19 ground-truth incidents.</span>
+                  </div>
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>
                     <span>IncidentHub AI: Built multi-tenant incident intelligence platform with Redis locks and 236/236 passing test suite.</span>

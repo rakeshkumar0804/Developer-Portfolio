@@ -4,9 +4,74 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlay, FiPause, FiChevronLeft, FiChevronRight, FiPlus, FiMinus, FiRotateCcw, FiCheckCircle } from 'react-icons/fi';
 
 const reconstructionData = {
-  'incidenthub-ai': {
+  'trace': {
     fig: 'FIG.1',
     sysId: 'SYS-01',
+    title: 'TRACE',
+    subtitle: 'TEMPORAL ROOT-CAUSE ANALYSIS & CAUSAL ENGINE',
+    milestones: [
+      {
+        step: 1,
+        hash: 'f9a21b0',
+        time: 'T-48:00',
+        message: 'feat(sandbox): Synthetic production sandbox & hidden ground-truth telemetry injector',
+        activeNodes: ['sandbox', 'fastapi'],
+        activeLinks: ['telemetry'],
+        resolvedTitle: 'Synthetic Outage Ground-Truth Isolation',
+        resolvedDesc: 'Constructed isolated multi-service topology with 3 complex incident archetypes (cascading failures, connection pool exhaustion, memory leaks) with secret ground truth.',
+      },
+      {
+        step: 2,
+        hash: 'b14c82d',
+        time: 'T-36:00',
+        message: 'feat(vector): pgvector similarity indexing & temporal evidence correlation',
+        activeNodes: ['sandbox', 'fastapi', 'postgres'],
+        activeLinks: ['telemetry', 'vector'],
+        resolvedTitle: 'High-Dimensional Trace Correlation',
+        resolvedDesc: 'Indexed high-frequency metrics and stack traces into PostgreSQL using pgvector cosine embeddings to correlate distributed outage signatures.',
+      },
+      {
+        step: 3,
+        hash: 'a78d093',
+        time: 'T-24:00',
+        message: 'feat(engine): Multi-hypothesis generator & adversarial falsification loop',
+        activeNodes: ['sandbox', 'fastapi', 'gemini', 'postgres'],
+        activeLinks: ['telemetry', 'vector', 'gemini'],
+        resolvedTitle: 'LLM Hallucination & Confirmation Bias Mitigation',
+        resolvedDesc: 'Deployed competitive hypothesis framework where Gemini API actively generates disproving evidence to invalidate false leads before final conclusion.',
+      },
+      {
+        step: 4,
+        hash: 'c2094ef',
+        time: 'T-12:00',
+        message: 'feat(viz): Interactive temporal DAG graph visualizer with D3.js and GSAP',
+        activeNodes: ['sandbox', 'fastapi', 'gemini', 'postgres', 'd3graph'],
+        activeLinks: ['telemetry', 'vector', 'gemini', 'graph'],
+        resolvedTitle: 'Causal Sequence Transparency',
+        resolvedDesc: 'Rendered interactive Directed Acyclic Graph projecting root-cause propagation paths with live timeline scrubbing and confidence scoring.',
+      },
+      {
+        step: 5,
+        hash: 'e81a902',
+        time: 'T-00:00 [PROD]',
+        message: 'release: 89.5% accuracy benchmark across 19 hidden-ground-truth incidents',
+        activeNodes: ['sandbox', 'fastapi', 'gemini', 'postgres', 'd3graph'],
+        activeLinks: ['telemetry', 'vector', 'gemini', 'graph'],
+        resolvedTitle: 'Production RCA Benchmark Verified',
+        resolvedDesc: 'Outperformed naive single-shot LLM baseline (89.5% vs 73.7%) with zero guesswork and fully documented failure modes.',
+      },
+    ],
+    nodes: [
+      { id: 'sandbox', label: 'Synthetic Sandbox', sub: 'Injected Telemetry', x: 80, y: 70, type: 'cyan' },
+      { id: 'fastapi', label: 'FastAPI Engine', sub: 'Evidence Correlation', x: 290, y: 70, type: 'cyan' },
+      { id: 'gemini', label: 'Hypothesis Engine', sub: 'Adversarial Falsifier', x: 500, y: 70, type: 'amber' },
+      { id: 'postgres', label: 'PostgreSQL + pgvector', sub: 'Vector Similarity', x: 80, y: 220, type: 'rose' },
+      { id: 'd3graph', label: 'Causal DAG Render', sub: 'D3.js + GSAP', x: 290, y: 220, type: 'purple' },
+    ],
+  },
+  'incidenthub-ai': {
+    fig: 'FIG.3',
+    sysId: 'SYS-03',
     title: 'IncidentHub AI',
     subtitle: 'MULTI-TENANT SRE PLATFORM • INCIDENT TRIAGE ENGINE',
     milestones: [

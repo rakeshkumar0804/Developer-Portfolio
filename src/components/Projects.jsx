@@ -4,8 +4,8 @@ import { FiGithub, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
 import { secondaryDeployments } from '../data/portfolioData';
 import ArchitectureReconstructModal from './ArchitectureReconstructModal';
 
-// FIG.1: IncidentHub AI Interactive Schematic
-function IncidentHubSchematic({ onReconstruct }) {
+// FIG.1: TRACE Interactive Schematic
+function TraceSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/90 rounded-lg p-6 bg-slate-950/40 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
@@ -14,7 +14,7 @@ function IncidentHubSchematic({ onReconstruct }) {
         </span>
         <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider">
           <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-          STREAMING
+          ACTIVE PIPELINE
         </span>
       </div>
 
@@ -23,79 +23,72 @@ function IncidentHubSchematic({ onReconstruct }) {
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-              CLIENT / REACT + TS
+              SYNTHETIC SANDBOX
             </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">SPA + Zustand</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Optimistic state</div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Secret Injected Telemetry</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Logs & Metrics Stream</div>
           </div>
 
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-              API GATEWAY / EXPRESS
+            <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              HYPOTHESIS COMPETITION
             </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">RBAC & HMAC Verify</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Stateless JWT</div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Gemini API + pgvector</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Adversarial Falsifier</div>
           </div>
         </div>
 
         <div className="flex items-center justify-around text-[9px] font-mono text-cyan-400/80 px-2 py-0.5">
-          <span>↕ HTTPS REST</span>
-          <span>↕ WSS TRIAGE</span>
-          <span>↕ OAUTH 2.0</span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 relative z-10">
-          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-              OAUTH PROVIDERS
-            </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">GitHub · Sentry · Slack</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Webhook Ingestion</div>
-          </div>
-
-          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-              WEBSOCKET ROOMS
-            </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Live Incident Rooms</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Sub-50ms Sync</div>
-          </div>
+          <span>↕ TELEMETRY STREAM</span>
+          <span>↕ ADVERSARIAL FALSIFIER</span>
+          <span>↕ CAUSAL DAG</span>
         </div>
 
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-rose-400 font-mono font-bold">
               <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
-              REDIS CLUSTER
+              FASTAPI ENGINE
             </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Distributed Locking</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Pub/Sub Broker</div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">PostgreSQL + pgvector</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Evidence Correlation Layer</div>
           </div>
 
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
-            <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-mono font-bold">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-              POSTGRESQL DB
+            <div className="flex items-center gap-1.5 text-[10px] text-purple-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-purple-400" />
+              CAUSAL DAG RENDER
             </div>
-            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Multi-Tenant Store</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Row-Level Security (RLS)</div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">D3.js + GSAP</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Temporal Graph Projection</div>
+          </div>
+        </div>
+
+        <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-[10px] text-slate-300 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+              DETERMINISTIC FALSIFICATION LOOP
+            </div>
+            <span className="text-[9px] font-mono text-emerald-400">89.5% ACCURACY</span>
+          </div>
+          <div className="text-[10px] font-mono text-slate-500 mt-0.5">
+            19 hidden-ground-truth incident scenarios evaluated against naive baseline
           </div>
         </div>
       </div>
 
       <div className="pt-3.5 mt-2 border-t border-slate-800/70 flex items-center justify-between text-[10px] font-mono text-slate-400">
         <button
-          onClick={() => onReconstruct('incidenthub-ai')}
+          onClick={() => onReconstruct('trace')}
           className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
         >
           <FiRefreshCw className="text-cyan-400" />
           RECONSTRUCT BUILD HISTORY
         </button>
         <button
-          onClick={() => onReconstruct('incidenthub-ai')}
+          onClick={() => onReconstruct('trace')}
           className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
         >
           SCRUB THE TIMELINE →
@@ -199,13 +192,114 @@ function SyncPadSchematic({ onReconstruct }) {
   );
 }
 
-// FIG.3: PortfolioPulse Interactive Schematic
-function PortfolioPulseSchematic({ onReconstruct }) {
+// FIG.3: IncidentHub AI Interactive Schematic
+function IncidentHubSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/90 rounded-lg p-6 bg-slate-950/40 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
         <span className="text-slate-400 font-bold tracking-wider">
           FIG.3 — SYSTEM ARCHITECTURE
+        </span>
+        <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider">
+          <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
+          STREAMING
+        </span>
+      </div>
+
+      <div className="relative py-3 flex flex-col gap-3">
+        <div className="grid grid-cols-2 gap-3 relative z-10">
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+              CLIENT / REACT + TS
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">SPA + Zustand</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Optimistic state</div>
+          </div>
+
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+              API GATEWAY / EXPRESS
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">RBAC & HMAC Verify</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Stateless JWT</div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-around text-[9px] font-mono text-cyan-400/80 px-2 py-0.5">
+          <span>↕ HTTPS REST</span>
+          <span>↕ WSS TRIAGE</span>
+          <span>↕ OAUTH 2.0</span>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 relative z-10">
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              OAUTH PROVIDERS
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">GitHub · Sentry · Slack</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Webhook Ingestion</div>
+          </div>
+
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+              WEBSOCKET ROOMS
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Live Incident Rooms</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Sub-50ms Sync</div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 relative z-10">
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-rose-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-rose-400" />
+              REDIS CLUSTER
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Distributed Locking</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Pub/Sub Broker</div>
+          </div>
+
+          <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
+            <div className="flex items-center gap-1.5 text-[10px] text-amber-400 font-mono font-bold">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              POSTGRESQL DB
+            </div>
+            <div className="text-xs font-sans font-medium text-slate-200 mt-1">Multi-Tenant Store</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Row-Level Security (RLS)</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-3.5 mt-2 border-t border-slate-800/70 flex items-center justify-between text-[10px] font-mono text-slate-400">
+        <button
+          onClick={() => onReconstruct('incidenthub-ai')}
+          className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
+        >
+          <FiRefreshCw className="text-cyan-400" />
+          RECONSTRUCT BUILD HISTORY
+        </button>
+        <button
+          onClick={() => onReconstruct('incidenthub-ai')}
+          className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+        >
+          SCRUB THE TIMELINE →
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// FIG.4: PortfolioPulse Interactive Schematic
+function PortfolioPulseSchematic({ onReconstruct }) {
+  return (
+    <div className="border border-slate-800/90 rounded-lg p-6 bg-slate-950/40 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full relative overflow-hidden group">
+      <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
+        <span className="text-slate-400 font-bold tracking-wider">
+          FIG.4 — SYSTEM ARCHITECTURE
         </span>
         <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider">
           <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -293,13 +387,13 @@ function PortfolioPulseSchematic({ onReconstruct }) {
   );
 }
 
-// FIG.4: Kohli Analytics Interactive Schematic
+// FIG.5: Kohli Analytics Interactive Schematic
 function KohliAnalyticsSchematic({ onReconstruct }) {
   return (
     <div className="border border-slate-800/90 rounded-lg p-6 bg-slate-950/40 backdrop-blur-sm shadow-xl flex flex-col justify-between h-full relative overflow-hidden group">
       <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/70 text-xs font-mono">
         <span className="text-slate-400 font-bold tracking-wider">
-          FIG.4 — SYSTEM ARCHITECTURE
+          FIG.5 — SYSTEM ARCHITECTURE
         </span>
         <span className="flex items-center gap-1.5 text-cyan-400 font-semibold tracking-wider">
           <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
@@ -440,7 +534,7 @@ export default function Projects() {
           </p>
         </motion.div>
 
-        {/* ================= SLIDE 1: IncidentHub AI (SYS-01) ================= */}
+        {/* ================= SLIDE 1: TRACE (SYS-01) ================= */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -448,7 +542,7 @@ export default function Projects() {
           variants={fadeInUp}
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32"
         >
-          {/* Left Column: System Specification (Clean & Unboxed) */}
+          {/* Left Column: System Specification */}
           <div className="lg:col-span-6 flex flex-col justify-between">
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
@@ -456,61 +550,61 @@ export default function Projects() {
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
-                IncidentHub AI — Root-Cause Intelligence
+                TRACE — Temporal Root-cause Analysis & Causal Engine
               </h3>
               <p className="text-xs font-mono tracking-widest text-slate-400 uppercase mt-1 mb-4">
-                MULTI-TENANT SRE PLATFORM • INCIDENT TRIAGE ENGINE
+                AI-ASSISTED PRODUCTION INCIDENT INVESTIGATION ENGINE
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                A multi-tenant engineering incident intelligence platform that correlates signals across GitHub, Sentry, Slack, and Jira to automate outage triage and generate evidence-grounded postmortems.
+                Can an AI system genuinely investigate a production incident it's never seen — with the answer hidden from it — or does it just generate a convincing guess? I built a synthetic production environment with secretly-injected incidents, then built TRACE to compete multiple root-cause hypotheses against each other, actively try to disprove its own leading theory through falsification, and only conclude when the evidence holds up. Benchmarked at 89.5% root-cause accuracy vs. 73.7% for a naive single-shot LLM baseline across 19 hidden-ground-truth incidents — including honestly-documented failure cases.
               </p>
 
-              {/* 3-Column Metrics (Clean & Standalone) */}
+              {/* 3-Column Metrics */}
               <div className="grid grid-cols-3 gap-3 mb-6">
-                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">236/236</div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
+                  <div className="text-xl font-bold text-cyan-400 font-mono">89.5%</div>
                   <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    TESTS PASSING
+                    ACCURACY (VS 73.7% NAIVE BASELINE)
                   </div>
                 </div>
-                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">4</div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
+                  <div className="text-xl font-bold text-cyan-400 font-mono">19</div>
                   <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    OAUTH FLOWS
+                    SCENARIOS (HIDDEN GROUND TRUTH)
                   </div>
                 </div>
-                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">100%</div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
+                  <div className="text-sm sm:text-base font-bold text-cyan-400 font-mono">ZERO GUESSWORK</div>
                   <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    RBAC ISOLATION
+                    DETERMINISTIC FALSIFICATION
                   </div>
                 </div>
               </div>
 
-              {/* Bullets with generous vertical spacing */}
+              {/* Bullets */}
               <div className="space-y-2.5 text-xs text-slate-300 font-mono mb-6">
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Real OAuth 2.0 integrations with GitHub, Sentry, Slack, and Jira</span>
+                  <span>Multi-hypothesis competition engine running real-time adversarial falsification loops</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Multi-tenant RBAC with granular role permissions and team isolation</span>
+                  <span>Synthetic production sandbox evaluating 3 complex incident archetypes with hidden ground truth</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Redis-backed distributed locking and idempotent HMAC-verified webhooks</span>
+                  <span>Vector similarity telemetry matching with pgvector, PostgreSQL, and FastAPI pipeline</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Real-time WebSocket triage rooms for live incident coordination</span>
+                  <span>Interactive temporal DAG causal visualization built with D3.js and smooth GSAP morphing</span>
                 </div>
               </div>
 
-              {/* Tech Badges (Outline Pills) */}
+              {/* Tech Badges */}
               <div className="flex flex-wrap gap-1.5 mb-6">
-                {['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth'].map((t) => (
+                {['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'Gemini API', 'Next.js', 'TypeScript', 'D3.js', 'GSAP', 'Tailwind CSS'].map((t) => (
                   <span
                     key={t}
                     className="border border-slate-700/60 bg-transparent text-slate-400 text-xs px-2.5 py-1 rounded-md font-mono"
@@ -523,7 +617,7 @@ export default function Projects() {
 
             <div className="pt-4 flex items-center gap-3">
               <a
-                href="https://incidenthub-ai-web.vercel.app"
+                href="https://trace-rca-engine.vercel.app"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#22d3ee]/40 bg-[#22d3ee]/10 hover:bg-[#22d3ee] text-[#22d3ee] hover:text-[#050811] transition-all text-xs font-bold shadow-[0_0_12px_rgba(34,211,238,0.15)]"
@@ -532,7 +626,7 @@ export default function Projects() {
                 <FiExternalLink className="text-xs" />
               </a>
               <a
-                href="https://github.com/rakeshkumar0804/incidenthub-ai"
+                href="https://github.com/rakeshkumar0804/trace-rca-engine"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-700 bg-transparent text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all text-xs font-semibold"
@@ -545,7 +639,7 @@ export default function Projects() {
 
           {/* Right Column: FIG.1 Schematic */}
           <div className="lg:col-span-6">
-            <IncidentHubSchematic onReconstruct={setReconstructProjectId} />
+            <TraceSchematic onReconstruct={setReconstructProjectId} />
           </div>
         </motion.div>
 
@@ -658,7 +752,7 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        {/* ================= SLIDE 3: PortfolioPulse (SYS-03) ================= */}
+        {/* ================= SLIDE 3: IncidentHub AI (SYS-03) ================= */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -671,6 +765,120 @@ export default function Projects() {
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
                 SYS-03
+              </div>
+
+              <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
+                IncidentHub AI — Root-Cause Intelligence
+              </h3>
+              <p className="text-xs font-mono tracking-widest text-slate-400 uppercase mt-1 mb-4">
+                MULTI-TENANT SRE PLATFORM • INCIDENT TRIAGE ENGINE
+              </p>
+
+              <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
+                A multi-tenant engineering incident intelligence platform that correlates signals across GitHub, Sentry, Slack, and Jira to automate outage triage and generate evidence-grounded postmortems.
+              </p>
+
+              {/* 3-Column Metrics */}
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
+                  <div className="text-xl font-bold text-cyan-400 font-mono">236/236</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
+                    TESTS PASSING
+                  </div>
+                </div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
+                  <div className="text-xl font-bold text-cyan-400 font-mono">4</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
+                    OAUTH FLOWS
+                  </div>
+                </div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
+                  <div className="text-xl font-bold text-cyan-400 font-mono">100%</div>
+                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
+                    RBAC ISOLATION
+                  </div>
+                </div>
+              </div>
+
+              {/* Bullets */}
+              <div className="space-y-2.5 text-xs text-slate-300 font-mono mb-6">
+                <div className="flex items-start gap-2">
+                  <span className="text-cyan-400">▪</span>
+                  <span>Real OAuth 2.0 integrations with GitHub, Sentry, Slack, and Jira</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-cyan-400">▪</span>
+                  <span>Multi-tenant RBAC with granular role permissions and team isolation</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-cyan-400">▪</span>
+                  <span>Redis-backed distributed locking and idempotent HMAC-verified webhooks</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-cyan-400">▪</span>
+                  <span>Real-time WebSocket triage rooms for live incident coordination</span>
+                </div>
+              </div>
+
+              {/* Tech Badges */}
+              <div className="flex flex-wrap gap-1.5 mb-6">
+                {['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSocket', 'OAuth'].map((t) => (
+                  <span
+                    key={t}
+                    className="border border-slate-700/60 bg-transparent text-slate-400 text-xs px-2.5 py-1 rounded-md font-mono"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-4 flex items-center gap-3">
+              <a
+                href="https://incidenthub-ai-web.vercel.app"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#22d3ee]/40 bg-[#22d3ee]/10 hover:bg-[#22d3ee] text-[#22d3ee] hover:text-[#050811] transition-all text-xs font-bold shadow-[0_0_12px_rgba(34,211,238,0.15)]"
+              >
+                <span>Live Demo</span>
+                <FiExternalLink className="text-xs" />
+              </a>
+              <a
+                href="https://github.com/rakeshkumar0804/incidenthub-ai"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-700 bg-transparent text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all text-xs font-semibold"
+              >
+                <FiGithub className="text-xs text-cyan-400" />
+                <span>Source Code</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: FIG.3 Schematic */}
+          <div className="lg:col-span-6">
+            <IncidentHubSchematic onReconstruct={setReconstructProjectId} />
+          </div>
+        </motion.div>
+
+        {/* ================= SLIDE 4: PortfolioPulse (SYS-04) (Alternated Layout) ================= */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-40px' }}
+          variants={fadeInUp}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32"
+        >
+          {/* Left Column: FIG.4 Schematic */}
+          <div className="lg:col-span-6 order-2 lg:order-1">
+            <PortfolioPulseSchematic onReconstruct={setReconstructProjectId} />
+          </div>
+
+          {/* Right Column: System Specification */}
+          <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col justify-between">
+            <div>
+              <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
+                SYS-04
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -760,14 +968,9 @@ export default function Projects() {
               </a>
             </div>
           </div>
-
-          {/* Right Column: FIG.3 Schematic */}
-          <div className="lg:col-span-6">
-            <PortfolioPulseSchematic onReconstruct={setReconstructProjectId} />
-          </div>
         </motion.div>
 
-        {/* ================= SLIDE 4: Kohli Analytics (SYS-04) (Alternated Layout) ================= */}
+        {/* ================= SLIDE 5: Kohli Analytics (SYS-05) ================= */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -775,16 +978,11 @@ export default function Projects() {
           variants={fadeInUp}
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-20"
         >
-          {/* Left Column: FIG.4 Schematic */}
-          <div className="lg:col-span-6 order-2 lg:order-1">
-            <KohliAnalyticsSchematic onReconstruct={setReconstructProjectId} />
-          </div>
-
-          {/* Right Column: System Specification */}
-          <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col justify-between">
+          {/* Left Column: System Specification */}
+          <div className="lg:col-span-6 flex flex-col justify-between">
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
-                SYS-04
+                SYS-05
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -875,6 +1073,11 @@ export default function Projects() {
                 <span>Source Code</span>
               </a>
             </div>
+          </div>
+
+          {/* Right Column: FIG.5 Schematic */}
+          <div className="lg:col-span-6">
+            <KohliAnalyticsSchematic onReconstruct={setReconstructProjectId} />
           </div>
         </motion.div>
       </div>

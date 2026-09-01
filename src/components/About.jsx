@@ -4,6 +4,15 @@ import { motion } from 'framer-motion';
 const operationsList = [
   {
     id: 'OP-01',
+    title: 'TRACE',
+    description: 'Temporal root-cause analysis & causal inference engine with multi-hypothesis adversarial falsification loops.',
+    status: 'ACTIVE',
+    statusColor: 'text-cyan-400',
+    dotColor: 'bg-cyan-400',
+    pulse: true,
+  },
+  {
+    id: 'OP-02',
     title: 'SyncPad',
     description: 'Real-time collaborative code editor with Yjs CRDT synchronization and in-browser WASM runtime.',
     status: 'ACTIVE',
@@ -12,22 +21,13 @@ const operationsList = [
     pulse: true,
   },
   {
-    id: 'OP-02',
+    id: 'OP-03',
     title: 'IncidentHub AI',
     description: 'Multi-tenant incident intelligence platform with real OAuth correlation, RBAC, and triage rooms.',
     status: 'ACTIVE',
     statusColor: 'text-cyan-400',
     dotColor: 'bg-cyan-400',
     pulse: true,
-  },
-  {
-    id: 'OP-03',
-    title: 'Distributed Systems & Real-Time Sync',
-    description: 'Deep dive into Redis concurrency control, WebSocket telemetry, and idempotent event architectures.',
-    status: 'RESEARCH',
-    statusColor: 'text-amber-400',
-    dotColor: 'bg-amber-400',
-    pulse: false,
   },
 ];
 
