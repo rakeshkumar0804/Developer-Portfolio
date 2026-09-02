@@ -13,11 +13,11 @@ import OpenSource from './components/OpenSource';
 import Architect from './components/Architect';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import SystemBootloader from './components/SystemBootloader';
 import HudFrame from './components/HudFrame';
+import SystemBootloader from './components/SystemBootloader';
 
 function App() {
-  const [booting, setBooting] = useState(true);
+  const [booting, setBooting] = useState(() => !sessionStorage.getItem('rakesh_core_booted'));
 
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll with Lighter, Effortless Physics
@@ -38,16 +38,26 @@ function App() {
     }
     animationFrameId = requestAnimationFrame(raf);
 
+    const handleReboot = () => {
+      sessionStorage.removeItem('rakesh_core_booted');
+      setBooting(true);
+    };
+
+    window.addEventListener('reboot-system', handleReboot);
+
     return () => {
       cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('reboot-system', handleReboot);
       lenis.destroy();
       window.lenis = null;
     };
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-workbench text-[#f8fafc] font-sans selection:bg-[#22d3ee]/30 selection:text-[#22d3ee] overflow-x-hidden pb-28">
+    <div className="relative min-h-screen bg-subtle-grid text-[#f8fafc] font-sans selection:bg-[#22d3ee]/30 selection:text-[#22d3ee] overflow-x-hidden pb-8">
       {booting && <SystemBootloader onComplete={() => setBooting(false)} />}
+
+      <HudFrame />
 
       {/* Sticky Navigation Header */}
       <Navbar />
@@ -70,9 +80,6 @@ function App() {
 
       {/* Footer */}
       <Footer />
-
-      {/* Persistent section navigation & live telemetry */}
-      <HudFrame />
     </div>
   );
 }

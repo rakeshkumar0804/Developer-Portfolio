@@ -37,7 +37,7 @@ export default function Hero() {
               <span className="h-3 w-3 rounded-full bg-[#27c93f] inline-block shadow-[0_0_6px_rgba(39,201,63,0.5)]" />
               <span className="ml-2 text-slate-300 font-semibold flex items-center gap-1.5 font-mono text-xs">
                 <FiTerminal className="text-cyan-400" />
-                rakesh@workbench:~
+                rakesh@portfolio:~ (zsh)
               </span>
             </div>
             <div className="hidden sm:flex items-center gap-3 text-xs text-slate-500 font-mono">
@@ -72,7 +72,7 @@ export default function Hero() {
                   className="text-xs text-slate-400 flex items-center gap-2 font-mono"
                 >
                   <span className="text-emerald-400 font-bold">$</span>
-                  <span>whoami --focus</span>
+                  <span>whoami</span>
                 </motion.div>
 
                 {/* Headline */}
@@ -83,8 +83,7 @@ export default function Hero() {
                   variants={fadeInUp}
                   className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-100 tracking-tight leading-tight"
                 >
-                  <span className="block">Hi, I’m <span className="text-[#38bdf8] drop-shadow-[0_0_15px_rgba(56,189,248,0.35)]">Rakesh Kumar.</span></span>
-                  <span className="mt-2 block text-slate-200">I build full-stack systems that explain their work.</span>
+                  Hi, I'm <span className="text-[#38bdf8] drop-shadow-[0_0_15px_rgba(56,189,248,0.35)]">Rakesh Kumar</span> — Full-Stack Developer & Systems Builder
                 </motion.h1>
 
                 {/* Sub-text Pitch */}
@@ -169,8 +168,8 @@ export default function Hero() {
                   className="rounded-xl border border-slate-800/90 bg-[#060a12]/90 p-6 text-xs sm:text-sm font-mono text-slate-300 leading-relaxed shadow-inner"
                 >
                   <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/80 text-xs text-slate-400">
-                    <span className="text-emerald-400 font-bold">$ cat proof.json</span>
-                    <span className="text-slate-500 uppercase tracking-widest text-[10px]">CURRENT FOCUS</span>
+                    <span className="text-emerald-400 font-bold">$ cat developer.json</span>
+                    <span className="text-slate-500 uppercase tracking-widest text-[10px]">JSON</span>
                   </div>
 
                   <div className="space-y-1.5 text-xs sm:text-sm">
@@ -179,16 +178,16 @@ export default function Hero() {
                       <span className="text-[#38bdf8]">"name"</span>: <span className="text-emerald-400">"Rakesh Kumar"</span>,
                     </div>
                     <div className="pl-4">
-                      <span className="text-[#38bdf8]">"builds"</span>: [<span className="text-[#facc15]">"TRACE"</span>, <span className="text-[#facc15]">"CHRONOS"</span>, <span className="text-[#facc15]">"SyncPad"</span>],
+                      <span className="text-[#38bdf8]">"degree"</span>: <span className="text-emerald-400">"B.Tech CSE (2026)"</span>,
                     </div>
                     <div className="pl-4">
-                      <span className="text-[#38bdf8]">"systems"</span>: [<span className="text-[#facc15]">"APIs"</span>, <span className="text-[#facc15]">"real-time"</span>, <span className="text-[#facc15]">"data"</span>],
+                      <span className="text-[#38bdf8]">"stack"</span>: [<span className="text-[#facc15]">"React"</span>, <span className="text-[#facc15]">"Node"</span>, <span className="text-[#facc15]">"Express"</span>, <span className="text-[#facc15]">"MongoDB"</span>],
                     </div>
                     <div className="pl-4">
-                      <span className="text-[#38bdf8]">"principle"</span>: <span className="text-emerald-400">"make it testable"</span>,
+                      <span className="text-[#38bdf8]">"focus"</span>: [<span className="text-[#facc15]">"REST APIs"</span>, <span className="text-[#facc15]">"JWT & RBAC"</span>, <span className="text-[#facc15]">"CRDTs"</span>],
                     </div>
                     <div className="pl-4">
-                      <span className="text-[#38bdf8]">"status"</span>: <span className="text-emerald-400">"open_to_sde_roles"</span>
+                      <span className="text-[#38bdf8]">"status"</span>: <span className="text-emerald-400">"Actively Interviewing for SDE Roles"</span>
                     </div>
                     <div><span className="text-slate-500">&#125;</span></div>
                   </div>

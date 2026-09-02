@@ -3,44 +3,6 @@ import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
 import ArchitectureReconstructModal from './ArchitectureReconstructModal';
 
-const compactFlowPaths = [
-  'M25 15 V43 H50 V61 H25 V83',
-  'M75 15 V43 H50 V61 H75 V83',
-  'M25 43 H75',
-];
-
-const extendedFlowPaths = [
-  'M25 12 V37 H50 V52 H25 V68 H50 V86',
-  'M75 12 V37 H50 V52 H75 V68 H50 V86',
-  'M25 37 H75',
-  'M25 68 H75',
-];
-
-function AnimatedFlowLines({ extended = false }) {
-  const paths = extended ? extendedFlowPaths : compactFlowPaths;
-
-  return (
-    <svg
-      className="architecture-flow-lines"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-    >
-      {paths.map((path, index) => (
-        <g key={path}>
-          <path d={path} pathLength="100" className="architecture-flow-track" />
-          <path
-            d={path}
-            pathLength="100"
-            className="architecture-flow-particle"
-            style={{ animationDelay: `${index * -0.72}s` }}
-          />
-        </g>
-      ))}
-    </svg>
-  );
-}
-
 // FIG.1: TRACE Interactive Schematic
 function TraceSchematic({ onReconstruct }) {
   return (
@@ -55,9 +17,7 @@ function TraceSchematic({ onReconstruct }) {
         </span>
       </div>
 
-      <div className="architecture-stage relative py-3 flex flex-col gap-3">
-        <AnimatedFlowLines />
-
+      <div className="relative py-3 flex flex-col gap-3">
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
@@ -124,13 +84,13 @@ function TraceSchematic({ onReconstruct }) {
           className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
         >
           <FiRefreshCw className="text-cyan-400" />
-          RUN INVESTIGATION REPLAY
+          RECONSTRUCT BUILD HISTORY
         </button>
         <button
           onClick={() => onReconstruct('trace')}
           className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
         >
-          OPEN CAUSAL TRACE →
+          SCRUB THE TIMELINE →
         </button>
       </div>
     </div>
@@ -151,9 +111,7 @@ function ChronosSchematic({ onReconstruct }) {
         </span>
       </div>
 
-      <div className="architecture-stage relative py-3 flex flex-col gap-3">
-        <AnimatedFlowLines />
-
+      <div className="relative py-3 flex flex-col gap-3">
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
@@ -220,13 +178,13 @@ function ChronosSchematic({ onReconstruct }) {
           className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
         >
           <FiRefreshCw className="text-cyan-400" />
-          PLAY SOLVER SEARCH
+          RECONSTRUCT BUILD HISTORY
         </button>
         <button
           onClick={() => onReconstruct('chronos')}
           className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
         >
-          COMPARE 2,328 → 46 →
+          SCRUB THE TIMELINE →
         </button>
       </div>
     </div>
@@ -247,9 +205,7 @@ function SyncPadSchematic({ onReconstruct }) {
         </span>
       </div>
 
-      <div className="architecture-stage relative py-3 flex flex-col gap-3">
-        <AnimatedFlowLines />
-
+      <div className="relative py-3 flex flex-col gap-3">
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
@@ -316,13 +272,13 @@ function SyncPadSchematic({ onReconstruct }) {
           className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
         >
           <FiRefreshCw className="text-cyan-400" />
-          REPLAY CRDT SYNC
+          RECONSTRUCT BUILD HISTORY
         </button>
         <button
           onClick={() => onReconstruct('syncpad')}
           className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
         >
-          FOLLOW THE MERGE →
+          SCRUB THE TIMELINE →
         </button>
       </div>
     </div>
@@ -343,9 +299,7 @@ function IncidentHubSchematic({ onReconstruct }) {
         </span>
       </div>
 
-      <div className="architecture-stage architecture-stage-extended relative py-3 flex flex-col gap-3">
-        <AnimatedFlowLines extended />
-
+      <div className="relative py-3 flex flex-col gap-3">
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
@@ -419,13 +373,13 @@ function IncidentHubSchematic({ onReconstruct }) {
           className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 font-bold transition-colors cursor-pointer"
         >
           <FiRefreshCw className="text-cyan-400" />
-          TRACE INCIDENT FLOW
+          RECONSTRUCT BUILD HISTORY
         </button>
         <button
           onClick={() => onReconstruct('incidenthub-ai')}
           className="text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
         >
-          OPEN TRIAGE REPLAY →
+          SCRUB THE TIMELINE →
         </button>
       </div>
     </div>
@@ -471,17 +425,17 @@ export default function Projects() {
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-20 pt-4"
         >
           <div className="flex items-center">
-            <span className="text-violet-400 font-mono font-bold text-2xl md:text-3xl drop-shadow-[0_0_10px_rgba(167,139,250,0.28)]">
+            <span className="text-[#f59e0b] font-mono font-bold text-2xl md:text-3xl drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
               02
             </span>
-            <span className="text-[#38bdf8] font-mono text-2xl md:text-3xl mx-2">//</span>
+            <span className="text-[#38bdf8] font-mono text-2xl md:text-3xl mx-2">/</span>
             <h2 className="text-slate-100 font-mono font-bold tracking-wider uppercase text-xl md:text-2xl">
-              FEATURED ENGINEERING WORK
+              DEPLOYED SYSTEMS
             </h2>
           </div>
 
           <p className="font-mono text-xs md:text-sm text-slate-400 tracking-wider">
-            Four builds. Four different hard problems. Each one includes the proof.
+            Self-assembling architecture schematics - drawn as you read.
           </p>
         </motion.div>
 
@@ -497,7 +451,7 @@ export default function Projects() {
           <div className="lg:col-span-6 flex flex-col justify-between">
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
-                CASE-01
+                SYS-01
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -508,7 +462,7 @@ export default function Projects() {
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                TRACE investigates unfamiliar production incidents without seeing the answer. It competes multiple root-cause hypotheses, actively tries to disprove the leading theory, and concludes only when the evidence holds. Across 19 hidden-ground-truth incidents, it reached 89.5% accuracy versus 73.7% for a naive single-shot LLM baseline—including documented failure cases.
+                Can an AI system genuinely investigate a production incident it's never seen — with the answer hidden from it — or does it just generate a convincing guess? I built a synthetic production environment with secretly-injected incidents, then built TRACE to compete multiple root-cause hypotheses against each other, actively try to disprove its own leading theory through falsification, and only conclude when the evidence holds up. Benchmarked at 89.5% root-cause accuracy vs. 73.7% for a naive single-shot LLM baseline across 19 hidden-ground-truth incidents — including honestly-documented failure cases.
               </p>
 
               {/* 3-Column Metrics */}
@@ -611,7 +565,7 @@ export default function Projects() {
           <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col justify-between">
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
-                CASE-02
+                SYS-02
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -715,7 +669,7 @@ export default function Projects() {
           <div className="lg:col-span-6 flex flex-col justify-between">
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
-                CASE-03
+                SYS-03
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
@@ -829,7 +783,7 @@ export default function Projects() {
           <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col justify-between">
             <div>
               <div className="text-slate-400 font-mono text-xs tracking-wider mb-2">
-                CASE-04
+                SYS-04
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
