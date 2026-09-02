@@ -56,6 +56,65 @@ body {
   background-attachment: fixed;
 }
 
+/* Architecture schematics: subtle network rails with moving data packets. */
+.architecture-stage {
+  isolation: isolate;
+  min-height: 15rem;
+}
+
+.architecture-stage-extended {
+  min-height: 17rem;
+}
+
+.architecture-flow-lines {
+  position: absolute;
+  inset: 0.7rem 0;
+  z-index: 0;
+  width: 100%;
+  height: calc(100% - 1.4rem);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.architecture-flow-track,
+.architecture-flow-particle {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.architecture-flow-track {
+  stroke: rgba(56, 189, 248, 0.34);
+  stroke-width: 1.2;
+  stroke-dasharray: 2 5;
+}
+
+.architecture-flow-particle {
+  stroke: #67e8f9;
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-dasharray: 1.2 98.8;
+  filter: drop-shadow(0 0 4px rgba(103, 232, 249, 0.95));
+  animation: architecture-data-flow 3.1s linear infinite;
+}
+
+.group:hover .architecture-flow-particle {
+  animation-duration: 2s;
+  stroke: #a5f3fc;
+}
+
+@keyframes architecture-data-flow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -100; }
+}
+
+.hud-nav {
+  scrollbar-width: none;
+}
+
+.hud-nav::-webkit-scrollbar {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

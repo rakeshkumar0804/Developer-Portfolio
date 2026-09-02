@@ -18,7 +18,6 @@ export default function SystemBootloader({ onComplete }) {
     finished.current = true;
     setProgress(100);
     setStep(2);
-    sessionStorage.setItem('rakesh_core_booted', 'true');
     setLeaving(true);
     window.setTimeout(onComplete, 180);
   }, [onComplete]);

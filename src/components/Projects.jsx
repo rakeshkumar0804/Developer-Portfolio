@@ -3,6 +3,44 @@ import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink, FiRefreshCw } from 'react-icons/fi';
 import ArchitectureReconstructModal from './ArchitectureReconstructModal';
 
+const compactFlowPaths = [
+  'M25 15 V43 H50 V61 H25 V83',
+  'M75 15 V43 H50 V61 H75 V83',
+  'M25 43 H75',
+];
+
+const extendedFlowPaths = [
+  'M25 12 V37 H50 V52 H25 V68 H50 V86',
+  'M75 12 V37 H50 V52 H75 V68 H50 V86',
+  'M25 37 H75',
+  'M25 68 H75',
+];
+
+function AnimatedFlowLines({ extended = false }) {
+  const paths = extended ? extendedFlowPaths : compactFlowPaths;
+
+  return (
+    <svg
+      className="architecture-flow-lines"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      {paths.map((path, index) => (
+        <g key={path}>
+          <path d={path} pathLength="100" className="architecture-flow-track" />
+          <path
+            d={path}
+            pathLength="100"
+            className="architecture-flow-particle"
+            style={{ animationDelay: `${index * -0.72}s` }}
+          />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 // FIG.1: TRACE Interactive Schematic
 function TraceSchematic({ onReconstruct }) {
   return (
@@ -17,7 +55,9 @@ function TraceSchematic({ onReconstruct }) {
         </span>
       </div>
 
-      <div className="relative py-3 flex flex-col gap-3">
+      <div className="architecture-stage relative py-3 flex flex-col gap-3">
+        <AnimatedFlowLines />
+
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
@@ -111,7 +151,9 @@ function ChronosSchematic({ onReconstruct }) {
         </span>
       </div>
 
-      <div className="relative py-3 flex flex-col gap-3">
+      <div className="architecture-stage relative py-3 flex flex-col gap-3">
+        <AnimatedFlowLines />
+
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
@@ -205,7 +247,9 @@ function SyncPadSchematic({ onReconstruct }) {
         </span>
       </div>
 
-      <div className="relative py-3 flex flex-col gap-3">
+      <div className="architecture-stage relative py-3 flex flex-col gap-3">
+        <AnimatedFlowLines />
+
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">
@@ -299,7 +343,9 @@ function IncidentHubSchematic({ onReconstruct }) {
         </span>
       </div>
 
-      <div className="relative py-3 flex flex-col gap-3">
+      <div className="architecture-stage architecture-stage-extended relative py-3 flex flex-col gap-3">
+        <AnimatedFlowLines extended />
+
         <div className="grid grid-cols-2 gap-3 relative z-10">
           <div className="border border-slate-700/70 bg-slate-900/60 rounded px-3 py-2">
             <div className="flex items-center gap-1.5 text-[10px] text-cyan-400 font-mono font-bold">

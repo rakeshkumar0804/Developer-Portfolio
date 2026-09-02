@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { motion } from 'framer-motion';
 import Lenis from 'lenis';
@@ -13,8 +13,12 @@ import OpenSource from './components/OpenSource';
 import Architect from './components/Architect';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import SystemBootloader from './components/SystemBootloader';
+import HudFrame from './components/HudFrame';
 
 function App() {
+  const [booting, setBooting] = useState(true);
+
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll with Lighter, Effortless Physics
     const lenis = new Lenis({
@@ -42,7 +46,9 @@ function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-workbench text-[#f8fafc] font-sans selection:bg-[#22d3ee]/30 selection:text-[#22d3ee] overflow-x-hidden pb-8">
+    <div className="relative min-h-screen bg-workbench text-[#f8fafc] font-sans selection:bg-[#22d3ee]/30 selection:text-[#22d3ee] overflow-x-hidden pb-28">
+      {booting && <SystemBootloader onComplete={() => setBooting(false)} />}
+
       {/* Sticky Navigation Header */}
       <Navbar />
 
@@ -64,6 +70,9 @@ function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Persistent section navigation & live telemetry */}
+      <HudFrame />
     </div>
   );
 }
