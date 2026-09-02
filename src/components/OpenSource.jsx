@@ -96,21 +96,21 @@ export default function OpenSource() {
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-10 pt-4"
         >
           <div className="flex items-center">
-            <span className="text-[#f59e0b] font-mono font-bold text-2xl drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
+            <span className="text-violet-400 font-mono font-bold text-2xl drop-shadow-[0_0_10px_rgba(167,139,250,0.28)]">
               03
             </span>
-            <span className="text-[#38bdf8] font-mono text-2xl mx-2">/</span>
+            <span className="text-[#38bdf8] font-mono text-2xl mx-2">//</span>
             <h2 className="text-slate-100 font-mono font-bold tracking-wider uppercase text-xl md:text-2xl">
-              OPEN-SOURCE SIGNALS
+              PUBLIC CODE
             </h2>
           </div>
 
           <p className="font-mono text-xs md:text-sm text-slate-400 tracking-wider">
-            Public work on GitHub - built in the open, validated by stars.
+            Smaller experiments and supporting systems, shipped in the open.
           </p>
         </motion.div>
 
-        {/* 2. Top GitHub Telemetry Banner (3 Columns) */}
+        {/* 2. GitHub summary banner */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -162,8 +162,8 @@ export default function OpenSource() {
           </div>
         </motion.div>
 
-        {/* 3. 2x3 Grid of Repositories */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* 3. Proof-first repository ledger */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {openSourceRepos.map((repo, idx) => (
             <motion.div
               key={repo.id}
@@ -177,9 +177,12 @@ export default function OpenSource() {
               <div>
                 {/* Category & Stars */}
                 <div className="flex items-center justify-between text-xs font-mono mb-2">
-                  <span className="text-slate-500 text-[10px] tracking-widest uppercase">
-                    {repo.category}
-                  </span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-violet-400 font-bold">0{idx + 1}</span>
+                    <span className="text-slate-500 text-[10px] tracking-widest uppercase">
+                      {repo.category}
+                    </span>
+                  </div>
                   <span className="text-amber-400 font-mono text-xs font-semibold">
                     {repo.stars}
                   </span>
@@ -191,7 +194,7 @@ export default function OpenSource() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-slate-400 text-xs leading-relaxed mt-1.5 font-mono">
+                <p className="text-slate-400 text-sm leading-relaxed mt-2 font-sans">
                   {repo.description}
                 </p>
               </div>

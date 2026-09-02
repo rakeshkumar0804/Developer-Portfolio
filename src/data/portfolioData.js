@@ -1,8 +1,8 @@
 export const personalInfo = {
   name: 'Rakesh Kumar',
   role: 'B.Tech CSE Graduate · Full-Stack Developer',
-  headline: "Hi, I'm Rakesh Kumar — B.Tech CSE Graduate · Full-Stack Developer",
-  pitch: 'I build fast, reliable full-stack applications and enjoy turning real-world requirements into clean, working code.',
+  headline: "Hi, I'm Rakesh Kumar — Full-Stack Developer",
+  pitch: 'I turn difficult backend, real-time, and data problems into clear products you can run, inspect, and verify.',
   shortBio:
     "I graduated with a B.Tech in Computer Science Engineering (Class of 2026) from Parul University in Vadodara, Gujarat. I am currently based in my hometown of Gurugram, Haryana. I specialize in building and shipping production-ready full-stack web applications with React, TypeScript, Node.js, Express, and MongoDB/PostgreSQL.",
   location: 'Gurugram, India',
@@ -68,7 +68,7 @@ export const skillsData = [
 
 export const primarySystems = [
   {
-    sysId: 'SYS-01',
+    sysId: 'CASE-01',
     id: 'trace',
     title: 'TRACE — Temporal Root-cause Analysis & Causal Engine',
     tagline: 'AI-Assisted Production Incident Investigation Engine',
@@ -79,7 +79,7 @@ export const primarySystems = [
     liveUrl: 'https://trace-rca-engine.vercel.app',
   },
   {
-    sysId: 'SYS-02',
+    sysId: 'CASE-02',
     id: 'chronos',
     title: 'CHRONOS — Constraint-Based Timetable Scheduling Engine',
     tagline: 'Constraint Satisfaction Problem (CSP) Backtracking & Heuristic Engine',
@@ -90,7 +90,7 @@ export const primarySystems = [
     liveUrl: 'https://chronos-web-kappa.vercel.app',
   },
   {
-    sysId: 'SYS-03',
+    sysId: 'CASE-03',
     id: 'syncpad',
     title: 'SyncPad',
     tagline: 'Real-Time Collaborative Code Editor with In-Browser Execution',
@@ -101,7 +101,7 @@ export const primarySystems = [
     liveUrl: 'https://sync-pad-client.vercel.app',
   },
   {
-    sysId: 'SYS-04',
+    sysId: 'CASE-04',
     id: 'incidenthub-ai',
     title: 'IncidentHub AI',
     tagline: 'Engineering Incident Intelligence & Root-Cause Analysis Platform',

@@ -352,14 +352,14 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
           {/* Left Title */}
           <div className="flex items-center gap-3">
             <span className="text-cyan-400 text-xs tracking-[0.25em] font-semibold">
-              — {data.fig} • {data.title.toUpperCase()} • RECONSTRUCTION
+              — {data.fig} • {data.title.toUpperCase()} • INTERACTIVE REPLAY
             </span>
           </div>
 
           {/* Right Controls */}
           <div className="flex items-center gap-4">
             <span className="text-slate-400 text-xs tracking-widest hidden sm:inline">
-              ANALYZING...
+              REPLAYING DESIGN DECISIONS
             </span>
 
             <button
@@ -444,7 +444,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
             {/* Canvas Bottom Subtitle */}
             <div className="flex items-center justify-between text-[11px] text-slate-500 pt-3 border-t border-slate-800/70 shrink-0">
               <span>{zoom.toFixed(1)}x SCROLL TO ZOOM • DRAG TO PAN</span>
-              <span className="text-cyan-400/80">COMMIT {activeMilestone.hash} ACTIVE</span>
+              <span className="text-cyan-400/80">STEP {activeMilestone.hash} ACTIVE</span>
             </div>
           </div>
 
@@ -455,7 +455,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
               <div>
                 <div className="flex items-center justify-between pb-2 mb-3 border-b border-slate-800/70 text-xs font-mono">
                   <span className="text-cyan-400 font-bold tracking-wider uppercase">
-                    // BUILD COMMIT LOG
+                    // DECISION LOG
                   </span>
                   <span className="text-slate-500 text-[10px]">
                     {currentStep}/{data.milestones.length}
@@ -480,7 +480,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
                       >
                         <div className="flex items-center justify-between text-[10px] mb-1">
                           <span className="text-cyan-400 font-bold">
-                            {isSelected ? '█ ' : ''}commit {m.hash}
+                            {isSelected ? '█ ' : ''}stage {m.hash}
                           </span>
                           <span className="text-slate-500">{m.time}</span>
                         </div>
@@ -496,7 +496,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
             <div className="border border-emerald-500/30 rounded-lg bg-[#0a1813]/70 p-4 shrink-0 shadow-lg">
               <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold mb-2">
                 <FiCheckCircle className="text-sm" />
-                <span>RESOLVED AT MILESTONE #{currentStep}</span>
+                <span>RESOLVED AT STEP #{currentStep}</span>
               </div>
               <h4 className="text-xs font-sans font-bold text-white mb-1">
                 {activeMilestone.resolvedTitle}
@@ -540,7 +540,7 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-400 hover:text-black text-cyan-400 transition-all font-bold cursor-pointer"
               >
                 {isPlaying ? <FiPause className="text-xs" /> : <FiPlay className="text-xs" />}
-                <span>{isPlaying ? 'PAUSE' : 'PLAY TIMELINE'}</span>
+                <span>{isPlaying ? 'PAUSE' : 'PLAY DECISION REPLAY'}</span>
               </button>
 
               <button
@@ -562,12 +562,12 @@ export default function ArchitectureReconstructModal({ projectId, onClose }) {
               </button>
 
               <span className="text-[11px] text-slate-400 font-mono">
-                EVENTS ANALYZED: <strong className="text-cyan-400">{currentStep}</strong> / {data.milestones.length}
+                DECISIONS SHOWN: <strong className="text-cyan-400">{currentStep}</strong> / {data.milestones.length}
               </span>
             </div>
 
             <div className="text-[11px] text-slate-400 truncate">
-              LAUNCH STATUS: <span className="text-emerald-400 font-bold">100% PRODUCTION DEPLOYED</span>
+              FINAL STATE: <span className="text-emerald-400 font-bold">SHIPPED AND VERIFIED</span>
             </div>
           </div>
         </div>

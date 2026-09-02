@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const operationsList = [
   {
-    id: 'OP-01',
+    id: 'BUILD-01',
     title: 'TRACE',
     description: 'Temporal root-cause analysis & causal inference engine with multi-hypothesis adversarial falsification loops.',
     status: 'ACTIVE',
@@ -12,7 +12,7 @@ const operationsList = [
     pulse: true,
   },
   {
-    id: 'OP-02',
+    id: 'BUILD-02',
     title: 'CHRONOS',
     description: 'Constraint satisfaction scheduling engine using backtracking with MRV/LCV heuristics and live D3.js visualizer.',
     status: 'ACTIVE',
@@ -21,7 +21,7 @@ const operationsList = [
     pulse: true,
   },
   {
-    id: 'OP-03',
+    id: 'BUILD-03',
     title: 'SyncPad',
     description: 'Real-time collaborative code editor with Yjs CRDT synchronization and in-browser WASM runtime.',
     status: 'ACTIVE',
@@ -30,7 +30,7 @@ const operationsList = [
     pulse: true,
   },
   {
-    id: 'OP-04',
+    id: 'BUILD-04',
     title: 'IncidentHub AI',
     description: 'Multi-tenant incident intelligence platform with real OAuth correlation, RBAC, and triage rooms.',
     status: 'ACTIVE',
@@ -62,24 +62,24 @@ export default function About() {
           {/* Header Tag */}
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-[0.25em] uppercase mb-4">
             <span>—</span>
-            <span>OPERATING PHILOSOPHY</span>
+            <span>HOW I BUILD</span>
           </div>
 
           {/* Statement Headline with Refined Medium Weight */}
           <div className="space-y-1.5 max-w-4xl">
             <h2 className="text-slate-200 font-medium text-2xl md:text-3xl leading-snug tracking-tight">
-              Every system begins with clean architecture.
+              Start with the failure mode.
             </h2>
             <h2 className="text-slate-200 font-medium text-2xl md:text-3xl leading-snug tracking-tight">
-              Every API demands deterministic security.
+              Make state and permissions explicit.
             </h2>
             <h2 className="text-[#38bdf8] font-medium text-2xl md:text-3xl leading-snug tracking-tight drop-shadow-[0_0_10px_rgba(56,189,248,0.3)]">
-              Every infrastructure becomes a living network.
+              Measure the result before calling it done.
             </h2>
           </div>
         </motion.div>
 
-        {/* Current Operations Log Header */}
+        {/* Selected work header */}
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -87,10 +87,10 @@ export default function About() {
           variants={fadeInUp}
           className="flex items-center gap-2 text-slate-400 font-mono text-xs tracking-[0.2em] uppercase mt-12 mb-4"
         >
-          <span>CURRENT OPERATIONS</span>
+          <span>SELECTED BUILDS</span>
           <span>•</span>
           <span className="flex items-center gap-1.5 text-cyan-400 font-semibold">
-            LIVE
+            SHIPPED
             <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
           </span>
         </motion.div>
@@ -131,7 +131,7 @@ export default function About() {
                   }`}
                 />
                 <span className={`text-xs font-mono font-semibold tracking-wider ${op.statusColor}`}>
-                  • {op.status}
+                  {op.status === 'ACTIVE' ? 'FEATURED BUILD' : op.status}
                 </span>
               </div>
             </div>

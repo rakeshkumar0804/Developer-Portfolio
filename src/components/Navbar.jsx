@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const topics = [
-  { name: '$ops', href: '#operations', sectionId: 'operations' },
-  { name: '$principles', href: '#principles', sectionId: 'principles' },
-  { name: '$systems', href: '#systems', sectionId: 'systems' },
-  { name: '$signals', href: '#opensource', sectionId: 'opensource' },
-  { name: '$architect', href: '#architect', sectionId: 'architect' },
-  { name: '$comms', href: '#contact', sectionId: 'contact' },
+  { name: '~/work', href: '#operations', sectionId: 'operations' },
+  { name: '~/approach', href: '#principles', sectionId: 'principles' },
+  { name: '~/projects', href: '#systems', sectionId: 'systems' },
+  { name: '~/open-source', href: '#opensource', sectionId: 'opensource' },
+  { name: '~/profile', href: '#architect', sectionId: 'architect' },
+  { name: '~/contact', href: '#contact', sectionId: 'contact' },
 ];
 
 export const TopHud = () => {
   const [timeString, setTimeString] = useState('');
   const [activeSection, setActiveSection] = useState('operations');
-  const [signalStrength, setSignalStrength] = useState(3);
 
   useEffect(() => {
     const updateTime = () => {
@@ -54,23 +53,13 @@ export const TopHud = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const updateSignal = () => {
-      const strengths = [2, 3, 3, 4];
-      setSignalStrength(strengths[Math.floor(Math.random() * strengths.length)]);
-    };
-
-    const timer = window.setInterval(updateSignal, 1400);
-    return () => window.clearInterval(timer);
-  }, []);
-
   const handleNavClick = (e, href) => {
     e.preventDefault();
     const targetId = href.replace('#', '');
     const element = document.getElementById(targetId);
     if (element) {
       if (window.lenis) {
-        window.lenis.scrollTo(element, { offset: -70, duration: 1.2 });
+        window.lenis.scrollTo(element, { offset: -70, duration: 0.65 });
       } else {
         const topOffset = element.getBoundingClientRect().top + window.scrollY - 70;
         window.scrollTo({ top: topOffset, behavior: 'smooth' });
@@ -79,14 +68,12 @@ export const TopHud = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 pointer-events-none select-none font-mono text-xs text-slate-400 bg-transparent">
+    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-5 sm:px-7 py-4 pointer-events-none select-none font-mono text-xs text-slate-400 bg-[#050811]/80 backdrop-blur-xl border-b border-slate-800/60">
       {/* 1. Left Header Item */}
       <div className="flex items-center gap-2 pointer-events-auto">
-        <span className="text-slate-600 text-sm leading-none select-none">┌</span>
-        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#38bdf8] mr-1 animate-pulse" />
-        <span className="text-[11px] tracking-[0.25em] text-slate-300 font-medium uppercase">
-          RAKESH-CORE UPLINK ACTIVE
-        </span>
+        <span className="grid h-7 w-7 place-items-center rounded-md border border-cyan-400/40 bg-cyan-400/5 text-[10px] font-bold text-cyan-300">RK</span>
+        <span className="text-[11px] tracking-[0.18em] text-slate-200 font-semibold uppercase">RAKESH.DEV</span>
+        <span className="hidden lg:inline text-[10px] tracking-[0.12em] text-slate-500">BUILD • DEBUG • SHIP</span>
       </div>
 
       {/* 2. Center Navigation Topics (Bare Floating Text with smooth gliding active indicator) */}
@@ -117,24 +104,11 @@ export const TopHud = () => {
         })}
       </nav>
 
-      <div className="flex items-center gap-3 pointer-events-auto font-mono text-[11px] tracking-widest text-slate-300">
-        <span className="text-slate-400">SIG</span>
-        <svg className="w-4 h-3 flex-shrink-0" viewBox="0 0 16 12" fill="none" aria-label="Live signal strength">
-          {[8.5, 6, 3.5, 0.5].map((y, index) => (
-            <rect
-              key={y}
-              x={index * 4.5}
-              y={y}
-              width="2.5"
-              height={3.5 + index * 2.5}
-              rx="0.5"
-              fill={index < signalStrength ? '#38bdf8' : '#1e3a5f'}
-              className="transition-colors duration-500"
-            />
-          ))}
-        </svg>
-        <span className="text-slate-300 ml-2 font-mono">T {timeString || '00:00:00'} IST</span>
-        <span className="text-slate-600 text-sm leading-none select-none ml-1">┐</span>
+      <div className="flex items-center gap-2 pointer-events-auto font-mono text-[10px] sm:text-[11px] tracking-wider text-slate-300">
+        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
+        <span className="hidden sm:inline text-emerald-300">OPEN TO SDE ROLES</span>
+        <span className="hidden sm:inline text-slate-700">/</span>
+        <span>{timeString || '00:00:00'} IST</span>
       </div>
     </header>
   );

@@ -5,33 +5,33 @@ const principlesList = [
   {
     id: 'P-01',
     num: '01',
-    title: 'Own the whole stack',
+    title: 'Model the failure first',
     description:
-      'From schema design and RESTful endpoints to responsive UI state and deployment — architecture, security, and performance are one continuous workflow.',
+      'Before building the happy path, identify what can fail, what must remain consistent, and how the system should recover.',
     borderClasses: 'md:border-b md:border-r border-slate-800',
   },
   {
     id: 'P-02',
     num: '02',
-    title: 'Ship to real users',
+    title: 'Make boundaries explicit',
     description:
-      'Every system here is live, tested, and shipped end-to-end — handling real OAuth integrations, authentication boundaries, and WebSocket events.',
+      'Authentication, role permissions, tenant isolation, and state ownership belong in the architecture—not in last-minute patches.',
     borderClasses: 'md:border-b border-slate-800',
   },
   {
     id: 'P-03',
     num: '03',
-    title: 'Deterministic architecture',
+    title: 'Prefer explainable systems',
     description:
-      'Prioritizing explainable rule-based validation, multi-tenant RBAC boundaries, and strict data consistency over black-box assumptions.',
+      'Rules, scores, schedules, and AI-assisted decisions should expose enough evidence for another engineer to verify the outcome.',
     borderClasses: 'md:border-r border-slate-800',
   },
   {
     id: 'P-04',
     num: '04',
-    title: 'Engineer for scale',
+    title: 'Ship the proof',
     description:
-      'Stateless JWT middleware, Redis concurrency control, and real-time CRDT sync built to hold state and load reliably.',
+      'A project is complete when the demo works, the edge cases are tested, and the result can be measured—not when the UI merely looks finished.',
     borderClasses: '',
   },
 ];
@@ -54,17 +54,17 @@ export default function Principles() {
           className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8"
         >
           <div className="flex items-center gap-3">
-            <span className="text-[#f59e0b] font-mono font-bold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
+            <span className="text-violet-400 font-mono font-bold text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(167,139,250,0.28)]">
               01
             </span>
-            <span className="text-cyan-400 font-mono font-bold text-2xl md:text-3xl">/</span>
+            <span className="text-cyan-400 font-mono font-bold text-2xl md:text-3xl">//</span>
             <h2 className="text-slate-100 font-mono font-bold tracking-wider uppercase text-xl md:text-3xl">
-              OPERATING PRINCIPLES
+              ENGINEERING RULES
             </h2>
           </div>
 
           <p className="text-slate-400 font-mono text-xs md:text-sm tracking-wider">
-            The design constraints behind every system below.
+            Four checks I apply before calling a build complete.
           </p>
         </motion.div>
 

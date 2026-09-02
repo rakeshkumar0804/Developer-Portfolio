@@ -119,17 +119,17 @@ export default function Architect() {
             className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-12 pt-4"
           >
             <div className="flex items-center">
-              <span className="text-[#f59e0b] font-mono font-bold text-2xl drop-shadow-[0_0_10px_rgba(245,158,11,0.3)]">
+              <span className="text-violet-400 font-mono font-bold text-2xl drop-shadow-[0_0_10px_rgba(167,139,250,0.28)]">
                 04
               </span>
-              <span className="text-[#38bdf8] font-mono text-2xl mx-2">/</span>
+              <span className="text-[#38bdf8] font-mono text-2xl mx-2">//</span>
               <h2 className="text-slate-100 font-mono font-bold tracking-wider uppercase text-xl md:text-2xl">
-                THE ARCHITECT
+                PROFILE & EXPERIENCE
               </h2>
             </div>
 
             <p className="font-mono text-xs md:text-sm text-slate-400 tracking-wider">
-              Operator spec sheet & service history.
+              What I work with, and where I have applied it.
             </p>
           </motion.div>
 
@@ -146,7 +146,7 @@ export default function Architect() {
                 {/* Card Top Header */}
                 <div className="flex items-center gap-2 text-cyan-400 font-mono text-[11px] tracking-[0.2em] uppercase mb-4 pb-3 border-b border-slate-800/80">
                   <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <span>OPERATOR SPEC • RAKESH-CORE</span>
+                  <span>ENGINEERING PROFILE • RAKESH KUMAR</span>
                 </div>
 
                 {/* Spec Table (Key-Value Grid with Hairline Dividers) */}
@@ -284,9 +284,9 @@ export default function Architect() {
           >
             <div className="flex items-center gap-2 text-xs font-mono text-slate-400 tracking-wider uppercase">
               <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-              <span className="text-cyan-400 font-semibold">RAKESH-CORE UPLINK ACTIVE</span>
+              <span className="text-cyan-400 font-semibold">TOOLS I USE TO SHIP</span>
               <span className="text-slate-600">/</span>
-              <span className="text-slate-100 font-bold">SUBSYSTEMS • CAPABILITY MATRIX</span>
+              <span className="text-slate-100 font-bold">CAPABILITY MATRIX</span>
             </div>
             <span className="text-xs text-slate-500 font-mono">PRODUCTION TECH STACK & RUNTIMES</span>
           </motion.div>
@@ -325,7 +325,7 @@ export default function Architect() {
           {/* 3. Field Recognition Label & Primary Clickable 3-Card Row */}
           <div className="mt-12 mb-4">
             <div className="text-[11px] font-mono tracking-[0.25em] text-slate-500 uppercase mb-3">
-              FIELD RECOGNITION
+              VERIFIED CREDENTIALS
             </div>
 
             <motion.div
