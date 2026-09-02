@@ -645,7 +645,7 @@ export default function Projects() {
                 <FiExternalLink className="text-xs" />
               </a>
               <a
-                href="https://github.com/rakeshkumar0804/chronos-engine"
+                href="https://github.com/rakeshkumar0804/chronos"
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-700 bg-transparent text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all text-xs font-semibold"
