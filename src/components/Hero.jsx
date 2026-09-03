@@ -1,636 +1,209 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Line, OrbitControls } from '@react-three/drei';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import * as THREE from 'three';
-import { codingStats, primarySystems } from '../data/portfolioData';
-
-const CYAN = '#38bdf8';
-const AMBER = '#fbbf24';
-const DIM = '#17324d';
-
-const roleSignals = [
-  'FULL-STACK · BACKEND · REAL-TIME',
-  'SECURE APIS · RBAC · DATA SYSTEMS',
-  'CRDT · WEBSOCKET · COLLABORATION',
-  'AI-ASSISTED ENGINEERING TOOLS',
-];
-
-const stackLayers = [
-  {
-    id: 'L1',
-    category: 'FOUNDATION',
-    title: 'Language Core',
-    description: 'The languages I use to express product logic, data models, algorithms, and system constraints.',
-    tags: ['TypeScript', 'JavaScript', 'Python', 'C++', 'SQL'],
-  },
-  {
-    id: 'L2',
-    category: 'INTERFACE',
-    title: 'What People Use',
-    description: 'Responsive interfaces built for clarity, fast interaction, and maintainable product workflows.',
-    tags: ['React', 'Tailwind CSS', 'D3.js', 'Monaco Editor', 'HTML / CSS'],
-  },
-  {
-    id: 'L3',
-    category: 'BACKEND',
-    title: 'Where Logic Runs',
-    description: 'Secure application services that turn requirements into reliable APIs and controlled access.',
-    tags: ['Node.js', 'Express.js', 'FastAPI', 'REST APIs', 'JWT / RBAC'],
-  },
-  {
-    id: 'L4',
-    category: 'PERSISTENCE',
-    title: 'State That Survives',
-    description: 'Data layers designed around durable state, fast retrieval, isolation, and operational correctness.',
-    tags: ['PostgreSQL', 'MongoDB', 'Redis', 'pgvector', 'SQLite'],
-  },
-  {
-    id: 'L5',
-    category: 'REAL-TIME',
-    title: 'Systems in Sync',
-    description: 'Live collaboration and execution paths that keep users, editors, and application state synchronized.',
-    tags: ['WebSocket', 'Socket.io', 'Yjs / CRDT', 'Web Workers', 'Pyodide / WASM'],
-  },
-  {
-    id: 'L6',
-    category: 'DELIVERY',
-    title: 'Where It Ships',
-    description: 'The practical delivery layer used to package, deploy, inspect, and operate production applications.',
-    tags: ['Docker', 'Vercel', 'Render', 'Git / GitHub', 'Linux'],
-  },
-  {
-    id: 'L7',
-    category: 'INTELLIGENCE',
-    title: 'Systems That Reason',
-    description: 'AI-assisted workflows grounded in retrieval, causal analysis, and constraint-driven engineering tools.',
-    tags: ['Gemini API', 'LLM Workflows', 'Causal Analysis', 'Constraint Search', 'Vector Retrieval'],
-  },
-];
-
-const proofMetrics = [
-  { value: String(primarySystems.length).padStart(2, '0'), label: 'CORE SYSTEMS' },
-  { value: codingStats.leetcode.solved, label: 'DSA SOLVED' },
-  { value: codingStats.github.contributions, label: 'CONTRIBUTIONS' },
-  { value: codingStats.github.stars, label: 'GITHUB STARS' },
-];
-
-function TypeSignal({ reduceMotion }) {
-  const [phraseIndex, setPhraseIndex] = useState(0);
-  const [characterIndex, setCharacterIndex] = useState(roleSignals[0].length);
-  const [deleting, setDeleting] = useState(false);
-
-  useEffect(() => {
-    if (reduceMotion) return undefined;
-
-    const phrase = roleSignals[phraseIndex];
-    const atEnd = characterIndex === phrase.length;
-    const atStart = characterIndex === 0;
-    const delay = atEnd && !deleting ? 1500 : deleting ? 24 : 48;
-
-    const timer = window.setTimeout(() => {
-      if (!deleting && atEnd) {
-        setDeleting(true);
-        return;
-      }
-
-      if (deleting && atStart) {
-        setDeleting(false);
-        setPhraseIndex((current) => (current + 1) % roleSignals.length);
-        return;
-      }
-
-      setCharacterIndex((current) => current + (deleting ? -1 : 1));
-    }, delay);
-
-    return () => window.clearTimeout(timer);
-  }, [characterIndex, deleting, phraseIndex, reduceMotion]);
-
-  useEffect(() => {
-    setCharacterIndex(reduceMotion ? roleSignals[0].length : 0);
-  }, [phraseIndex, reduceMotion]);
-
-  return (
-    <span className="inline-flex min-h-[1.5em] items-center text-cyan-300">
-      <span>{roleSignals[phraseIndex].slice(0, characterIndex)}</span>
-      <span className="ml-1 inline-block h-[0.9em] w-[0.5em] bg-cyan-400/80 motion-safe:animate-pulse" aria-hidden="true" />
-    </span>
-  );
-}
-
-function createStackNetwork() {
-  const layerPoints = stackLayers.map((_, layerIndex) => {
-    const layerY = -1.55 + layerIndex * (3.1 / (stackLayers.length - 1));
-    const radius = Math.sqrt(Math.max(0.35, 2.06 ** 2 - layerY ** 2)) * 0.96;
-    const pointCount = layerIndex === 0 || layerIndex === stackLayers.length - 1 ? 6 : 8;
-    const angleOffset = layerIndex * 0.47 + (layerIndex % 2) * 0.16;
-
-    return Array.from({ length: pointCount }, (_, pointIndex) => {
-      const angle = (pointIndex / pointCount) * Math.PI * 2 + angleOffset;
-      const distortion = 0.89 + Math.sin(pointIndex * 2.31 + layerIndex * 1.17) * 0.105;
-      return new THREE.Vector3(
-        Math.cos(angle) * radius * distortion,
-        layerY + Math.sin(pointIndex * 1.73 + layerIndex) * 0.085,
-        Math.sin(angle) * radius * (1.02 - Math.cos(pointIndex * 1.91 + layerIndex) * 0.07)
-      );
-    });
-  });
-
-  return layerPoints.map((points, layerIndex) => {
-    const nodes = new THREE.BufferGeometry().setFromPoints(points);
-    const connectorPoints = [];
-
-    if (layerIndex > 0) {
-      const previous = layerPoints[layerIndex - 1];
-      points.forEach((point, pointIndex) => {
-        connectorPoints.push(point, previous[(pointIndex + layerIndex) % previous.length]);
-        if (pointIndex % 2 === layerIndex % 2) {
-          connectorPoints.push(point, previous[(pointIndex + layerIndex + 2) % previous.length]);
-        }
-      });
-    }
-
-    return {
-      points: [...points, points[0]],
-      nodes,
-      connectors: new THREE.BufferGeometry().setFromPoints(connectorPoints),
-    };
-  });
-}
-
-function StackOrb({ activeLayer, exploring, reduceMotion }) {
-  const layers = useMemo(createStackNetwork, []);
-
-  useEffect(
-    () => () => {
-      layers.forEach(({ nodes, connectors }) => {
-        nodes.dispose();
-        connectors.dispose();
-      });
-    },
-    [layers]
-  );
-
-  return (
-    <>
-      <group rotation={[0.08, -0.45, -0.03]}>
-        <mesh>
-          <icosahedronGeometry args={[2.16, 3]} />
-          <meshBasicMaterial color="#24425f" wireframe transparent opacity={exploring ? 0.28 : 0.32} />
-        </mesh>
-
-        <points>
-          <icosahedronGeometry args={[2.17, 2]} />
-          <pointsMaterial color="#426b8c" size={0.035} transparent opacity={0.65} sizeAttenuation />
-        </points>
-
-        {layers.map(({ points, nodes, connectors }, index) => {
-          const completed = index <= activeLayer;
-          const current = index === activeLayer;
-          const color = index >= 5 ? AMBER : CYAN;
-          const opacity = completed ? (current ? 1 : 0.82) : 0.09;
-
-          return (
-            <group key={stackLayers[index].id}>
-              <Line
-                points={points}
-                color={completed ? color : DIM}
-                lineWidth={completed ? (current ? 1.8 : 1.3) : 0.7}
-                transparent
-                opacity={opacity}
-                depthWrite={false}
-              />
-              {completed && (
-                <Line
-                  points={points}
-                  color={color}
-                  lineWidth={current ? 6 : 4}
-                  transparent
-                  opacity={current ? 0.08 : 0.035}
-                  depthWrite={false}
-                />
-              )}
-              {index > 0 && (
-                <lineSegments geometry={connectors}>
-                  <lineBasicMaterial
-                    color={completed ? color : DIM}
-                    transparent
-                    opacity={completed ? (current ? 0.9 : 0.68) : 0.07}
-                    depthWrite={false}
-                  />
-                </lineSegments>
-              )}
-              <points geometry={nodes}>
-                <pointsMaterial
-                  color={completed ? color : DIM}
-                  size={current ? 0.085 : 0.065}
-                  transparent
-                  opacity={completed ? 1 : 0.14}
-                  sizeAttenuation
-                  depthWrite={false}
-                />
-              </points>
-            </group>
-          );
-        })}
-
-      </group>
-
-      <OrbitControls
-        makeDefault
-        enablePan={false}
-        enableZoom={false}
-        autoRotate={!reduceMotion}
-        autoRotateSpeed={exploring ? 0.36 : 0.55}
-        dampingFactor={0.06}
-        enableDamping
-        minPolarAngle={Math.PI * 0.3}
-        maxPolarAngle={Math.PI * 0.7}
-      />
-    </>
-  );
-}
-
-function StackVisual({ activeLayer = stackLayers.length - 1, exploring = false, reduceMotion = false }) {
-  return (
-    <div className="relative h-full min-h-[300px] w-full" aria-hidden="true">
-      <div className="absolute inset-[12%] rounded-full bg-cyan-500/[0.06] blur-3xl" />
-      <Canvas
-        className="relative z-10 drop-shadow-[0_0_16px_rgba(56,189,248,0.42)]"
-        dpr={[1, 1.5]}
-        camera={{ position: [0, 0.15, exploring ? 6.4 : 12.4], fov: 43 }}
-        gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-      >
-        <StackOrb activeLayer={activeLayer} exploring={exploring} reduceMotion={reduceMotion} />
-      </Canvas>
-    </div>
-  );
-}
-
-function IdentityHero({ onExplore, reduceMotion }) {
-  const lastTapRef = useRef(0);
-
-  const handlePointerUp = (event) => {
-    if (event.pointerType !== 'touch') return;
-    const now = Date.now();
-    if (now - lastTapRef.current < 360) onExplore();
-    lastTapRef.current = now;
-  };
-
-  const descend = () => {
-    const target = document.getElementById('operations');
-    if (!target) return;
-    if (window.lenis) window.lenis.scrollTo(target, { offset: -70, duration: 1.1 });
-    else target.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  return (
-    <motion.div
-      key="identity"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 0.985 }}
-      transition={{ duration: reduceMotion ? 0 : 0.45 }}
-      className="mx-auto flex min-h-[calc(100svh-2rem)] w-full max-w-[1600px] flex-col justify-center px-6 pb-20 pt-24 sm:px-10 lg:px-16 xl:px-40"
-    >
-      <div className="grid items-center gap-10 lg:grid-cols-[1.65fr_1fr] lg:gap-6">
-        <div className="relative z-10">
-          <motion.p
-            initial={reduceMotion ? false : { opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.08 }}
-            className="mb-8 flex items-center gap-3 font-mono text-[10px] tracking-[0.28em] text-slate-500 sm:text-xs"
-          >
-            <span className="h-px w-10 bg-cyan-400/80" aria-hidden="true" />
-            <span>DRAWING NO. RK-2026 · SYSTEM PROFILE</span>
-          </motion.p>
-
-          <motion.h1
-            initial={reduceMotion ? false : { opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            className="font-sans text-[clamp(4.6rem,7.7vw,9.2rem)] font-semibold uppercase leading-[0.88] tracking-[-0.075em]"
-          >
-            <span className="block text-slate-100">Rakesh</span>
-            <span className="block text-sky-200">Kumar</span>
-          </motion.h1>
-
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.32 }}
-            className="mt-8 font-mono text-xs tracking-[0.2em] sm:text-sm"
-          >
-            <TypeSignal reduceMotion={reduceMotion} />
-          </motion.div>
-
-          <motion.p
-            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.38 }}
-            className="mt-6 max-w-[610px] font-mono text-xs leading-6 text-slate-400 sm:text-sm sm:leading-7"
-          >
-            I build production-ready web systems across secure backends, real-time collaboration, and AI-assisted
-            engineering workflows—from system design to deployment.
-          </motion.p>
-
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
-            className="mt-11 grid max-w-[670px] grid-cols-2 border-l border-t border-slate-800/80 sm:grid-cols-4"
-          >
-            {proofMetrics.map((metric) => (
-              <div key={metric.label} className="border-b border-r border-slate-800/80 px-4 py-3 sm:px-5">
-                <div className="font-mono text-xl font-medium text-cyan-300 sm:text-2xl">{metric.value}</div>
-                <div className="mt-1 font-mono text-[9px] tracking-[0.18em] text-slate-500 sm:text-[10px]">
-                  {metric.label}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-        </div>
-
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.85, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mx-auto flex h-[430px] w-full max-w-[520px] flex-col sm:h-[520px] lg:h-[620px]"
-        >
-          <div className="flex items-center gap-4 font-mono text-[10px] tracking-[0.22em] sm:text-xs">
-            <span className="h-px flex-1 bg-slate-800/80" aria-hidden="true" />
-            <span className="text-slate-400">STACK GRAPH · <span className="text-emerald-400">ONLINE</span></span>
-            <span className="text-slate-500">07 LAYERS · LIVE</span>
-            <span className="h-px flex-1 bg-slate-800/80" aria-hidden="true" />
-          </div>
-
-          <div
-            role="button"
-            tabIndex={0}
-            aria-label="Open interactive seven-layer technology stack explorer"
-            onDoubleClick={onExplore}
-            onPointerUp={handlePointerUp}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                onExplore();
-              }
-            }}
-            className="group relative min-h-0 flex-1 cursor-grab touch-none focus-visible:outline-none active:cursor-grabbing"
-          >
-            <StackVisual reduceMotion={reduceMotion} />
-            <div className="pointer-events-none absolute bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap border border-slate-700/70 bg-[#050b16]/80 px-5 py-3 text-center font-mono text-[9px] tracking-[0.2em] text-slate-500 transition-colors group-hover:border-cyan-400/30 group-hover:text-cyan-300 sm:text-[10px]">
-              <span className="h-1.5 w-1.5 bg-cyan-400/70 shadow-[0_0_8px_#38bdf8]" aria-hidden="true" />
-              DOUBLE-TAP TO EXPLORE THE STACK
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      <button
-        type="button"
-        onClick={descend}
-        className="absolute bottom-14 left-1/2 hidden -translate-x-1/2 items-center gap-3 font-mono text-[10px] tracking-[0.28em] text-slate-500 transition-colors hover:text-cyan-300 focus-visible:text-cyan-300 focus-visible:outline-none lg:flex"
-      >
-        DESCEND THROUGH THE SYSTEM <span aria-hidden="true">↓</span>
-      </button>
-
-      <div className="absolute bottom-[14%] right-7 top-[23%] hidden flex-col items-center xl:flex" aria-hidden="true">
-        <span className="[writing-mode:vertical-rl] font-mono text-[9px] tracking-[0.28em] text-slate-400">DEPTH</span>
-        <span className="mt-5 h-2 w-2 bg-cyan-300 shadow-[0_0_10px_#38bdf8]" />
-        <span className="h-full w-px bg-slate-800" />
-        {[0, 1, 2, 3, 4].map((marker) => (
-          <span key={marker} className="absolute right-[2px] h-1.5 w-1.5 border border-slate-600 bg-[#050811]" style={{ top: `${25 + marker * 14}%` }} />
-        ))}
-        <span className="mt-4 font-mono text-[9px] tracking-[0.22em] text-slate-500">000</span>
-      </div>
-    </motion.div>
-  );
-}
-
-function StackExplorer({ activeLayer, setActiveLayer, onExit, reduceMotion }) {
-  const layer = stackLayers[activeLayer];
-  const touchStartRef = useRef(null);
-  const wheelLockRef = useRef(0);
-
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    window.lenis?.stop();
-    document.body.style.overflow = 'hidden';
-
-    const moveLayer = (direction) => {
-      setActiveLayer((current) => Math.max(0, Math.min(stackLayers.length - 1, current + direction)));
-    };
-
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') onExit();
-      if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
-        event.preventDefault();
-        moveLayer(1);
-      }
-      if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
-        event.preventDefault();
-        moveLayer(-1);
-      }
-    };
-
-    const handleWheel = (event) => {
-      event.preventDefault();
-      if (Math.abs(event.deltaY) < 12) return;
-      const now = Date.now();
-      if (now - wheelLockRef.current < 480) return;
-      wheelLockRef.current = now;
-      moveLayer(event.deltaY > 0 ? 1 : -1);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('wheel', handleWheel, { passive: false });
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('wheel', handleWheel);
-      document.body.style.overflow = previousOverflow;
-      window.lenis?.start();
-    };
-  }, [onExit, setActiveLayer]);
-
-  const handleTouchStart = (event) => {
-    if (event.target.closest('[data-stack-globe]')) return;
-    touchStartRef.current = event.touches[0]?.clientY ?? null;
-  };
-
-  const handleTouchEnd = (event) => {
-    if (touchStartRef.current === null) return;
-    const endY = event.changedTouches[0]?.clientY ?? touchStartRef.current;
-    const distance = touchStartRef.current - endY;
-    if (Math.abs(distance) > 45) {
-      setActiveLayer((current) =>
-        Math.max(0, Math.min(stackLayers.length - 1, current + (distance > 0 ? 1 : -1)))
-      );
-    }
-    touchStartRef.current = null;
-  };
-
-  const warmLayer = activeLayer >= 5;
-
-  return (
-    <motion.div
-      key="explorer"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: reduceMotion ? 0 : 0.38 }}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      className="fixed inset-0 z-[100] overflow-hidden bg-[#030914] font-mono"
-    >
-      <div className="absolute inset-0 bg-subtle-grid opacity-80" />
-      <div className="relative flex h-full w-full flex-col px-6 pb-12 pt-7 sm:px-10 lg:px-11 lg:pb-8 lg:pt-7">
-        <div className="flex items-start justify-between gap-6">
-          <div>
-            <p className="flex items-center gap-4 text-[10px] tracking-[0.28em] text-slate-300 sm:text-xs">
-              <span className="h-px w-10 bg-cyan-400" aria-hidden="true" />
-              THE STACK · 7 LAYERS
-            </p>
-            <p className="mt-3 hidden max-w-[460px] text-[10px] leading-5 tracking-[0.04em] text-slate-400 sm:block sm:text-xs sm:leading-6">
-              Seven layers, one builder. Descend through the systems I use—from language foundations to deployed,
-              real-time, and AI-assisted products.
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={onExit}
-            className="border border-cyan-400/60 px-4 py-2 text-[9px] tracking-[0.18em] text-cyan-300 transition-colors hover:bg-cyan-400/10 focus-visible:bg-cyan-400/10 focus-visible:outline-none sm:text-[10px]"
-          >
-            RETURN ↩
-          </button>
-        </div>
-
-        <div className="grid min-h-0 flex-1 grid-rows-[auto_minmax(220px,31vh)] items-center gap-1 sm:grid-rows-[auto_minmax(260px,38vh)] lg:grid-cols-[46%_54%] lg:grid-rows-none lg:gap-0">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={layer.id}
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
-              transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 max-w-[690px] py-2 sm:py-5"
-            >
-              <div className="flex items-center gap-3 text-[9px] tracking-[0.22em] sm:text-[10px]">
-                <span className={warmLayer ? 'text-amber-300' : 'text-cyan-300'}>{layer.id}</span>
-                <span className={warmLayer ? 'text-amber-300' : 'text-cyan-300'}>·</span>
-                <span className={warmLayer ? 'text-amber-200' : 'text-cyan-200'}>{layer.category}</span>
-                <span className="text-slate-600">{String(activeLayer + 1).padStart(2, '0')} / 07</span>
-                <span className={`border px-2 py-1 ${warmLayer ? 'border-amber-400/50 text-amber-300' : 'border-cyan-400/50 text-cyan-300'}`}>
-                  ● EXPLORING
-                </span>
-              </div>
-
-              <h2 className={`mt-5 font-sans text-[clamp(2.55rem,12vw,4.2rem)] font-semibold leading-[0.92] tracking-[-0.045em] sm:mt-6 sm:whitespace-nowrap lg:mt-5 lg:text-[clamp(3rem,3.8vw,4.2rem)] ${warmLayer ? 'text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.42)]' : 'text-cyan-200 drop-shadow-[0_0_10px_rgba(56,189,248,0.25)]'}`}>
-                {layer.title}
-              </h2>
-              <p className="mt-4 max-w-[560px] text-xs leading-6 text-slate-300 sm:mt-5 sm:text-sm sm:leading-7 lg:text-[15px] lg:leading-8">
-                {layer.description}
-              </p>
-
-              <div className="mt-5 flex max-w-[650px] flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
-                {layer.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className={`border px-2.5 py-1.5 text-[8px] tracking-[0.1em] sm:px-3 sm:py-2 sm:text-[10px] ${
-                      warmLayer
-                        ? 'border-amber-400/50 bg-amber-400/[0.04] text-amber-100'
-                        : 'border-cyan-400/50 bg-cyan-400/[0.04] text-cyan-100'
-                    }`}
-                  >
-                    {tag.toUpperCase()}
-                  </span>
-                ))}
-              </div>
-
-              <p className="mt-5 hidden text-[9px] tracking-[0.16em] text-slate-600 sm:block">
-                ▸ DRAG THE GLOBE TO ROTATE · SCROLL OR USE ARROW KEYS
-              </p>
-            </motion.div>
-          </AnimatePresence>
-
-          <div data-stack-globe className="relative h-[31vh] min-h-[220px] sm:h-[38vh] sm:min-h-[260px] lg:h-[70vh] lg:max-h-[650px] lg:min-h-[520px] lg:translate-x-6">
-            <StackVisual activeLayer={activeLayer} exploring reduceMotion={reduceMotion} />
-          </div>
-        </div>
-
-        <div className="pointer-events-none absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
-          <span className={`whitespace-nowrap text-[9px] tracking-[0.24em] sm:text-[10px] ${activeLayer === 6 ? 'text-amber-200' : 'text-slate-400'}`}>
-            {activeLayer === 6 ? 'STACK COMPLETE · EXIT UNLOCKED' : 'SCROLL TO DESCEND'}
-          </span>
-          <span className={`h-8 w-px ${activeLayer === 6 ? 'bg-amber-400/70' : 'bg-cyan-400/70'}`} />
-        </div>
-      </div>
-
-      <div className="absolute right-3 top-1/2 flex -translate-y-1/2 flex-col items-end gap-3 sm:right-5">
-        {stackLayers.map((item, index) => (
-          <button
-            type="button"
-            key={item.id}
-            onClick={() => setActiveLayer(index)}
-            aria-label={`Open ${item.title} layer`}
-            aria-current={activeLayer === index ? 'step' : undefined}
-            className="group flex h-5 items-center gap-3 focus-visible:outline-none"
-          >
-            <span className={`hidden text-[8px] tracking-[0.16em] sm:block ${activeLayer === index ? (index >= 5 ? 'text-amber-300' : 'text-cyan-300') : 'text-transparent'}`}>
-              {item.id}
-            </span>
-            <span className={`block rounded-full border transition-all ${activeLayer === index ? `h-2.5 w-2.5 ${index >= 5 ? 'border-amber-300 bg-amber-300 shadow-[0_0_10px_#fbbf24]' : 'border-cyan-300 bg-cyan-300 shadow-[0_0_10px_#38bdf8]'}` : 'h-2 w-2 border-cyan-700 bg-cyan-950 group-hover:border-cyan-400'}`} />
-          </button>
-        ))}
-      </div>
-    </motion.div>
-  );
-}
+import React from 'react';
+import { motion } from 'framer-motion';
+import { FiDownload, FiArrowDown, FiMail, FiGithub, FiLinkedin, FiTerminal, FiCheck } from 'react-icons/fi';
+import { personalInfo } from '../data/portfolioData';
+import { openEmailClient } from '../utils/emailHandler';
 
 export default function Hero() {
-  const [exploring, setExploring] = useState(false);
-  const [activeLayer, setActiveLayer] = useState(0);
-  const reduceMotion = useReducedMotion();
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (element) {
+      const topOffset = element.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: topOffset, behavior: 'smooth' });
+    }
+  };
 
-  useEffect(() => {
-    if (exploring) return undefined;
-    const handleKeyDown = (event) => {
-      if (event.key === 'Enter' && !event.repeat) {
-        const target = event.target;
-        if (target instanceof HTMLElement && ['A', 'BUTTON', 'INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
-          return;
-        }
-        setActiveLayer(0);
-        setExploring(true);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [exploring]);
-
-  const openExplorer = useCallback(() => {
-    setActiveLayer(0);
-    setExploring(true);
-  }, []);
-
-  const closeExplorer = useCallback(() => setExploring(false), []);
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 15 },
+    visible: (custom = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, delay: custom * 0.08, ease: [0.16, 1, 0.3, 1] },
+    }),
+  };
 
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden">
-      <AnimatePresence mode="wait">
-        {!exploring ? (
-          <IdentityHero onExplore={openExplorer} reduceMotion={reduceMotion} />
-        ) : (
-          <StackExplorer
-            activeLayer={activeLayer}
-            setActiveLayer={setActiveLayer}
-            onExit={closeExplorer}
-            reduceMotion={reduceMotion}
-          />
-        )}
-      </AnimatePresence>
+    <section id="hero" className="min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 relative overflow-hidden font-mono">
+      <div className="max-w-6xl w-full mx-auto">
+        {/* Terminal Window Wrapper */}
+        <div className="rounded-xl border border-slate-800/80 bg-[#0B101B]/60 backdrop-blur-sm shadow-2xl shadow-black/80 overflow-hidden">
+          {/* Terminal Window Titlebar */}
+          <div className="flex items-center justify-between px-6 py-3.5 bg-[#0d1424] border-b border-slate-800/80 text-xs text-slate-400 select-none">
+            <div className="flex items-center gap-2.5">
+              <span className="h-3 w-3 rounded-full bg-[#ff5f56] inline-block shadow-[0_0_6px_rgba(255,95,86,0.5)]" />
+              <span className="h-3 w-3 rounded-full bg-[#ffbd2e] inline-block shadow-[0_0_6px_rgba(255,189,46,0.5)]" />
+              <span className="h-3 w-3 rounded-full bg-[#27c93f] inline-block shadow-[0_0_6px_rgba(39,201,63,0.5)]" />
+              <span className="ml-2 text-slate-300 font-semibold flex items-center gap-1.5 font-mono text-xs">
+                <FiTerminal className="text-cyan-400" />
+                rakesh@portfolio:~ (zsh)
+              </span>
+            </div>
+            <div className="hidden sm:flex items-center gap-3 text-xs text-slate-500 font-mono">
+              <span>UTF-8</span>
+              <span>Node v20.x</span>
+            </div>
+          </div>
+
+          {/* Terminal Content Body */}
+          <div className="p-8 md:p-10 lg:p-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+              {/* Left Column: Headline & Pitch */}
+              <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
+                {/* Status Badge */}
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  custom={1}
+                  variants={fadeInUp}
+                  className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-xs font-semibold text-emerald-400 w-fit"
+                >
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#10b981]" />
+                  <span>Open to Software Engineer Roles</span>
+                </motion.div>
+
+                {/* Shell Command Intro */}
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  custom={2}
+                  variants={fadeInUp}
+                  className="text-xs text-slate-400 flex items-center gap-2 font-mono"
+                >
+                  <span className="text-emerald-400 font-bold">$</span>
+                  <span>whoami</span>
+                </motion.div>
+
+                {/* Headline */}
+                <motion.h1
+                  initial="hidden"
+                  animate="visible"
+                  custom={3}
+                  variants={fadeInUp}
+                  className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-100 tracking-tight leading-tight"
+                >
+                  Hi, I'm <span className="text-[#38bdf8] drop-shadow-[0_0_15px_rgba(56,189,248,0.35)]">Rakesh Kumar</span> — Full-Stack Developer & Systems Builder
+                </motion.h1>
+
+                {/* Sub-text Pitch */}
+                <motion.p
+                  initial="hidden"
+                  animate="visible"
+                  custom={4}
+                  variants={fadeInUp}
+                  className="text-sm sm:text-base text-slate-300 leading-relaxed font-mono"
+                >
+                  {personalInfo.pitch}
+                </motion.p>
+
+                {/* Action CTAs */}
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  custom={5}
+                  variants={fadeInUp}
+                  className="flex flex-wrap items-center gap-4 pt-2"
+                >
+                  <a
+                    href="#systems"
+                    onClick={(e) => handleNavClick(e, '#systems')}
+                    className="flex items-center gap-2 px-5 py-3 rounded-lg border border-cyan-500/60 bg-cyan-950/30 hover:bg-cyan-500 hover:text-slate-950 text-cyan-400 text-xs font-bold transition-all shadow-[0_0_15px_rgba(56,189,248,0.2)] cursor-pointer"
+                  >
+                    <span>View Projects</span>
+                    <FiArrowDown className="text-xs" />
+                  </a>
+
+                  <a
+                    href={personalInfo.resumeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-3 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-all shadow-md cursor-pointer"
+                  >
+                    <FiDownload className="text-xs" />
+                    <span>Download Resume</span>
+                  </a>
+
+                  {/* Social Icons */}
+                  <div className="flex items-center gap-2.5 ml-1 sm:ml-2">
+                    <a
+                      href={personalInfo.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
+                      aria-label="GitHub"
+                    >
+                      <FiGithub />
+                    </a>
+                    <a
+                      href={personalInfo.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
+                      aria-label="LinkedIn"
+                    >
+                      <FiLinkedin />
+                    </a>
+                    <a
+                      href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => openEmailClient(e)}
+                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all cursor-pointer"
+                      aria-label="Send Email"
+                      title="Send Email"
+                    >
+                      <FiMail />
+                    </a>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right Column: Terminal Shell Output Panel */}
+              <div className="lg:col-span-5 h-full">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="rounded-xl border border-slate-800/90 bg-[#060a12]/90 p-6 text-xs sm:text-sm font-mono text-slate-300 leading-relaxed shadow-inner"
+                >
+                  <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/80 text-xs text-slate-400">
+                    <span className="text-emerald-400 font-bold">$ cat developer.json</span>
+                    <span className="text-slate-500 uppercase tracking-widest text-[10px]">JSON</span>
+                  </div>
+
+                  <div className="space-y-1.5 text-xs sm:text-sm">
+                    <div><span className="text-slate-500">&#123;</span></div>
+                    <div className="pl-4">
+                      <span className="text-[#38bdf8]">"name"</span>: <span className="text-emerald-400">"Rakesh Kumar"</span>,
+                    </div>
+                    <div className="pl-4">
+                      <span className="text-[#38bdf8]">"degree"</span>: <span className="text-emerald-400">"B.Tech CSE (2026)"</span>,
+                    </div>
+                    <div className="pl-4">
+                      <span className="text-[#38bdf8]">"stack"</span>: [<span className="text-[#facc15]">"React"</span>, <span className="text-[#facc15]">"Node"</span>, <span className="text-[#facc15]">"Express"</span>, <span className="text-[#facc15]">"MongoDB"</span>],
+                    </div>
+                    <div className="pl-4">
+                      <span className="text-[#38bdf8]">"focus"</span>: [<span className="text-[#facc15]">"REST APIs"</span>, <span className="text-[#facc15]">"JWT & RBAC"</span>, <span className="text-[#facc15]">"CRDTs"</span>],
+                    </div>
+                    <div className="pl-4">
+                      <span className="text-[#38bdf8]">"status"</span>: <span className="text-emerald-400">"Actively Interviewing for SDE Roles"</span>
+                    </div>
+                    <div><span className="text-slate-500">&#125;</span></div>
+                  </div>
+
+                  <div className="mt-5 pt-3.5 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
+                    <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                      <FiCheck className="text-sm" /> Ready for hire
+                    </span>
+                    <span className="text-slate-500">Gurugram, India</span>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
