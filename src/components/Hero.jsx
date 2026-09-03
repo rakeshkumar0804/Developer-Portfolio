@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import * as THREE from 'three';
-import { codingStats, personalInfo, primarySystems } from '../data/portfolioData';
+import { codingStats, primarySystems } from '../data/portfolioData';
 
 const CYAN = '#38bdf8';
 const AMBER = '#fbbf24';
@@ -162,7 +162,7 @@ function StackOrb({ activeLayer, exploring, reduceMotion }) {
       <group rotation={[0.08, -0.45, -0.03]}>
         <mesh>
           <icosahedronGeometry args={[2.16, 3]} />
-          <meshBasicMaterial color="#24425f" wireframe transparent opacity={exploring ? 0.28 : 0.2} />
+          <meshBasicMaterial color="#24425f" wireframe transparent opacity={exploring ? 0.28 : 0.32} />
         </mesh>
 
         <points>
@@ -177,7 +177,7 @@ function StackOrb({ activeLayer, exploring, reduceMotion }) {
           const opacity = completed ? (current ? 1 : exploring ? 0.52 : 0.72) : 0.12;
 
           return (
-            <group key={stackLayers[index].id}>
+            <group key={stackLayers[index].id} rotation={[0, 0, (index - 3) * 0.035]}>
               <line geometry={curve}>
                 <lineBasicMaterial
                   color={completed ? color : DIM}
@@ -200,14 +200,6 @@ function StackOrb({ activeLayer, exploring, reduceMotion }) {
           );
         })}
 
-        <mesh position={[0, -2.18, 0]}>
-          <sphereGeometry args={[0.07, 12, 12]} />
-          <meshBasicMaterial color={CYAN} />
-        </mesh>
-        <mesh position={[0, 2.18, 0]}>
-          <sphereGeometry args={[0.07, 12, 12]} />
-          <meshBasicMaterial color={AMBER} />
-        </mesh>
       </group>
 
       <OrbitControls
@@ -232,7 +224,7 @@ function StackVisual({ activeLayer = stackLayers.length - 1, exploring = false, 
       <Canvas
         className="relative z-10 drop-shadow-[0_0_12px_rgba(56,189,248,0.28)]"
         dpr={[1, 1.5]}
-        camera={{ position: [0, 0.15, 6.4], fov: 43 }}
+        camera={{ position: [0, 0.15, exploring ? 6.4 : 12.4], fov: 43 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       >
         <StackOrb activeLayer={activeLayer} exploring={exploring} reduceMotion={reduceMotion} />
@@ -265,24 +257,25 @@ function IdentityHero({ onExplore, reduceMotion }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 0.985 }}
       transition={{ duration: reduceMotion ? 0 : 0.45 }}
-      className="mx-auto flex min-h-[calc(100svh-2rem)] w-full max-w-[1600px] flex-col justify-center px-6 pb-20 pt-24 sm:px-10 lg:px-16 xl:px-20"
+      className="mx-auto flex min-h-[calc(100svh-2rem)] w-full max-w-[1600px] flex-col justify-center px-6 pb-20 pt-24 sm:px-10 lg:px-16 xl:px-40"
     >
-      <div className="grid items-center gap-10 lg:grid-cols-[1.06fr_0.94fr] lg:gap-6">
+      <div className="grid items-center gap-10 lg:grid-cols-[1.65fr_1fr] lg:gap-6">
         <div className="relative z-10">
           <motion.p
             initial={reduceMotion ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.08 }}
-            className="mb-8 font-mono text-[10px] tracking-[0.28em] text-slate-500 sm:text-xs"
+            className="mb-8 flex items-center gap-3 font-mono text-[10px] tracking-[0.28em] text-slate-500 sm:text-xs"
           >
-            DRAWING NO. RK-2026 · SYSTEM PROFILE
+            <span className="h-px w-10 bg-cyan-400/80" aria-hidden="true" />
+            <span>DRAWING NO. RK-2026 · SYSTEM PROFILE</span>
           </motion.p>
 
           <motion.h1
             initial={reduceMotion ? false : { opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            className="font-sans text-[clamp(4.6rem,7.7vw,9.2rem)] font-semibold uppercase leading-[0.76] tracking-[-0.075em]"
+            className="font-sans text-[clamp(4.6rem,7.7vw,9.2rem)] font-semibold uppercase leading-[0.88] tracking-[-0.075em]"
           >
             <span className="block text-slate-100">Rakesh</span>
             <span className="block text-sky-200">Kumar</span>
@@ -301,7 +294,7 @@ function IdentityHero({ onExplore, reduceMotion }) {
             initial={reduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.38 }}
-            className="mt-6 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base sm:leading-8"
+            className="mt-6 max-w-[610px] font-mono text-xs leading-6 text-slate-400 sm:text-sm sm:leading-7"
           >
             I build production-ready web systems across secure backends, real-time collaboration, and AI-assisted
             engineering workflows—from system design to deployment.
@@ -311,11 +304,11 @@ function IdentityHero({ onExplore, reduceMotion }) {
             initial={reduceMotion ? false : { opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className="mt-9 grid max-w-3xl grid-cols-2 border-l border-t border-slate-800/80 sm:grid-cols-4"
+            className="mt-11 grid max-w-[670px] grid-cols-2 border-l border-t border-slate-800/80 sm:grid-cols-4"
           >
             {proofMetrics.map((metric) => (
-              <div key={metric.label} className="border-b border-r border-slate-800/80 px-4 py-4 sm:px-5">
-                <div className="font-mono text-xl font-medium text-slate-100 sm:text-2xl">{metric.value}</div>
+              <div key={metric.label} className="border-b border-r border-slate-800/80 px-4 py-3 sm:px-5">
+                <div className="font-mono text-xl font-medium text-cyan-300 sm:text-2xl">{metric.value}</div>
                 <div className="mt-1 font-mono text-[9px] tracking-[0.18em] text-slate-500 sm:text-[10px]">
                   {metric.label}
                 </div>
@@ -323,42 +316,19 @@ function IdentityHero({ onExplore, reduceMotion }) {
             ))}
           </motion.div>
 
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="mt-5 flex items-center gap-5 font-mono text-[10px] tracking-[0.2em] text-slate-500"
-          >
-            <a
-              href={personalInfo.resumeUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors hover:text-cyan-300 focus-visible:text-cyan-300 focus-visible:outline-none"
-            >
-              RESUME.PDF ↗
-            </a>
-            <a
-              href={personalInfo.github}
-              target="_blank"
-              rel="noreferrer"
-              className="transition-colors hover:text-cyan-300 focus-visible:text-cyan-300 focus-visible:outline-none"
-            >
-              GITHUB ↗
-            </a>
-            <span className="hidden text-slate-700 sm:inline">/</span>
-            <span className="hidden sm:inline">{personalInfo.location.toUpperCase()}</span>
-          </motion.div>
         </div>
 
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.85, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mx-auto flex h-[430px] w-full max-w-[650px] flex-col sm:h-[520px] lg:h-[620px]"
+          className="relative mx-auto flex h-[430px] w-full max-w-[520px] flex-col sm:h-[520px] lg:h-[620px]"
         >
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3 font-mono text-[10px] tracking-[0.22em] sm:text-xs">
+          <div className="flex items-center gap-4 font-mono text-[10px] tracking-[0.22em] sm:text-xs">
+            <span className="h-px flex-1 bg-slate-800/80" aria-hidden="true" />
             <span className="text-slate-400">STACK GRAPH · <span className="text-emerald-400">ONLINE</span></span>
             <span className="text-slate-500">07 LAYERS · LIVE</span>
+            <span className="h-px flex-1 bg-slate-800/80" aria-hidden="true" />
           </div>
 
           <div
@@ -376,8 +346,9 @@ function IdentityHero({ onExplore, reduceMotion }) {
             className="group relative min-h-0 flex-1 cursor-grab touch-none focus-visible:outline-none active:cursor-grabbing"
           >
             <StackVisual reduceMotion={reduceMotion} />
-            <div className="pointer-events-none absolute inset-x-0 bottom-1 text-center font-mono text-[9px] tracking-[0.2em] text-slate-500 transition-colors group-hover:text-cyan-300 sm:text-[10px]">
-              DOUBLE-TAP / PRESS ENTER TO EXPLORE THE STACK
+            <div className="pointer-events-none absolute bottom-1 left-1/2 flex -translate-x-1/2 items-center gap-3 whitespace-nowrap border border-slate-700/70 bg-[#050b16]/80 px-5 py-3 text-center font-mono text-[9px] tracking-[0.2em] text-slate-500 transition-colors group-hover:border-cyan-400/30 group-hover:text-cyan-300 sm:text-[10px]">
+              <span className="h-1.5 w-1.5 bg-cyan-400/70 shadow-[0_0_8px_#38bdf8]" aria-hidden="true" />
+              DOUBLE-TAP TO EXPLORE THE STACK
             </div>
           </div>
         </motion.div>
@@ -390,6 +361,16 @@ function IdentityHero({ onExplore, reduceMotion }) {
       >
         DESCEND THROUGH THE SYSTEM <span aria-hidden="true">↓</span>
       </button>
+
+      <div className="absolute bottom-[14%] right-7 top-[23%] hidden flex-col items-center xl:flex" aria-hidden="true">
+        <span className="[writing-mode:vertical-rl] font-mono text-[9px] tracking-[0.28em] text-slate-400">DEPTH</span>
+        <span className="mt-5 h-2 w-2 bg-cyan-300 shadow-[0_0_10px_#38bdf8]" />
+        <span className="h-full w-px bg-slate-800" />
+        {[0, 1, 2, 3, 4].map((marker) => (
+          <span key={marker} className="absolute right-[2px] h-1.5 w-1.5 border border-slate-600 bg-[#050811]" style={{ top: `${25 + marker * 14}%` }} />
+        ))}
+        <span className="mt-4 font-mono text-[9px] tracking-[0.22em] text-slate-500">000</span>
+      </div>
     </motion.div>
   );
 }
