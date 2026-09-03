@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 const bootLogs = [
-  { text: 'mounting subsystem graph', threshold: 16 },
+  { text: 'mounting project graph', threshold: 16 },
   { text: 'linking MERN runtime', threshold: 32 },
-  { text: 'spinning cloud-native nodes', threshold: 48 },
-  { text: 'indexing 6 production systems', threshold: 64 },
+  { text: 'loading CRDT + WebSocket modules', threshold: 48 },
+  { text: 'indexing 4 deployed systems', threshold: 64 },
   { text: 'warming AI / LLM bridge', threshold: 80 },
 ];
 
@@ -69,12 +69,12 @@ export default function SystemBootloader({ onComplete }) {
     >
       <div className="w-full max-w-[560px]">
         <div className="flex items-center justify-between text-[0.68rem] tracking-[0.2em] text-slate-400 sm:text-xs">
-          <span>BLUEPRINT OS · V2.0</span>
+          <span>RK SYSTEMS · V1.0</span>
           <span>BOOT</span>
         </div>
 
         <p className="mt-6 text-xs tracking-[0.2em] text-slate-400 sm:text-sm">
-          CALIBRATING DEPTH AXIS
+          INITIALIZING ENGINEERING WORKSPACE
           <motion.span
             aria-hidden="true"
             animate={reduceMotion ? undefined : { opacity: [1, 0, 1] }}
@@ -117,7 +117,7 @@ export default function SystemBootloader({ onComplete }) {
               animate={{ opacity: 1 }}
               className="text-cyan-300 sm:whitespace-nowrap"
             >
-              <span className="text-sky-400">&gt;</span> operator recognized :: last uplink 7s ago :: session #67
+              <span className="text-sky-400">&gt;</span> operator recognized :: Rakesh Kumar :: workspace ready
             </motion.p>
           )}
         </div>
