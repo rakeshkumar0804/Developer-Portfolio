@@ -25,6 +25,34 @@ const profileContext = loadProfileContext();
 // Candidate models: gemini-2.5-flash (primary), followed by gemini-2.0-flash
 const CANDIDATE_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
 
+function isComplete(text) {
+  if (!text) return false;
+  const trimmed = text.trim();
+  return /[.!?)"'`\]}]$/.test(trimmed);
+}
+
+function sanitizeCompleteResponse(text) {
+  if (!text) return text;
+  let trimmed = text.trim();
+  if (isComplete(trimmed)) return trimmed;
+
+  // Try to find the last complete sentence boundary
+  const lastPeriod = Math.max(
+    trimmed.lastIndexOf('. '),
+    trimmed.lastIndexOf('.\n'),
+    trimmed.lastIndexOf('! '),
+    trimmed.lastIndexOf('? ')
+  );
+
+  if (lastPeriod > 40) {
+    return trimmed.slice(0, lastPeriod + 1).trim();
+  }
+
+  // Remove trailing comma, colon, semicolon, dash, or conjunction
+  trimmed = trimmed.replace(/[,;:\-\s]+$/, '');
+  return trimmed ? trimmed + '.' : text;
+}
+
 export default async function handler(req, res) {
   // Allow CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -73,7 +101,8 @@ CRITICAL GUARDRAILS:
 1. Never invent or hallucinate metrics, dates, companies, credentials, or projects not present in the context.
 2. Never use the word "Fresher" or refer to Rakesh as a fresher.
 3. If asked about something not in the context, state honestly: "[NOTICE] That information is outside my verified profile context." and suggest asking about TRACE, CHRONOS, SyncPad, IncidentHub AI, technical skills, or his internship at Codetech.
-4. Keep the full response concise (under 90 words, 2-4 sentences). Always finish your thought and conclude your final sentence cleanly — never cut off mid-sentence. Use a direct, sharp, technical terminal tone without pleasantries or conversational filler.
+4. Always complete your response as a full sentence or thought. If the topic is broad, briefly summarize rather than starting a long list you can't finish within the token budget. Never stop mid-sentence or end on a comma.
+5. Use a direct, sharp, technical terminal tone without pleasantries or conversational filler. Keep the response to 2-4 complete, articulate sentences.
 
 VERIFIED PROFILE CONTEXT:
 ${JSON.stringify(profileContext, null, 2)}`;
@@ -100,7 +129,7 @@ ${JSON.stringify(profileContext, null, 2)}`;
             ],
             generationConfig: {
               temperature: 0.2,
-              maxOutputTokens: 800,
+              maxOutputTokens: 600,
             },
           }),
         });
@@ -110,7 +139,7 @@ ${JSON.stringify(profileContext, null, 2)}`;
           const candidate = data.candidates?.[0];
 
           if (candidate?.finishReason === 'MAX_TOKENS') {
-            console.warn(`[API /ask] Warning: Model hit MAX_TOKENS limit.`);
+            console.warn(`[API /ask] Warning: Model "${model}" hit MAX_TOKENS limit.`);
           }
 
           const parts = candidate?.content?.parts || [];
@@ -120,11 +149,56 @@ ${JSON.stringify(profileContext, null, 2)}`;
             .join('\n')
             .trim();
 
-          successfulAnswer =
+          let candidateAnswer =
             textContent ||
             parts[0]?.text?.trim() ||
             '[NOTICE] Query completed with no conclusive output. Try a quick command.';
 
+          // Safety net check: verify the answer doesn't end abruptly (e.g. on a comma or unfinished sentence)
+          if (!isComplete(candidateAnswer)) {
+            console.log(`[API /ask] Incomplete ending detected on "${model}". Attempting targeted single-shot completion retry...`);
+            try {
+              const retryRes = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  contents: [
+                    {
+                      role: 'user',
+                      parts: [
+                        {
+                          text: `${systemInstruction}\n\nUSER QUESTION: ${question}\n\nIMPORTANT: Summarize your answer in 2 to 3 complete sentences. You MUST conclude your final sentence cleanly with a period.`,
+                        },
+                      ],
+                    },
+                  ],
+                  generationConfig: {
+                    temperature: 0.2,
+                    maxOutputTokens: 600,
+                  },
+                }),
+              });
+
+              if (retryRes.ok) {
+                const retryData = await retryRes.json();
+                const retryParts = retryData.candidates?.[0]?.content?.parts || [];
+                const retryText = retryParts
+                  .filter((p) => p.text && !p.thought)
+                  .map((p) => p.text)
+                  .join('\n')
+                  .trim();
+                if (retryText) {
+                  candidateAnswer = retryText;
+                }
+              }
+            } catch (retryErr) {
+              console.warn('[API /ask] Single-shot completion retry error:', retryErr);
+            }
+
+            candidateAnswer = sanitizeCompleteResponse(candidateAnswer);
+          }
+
+          successfulAnswer = candidateAnswer;
           console.log(`[API /ask] Model "${model}" responded successfully with 200 OK. Output length: ${successfulAnswer.length} chars.`);
           break;
         } else {
