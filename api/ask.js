@@ -22,7 +22,7 @@ function loadProfileContext() {
 
 const profileContext = loadProfileContext();
 
-// Candidate models: gemini-2.5-flash (primary current production model), followed by gemini-2.0-flash
+// Candidate models: gemini-2.5-flash (primary), followed by gemini-2.0-flash
 const CANDIDATE_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
 
 export default async function handler(req, res) {
@@ -73,7 +73,7 @@ CRITICAL GUARDRAILS:
 1. Never invent or hallucinate metrics, dates, companies, credentials, or projects not present in the context.
 2. Never use the word "Fresher" or refer to Rakesh as a fresher.
 3. If asked about something not in the context, state honestly: "[NOTICE] That information is outside my verified profile context." and suggest asking about TRACE, CHRONOS, SyncPad, IncidentHub AI, technical skills, or his internship at Codetech.
-4. Keep the response to 2-4 lines maximum. Use a direct, sharp, technical terminal tone without pleasantries or filler.
+4. Keep the full response concise (under 90 words, 2-4 sentences). Always finish your thought and conclude your final sentence cleanly — never cut off mid-sentence. Use a direct, sharp, technical terminal tone without pleasantries or conversational filler.
 
 VERIFIED PROFILE CONTEXT:
 ${JSON.stringify(profileContext, null, 2)}`;
@@ -100,17 +100,32 @@ ${JSON.stringify(profileContext, null, 2)}`;
             ],
             generationConfig: {
               temperature: 0.2,
-              maxOutputTokens: 250,
+              maxOutputTokens: 800,
             },
           }),
         });
 
         if (response.ok) {
           const data = await response.json();
+          const candidate = data.candidates?.[0];
+
+          if (candidate?.finishReason === 'MAX_TOKENS') {
+            console.warn(`[API /ask] Warning: Model hit MAX_TOKENS limit.`);
+          }
+
+          const parts = candidate?.content?.parts || [];
+          const textContent = parts
+            .filter((p) => p.text && !p.thought)
+            .map((p) => p.text)
+            .join('\n')
+            .trim();
+
           successfulAnswer =
-            data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
+            textContent ||
+            parts[0]?.text?.trim() ||
             '[NOTICE] Query completed with no conclusive output. Try a quick command.';
-          console.log(`[API /ask] Model "${model}" responded successfully with 200 OK.`);
+
+          console.log(`[API /ask] Model "${model}" responded successfully with 200 OK. Output length: ${successfulAnswer.length} chars.`);
           break;
         } else {
           const errText = await response.text();

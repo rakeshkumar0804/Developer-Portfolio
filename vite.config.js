@@ -57,7 +57,7 @@ CRITICAL GUARDRAILS:
 1. Never invent or hallucinate metrics, dates, companies, credentials, or projects not present in the context.
 2. Never use the word "Fresher" or refer to Rakesh as a fresher.
 3. If asked about something not in the context, state honestly: "[NOTICE] That information is outside my verified profile context." and suggest asking about TRACE, CHRONOS, SyncPad, IncidentHub AI, technical skills, or his internship at Codetech.
-4. Keep the response to 2-4 lines maximum. Use a direct, sharp, technical terminal tone without pleasantries or filler.
+4. Keep the full response concise (under 90 words, 2-4 sentences). Always finish your thought and conclude your final sentence cleanly — never cut off mid-sentence. Use a direct, sharp, technical terminal tone without pleasantries or conversational filler.
 
 VERIFIED PROFILE CONTEXT:
 ${JSON.stringify(profileContext, null, 2)}`;
@@ -82,15 +82,24 @@ ${JSON.stringify(profileContext, null, 2)}`;
                   ],
                   generationConfig: {
                     temperature: 0.2,
-                    maxOutputTokens: 250,
+                    maxOutputTokens: 800,
                   },
                 }),
               });
 
               if (geminiRes.ok) {
                 const data = await geminiRes.json();
+                const candidate = data.candidates?.[0];
+                const parts = candidate?.content?.parts || [];
+                const textContent = parts
+                  .filter((p) => p.text && !p.thought)
+                  .map((p) => p.text)
+                  .join('\n')
+                  .trim();
+
                 answer =
-                  data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
+                  textContent ||
+                  parts[0]?.text?.trim() ||
                   '[NOTICE] Query completed with no conclusive output. Try a quick command.';
                 console.log(`[Dev API /ask] Model "${model}" succeeded with 200 OK.`);
                 break;
