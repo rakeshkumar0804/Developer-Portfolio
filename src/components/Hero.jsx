@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { Line, OrbitControls } from '@react-three/drei';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import * as THREE from 'three';
 import { codingStats, primarySystems } from '../data/portfolioData';
@@ -118,40 +118,54 @@ function TypeSignal({ reduceMotion }) {
   );
 }
 
-function createLayerGeometry(index) {
-  const layerY = -1.35 + index * 0.45;
-  const radius = Math.sqrt(Math.max(0.4, 2.05 ** 2 - layerY ** 2)) * 0.92;
-  const pointCount = 14;
-  const points = [];
+function createStackNetwork() {
+  const layerPoints = stackLayers.map((_, layerIndex) => {
+    const layerY = -1.55 + layerIndex * (3.1 / (stackLayers.length - 1));
+    const radius = Math.sqrt(Math.max(0.35, 2.06 ** 2 - layerY ** 2)) * 0.96;
+    const pointCount = layerIndex === 0 || layerIndex === stackLayers.length - 1 ? 6 : 8;
+    const angleOffset = layerIndex * 0.47 + (layerIndex % 2) * 0.16;
 
-  for (let pointIndex = 0; pointIndex <= pointCount; pointIndex += 1) {
-    const angle = (pointIndex / pointCount) * Math.PI * 2;
-    const distortion = 1 + Math.sin(pointIndex * 2.17 + index * 0.83) * 0.055;
-    points.push(
-      new THREE.Vector3(
+    return Array.from({ length: pointCount }, (_, pointIndex) => {
+      const angle = (pointIndex / pointCount) * Math.PI * 2 + angleOffset;
+      const distortion = 0.89 + Math.sin(pointIndex * 2.31 + layerIndex * 1.17) * 0.105;
+      return new THREE.Vector3(
         Math.cos(angle) * radius * distortion,
-        layerY + Math.sin(pointIndex * 1.7 + index) * 0.035,
-        Math.sin(angle) * radius * distortion
-      )
-    );
-  }
+        layerY + Math.sin(pointIndex * 1.73 + layerIndex) * 0.085,
+        Math.sin(angle) * radius * (1.02 - Math.cos(pointIndex * 1.91 + layerIndex) * 0.07)
+      );
+    });
+  });
 
-  const curve = new THREE.BufferGeometry().setFromPoints(points);
-  const nodes = new THREE.BufferGeometry().setFromPoints(
-    points.filter((_, pointIndex) => pointIndex < pointCount && pointIndex % 2 === index % 2)
-  );
+  return layerPoints.map((points, layerIndex) => {
+    const nodes = new THREE.BufferGeometry().setFromPoints(points);
+    const connectorPoints = [];
 
-  return { curve, nodes };
+    if (layerIndex > 0) {
+      const previous = layerPoints[layerIndex - 1];
+      points.forEach((point, pointIndex) => {
+        connectorPoints.push(point, previous[(pointIndex + layerIndex) % previous.length]);
+        if (pointIndex % 2 === layerIndex % 2) {
+          connectorPoints.push(point, previous[(pointIndex + layerIndex + 2) % previous.length]);
+        }
+      });
+    }
+
+    return {
+      points: [...points, points[0]],
+      nodes,
+      connectors: new THREE.BufferGeometry().setFromPoints(connectorPoints),
+    };
+  });
 }
 
 function StackOrb({ activeLayer, exploring, reduceMotion }) {
-  const layers = useMemo(() => stackLayers.map((_, index) => createLayerGeometry(index)), []);
+  const layers = useMemo(createStackNetwork, []);
 
   useEffect(
     () => () => {
-      layers.forEach(({ curve, nodes }) => {
-        curve.dispose();
+      layers.forEach(({ nodes, connectors }) => {
         nodes.dispose();
+        connectors.dispose();
       });
     },
     [layers]
@@ -170,28 +184,48 @@ function StackOrb({ activeLayer, exploring, reduceMotion }) {
           <pointsMaterial color="#426b8c" size={0.035} transparent opacity={0.65} sizeAttenuation />
         </points>
 
-        {layers.map(({ curve, nodes }, index) => {
+        {layers.map(({ points, nodes, connectors }, index) => {
           const completed = index <= activeLayer;
           const current = index === activeLayer;
           const color = index >= 5 ? AMBER : CYAN;
-          const opacity = completed ? (current ? 1 : exploring ? 0.52 : 0.72) : 0.12;
+          const opacity = completed ? (current ? 1 : 0.82) : 0.09;
 
           return (
-            <group key={stackLayers[index].id} rotation={[0, 0, (index - 3) * 0.035]}>
-              <line geometry={curve}>
-                <lineBasicMaterial
-                  color={completed ? color : DIM}
+            <group key={stackLayers[index].id}>
+              <Line
+                points={points}
+                color={completed ? color : DIM}
+                lineWidth={completed ? (current ? 1.8 : 1.3) : 0.7}
+                transparent
+                opacity={opacity}
+                depthWrite={false}
+              />
+              {completed && (
+                <Line
+                  points={points}
+                  color={color}
+                  lineWidth={current ? 6 : 4}
                   transparent
-                  opacity={opacity}
+                  opacity={current ? 0.08 : 0.035}
                   depthWrite={false}
                 />
-              </line>
+              )}
+              {index > 0 && (
+                <lineSegments geometry={connectors}>
+                  <lineBasicMaterial
+                    color={completed ? color : DIM}
+                    transparent
+                    opacity={completed ? (current ? 0.9 : 0.68) : 0.07}
+                    depthWrite={false}
+                  />
+                </lineSegments>
+              )}
               <points geometry={nodes}>
                 <pointsMaterial
                   color={completed ? color : DIM}
-                  size={current ? 0.085 : 0.055}
+                  size={current ? 0.085 : 0.065}
                   transparent
-                  opacity={completed ? 0.95 : 0.18}
+                  opacity={completed ? 1 : 0.14}
                   sizeAttenuation
                   depthWrite={false}
                 />
@@ -220,9 +254,9 @@ function StackOrb({ activeLayer, exploring, reduceMotion }) {
 function StackVisual({ activeLayer = stackLayers.length - 1, exploring = false, reduceMotion = false }) {
   return (
     <div className="relative h-full min-h-[300px] w-full" aria-hidden="true">
-      <div className="absolute inset-[12%] rounded-full bg-cyan-500/[0.035] blur-3xl" />
+      <div className="absolute inset-[12%] rounded-full bg-cyan-500/[0.06] blur-3xl" />
       <Canvas
-        className="relative z-10 drop-shadow-[0_0_12px_rgba(56,189,248,0.28)]"
+        className="relative z-10 drop-shadow-[0_0_16px_rgba(56,189,248,0.42)]"
         dpr={[1, 1.5]}
         camera={{ position: [0, 0.15, exploring ? 6.4 : 12.4], fov: 43 }}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
@@ -438,6 +472,8 @@ function StackExplorer({ activeLayer, setActiveLayer, onExit, reduceMotion }) {
     touchStartRef.current = null;
   };
 
+  const warmLayer = activeLayer >= 5;
+
   return (
     <motion.div
       key="explorer"
@@ -447,27 +483,31 @@ function StackExplorer({ activeLayer, setActiveLayer, onExit, reduceMotion }) {
       transition={{ duration: reduceMotion ? 0 : 0.38 }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="fixed inset-0 z-40 overflow-hidden bg-[#030914] font-mono"
+      className="fixed inset-0 z-[100] overflow-hidden bg-[#030914] font-mono"
     >
       <div className="absolute inset-0 bg-subtle-grid opacity-80" />
-      <div className="relative mx-auto flex h-full w-full max-w-[1700px] flex-col px-5 pb-14 pt-20 sm:px-10 sm:pb-16 sm:pt-24 lg:px-16 xl:px-24">
+      <div className="relative flex h-full w-full flex-col px-6 pb-12 pt-7 sm:px-10 lg:px-11 lg:pb-8 lg:pt-7">
         <div className="flex items-start justify-between gap-6">
           <div>
-            <p className="text-[10px] tracking-[0.28em] text-cyan-300 sm:text-xs">THE STACK · 7 LAYERS</p>
-            <p className="mt-3 hidden max-w-lg text-[10px] leading-5 tracking-[0.08em] text-slate-500 sm:block sm:text-xs">
-              A working map of the technologies behind my deployed systems.
+            <p className="flex items-center gap-4 text-[10px] tracking-[0.28em] text-slate-300 sm:text-xs">
+              <span className="h-px w-10 bg-cyan-400" aria-hidden="true" />
+              THE STACK · 7 LAYERS
+            </p>
+            <p className="mt-3 hidden max-w-[460px] text-[10px] leading-5 tracking-[0.04em] text-slate-400 sm:block sm:text-xs sm:leading-6">
+              Seven layers, one builder. Descend through the systems I use—from language foundations to deployed,
+              real-time, and AI-assisted products.
             </p>
           </div>
           <button
             type="button"
             onClick={onExit}
-            className="border border-slate-700/80 px-4 py-2 text-[9px] tracking-[0.22em] text-slate-400 transition-colors hover:border-cyan-400/60 hover:text-cyan-300 focus-visible:border-cyan-400 focus-visible:text-cyan-300 focus-visible:outline-none sm:text-[10px]"
+            className="border border-cyan-400/60 px-4 py-2 text-[9px] tracking-[0.18em] text-cyan-300 transition-colors hover:bg-cyan-400/10 focus-visible:bg-cyan-400/10 focus-visible:outline-none sm:text-[10px]"
           >
             RETURN ↩
           </button>
         </div>
 
-        <div className="grid min-h-0 flex-1 grid-rows-[auto_minmax(220px,30vh)] items-center gap-1 sm:grid-rows-[auto_minmax(260px,36vh)] lg:grid-cols-[0.86fr_1.14fr] lg:grid-rows-none lg:gap-3">
+        <div className="grid min-h-0 flex-1 grid-rows-[auto_minmax(220px,31vh)] items-center gap-1 sm:grid-rows-[auto_minmax(260px,38vh)] lg:grid-cols-[46%_54%] lg:grid-rows-none lg:gap-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={layer.id}
@@ -475,30 +515,33 @@ function StackExplorer({ activeLayer, setActiveLayer, onExit, reduceMotion }) {
               animate={{ opacity: 1, y: 0 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -12 }}
               transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              className="relative z-10 max-w-2xl py-2 sm:py-5"
+              className="relative z-10 max-w-[690px] py-2 sm:py-5"
             >
-              <div className="flex items-center gap-4 text-[10px] tracking-[0.24em] sm:text-xs">
-                <span className={activeLayer >= 5 ? 'text-amber-300' : 'text-cyan-300'}>{layer.id}</span>
-                <span className="text-slate-500">{layer.category}</span>
-                <span className="h-px flex-1 bg-slate-800/80" />
-                <span className="text-slate-500">{String(activeLayer + 1).padStart(2, '0')} / 07</span>
+              <div className="flex items-center gap-3 text-[9px] tracking-[0.22em] sm:text-[10px]">
+                <span className={warmLayer ? 'text-amber-300' : 'text-cyan-300'}>{layer.id}</span>
+                <span className={warmLayer ? 'text-amber-300' : 'text-cyan-300'}>·</span>
+                <span className={warmLayer ? 'text-amber-200' : 'text-cyan-200'}>{layer.category}</span>
+                <span className="text-slate-600">{String(activeLayer + 1).padStart(2, '0')} / 07</span>
+                <span className={`border px-2 py-1 ${warmLayer ? 'border-amber-400/50 text-amber-300' : 'border-cyan-400/50 text-cyan-300'}`}>
+                  ● EXPLORING
+                </span>
               </div>
 
-              <h2 className="mt-4 font-sans text-[clamp(2.6rem,13vw,4.5rem)] font-semibold leading-[0.88] tracking-[-0.065em] text-slate-100 sm:mt-6 lg:mt-8 lg:text-[clamp(3.4rem,6.4vw,7.4rem)]">
+              <h2 className={`mt-5 font-sans text-[clamp(2.55rem,12vw,4.2rem)] font-semibold leading-[0.92] tracking-[-0.045em] sm:mt-6 sm:whitespace-nowrap lg:mt-5 lg:text-[clamp(3rem,3.8vw,4.2rem)] ${warmLayer ? 'text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.42)]' : 'text-cyan-200 drop-shadow-[0_0_10px_rgba(56,189,248,0.25)]'}`}>
                 {layer.title}
               </h2>
-              <p className="mt-4 max-w-xl text-xs leading-6 text-slate-400 sm:mt-6 sm:text-sm sm:leading-7 lg:mt-7 lg:text-base lg:leading-8">
+              <p className="mt-4 max-w-[560px] text-xs leading-6 text-slate-300 sm:mt-5 sm:text-sm sm:leading-7 lg:text-[15px] lg:leading-8">
                 {layer.description}
               </p>
 
-              <div className="mt-5 flex max-w-xl flex-wrap gap-1.5 sm:mt-7 sm:gap-2 lg:mt-8">
+              <div className="mt-5 flex max-w-[650px] flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
                 {layer.tags.map((tag) => (
                   <span
                     key={tag}
-                    className={`border px-2.5 py-1.5 text-[8px] tracking-[0.14em] sm:px-3 sm:py-2 sm:text-[10px] ${
-                      activeLayer >= 5
-                        ? 'border-amber-400/25 bg-amber-400/[0.035] text-amber-100/80'
-                        : 'border-cyan-400/25 bg-cyan-400/[0.035] text-cyan-100/80'
+                    className={`border px-2.5 py-1.5 text-[8px] tracking-[0.1em] sm:px-3 sm:py-2 sm:text-[10px] ${
+                      warmLayer
+                        ? 'border-amber-400/50 bg-amber-400/[0.04] text-amber-100'
+                        : 'border-cyan-400/50 bg-cyan-400/[0.04] text-cyan-100'
                     }`}
                   >
                     {tag.toUpperCase()}
@@ -506,41 +549,26 @@ function StackExplorer({ activeLayer, setActiveLayer, onExit, reduceMotion }) {
                 ))}
               </div>
 
-              <p className="mt-8 hidden text-[9px] tracking-[0.2em] text-slate-600 sm:block sm:text-[10px]">
-                DRAG THE GLOBE TO ROTATE · USE SCROLL OR ARROW KEYS
+              <p className="mt-5 hidden text-[9px] tracking-[0.16em] text-slate-600 sm:block">
+                ▸ DRAG THE GLOBE TO ROTATE · SCROLL OR USE ARROW KEYS
               </p>
             </motion.div>
           </AnimatePresence>
 
-          <div data-stack-globe className="relative h-[30vh] min-h-[220px] sm:h-[36vh] sm:min-h-[260px] lg:h-[68vh] lg:min-h-[520px]">
+          <div data-stack-globe className="relative h-[31vh] min-h-[220px] sm:h-[38vh] sm:min-h-[260px] lg:h-[70vh] lg:max-h-[650px] lg:min-h-[520px] lg:translate-x-6">
             <StackVisual activeLayer={activeLayer} exploring reduceMotion={reduceMotion} />
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-slate-800/80 pt-4">
-          <button
-            type="button"
-            disabled={activeLayer === 0}
-            onClick={() => setActiveLayer((current) => Math.max(0, current - 1))}
-            className="text-[9px] tracking-[0.22em] text-slate-500 transition-colors enabled:hover:text-cyan-300 disabled:opacity-25 focus-visible:text-cyan-300 focus-visible:outline-none sm:text-[10px]"
-          >
-            ← PREVIOUS LAYER
-          </button>
-          <span className={`hidden text-[9px] tracking-[0.24em] sm:block sm:text-[10px] ${activeLayer === 6 ? 'text-amber-300' : 'text-slate-500'}`}>
+        <div className="pointer-events-none absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
+          <span className={`whitespace-nowrap text-[9px] tracking-[0.24em] sm:text-[10px] ${activeLayer === 6 ? 'text-amber-200' : 'text-slate-400'}`}>
             {activeLayer === 6 ? 'STACK COMPLETE · EXIT UNLOCKED' : 'SCROLL TO DESCEND'}
           </span>
-          <button
-            type="button"
-            disabled={activeLayer === stackLayers.length - 1}
-            onClick={() => setActiveLayer((current) => Math.min(stackLayers.length - 1, current + 1))}
-            className="text-[9px] tracking-[0.22em] text-slate-500 transition-colors enabled:hover:text-cyan-300 disabled:opacity-25 focus-visible:text-cyan-300 focus-visible:outline-none sm:text-[10px]"
-          >
-            NEXT LAYER →
-          </button>
+          <span className={`h-8 w-px ${activeLayer === 6 ? 'bg-amber-400/70' : 'bg-cyan-400/70'}`} />
         </div>
       </div>
 
-      <div className="absolute right-3 top-1/2 flex -translate-y-1/2 flex-col items-center gap-3 sm:right-6">
+      <div className="absolute right-3 top-1/2 flex -translate-y-1/2 flex-col items-end gap-3 sm:right-5">
         {stackLayers.map((item, index) => (
           <button
             type="button"
@@ -548,12 +576,12 @@ function StackExplorer({ activeLayer, setActiveLayer, onExit, reduceMotion }) {
             onClick={() => setActiveLayer(index)}
             aria-label={`Open ${item.title} layer`}
             aria-current={activeLayer === index ? 'step' : undefined}
-            className="group flex h-5 items-center gap-2 focus-visible:outline-none"
+            className="group flex h-5 items-center gap-3 focus-visible:outline-none"
           >
             <span className={`hidden text-[8px] tracking-[0.16em] sm:block ${activeLayer === index ? (index >= 5 ? 'text-amber-300' : 'text-cyan-300') : 'text-transparent'}`}>
               {item.id}
             </span>
-            <span className={`block transition-all ${activeLayer === index ? `h-2 w-2 ${index >= 5 ? 'bg-amber-300' : 'bg-cyan-300'}` : 'h-1 w-1 bg-slate-600 group-hover:bg-slate-400'}`} />
+            <span className={`block rounded-full border transition-all ${activeLayer === index ? `h-2.5 w-2.5 ${index >= 5 ? 'border-amber-300 bg-amber-300 shadow-[0_0_10px_#fbbf24]' : 'border-cyan-300 bg-cyan-300 shadow-[0_0_10px_#38bdf8]'}` : 'h-2 w-2 border-cyan-700 bg-cyan-950 group-hover:border-cyan-400'}`} />
           </button>
         ))}
       </div>
