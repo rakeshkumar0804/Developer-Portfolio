@@ -5,6 +5,41 @@ import { useGitHubStats } from '../hooks/useGitHubStats';
 
 const openSourceRepos = [
   {
+    id: 'kohli-analytics',
+    featured: true,
+    category: 'D3.JS • GSAP • SPORTS DATA',
+    stars: '5 ★',
+    title: 'Kohli Analytics',
+    description:
+      'Sports statistics and vector data visualization dashboard analyzing international match datasets with D3.js and hardware-accelerated transitions.',
+    tech: 'TypeScript',
+    techColor: 'bg-cyan-400',
+    url: 'https://github.com/rakeshkumar0804/kohli-analytics',
+  },
+  {
+    id: 'syncpad',
+    featured: true,
+    category: 'CRDT • WEBASSEMBLY',
+    stars: 'Active',
+    title: 'SyncPad',
+    description:
+      'Real-time collaborative code editor with Yjs CRDT conflict-free synchronization and in-browser WASM code execution.',
+    tech: 'TypeScript',
+    techColor: 'bg-cyan-400',
+    url: 'https://github.com/rakeshkumar0804/SyncPad',
+  },
+  {
+    id: 'portfoliopulse',
+    category: 'AUTOMATION • CRAWLER',
+    stars: '5 ★',
+    title: 'PortfolioPulse',
+    description:
+      'Deterministic portfolio and GitHub readiness analyzer running ~20 audit rules and headless SPA performance crawling.',
+    tech: 'JavaScript',
+    techColor: 'bg-amber-400',
+    url: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
+  },
+  {
     id: 'solar-system',
     category: 'WEBGL • 3D',
     stars: '5 ★',
@@ -36,39 +71,6 @@ const openSourceRepos = [
     tech: 'Node.js',
     techColor: 'bg-emerald-400',
     url: 'https://github.com/rakeshkumar0804/leaveflow-hr',
-  },
-  {
-    id: 'portfoliopulse',
-    category: 'AUTOMATION • CRAWLER',
-    stars: '5 ★',
-    title: 'PortfolioPulse',
-    description:
-      'Deterministic portfolio and GitHub readiness analyzer running ~20 audit rules and headless SPA performance crawling.',
-    tech: 'JavaScript',
-    techColor: 'bg-amber-400',
-    url: 'https://github.com/rakeshkumar0804/dev-portfolio-checker',
-  },
-  {
-    id: 'syncpad',
-    category: 'CRDT • WEBASSEMBLY',
-    stars: 'Active',
-    title: 'SyncPad Engine',
-    description:
-      'Real-time collaborative code editor with Yjs CRDT conflict-free synchronization and in-browser WASM code execution.',
-    tech: 'TypeScript',
-    techColor: 'bg-cyan-400',
-    url: 'https://github.com/rakeshkumar0804/SyncPad',
-  },
-  {
-    id: 'kohli-analytics',
-    category: 'D3.JS • GSAP • SPORTS DATA',
-    stars: '5 ★',
-    title: 'Kohli Analytics',
-    description:
-      'Sports statistics and vector data visualization dashboard analyzing international match datasets with D3.js and hardware-accelerated transitions.',
-    tech: 'TypeScript',
-    techColor: 'bg-cyan-400',
-    url: 'https://github.com/rakeshkumar0804/kohli-analytics',
   },
 ];
 
@@ -175,12 +177,20 @@ export default function OpenSource() {
               className="border border-slate-800/80 rounded-xl p-5 bg-[#0B101B]/50 hover:border-cyan-500/40 transition-all flex flex-col justify-between h-full group backdrop-blur-sm shadow-md"
             >
               <div>
-                {/* Category & Stars */}
-                <div className="flex items-center justify-between text-xs font-mono mb-2">
-                  <span className="text-slate-500 text-[10px] tracking-widest uppercase">
-                    {repo.category}
-                  </span>
-                  <span className="text-amber-400 font-mono text-xs font-semibold">
+                {/* Category, Featured Badge & Stars */}
+                <div className="flex items-center justify-between text-xs font-mono mb-2 gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-slate-500 text-[10px] tracking-widest uppercase">
+                      {repo.category}
+                    </span>
+                    {repo.featured && (
+                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-mono tracking-wider font-semibold uppercase bg-cyan-950/70 border border-cyan-500/40 text-cyan-300">
+                        <span className="text-amber-400 text-[10px]">★</span>
+                        <span>FEATURED</span>
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-amber-400 font-mono text-xs font-semibold shrink-0">
                     {repo.stars}
                   </span>
                 </div>
