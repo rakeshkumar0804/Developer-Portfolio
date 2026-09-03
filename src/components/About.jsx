@@ -1,44 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-const operationsList = [
-  {
-    id: 'OP-01',
-    title: 'TRACE',
-    description: 'Temporal root-cause analysis & causal inference engine with multi-hypothesis adversarial falsification loops.',
-    status: 'ACTIVE',
-    statusColor: 'text-cyan-400',
-    dotColor: 'bg-cyan-400',
-    pulse: true,
-  },
-  {
-    id: 'OP-02',
-    title: 'CHRONOS',
-    description: 'Constraint satisfaction scheduling engine using backtracking with MRV/LCV heuristics and live D3.js visualizer.',
-    status: 'ACTIVE',
-    statusColor: 'text-cyan-400',
-    dotColor: 'bg-cyan-400',
-    pulse: true,
-  },
-  {
-    id: 'OP-03',
-    title: 'SyncPad',
-    description: 'Real-time collaborative code editor with Yjs CRDT synchronization and in-browser WASM runtime.',
-    status: 'ACTIVE',
-    statusColor: 'text-cyan-400',
-    dotColor: 'bg-cyan-400',
-    pulse: true,
-  },
-  {
-    id: 'OP-04',
-    title: 'IncidentHub AI',
-    description: 'Multi-tenant incident intelligence platform with real OAuth correlation, RBAC, and triage rooms.',
-    status: 'ACTIVE',
-    statusColor: 'text-cyan-400',
-    dotColor: 'bg-cyan-400',
-    pulse: true,
-  },
-];
+import InteractiveTerminal from './InteractiveTerminal';
 
 export default function About() {
   const fadeInUp = {
@@ -57,7 +19,7 @@ export default function About() {
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="mb-10"
+          className="mb-8"
         >
           {/* Header Tag */}
           <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs tracking-[0.25em] uppercase mb-4">
@@ -79,63 +41,14 @@ export default function About() {
           </div>
         </motion.div>
 
-        {/* Current Operations Log Header */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-40px' }}
-          variants={fadeInUp}
-          className="flex items-center gap-2 text-slate-400 font-mono text-xs tracking-[0.2em] uppercase mt-12 mb-4"
-        >
-          <span>CURRENT OPERATIONS</span>
-          <span>•</span>
-          <span className="flex items-center gap-1.5 text-cyan-400 font-semibold">
-            LIVE
-            <span className="inline-block h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-          </span>
-        </motion.div>
-
-        {/* Operations Telemetry List Box */}
+        {/* Interactive Grounded Terminal Section */}
         <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-30px' }}
           variants={fadeInUp}
-          className="border border-slate-800/80 rounded-lg overflow-hidden divide-y divide-slate-800/80 bg-[#0B101B]/70 backdrop-blur-md shadow-2xl"
         >
-          {operationsList.map((op) => (
-            <div
-              key={op.id}
-              className="px-6 py-4 sm:py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-800/30 transition-colors group"
-            >
-              <div className="flex items-start sm:items-center gap-3 sm:gap-4 min-w-0">
-                <span className="text-slate-500 font-mono text-xs w-14 shrink-0 font-bold">
-                  {op.id}
-                </span>
-
-                <div className="min-w-0 flex flex-col gap-1">
-                  <h3 className="text-slate-100 font-mono font-medium text-sm sm:text-base group-hover:text-cyan-300 transition-colors">
-                    {op.title}
-                  </h3>
-                  <p className="text-slate-400 text-xs font-mono leading-relaxed">
-                    {op.description}
-                  </p>
-                </div>
-              </div>
-
-              {/* Status Badge */}
-              <div className="flex items-center gap-1.5 self-start sm:self-center shrink-0 pl-14 sm:pl-0">
-                <span
-                  className={`inline-block h-2 w-2 rounded-full ${op.dotColor} ${
-                    op.pulse ? 'animate-pulse' : ''
-                  }`}
-                />
-                <span className={`text-xs font-mono font-semibold tracking-wider ${op.statusColor}`}>
-                  • {op.status}
-                </span>
-              </div>
-            </div>
-          ))}
+          <InteractiveTerminal />
         </motion.div>
       </div>
     </section>

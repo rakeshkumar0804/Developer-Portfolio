@@ -1,0 +1,126 @@
+{
+  "profile": {
+    "name": "Rakesh Kumar",
+    "role": "Full-Stack Developer",
+    "education": {
+      "degree": "B.Tech in Computer Science & Engineering",
+      "institution": "Parul University, Vadodara",
+      "graduationYear": "2026",
+      "coursework": [
+        "Data Structures & Algorithms",
+        "Database Management Systems (DBMS)",
+        "Object-Oriented Programming (OOP)",
+        "Computer Networks",
+        "Operating Systems"
+      ]
+    },
+    "location": "Gurugram, Haryana, India",
+    "email": "rakeshchauhan6651@gmail.com",
+    "github": "https://github.com/rakeshkumar0804",
+    "githubHandle": "rakeshkumar0804",
+    "linkedin": "https://www.linkedin.com/in/rakesh-kumar-520754246/",
+    "leetcode": {
+      "solved": "165+",
+      "profile": "https://leetcode.com/u/Rakesh__Kumar_/"
+    },
+    "availability": "Open to Software Engineer / Full-Stack Developer opportunities"
+  },
+  "internship": {
+    "company": "Codetech IT Solutions",
+    "role": "Software Development Intern",
+    "period": "January 2026 – April 2026",
+    "workMode": "Remote",
+    "highlights": [
+      "Engineered an Internal Employee Management System using Node.js, Express.js, and MongoDB.",
+      "Implemented stateless JWT authentication and Role-Based Access Control (RBAC) across Employee, Manager, and Admin tiers with locked route middleware.",
+      "Designed and documented RESTful API endpoints for employee profile lifecycle, department tracking, and access validation."
+    ]
+  },
+  "skills": {
+    "languages": ["JavaScript (ES6+)", "TypeScript", "Python", "C++", "SQL"],
+    "frontend": ["React.js", "Next.js", "Tailwind CSS", "Redux Toolkit", "D3.js", "GSAP", "HTML5", "CSS3", "Axios"],
+    "backend": ["Node.js", "Express.js", "FastAPI", "RESTful API Design", "JWT Authentication", "Role-Based Access Control (RBAC)", "WebSockets / Socket.io"],
+    "databases": ["PostgreSQL", "MongoDB", "Redis", "pgvector", "SQLite", "MySQL", "Mongoose ODM"],
+    "toolsAndDevops": ["Git", "GitHub", "Docker", "Postman", "Vercel", "Render", "Linux", "Vite", "VS Code"],
+    "coreFundamentals": ["Data Structures & Algorithms", "DBMS", "OOP", "Computer Networks", "Operating Systems", "CRDTs", "Constraint Satisfaction Problems (CSP)"]
+  },
+  "primaryProjects": [
+    {
+      "id": "SYS-01",
+      "name": "TRACE",
+      "tagline": "Temporal Root-cause Analysis & Causal Engine",
+      "category": "AI-Assisted Production Incident Investigation Engine",
+      "techStack": ["Python", "FastAPI", "PostgreSQL", "pgvector", "Gemini API", "Next.js", "TypeScript", "D3.js", "GSAP", "Tailwind CSS"],
+      "verifiedMetrics": {
+        "rootCauseAccuracy": "89.5% accuracy vs 73.7% for naive single-shot LLM baseline",
+        "benchmarkDataset": "19 hidden-ground-truth production incident scenarios",
+        "keyFeature": "Multi-hypothesis competition engine running real-time adversarial falsification loops and D3.js temporal DAG projection"
+      },
+      "description": "An AI incident investigation engine that operates on a synthetic production environment with secretly-injected outages. Instead of single-shot guesses, it generates multiple competing root-cause hypotheses, executes falsification checks to actively disprove them, and projects the causal propagation sequence onto an interactive temporal Directed Acyclic Graph (DAG).",
+      "liveUrl": "https://trace-rca-engine.vercel.app",
+      "githubUrl": "https://github.com/rakeshkumar0804/trace-rca-engine"
+    },
+    {
+      "id": "SYS-02",
+      "name": "CHRONOS",
+      "tagline": "Constraint-Based Timetable Scheduling Engine",
+      "category": "CSP Backtracking · Live Constraint Visualization",
+      "techStack": ["React", "Node.js", "PostgreSQL", "Gemini API", "D3.js", "GSAP", "Tailwind CSS"],
+      "verifiedMetrics": {
+        "benchmarkComparison": "2,328 backtracks (naive chronological search) vs 46 nodes / 0 backtracks (heuristic-guided search) on identical problem instances",
+        "heuristics": "MRV (Minimum Remaining Values) and LCV (Least Constraining Value)",
+        "nlpExtraction": "Natural language constraint parsing via Gemini API converting plain-text rules into mathematical CSP predicates"
+      },
+      "description": "A timetable scheduling engine solving Constraint Satisfaction Problems (CSP) via backtracking search with MRV and LCV heuristics. Features a signature live D3.js search-tree visualizer comparing naive bottleneck search against optimized heuristic-guided search in real time.",
+      "liveUrl": "https://chronos-web-kappa.vercel.app",
+      "githubUrl": "https://github.com/rakeshkumar0804/chronos-engine"
+    },
+    {
+      "id": "SYS-03",
+      "name": "SyncPad",
+      "tagline": "Collaborative Code Studio",
+      "category": "CRDT Real-Time Engine • In-Browser WASM Runtime",
+      "techStack": ["React", "TypeScript", "Yjs (CRDT)", "Monaco Editor", "Node.js", "WebSocket", "Pyodide (WASM)"],
+      "verifiedMetrics": {
+        "convergenceLatency": "0ms conflict resolution via Yjs state vectors",
+        "inBrowserExecution": "100% client-side sandboxed execution with Web Workers (JS/TS) and Pyodide WebAssembly (Python)",
+        "networking": "Standalone y-websocket relay deployed on Render for binary document synchronization"
+      },
+      "description": "A real-time collaborative code editor supporting concurrent multi-user editing with conflict-free Yjs CRDT synchronization, live cursor/selection presence, Monaco Editor syntax highlighting, and zero-server-compute in-browser Python execution.",
+      "liveUrl": "https://sync-pad-client.vercel.app",
+      "githubUrl": "https://github.com/rakeshkumar0804/SyncPad"
+    },
+    {
+      "id": "SYS-04",
+      "name": "IncidentHub AI",
+      "tagline": "Root-Cause Intelligence",
+      "category": "Multi-Tenant SRE Platform • Incident Triage Engine",
+      "techStack": ["React", "TypeScript", "Node.js", "PostgreSQL", "Redis", "WebSocket", "OAuth"],
+      "verifiedMetrics": {
+        "testCoverage": "236/236 passing automated unit and integration tests",
+        "integrations": "4 real OAuth 2.0 flows (GitHub, Sentry, Slack, Jira)",
+        "concurrency": "Redis Redlock distributed locking & idempotent HMAC webhook deduplication"
+      },
+      "description": "A multi-tenant engineering incident intelligence platform that ingests real-time alert webhooks, enforces PostgreSQL Row-Level Security tenant isolation, coordinates war rooms via WebSocket channels, and generates evidence-grounded postmortems.",
+      "liveUrl": "https://incidenthub-ai-web.vercel.app",
+      "githubUrl": "https://github.com/rakeshkumar0804/incidenthub-ai"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "SQL (Advanced)",
+      "issuer": "HackerRank",
+      "verification": "Verified"
+    },
+    {
+      "name": "C++ Programming (CPA)",
+      "issuer": "OpenEDG / Cisco Networking Academy",
+      "verification": "Certified"
+    },
+    {
+      "name": "Introduction to Internet of Things (IoT)",
+      "issuer": "NPTEL / IIT Kharagpur",
+      "verification": "Elite Certificate"
+    }
+  ]
+}
