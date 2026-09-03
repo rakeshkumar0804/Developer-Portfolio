@@ -22,8 +22,9 @@ function loadProfileContext() {
 
 const profileContext = loadProfileContext();
 
-// Candidate models: gemini-2.5-flash (primary), followed by gemini-2.0-flash
-const CANDIDATE_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
+// Candidate models: gemini-flash-lite-latest (fast, direct, no reasoning-token overhead),
+// followed by gemini-2.5-flash
+const CANDIDATE_MODELS = ['gemini-flash-lite-latest', 'gemini-2.5-flash'];
 
 function isComplete(text) {
   if (!text) return false;
@@ -33,10 +34,10 @@ function isComplete(text) {
 
 function sanitizeCompleteResponse(text) {
   if (!text) return text;
-  let trimmed = text.trim();
+  const trimmed = text.trim();
   if (isComplete(trimmed)) return trimmed;
 
-  // Try to find the last complete sentence boundary
+  // If response was cut mid-sentence, trim back to the last complete sentence
   const lastPeriod = Math.max(
     trimmed.lastIndexOf('. '),
     trimmed.lastIndexOf('.\n'),
@@ -44,13 +45,12 @@ function sanitizeCompleteResponse(text) {
     trimmed.lastIndexOf('? ')
   );
 
-  if (lastPeriod > 40) {
+  if (lastPeriod > 30) {
     return trimmed.slice(0, lastPeriod + 1).trim();
   }
 
-  // Remove trailing comma, colon, semicolon, dash, or conjunction
-  trimmed = trimmed.replace(/[,;:\-\s]+$/, '');
-  return trimmed ? trimmed + '.' : text;
+  // Never blindly append a period to a cut-off word; return trimmed as-is
+  return trimmed;
 }
 
 export default async function handler(req, res) {
@@ -101,8 +101,8 @@ CRITICAL GUARDRAILS:
 1. Never invent or hallucinate metrics, dates, companies, credentials, or projects not present in the context.
 2. Never use the word "Fresher" or refer to Rakesh as a fresher.
 3. If asked about something not in the context, state honestly: "[NOTICE] That information is outside my verified profile context." and suggest asking about TRACE, CHRONOS, SyncPad, IncidentHub AI, technical skills, or his internship at Codetech.
-4. Always complete your response as a full sentence or thought. If the topic is broad, briefly summarize rather than starting a long list you can't finish within the token budget. Never stop mid-sentence or end on a comma.
-5. Use a direct, sharp, technical terminal tone without pleasantries or conversational filler. Keep the response to 2-4 complete, articulate sentences.
+4. Keep your response concise, ideally under 80 words, but always finish your sentence completely — never stop mid-thought.
+5. Use a direct, sharp, technical terminal tone without pleasantries or conversational filler.
 
 VERIFIED PROFILE CONTEXT:
 ${JSON.stringify(profileContext, null, 2)}`;
@@ -129,7 +129,7 @@ ${JSON.stringify(profileContext, null, 2)}`;
             ],
             generationConfig: {
               temperature: 0.2,
-              maxOutputTokens: 600,
+              maxOutputTokens: 800,
             },
           }),
         });
@@ -137,9 +137,12 @@ ${JSON.stringify(profileContext, null, 2)}`;
         if (response.ok) {
           const data = await response.json();
           const candidate = data.candidates?.[0];
+          const finishReason = candidate?.finishReason;
 
-          if (candidate?.finishReason === 'MAX_TOKENS') {
-            console.warn(`[API /ask] Warning: Model "${model}" hit MAX_TOKENS limit.`);
+          console.log(`[API /ask] Model "${model}" responded. finishReason: "${finishReason}"`);
+
+          if (finishReason === 'MAX_TOKENS') {
+            console.warn(`[API /ask] Warning: Model "${model}" hit MAX_TOKENS limit!`);
           }
 
           const parts = candidate?.content?.parts || [];
@@ -154,9 +157,9 @@ ${JSON.stringify(profileContext, null, 2)}`;
             parts[0]?.text?.trim() ||
             '[NOTICE] Query completed with no conclusive output. Try a quick command.';
 
-          // Safety net check: verify the answer doesn't end abruptly (e.g. on a comma or unfinished sentence)
-          if (!isComplete(candidateAnswer)) {
-            console.log(`[API /ask] Incomplete ending detected on "${model}". Attempting targeted single-shot completion retry...`);
+          // If answer is incomplete, attempt safety sanitization or retry
+          if (!isComplete(candidateAnswer) && finishReason === 'MAX_TOKENS') {
+            console.log(`[API /ask] Incomplete ending detected with MAX_TOKENS on "${model}". Retrying with strict concise completion...`);
             try {
               const retryRes = await fetch(endpoint, {
                 method: 'POST',
@@ -167,14 +170,14 @@ ${JSON.stringify(profileContext, null, 2)}`;
                       role: 'user',
                       parts: [
                         {
-                          text: `${systemInstruction}\n\nUSER QUESTION: ${question}\n\nIMPORTANT: Summarize your answer in 2 to 3 complete sentences. You MUST conclude your final sentence cleanly with a period.`,
+                          text: `${systemInstruction}\n\nUSER QUESTION: ${question}\n\nIMPORTANT: Answer in 2 short, complete sentences. End your final sentence with a period.`,
                         },
                       ],
                     },
                   ],
                   generationConfig: {
                     temperature: 0.2,
-                    maxOutputTokens: 600,
+                    maxOutputTokens: 800,
                   },
                 }),
               });
@@ -187,19 +190,17 @@ ${JSON.stringify(profileContext, null, 2)}`;
                   .map((p) => p.text)
                   .join('\n')
                   .trim();
-                if (retryText) {
+                if (retryText && isComplete(retryText)) {
                   candidateAnswer = retryText;
                 }
               }
             } catch (retryErr) {
-              console.warn('[API /ask] Single-shot completion retry error:', retryErr);
+              console.warn('[API /ask] Completion retry error:', retryErr);
             }
-
-            candidateAnswer = sanitizeCompleteResponse(candidateAnswer);
           }
 
-          successfulAnswer = candidateAnswer;
-          console.log(`[API /ask] Model "${model}" responded successfully with 200 OK. Output length: ${successfulAnswer.length} chars.`);
+          successfulAnswer = sanitizeCompleteResponse(candidateAnswer);
+          console.log(`[API /ask] Final output length: ${successfulAnswer.length} chars.`);
           break;
         } else {
           const errText = await response.text();
