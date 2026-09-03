@@ -142,7 +142,7 @@ export const secondaryDeployments = [
 
 export const codingStats = {
   leetcode: {
-    solved: '165+',
+    solved: '175+',
     profileUrl: 'https://leetcode.com/u/Rakesh__Kumar_/',
     label: 'LeetCode Solved',
   },

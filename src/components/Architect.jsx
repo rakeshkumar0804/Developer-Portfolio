@@ -4,27 +4,91 @@ import { motion, AnimatePresence } from 'framer-motion';
 const matrixCategories = [
   {
     title: 'Languages',
-    skills: ['JavaScript (ES6+)', 'TypeScript', 'Python', 'C++', 'SQL', 'HTML5', 'CSS3'],
+    skills: [
+      { name: 'JavaScript (ES6+)', primary: true },
+      { name: 'TypeScript', primary: true },
+      { name: 'Python', primary: true },
+      { name: 'C++', primary: false },
+      { name: 'SQL', primary: false },
+      { name: 'HTML5', primary: false },
+      { name: 'CSS3', primary: false },
+    ],
   },
   {
     title: 'Frontend',
-    skills: ['React.js', 'Redux', 'React Router', 'Tailwind CSS', 'Monaco Editor', 'Axios', 'Bootstrap'],
+    skills: [
+      { name: 'React.js', primary: true },
+      { name: 'Next.js', primary: true },
+      { name: 'Tailwind CSS', primary: true },
+      { name: 'Redux', primary: false },
+      { name: 'React Router', primary: false },
+      { name: 'Monaco Editor', primary: false },
+      { name: 'Axios', primary: false },
+      { name: 'Bootstrap', primary: false },
+    ],
   },
   {
     title: 'Backend & APIs',
-    skills: ['Node.js', 'Express.js', 'REST APIs', 'WebSockets', 'JWT Auth', 'RBAC', 'bcrypt', 'OAuth 2.0'],
+    skills: [
+      { name: 'Node.js', primary: true },
+      { name: 'Express.js', primary: true },
+      { name: 'FastAPI', primary: true },
+      { name: 'REST APIs', primary: true },
+      { name: 'WebSockets', primary: false },
+      { name: 'JWT Auth', primary: false },
+      { name: 'RBAC', primary: false },
+      { name: 'bcrypt', primary: false },
+      { name: 'OAuth 2.0', primary: false },
+    ],
+  },
+  {
+    title: 'AI / LLM',
+    skills: [
+      { name: 'Gemini API', primary: true },
+      { name: 'Vector Embeddings', primary: true },
+      { name: 'Prompt Engineering', primary: false },
+      { name: 'Deterministic Evaluation', primary: false },
+    ],
   },
   {
     title: 'Databases & Cache',
-    skills: ['MongoDB', 'Mongoose', 'PostgreSQL', 'MySQL', 'Redis', 'SQLite'],
+    skills: [
+      { name: 'PostgreSQL', primary: true },
+      { name: 'MongoDB', primary: true },
+      { name: 'Redis', primary: true },
+      { name: 'Mongoose', primary: false },
+      { name: 'MySQL', primary: false },
+      { name: 'SQLite', primary: false },
+      { name: 'pgvector', primary: false },
+    ],
   },
   {
     title: 'Systems & Execution',
-    skills: ['Yjs (CRDT)', 'WebAssembly (Pyodide)', 'Web Workers', 'Puppeteer', 'D3.js', 'GSAP'],
+    skills: [
+      { name: 'Yjs (CRDT)', primary: true },
+      { name: 'WebAssembly (Pyodide)', primary: true },
+      { name: 'D3.js', primary: true },
+      { name: 'Web Workers', primary: false },
+      { name: 'Puppeteer', primary: false },
+      { name: 'GSAP', primary: false },
+    ],
   },
   {
     title: 'Cloud, Tools & Core CS',
-    skills: ['Git', 'GitHub', 'Vercel', 'Render', 'Postman', 'Docker', 'DSA', 'OOP', 'DBMS', 'OS', 'Networks'],
+    skills: [
+      { name: 'Git', primary: true },
+      { name: 'GitHub', primary: true },
+      { name: 'Docker', primary: true },
+      { name: 'Vercel', primary: false },
+      { name: 'Render', primary: false },
+      { name: 'Postman', primary: false },
+      { name: 'DSA', primary: false },
+      { name: 'OOP', primary: false },
+      { name: 'DBMS', primary: false },
+      { name: 'OS', primary: false },
+      { name: 'Networks', primary: false },
+    ],
+    spanFull: true,
   },
 ];
 
@@ -177,13 +241,18 @@ export default function Architect() {
                   </div>
                   <div className="py-2.5 flex items-start justify-between gap-4">
                     <span className="text-slate-500 uppercase tracking-wider shrink-0">PROBLEM SOLVING</span>
-                    <span className="text-slate-200 text-right font-medium">170+ LeetCode Solved (DSA)</span>
+                    <span className="text-slate-200 text-right font-medium">175+ DSA Problems Solved (Arrays, Graphs, DP & more)</span>
                   </div>
                 </div>
 
-                {/* Expanded Bio (Seamless Text Block — NO nested inner card wrapper) */}
-                <div className="border-t border-slate-800/80 pt-5 mt-4 text-xs md:text-sm font-mono text-slate-300 leading-relaxed">
-                  Full-Stack Web Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production-grade backend systems, deterministic AI reasoning engines, and real-time synchronization. Proven track record architecting and shipping complex full-stack web applications end-to-end—from temporal root-cause investigation engines (TRACE) and constraint-satisfaction scheduling engines (CHRONOS) to collaborative in-browser WASM code studios (SyncPad) and multi-tenant incident intelligence platforms (IncidentHub AI). Strong foundation in data structures, RESTful API design, RBAC permission security, database modeling, and client-side performance optimization.
+                {/* Expanded Bio (Clean 2-Paragraph Layout for Reduced Density) */}
+                <div className="border-t border-slate-800/80 pt-6 mt-6 text-xs md:text-sm font-mono text-slate-300 leading-relaxed space-y-3">
+                  <p>
+                    Full-Stack Web Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production-grade backend systems, deterministic AI reasoning engines, and real-time synchronization. Proven track record architecting and shipping complex full-stack web applications end-to-end—from temporal root-cause investigation engines (TRACE) and constraint-satisfaction scheduling engines (CHRONOS) to collaborative in-browser WASM code studios (SyncPad) and multi-tenant incident intelligence platforms (IncidentHub AI).
+                  </p>
+                  <p className="text-slate-400">
+                    Strong foundation in data structures, RESTful API design, RBAC permission security, database modeling, and client-side performance optimization.
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -195,7 +264,7 @@ export default function Architect() {
               viewport={{ once: true, margin: '-40px' }}
               variants={fadeInUp}
               custom={1}
-              className="lg:col-span-6 flex flex-col justify-between space-y-6 pl-2 md:pl-4"
+              className="lg:col-span-6 flex flex-col justify-between space-y-6 md:space-y-7 pl-2 md:pl-4"
             >
               {/* Role 1: Software Development Intern (Verified Employment) */}
               <div className="p-6 rounded-xl border border-slate-800/80 bg-[#0B101B]/50 backdrop-blur-sm shadow-xl">
@@ -291,7 +360,7 @@ export default function Architect() {
             <span className="text-xs text-slate-500 font-mono">PRODUCTION TECH STACK & RUNTIMES</span>
           </motion.div>
 
-          {/* 2x3 Matrix Grid (Compact) */}
+          {/* Matrix Grid: 2 rows of 3 + 1 spanning foundation row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
             {matrixCategories.map((cat, idx) => (
               <motion.div
@@ -301,7 +370,9 @@ export default function Architect() {
                 viewport={{ once: true, margin: '-30px' }}
                 variants={fadeInUp}
                 custom={idx}
-                className="p-5 rounded-xl border border-slate-800/80 bg-[#0B101B]/50 hover:border-cyan-500/40 transition-all backdrop-blur-sm shadow-md"
+                className={`p-5 rounded-xl border border-slate-800/80 bg-[#0B101B]/50 hover:border-cyan-500/40 transition-all backdrop-blur-sm shadow-md ${
+                  cat.spanFull ? 'md:col-span-3' : ''
+                }`}
               >
                 <div className="flex items-center gap-2 text-xs font-mono font-bold text-cyan-400 mb-3 pb-2 border-b border-slate-800/70 uppercase">
                   <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
@@ -311,10 +382,14 @@ export default function Architect() {
                 <div className="flex flex-wrap gap-1.5">
                   {cat.skills.map((skill) => (
                     <span
-                      key={skill}
-                      className="px-2 py-1 rounded bg-[#0d1424] border border-slate-700/60 text-xs text-slate-300 font-mono"
+                      key={skill.name}
+                      className={`px-2 py-1 rounded text-xs font-mono transition-colors ${
+                        skill.primary
+                          ? 'bg-[#0f172a] border border-cyan-500/40 text-cyan-200 font-semibold shadow-[0_0_10px_rgba(34,211,238,0.1)]'
+                          : 'bg-[#0d1424]/90 border border-slate-700/70 text-slate-300 font-normal'
+                      }`}
                     >
-                      {skill}
+                      {skill.name}
                     </span>
                   ))}
                 </div>
@@ -322,55 +397,55 @@ export default function Architect() {
             ))}
           </div>
 
-          {/* 3. Field Recognition Label & Primary Clickable 3-Card Row */}
-          <div className="mt-12 mb-4">
+          {/* 3. Field Recognition Label & Clickable Individual Card Grid */}
+          <div className="mt-14 mb-4">
             <div className="text-[11px] font-mono tracking-[0.25em] text-slate-500 uppercase mb-3">
               FIELD RECOGNITION
             </div>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-30px' }}
-              variants={fadeInUp}
-              className="border border-slate-800/80 rounded-xl bg-[#0B101B]/50 grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-800/80 p-6 backdrop-blur-sm shadow-xl"
-            >
-            {primaryRecognitions.map((rec, idx) => (
-              <a
-                key={rec.title}
-                href={rec.pdfUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`group cursor-pointer hover:bg-[#0B101B]/80 transition-all duration-200 flex flex-col justify-between ${
-                  idx === 0
-                    ? 'pb-4 md:pb-0 md:pr-6'
-                    : idx === 1
-                    ? 'py-4 md:py-0 md:px-6'
-                    : 'pt-4 md:pt-0 md:pl-6'
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between text-xs font-mono mb-1">
-                    <span className="text-slate-400 text-[10px] tracking-widest uppercase">
-                      {rec.header}
-                    </span>
-                    <span className="font-mono text-[10px] text-cyan-400 group-hover:text-cyan-300 font-semibold transition-colors flex items-center gap-0.5">
-                      <span>VIEW PDF</span>
-                      <span>↗</span>
-                    </span>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {primaryRecognitions.map((rec, idx) => (
+                <motion.a
+                  key={rec.title}
+                  href={rec.pdfUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, margin: '-30px' }}
+                  variants={fadeInUp}
+                  custom={idx}
+                  className="p-5 rounded-xl border border-slate-800/80 bg-[#0B101B]/60 hover:bg-[#0E1526]/80 hover:border-cyan-500/40 hover:shadow-[0_0_20px_rgba(34,211,238,0.06)] hover:scale-[1.01] transition-all duration-200 flex flex-col justify-between group backdrop-blur-sm shadow-md cursor-pointer"
+                >
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-mono mb-2 pb-2 border-b border-slate-800/60">
+                      <span className="text-slate-400 text-[10px] tracking-widest uppercase">
+                        {rec.header}
+                      </span>
+                      <span className="font-mono text-[10px] text-cyan-400 group-hover:text-cyan-300 font-semibold transition-colors flex items-center gap-0.5">
+                        <span>VIEW PDF</span>
+                        <span>↗</span>
+                      </span>
+                    </div>
+
+                    <h3 className="text-slate-100 text-base font-bold font-mono mt-2 group-hover:text-cyan-300 transition-colors">
+                      {rec.title}
+                    </h3>
+
+                    <p className="text-slate-400 font-mono text-xs mt-1.5 leading-relaxed">
+                      {rec.issuer}
+                    </p>
                   </div>
 
-                  <h3 className="text-slate-100 text-base font-semibold font-mono mt-1 group-hover:text-cyan-300 transition-colors">
-                    {rec.title}
-                  </h3>
-
-                  <p className="text-slate-400 font-mono text-xs mt-1 leading-relaxed">
-                    {rec.issuer}
-                  </p>
-                </div>
-              </a>
-            ))}
-            </motion.div>
+                  <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                    <span className="flex items-center gap-1.5 text-emerald-400/90 font-medium">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                      <span>VERIFIED CREDENTIAL</span>
+                    </span>
+                  </div>
+                </motion.a>
+              ))}
+            </div>
           </div>
 
           {/* 4. Expandable Auxiliary Credentials Trigger Button */}
@@ -379,6 +454,7 @@ export default function Architect() {
             whileInView="visible"
             viewport={{ once: true, margin: '-20px' }}
             variants={fadeInUp}
+            className="mt-4"
           >
             <button
               onClick={() => setShowAllCerts(!showAllCerts)}

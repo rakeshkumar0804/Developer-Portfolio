@@ -16,17 +16,31 @@ import Footer from './components/Footer';
 import HudFrame from './components/HudFrame';
 import SystemBootloader from './components/SystemBootloader';
 
+function isBootCompleted() {
+  try {
+    return (
+      sessionStorage.getItem('bootComplete') === 'true' ||
+      sessionStorage.getItem('rakesh_core_booted') === 'true'
+    );
+  } catch (e) {
+    return false;
+  }
+}
+
 function App() {
-  const [booting, setBooting] = useState(() => !sessionStorage.getItem('rakesh_core_booted'));
+  const [booting, setBooting] = useState(() => !isBootCompleted());
 
   useEffect(() => {
-    // 1. Initialize Lenis Smooth Scroll with Lighter, Effortless Physics
+    // 1. Initialize Lenis Smooth Scroll with Natural, Fluid Physics
     const lenis = new Lenis({
-      duration: 0.75,
+      duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.1,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.0,
+      infinite: false,
     });
 
     window.lenis = lenis;
@@ -38,8 +52,35 @@ function App() {
     }
     animationFrameId = requestAnimationFrame(raf);
 
+    // If boot was skipped (already booted in this session) and there is a hash, honor it;
+    // otherwise ensure top of page.
+    if (isBootCompleted()) {
+      const hash = window.location.hash;
+      if (hash) {
+        const targetId = hash.replace('#', '');
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          window.setTimeout(() => {
+            if (window.lenis) {
+              window.lenis.scrollTo(targetEl, { offset: -70 });
+            } else {
+              targetEl.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 150);
+        }
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        if (window.lenis) {
+          window.lenis.scrollTo(0, { immediate: true });
+        }
+      }
+    }
+
     const handleReboot = () => {
-      sessionStorage.removeItem('rakesh_core_booted');
+      try {
+        sessionStorage.removeItem('bootComplete');
+        sessionStorage.removeItem('rakesh_core_booted');
+      } catch (e) {}
       setBooting(true);
     };
 
@@ -55,6 +96,19 @@ function App() {
 
   const handleBootComplete = () => {
     setBooting(false);
+    const hash = window.location.hash;
+    if (hash) {
+      const targetId = hash.replace('#', '');
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        if (window.lenis) {
+          window.lenis.scrollTo(targetEl, { offset: -70 });
+        } else {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+        }
+        return;
+      }
+    }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     if (window.lenis) {
       window.lenis.scrollTo(0, { immediate: true });

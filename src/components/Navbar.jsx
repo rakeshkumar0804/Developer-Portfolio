@@ -26,31 +26,68 @@ export const TopHud = () => {
     };
     updateTime();
     const timer = window.setInterval(updateTime, 1000);
+    const sectionTargets = [
+      { id: 'operations', topic: 'operations' },
+      { id: 'principles', topic: 'principles' },
+      { id: 'systems', topic: 'systems' },
+      { id: 'opensource', topic: 'opensource' },
+      { id: 'architect', topic: 'architect' },
+      { id: 'matrix', topic: 'architect' },
+      { id: 'contact', topic: 'contact' },
+    ];
+
     let rafId;
-    const handleScroll = () => {
+    const updateActiveSection = () => {
       cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        const sectionIds = ['operations', 'principles', 'systems', 'opensource', 'architect', 'contact', 'debrief'];
-        const scrollPos = window.scrollY + 180;
+        const scrollY = window.scrollY || window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const docHeight = document.documentElement.scrollHeight;
 
-        for (let i = sectionIds.length - 1; i >= 0; i--) {
-          const el = document.getElementById(sectionIds[i]);
-          if (el && el.offsetTop <= scrollPos) {
-            const mapped = sectionIds[i] === 'debrief' ? 'contact' : sectionIds[i];
-            setActiveSection(mapped);
-            break;
+        // 1. If at bottom of page, always select $comms
+        if (windowHeight + scrollY >= docHeight - 70) {
+          setActiveSection('contact');
+          return;
+        }
+
+        // 2. If near top of page (hero area), select $ops
+        const opsEl = document.getElementById('operations');
+        if (opsEl && opsEl.getBoundingClientRect().top > windowHeight * 0.45) {
+          setActiveSection('operations');
+          return;
+        }
+
+        // 3. Focal scan line at 35% viewport height
+        const focalY = windowHeight * 0.35;
+        for (let i = 0; i < sectionTargets.length; i++) {
+          const target = sectionTargets[i];
+          const el = document.getElementById(target.id);
+          if (el) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top <= focalY && rect.bottom > focalY) {
+              setActiveSection(target.topic);
+              return;
+            }
           }
         }
       });
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    window.addEventListener('scroll', updateActiveSection, { passive: true });
+    window.addEventListener('resize', updateActiveSection, { passive: true });
+    if (window.lenis) {
+      window.lenis.on('scroll', updateActiveSection);
+    }
+    updateActiveSection();
 
     return () => {
       window.clearInterval(timer);
       cancelAnimationFrame(rafId);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('scroll', updateActiveSection);
+      window.removeEventListener('resize', updateActiveSection);
+      if (window.lenis) {
+        window.lenis.off('scroll', updateActiveSection);
+      }
     };
   }, []);
 
