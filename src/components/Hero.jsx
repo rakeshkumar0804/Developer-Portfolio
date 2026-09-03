@@ -1,208 +1,222 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FiDownload, FiArrowDown, FiMail, FiGithub, FiLinkedin, FiTerminal, FiCheck } from 'react-icons/fi';
+import { FiArrowDown, FiArrowUpRight, FiDownload } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
-import { openEmailClient } from '../utils/emailHandler';
+
+const focusAreas = [
+  {
+    index: '01',
+    title: 'Secure backend systems',
+    detail: 'REST APIs · JWT · RBAC',
+  },
+  {
+    index: '02',
+    title: 'Real-time collaboration',
+    detail: 'CRDT · WebSocket · Redis',
+  },
+  {
+    index: '03',
+    title: 'AI-assisted workflows',
+    detail: 'FastAPI · Gemini · pgvector',
+  },
+];
+
+const reveal = {
+  hidden: { opacity: 0, y: 18 },
+  visible: (delay = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      delay,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  }),
+};
 
 export default function Hero() {
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    const targetId = href.replace('#', '');
-    const element = document.getElementById(targetId);
-    if (element) {
-      const topOffset = element.getBoundingClientRect().top + window.scrollY - 70;
-      window.scrollTo({ top: topOffset, behavior: 'smooth' });
-    }
-  };
+  const handleNavClick = (event, href) => {
+    event.preventDefault();
+    const element = document.querySelector(href);
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 15 },
-    visible: (custom = 0) => ({
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.4, delay: custom * 0.08, ease: [0.16, 1, 0.3, 1] },
-    }),
+    if (!element) return;
+
+    if (window.lenis) {
+      window.lenis.scrollTo(element, { offset: -70, duration: 1.1 });
+      return;
+    }
+
+    const topOffset = element.getBoundingClientRect().top + window.scrollY - 70;
+    window.scrollTo({ top: topOffset, behavior: 'smooth' });
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 relative overflow-hidden font-mono">
-      <div className="max-w-6xl w-full mx-auto">
-        {/* Terminal Window Wrapper */}
-        <div className="rounded-xl border border-slate-800/80 bg-[#0B101B]/60 backdrop-blur-sm shadow-2xl shadow-black/80 overflow-hidden">
-          {/* Terminal Window Titlebar */}
-          <div className="flex items-center justify-between px-6 py-3.5 bg-[#0d1424] border-b border-slate-800/80 text-xs text-slate-400 select-none">
-            <div className="flex items-center gap-2.5">
-              <span className="h-3 w-3 rounded-full bg-[#ff5f56] inline-block shadow-[0_0_6px_rgba(255,95,86,0.5)]" />
-              <span className="h-3 w-3 rounded-full bg-[#ffbd2e] inline-block shadow-[0_0_6px_rgba(255,189,46,0.5)]" />
-              <span className="h-3 w-3 rounded-full bg-[#27c93f] inline-block shadow-[0_0_6px_rgba(39,201,63,0.5)]" />
-              <span className="ml-2 text-slate-300 font-semibold flex items-center gap-1.5 font-mono text-xs">
-                <FiTerminal className="text-cyan-400" />
-                rakesh@portfolio:~ (zsh)
-              </span>
-            </div>
-            <div className="hidden sm:flex items-center gap-3 text-xs text-slate-500 font-mono">
-              <span>UTF-8</span>
-              <span>Node v20.x</span>
-            </div>
+    <section
+      id="hero"
+      aria-labelledby="hero-title"
+      className="relative flex min-h-[100svh] items-center px-5 pb-16 pt-28 sm:px-8 lg:px-12 lg:pb-20 lg:pt-32"
+    >
+      <div className="mx-auto w-full max-w-7xl">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          custom={0.05}
+          variants={reveal}
+          className="flex flex-col gap-3 border-b border-slate-800/90 pb-5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:text-[11px]"
+        >
+          <span>00 / Introduction</span>
+          <span>{personalInfo.location} · Portfolio 2026</span>
+        </motion.div>
+
+        <div className="grid gap-14 py-14 lg:grid-cols-12 lg:gap-16 lg:py-20 xl:gap-24">
+          <div className="lg:col-span-8">
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              custom={0.12}
+              variants={reveal}
+              className="mb-7 font-mono text-xs font-semibold uppercase tracking-[0.24em] text-cyan-400 sm:text-sm"
+            >
+              Rakesh Kumar · Full-stack engineer
+            </motion.p>
+
+            <motion.h1
+              id="hero-title"
+              initial="hidden"
+              animate="visible"
+              custom={0.19}
+              variants={reveal}
+              className="max-w-5xl text-5xl font-semibold leading-[0.98] tracking-[-0.045em] text-slate-100 sm:text-6xl lg:text-7xl xl:text-[5.25rem]"
+            >
+              I build systems that hold up{' '}
+              <span className="text-cyan-400">beyond the demo.</span>
+            </motion.h1>
+
+            <motion.p
+              initial="hidden"
+              animate="visible"
+              custom={0.26}
+              variants={reveal}
+              className="mt-8 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg sm:leading-8"
+            >
+              Full-stack products with secure APIs, real-time collaboration, and
+              AI-assisted workflows—from system design to production deployment.
+            </motion.p>
+
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              custom={0.33}
+              variants={reveal}
+              className="mt-10 flex flex-wrap items-center gap-3"
+            >
+              <a
+                href="#systems"
+                onClick={(event) => handleNavClick(event, '#systems')}
+                className="inline-flex items-center gap-3 border border-cyan-400 bg-cyan-400 px-5 py-3 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-[#030914] transition-colors hover:bg-cyan-300"
+              >
+                Explore systems
+                <FiArrowDown aria-hidden="true" />
+              </a>
+
+              <a
+                href={personalInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 border border-slate-700 px-5 py-3 font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300 transition-colors hover:border-slate-500 hover:text-white"
+              >
+                <FiDownload aria-hidden="true" />
+                Resume
+              </a>
+            </motion.div>
+
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              custom={0.4}
+              variants={reveal}
+              className="mt-8 flex items-center gap-6 font-mono text-[11px] uppercase tracking-[0.16em]"
+            >
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-slate-500 transition-colors hover:text-cyan-400"
+              >
+                GitHub <FiArrowUpRight aria-hidden="true" />
+              </a>
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-slate-500 transition-colors hover:text-cyan-400"
+              >
+                LinkedIn <FiArrowUpRight aria-hidden="true" />
+              </a>
+            </motion.div>
           </div>
 
-          {/* Terminal Content Body */}
-          <div className="p-8 md:p-10 lg:p-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-              {/* Left Column: Headline & Pitch */}
-              <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
-                {/* Status Badge */}
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  custom={1}
-                  variants={fadeInUp}
-                  className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md border border-emerald-500/30 bg-emerald-500/10 text-xs font-semibold text-emerald-400 w-fit"
+          <motion.aside
+            initial="hidden"
+            animate="visible"
+            custom={0.28}
+            variants={reveal}
+            aria-label="Engineering focus"
+            className="self-end lg:col-span-4 lg:pb-1"
+          >
+            <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-500 sm:text-[11px]">
+              Engineering focus
+            </p>
+
+            <div className="border-b border-slate-800/90">
+              {focusAreas.map((area) => (
+                <div
+                  key={area.index}
+                  className="grid grid-cols-[2rem_1fr] gap-4 border-t border-slate-800/90 py-5"
                 >
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#10b981]" />
-                  <span>Open to Software Engineer Roles</span>
-                </motion.div>
-
-                {/* Shell Command Intro */}
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  custom={2}
-                  variants={fadeInUp}
-                  className="text-xs text-slate-400 flex items-center gap-2 font-mono"
-                >
-                  <span className="text-emerald-400 font-bold">$</span>
-                  <span>whoami</span>
-                </motion.div>
-
-                {/* Headline */}
-                <motion.h1
-                  initial="hidden"
-                  animate="visible"
-                  custom={3}
-                  variants={fadeInUp}
-                  className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-100 tracking-tight leading-tight"
-                >
-                  Hi, I'm <span className="text-[#38bdf8] drop-shadow-[0_0_15px_rgba(56,189,248,0.35)]">Rakesh Kumar</span> — Full-Stack Developer & Systems Builder
-                </motion.h1>
-
-                {/* Sub-text Pitch */}
-                <motion.p
-                  initial="hidden"
-                  animate="visible"
-                  custom={4}
-                  variants={fadeInUp}
-                  className="text-sm sm:text-base text-slate-300 leading-relaxed font-mono"
-                >
-                  {personalInfo.pitch}
-                </motion.p>
-
-                {/* Action CTAs */}
-                <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  custom={5}
-                  variants={fadeInUp}
-                  className="flex flex-wrap items-center gap-4 pt-2"
-                >
-                  <a
-                    href="#systems"
-                    onClick={(e) => handleNavClick(e, '#systems')}
-                    className="flex items-center gap-2 px-5 py-3 rounded-lg border border-cyan-500/60 bg-cyan-950/30 hover:bg-cyan-500 hover:text-slate-950 text-cyan-400 text-xs font-bold transition-all shadow-[0_0_15px_rgba(56,189,248,0.2)] cursor-pointer"
-                  >
-                    <span>View Projects</span>
-                    <FiArrowDown className="text-xs" />
-                  </a>
-
-                  <a
-                    href={personalInfo.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-5 py-3 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-all shadow-md cursor-pointer"
-                  >
-                    <FiDownload className="text-xs" />
-                    <span>Download Resume</span>
-                  </a>
-
-                  {/* Social Icons */}
-                  <div className="flex items-center gap-2.5 ml-1 sm:ml-2">
-                    <a
-                      href={personalInfo.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
-                      aria-label="GitHub"
-                    >
-                      <FiGithub />
-                    </a>
-                    <a
-                      href={personalInfo.linkedin}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
-                      aria-label="LinkedIn"
-                    >
-                      <FiLinkedin />
-                    </a>
-                    <a
-                      href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => openEmailClient(e)}
-                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all cursor-pointer"
-                      aria-label="Send Email"
-                      title="Send Email"
-                    >
-                      <FiMail />
-                    </a>
+                  <span className="font-mono text-[10px] tracking-[0.16em] text-cyan-500">
+                    {area.index}
+                  </span>
+                  <div>
+                    <h2 className="text-sm font-medium text-slate-200 sm:text-base">
+                      {area.title}
+                    </h2>
+                    <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-slate-500 sm:text-[11px]">
+                      {area.detail}
+                    </p>
                   </div>
-                </motion.div>
-              </div>
-
-              {/* Right Column: Terminal Shell Output Panel */}
-              <div className="lg:col-span-5 h-full">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="rounded-xl border border-slate-800/90 bg-[#060a12]/90 p-6 text-xs sm:text-sm font-mono text-slate-300 leading-relaxed shadow-inner"
-                >
-                  <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-800/80 text-xs text-slate-400">
-                    <span className="text-emerald-400 font-bold">$ cat developer.json</span>
-                    <span className="text-slate-500 uppercase tracking-widest text-[10px]">JSON</span>
-                  </div>
-
-                  <div className="space-y-1.5 text-xs sm:text-sm">
-                    <div><span className="text-slate-500">&#123;</span></div>
-                    <div className="pl-4">
-                      <span className="text-[#38bdf8]">"name"</span>: <span className="text-emerald-400">"Rakesh Kumar"</span>,
-                    </div>
-                    <div className="pl-4">
-                      <span className="text-[#38bdf8]">"degree"</span>: <span className="text-emerald-400">"B.Tech CSE (2026)"</span>,
-                    </div>
-                    <div className="pl-4">
-                      <span className="text-[#38bdf8]">"stack"</span>: [<span className="text-[#facc15]">"React"</span>, <span className="text-[#facc15]">"Node"</span>, <span className="text-[#facc15]">"Express"</span>, <span className="text-[#facc15]">"MongoDB"</span>],
-                    </div>
-                    <div className="pl-4">
-                      <span className="text-[#38bdf8]">"focus"</span>: [<span className="text-[#facc15]">"REST APIs"</span>, <span className="text-[#facc15]">"JWT & RBAC"</span>, <span className="text-[#facc15]">"CRDTs"</span>],
-                    </div>
-                    <div className="pl-4">
-                      <span className="text-[#38bdf8]">"status"</span>: <span className="text-emerald-400">"Actively Interviewing for SDE Roles"</span>
-                    </div>
-                    <div><span className="text-slate-500">&#125;</span></div>
-                  </div>
-
-                  <div className="mt-5 pt-3.5 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-                    <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-                      <FiCheck className="text-sm" /> Ready for hire
-                    </span>
-                    <span className="text-slate-500">Gurugram, India</span>
-                  </div>
-                </motion.div>
-              </div>
+                </div>
+              ))}
             </div>
-          </div>
+          </motion.aside>
         </div>
+
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          custom={0.46}
+          variants={reveal}
+          className="grid gap-px border-y border-slate-800/90 bg-slate-800/90 sm:grid-cols-3"
+        >
+          <div className="bg-[#050811] px-5 py-4">
+            <span className="font-mono text-xl text-slate-100">04</span>
+            <span className="ml-3 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">
+              Core systems
+            </span>
+          </div>
+          <div className="bg-[#050811] px-5 py-4">
+            <span className="font-mono text-sm text-slate-200">B.Tech CSE</span>
+            <span className="ml-3 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">
+              Class of 2026
+            </span>
+          </div>
+          <div className="bg-[#050811] px-5 py-4">
+            <span className="font-mono text-sm text-emerald-400">Available</span>
+            <span className="ml-3 font-mono text-[10px] uppercase tracking-[0.18em] text-slate-500">
+              Software roles
+            </span>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
