@@ -66,9 +66,50 @@ body {
   background-size: 3px 3px, 120px 120px, 120px 120px, 100% 100%;
 }
 
+.boot-scan-beam {
+  position: absolute;
+  z-index: 1;
+  top: -22vh;
+  left: 0;
+  right: 0;
+  height: 22vh;
+  pointer-events: none;
+  opacity: 0.72;
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(14, 116, 144, 0.025) 28%,
+      rgba(56, 189, 248, 0.075) 49%,
+      rgba(125, 211, 252, 0.14) 50%,
+      rgba(56, 189, 248, 0.075) 51%,
+      rgba(14, 116, 144, 0.025) 72%,
+      transparent 100%
+    );
+  mix-blend-mode: screen;
+  animation: boot-scan-traverse 3.2s linear infinite;
+}
+
+@keyframes boot-scan-traverse {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(144vh);
+  }
+}
+
 @media (max-width: 640px) {
   .boot-blueprint {
     background-size: 3px 3px, 80px 80px, 80px 80px, 100% 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-scan-beam {
+    animation: none;
+    top: 43%;
   }
 }
 

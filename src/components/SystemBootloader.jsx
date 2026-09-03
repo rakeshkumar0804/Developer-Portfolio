@@ -20,7 +20,7 @@ export default function SystemBootloader({ onComplete }) {
     finished.current = true;
     setProgress(100);
     setLeaving(true);
-    window.setTimeout(onComplete, reduceMotion ? 60 : 180);
+    window.setTimeout(onComplete, reduceMotion ? 60 : 680);
   }, [onComplete, reduceMotion]);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function SystemBootloader({ onComplete }) {
     document.body.style.overflow = 'hidden';
 
     const startedAt = Date.now();
-    const duration = reduceMotion ? 260 : 1600;
+    const duration = reduceMotion ? 260 : 2000;
     const hold = reduceMotion ? 60 : 850;
     let completionTimer;
 
@@ -58,30 +58,60 @@ export default function SystemBootloader({ onComplete }) {
     };
   }, [finish, reduceMotion]);
 
+  const phase = progress >= 100
+    ? 'SYNC COMPLETE'
+    : progress >= 38
+      ? 'CALIBRATING DEPTH AXIS'
+      : 'RESTORING MEMORY';
+
   return (
     <motion.div
       initial={false}
       animate={leaving ? { opacity: 0 } : { opacity: 1 }}
-      transition={{ duration: reduceMotion ? 0.06 : 0.18 }}
+      transition={{
+        duration: reduceMotion ? 0.06 : 0.58,
+        delay: leaving && !reduceMotion ? 0.12 : 0,
+        ease: [0.4, 0, 0.2, 1],
+      }}
       className="boot-blueprint fixed inset-0 z-[9999] grid place-items-center overflow-hidden bg-[#030914] px-6 py-12 font-mono text-slate-400"
       aria-live="polite"
       aria-label="Portfolio startup sequence"
+      onPointerDown={finish}
     >
-      <div className="w-full max-w-[560px]">
+      <div className="boot-scan-beam" aria-hidden="true" />
+
+      <motion.div
+        initial={false}
+        animate={leaving
+          ? {
+              opacity: 0,
+              clipPath: 'inset(48% 0 48% 0)',
+              filter: 'blur(1.5px)',
+            }
+          : {
+              opacity: 1,
+              clipPath: 'inset(0% 0 0% 0)',
+              filter: 'blur(0px)',
+            }}
+        transition={{ duration: reduceMotion ? 0.05 : 0.46, ease: [0.4, 0, 0.2, 1] }}
+        className="relative z-10 w-full max-w-[560px]"
+      >
         <div className="flex items-center justify-between text-[0.68rem] tracking-[0.2em] text-slate-400 sm:text-xs">
           <span>RK SYSTEMS · V1.0</span>
-          <span>BOOT</span>
+          <span>{progress >= 100 ? 'ONLINE' : 'BOOT'}</span>
         </div>
 
         <p className="mt-6 text-xs tracking-[0.2em] text-slate-400 sm:text-sm">
-          INITIALIZING ENGINEERING WORKSPACE
-          <motion.span
-            aria-hidden="true"
-            animate={reduceMotion ? undefined : { opacity: [1, 0, 1] }}
-            transition={{ duration: 0.7, repeat: Infinity }}
-          >
-            _
-          </motion.span>
+          {phase}
+          {progress < 100 && (
+            <motion.span
+              aria-hidden="true"
+              animate={reduceMotion ? undefined : { opacity: [1, 0, 1] }}
+              transition={{ duration: 0.7, repeat: Infinity }}
+            >
+              _
+            </motion.span>
+          )}
         </p>
 
         <div className="mt-2.5 grid grid-cols-[auto_1fr_auto] items-center gap-4 text-xs tracking-[0.15em] sm:text-sm">
@@ -120,8 +150,25 @@ export default function SystemBootloader({ onComplete }) {
               <span className="text-sky-400">&gt;</span> operator recognized :: Rakesh Kumar :: workspace ready
             </motion.p>
           )}
+
+          {progress >= 100 && (
+            <motion.p
+              initial={reduceMotion ? false : { opacity: 0, y: 3 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.16 }}
+              className="text-amber-400 sm:whitespace-nowrap"
+            >
+              // portfolio interface ready{' '}
+              <motion.span
+                aria-hidden="true"
+                className="inline-block h-[0.9em] w-[0.45em] translate-y-[0.08em] bg-amber-400"
+                animate={reduceMotion ? undefined : { opacity: [1, 0, 1] }}
+                transition={{ duration: 0.6, repeat: Infinity }}
+              />
+            </motion.p>
+          )}
         </div>
-      </div>
+      </motion.div>
 
       <button
         type="button"
