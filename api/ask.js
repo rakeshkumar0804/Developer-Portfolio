@@ -1,4 +1,26 @@
-import profileContext from '../src/data/profile-context.json' assert { type: 'json' };
+import fs from 'fs';
+import path from 'path';
+
+function loadProfileContext() {
+  const candidatePaths = [
+    path.join(process.cwd(), 'api', 'profile-context.json'),
+    path.join(process.cwd(), 'src', 'data', 'profile-context.json'),
+  ];
+
+  for (const candidate of candidatePaths) {
+    try {
+      if (fs.existsSync(candidate)) {
+        return JSON.parse(fs.readFileSync(candidate, 'utf-8'));
+      }
+    } catch (e) {
+      // try next candidate path
+    }
+  }
+
+  return JSON.parse(fs.readFileSync(path.join(process.cwd(), 'api', 'profile-context.json'), 'utf-8'));
+}
+
+const profileContext = loadProfileContext();
 
 export default async function handler(req, res) {
   // Allow CORS if needed
