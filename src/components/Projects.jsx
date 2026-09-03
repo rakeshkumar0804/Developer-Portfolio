@@ -441,11 +441,12 @@ export default function Projects() {
 
         {/* ================= SLIDE 1: TRACE (SYS-01) ================= */}
         <motion.div
+          id="project-trace"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32 scroll-mt-28"
         >
           {/* Left Column: System Specification */}
           <div className="lg:col-span-6 flex flex-col justify-between">
@@ -550,11 +551,12 @@ export default function Projects() {
 
         {/* ================= SLIDE 2: CHRONOS (SYS-02) (Alternated Layout) ================= */}
         <motion.div
+          id="project-chronos"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32 scroll-mt-28"
         >
           {/* Left Column: FIG.2 Schematic */}
           <div className="lg:col-span-6 order-2 lg:order-1">
@@ -659,11 +661,12 @@ export default function Projects() {
 
         {/* ================= SLIDE 3: SyncPad (SYS-03) ================= */}
         <motion.div
+          id="project-syncpad"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-32 scroll-mt-28"
         >
           {/* Left Column: System Specification */}
           <div className="lg:col-span-6 flex flex-col justify-between">
@@ -768,11 +771,12 @@ export default function Projects() {
 
         {/* ================= SLIDE 4: IncidentHub AI (SYS-04) (Alternated Layout) ================= */}
         <motion.div
+          id="project-incidenthub"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-40px' }}
           variants={fadeInUp}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-20"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center max-w-7xl mx-auto mb-20 scroll-mt-28"
         >
           {/* Left Column: FIG.4 Schematic */}
           <div className="lg:col-span-6 order-2 lg:order-1">

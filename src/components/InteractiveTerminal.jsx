@@ -345,6 +345,20 @@ export default function InteractiveTerminal() {
     executeCommand(questionPrompt);
   };
 
+  // Handle external query triggers (e.g. from Operating Principles "Ask about this")
+  useEffect(() => {
+    const handleExternalQuery = (event) => {
+      const q = event.detail?.query;
+      if (q) {
+        setInput(q);
+        executeCommand(q);
+      }
+    };
+
+    window.addEventListener('terminal-query', handleExternalQuery);
+    return () => window.removeEventListener('terminal-query', handleExternalQuery);
+  }, [isProcessing]);
+
   return (
     <div ref={terminalContainerRef} className="w-full mt-10 font-mono scroll-mt-24">
       {/* Terminal Title Bar Tag */}
