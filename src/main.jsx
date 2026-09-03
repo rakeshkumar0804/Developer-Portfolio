@@ -53,9 +53,17 @@ function App() {
     };
   }, []);
 
+  const handleBootComplete = () => {
+    setBooting(false);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { immediate: true });
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-subtle-grid text-[#f8fafc] font-sans selection:bg-[#22d3ee]/30 selection:text-[#22d3ee] overflow-x-hidden pb-8">
-      {booting && <SystemBootloader onComplete={() => setBooting(false)} />}
+      {booting && <SystemBootloader onComplete={handleBootComplete} />}
 
       <HudFrame />
 

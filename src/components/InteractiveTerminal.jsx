@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { FiTerminal, FiCornerDownLeft, FiRefreshCw, FiZap } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiTerminal, FiCornerDownLeft, FiZap, FiHelpCircle, FiMessageSquare } from 'react-icons/fi';
 import profileContext from '../data/profile-context.json';
 
 const QUICK_COMMANDS = [
@@ -11,6 +11,23 @@ const QUICK_COMMANDS = [
   { cmd: 'contact', label: 'contact', desc: 'Comms & Socials' },
   { cmd: 'help', label: 'help', desc: 'Command Manual' },
   { cmd: 'clear', label: 'clear', desc: 'Reset Screen' },
+];
+
+const SUGGESTED_QUESTIONS = [
+  { label: 'What makes TRACE unique?', prompt: 'What makes TRACE unique?' },
+  { label: 'Why did you build CHRONOS?', prompt: 'Why did you build CHRONOS?' },
+  { label: "What's your tech stack?", prompt: "What is your complete tech stack and core skills?" },
+  { label: 'Tell me about your internship', prompt: 'Tell me about your internship at Codetech IT Solutions' },
+];
+
+const ROTATING_PLACEHOLDERS = [
+  "Try: what makes TRACE unique?",
+  "Try: what was TRACE's accuracy improvement?",
+  "Try: why did you build CHRONOS?",
+  "Try: what's your tech stack?",
+  "Try: tell me about your internship",
+  "Try: tell me about SyncPad",
+  "Try: 'projects --list' or 'help'",
 ];
 
 const DETERMINISTIC_RESPONSES = {
@@ -117,7 +134,7 @@ const INITIAL_GREETING = {
   id: 'init-1',
   type: 'system',
   text: `RAKESH-CORE GROUNDED AGENT [v2.4] — SECURE TERMINAL UPLINK ESTABLISHED
-Type 'help' for command manual or ask any direct question about systems, stack, or experience.`,
+Ask me anything — e.g. "what was TRACE's accuracy improvement?" — or click any suggested query below.`,
 };
 
 export default function InteractiveTerminal() {
@@ -126,12 +143,31 @@ export default function InteractiveTerminal() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [commandHistory, setCommandHistory] = useState([]);
   const [historyIdx, setHistoryIdx] = useState(-1);
-  const terminalEndRef = useRef(null);
-  const inputRef = useRef(null);
+  const [placeholderIdx, setPlaceholderIdx] = useState(0);
 
-  // Auto-scroll terminal on new history items
+  const terminalContainerRef = useRef(null);
+  const outputContainerRef = useRef(null);
+  const inputRef = useRef(null);
+  const isInitialMount = useRef(true);
+
+  // Cycle rotating placeholders every 3.2s when idle
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isProcessing) return;
+    const interval = setInterval(() => {
+      setPlaceholderIdx((prev) => (prev + 1) % ROTATING_PLACEHOLDERS.length);
+    }, 3200);
+    return () => clearInterval(interval);
+  }, [isProcessing]);
+
+  // Keep internal terminal container scrolled to bottom on history change (WITHOUT scrolling window)
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (outputContainerRef.current) {
+      outputContainerRef.current.scrollTop = outputContainerRef.current.scrollHeight;
+    }
   }, [history, isProcessing]);
 
   const executeCommand = async (rawInput) => {
@@ -152,6 +188,15 @@ export default function InteractiveTerminal() {
       },
     ]);
 
+    // Ensure terminal widget remains visible in viewport without jumping whole page
+    if (terminalContainerRef.current) {
+      const rect = terminalContainerRef.current.getBoundingClientRect();
+      const isPartiallyHidden = rect.bottom > window.innerHeight || rect.top < 0;
+      if (isPartiallyHidden) {
+        terminalContainerRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
     const normalizedCmd = trimmed.toLowerCase();
 
     // 1. Check for 'clear'
@@ -160,7 +205,7 @@ export default function InteractiveTerminal() {
         {
           id: `init-${Date.now()}`,
           type: 'system',
-          text: `SESSION RESET • RAKESH-CORE v2.4 READY. Type 'help' or ask a question.`,
+          text: `SESSION RESET • RAKESH-CORE v2.4 READY. Ask me anything or choose a suggested query.`,
         },
       ]);
       return;
@@ -243,7 +288,7 @@ export default function InteractiveTerminal() {
     ]);
 
     let currIdx = 0;
-    const chunkSize = Math.max(2, Math.floor(fullText.length / 40));
+    const chunkSize = Math.max(3, Math.floor(fullText.length / 35));
     const interval = setInterval(() => {
       currIdx += chunkSize;
       if (currIdx >= fullText.length) {
@@ -263,7 +308,12 @@ export default function InteractiveTerminal() {
           )
         );
       }
-    }, 20);
+
+      // Auto scroll internal box while streaming
+      if (outputContainerRef.current) {
+        outputContainerRef.current.scrollTop = outputContainerRef.current.scrollHeight;
+      }
+    }, 18);
   };
 
   const handleKeyDown = (e) => {
@@ -290,8 +340,13 @@ export default function InteractiveTerminal() {
     }
   };
 
+  const handleSuggestedClick = (questionPrompt) => {
+    setInput(questionPrompt);
+    executeCommand(questionPrompt);
+  };
+
   return (
-    <div className="w-full mt-10 font-mono">
+    <div ref={terminalContainerRef} className="w-full mt-10 font-mono scroll-mt-24">
       {/* Terminal Title Bar Tag */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2 text-slate-300 text-xs tracking-wider">
@@ -309,7 +364,7 @@ export default function InteractiveTerminal() {
 
       {/* Main Terminal Shell Window */}
       <div
-        onClick={() => inputRef.current?.focus()}
+        onClick={() => inputRef.current?.focus({ preventScroll: true })}
         className="border border-slate-800/90 rounded-xl bg-[#070B14]/90 backdrop-blur-md shadow-2xl overflow-hidden cursor-text transition-all focus-within:border-cyan-500/50 hover:border-slate-700/80"
       >
         {/* Top Shell Controls Bar */}
@@ -332,7 +387,10 @@ export default function InteractiveTerminal() {
         </div>
 
         {/* Terminal Output Area (Scrollable History) */}
-        <div className="p-4 sm:p-6 min-h-[260px] max-h-[380px] overflow-y-auto space-y-3.5 text-xs sm:text-sm leading-relaxed scrollbar-thin scrollbar-thumb-slate-800">
+        <div
+          ref={outputContainerRef}
+          className="p-4 sm:p-6 min-h-[260px] max-h-[380px] overflow-y-auto space-y-3.5 text-xs sm:text-sm leading-relaxed scrollbar-thin scrollbar-thumb-slate-800 scroll-smooth"
+        >
           {history.map((item) => {
             if (item.type === 'user') {
               return (
@@ -385,11 +443,9 @@ export default function InteractiveTerminal() {
               <span>[AI] evaluating grounded evidence against profile context...</span>
             </div>
           )}
-
-          <div ref={terminalEndRef} />
         </div>
 
-        {/* Input Prompt Bar */}
+        {/* Input Prompt Bar with Rotating Animated Placeholder */}
         <div className="px-4 py-3 bg-[#050811]/90 border-t border-slate-800/80 flex items-center gap-2.5">
           <span className="text-emerald-400 font-bold shrink-0 select-none text-xs sm:text-sm">
             rakesh@core:~$
@@ -405,9 +461,9 @@ export default function InteractiveTerminal() {
             placeholder={
               isProcessing
                 ? 'Processing grounded evaluation...'
-                : "Type a command ('help', 'projects --list') or ask any question..."
+                : ROTATING_PLACEHOLDERS[placeholderIdx]
             }
-            className="w-full bg-transparent text-slate-100 placeholder-slate-600 focus:outline-none text-xs sm:text-sm font-mono caret-cyan-400 disabled:opacity-50"
+            className="w-full bg-transparent text-slate-100 placeholder-slate-500 focus:outline-none text-xs sm:text-sm font-mono caret-cyan-400 disabled:opacity-50 transition-all duration-300"
             maxLength={300}
             autoComplete="off"
             spellCheck="false"
@@ -425,10 +481,32 @@ export default function InteractiveTerminal() {
         </div>
       </div>
 
-      {/* Quick Command Navigation Chips */}
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span className="text-[11px] text-slate-500 tracking-wider uppercase mr-1 select-none">
-          Quick Commands:
+      {/* Row 1: Suggested Questions (Discoverability Chips) */}
+      <div className="mt-3.5 flex flex-wrap items-center gap-2">
+        <span className="text-[11px] text-amber-400/90 font-semibold tracking-wider uppercase flex items-center gap-1.5 mr-1 select-none">
+          <FiHelpCircle className="text-amber-400 text-xs" />
+          <span>Ask This:</span>
+        </span>
+        {SUGGESTED_QUESTIONS.map((sq) => (
+          <button
+            key={sq.label}
+            type="button"
+            onClick={() => handleSuggestedClick(sq.prompt)}
+            disabled={isProcessing}
+            className="px-2.5 py-1 rounded-md border border-amber-500/35 bg-amber-950/20 hover:bg-amber-900/30 hover:border-amber-400/70 text-amber-200/90 hover:text-amber-100 text-xs font-mono transition-all cursor-pointer disabled:opacity-40 flex items-center gap-1.5 shadow-sm active:scale-95"
+            title={`Ask: "${sq.prompt}"`}
+          >
+            <span className="text-amber-400 font-bold text-[10px]">?</span>
+            <span>{sq.label}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* Row 2: Quick Commands Navigation Chips */}
+      <div className="mt-2.5 flex flex-wrap items-center gap-2">
+        <span className="text-[11px] text-slate-500 tracking-wider uppercase mr-1 select-none flex items-center gap-1.5">
+          <FiMessageSquare className="text-slate-500 text-xs" />
+          <span>Quick Commands:</span>
         </span>
         {QUICK_COMMANDS.map((qc) => (
           <button
@@ -436,7 +514,7 @@ export default function InteractiveTerminal() {
             type="button"
             onClick={() => executeCommand(qc.cmd)}
             disabled={isProcessing}
-            className="px-2.5 py-1 rounded-md border border-slate-800/80 bg-[#0B101B]/60 hover:bg-cyan-950/30 hover:border-cyan-500/40 text-slate-400 hover:text-cyan-300 text-xs font-mono transition-all cursor-pointer disabled:opacity-40"
+            className="px-2.5 py-1 rounded-md border border-slate-800/80 bg-[#0B101B]/60 hover:bg-cyan-950/30 hover:border-cyan-500/40 text-slate-400 hover:text-cyan-300 text-xs font-mono transition-all cursor-pointer disabled:opacity-40 active:scale-95"
             title={qc.desc}
           >
             {qc.label}
