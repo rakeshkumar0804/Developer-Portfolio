@@ -10,9 +10,30 @@ export default function Hero() {
     const targetId = href.replace('#', '');
     const element = document.getElementById(targetId);
     if (element) {
-      const topOffset = element.getBoundingClientRect().top + window.scrollY - 70;
-      window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      if (window.lenis) {
+        window.lenis.scrollTo(element, { offset: -70 });
+      } else {
+        const topOffset = element.getBoundingClientRect().top + window.scrollY - 70;
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      }
     }
+  };
+
+  const handleAskAgentClick = (e) => {
+    e.preventDefault();
+    const terminalEl = document.getElementById('operations') || document.getElementById('about');
+    if (terminalEl) {
+      if (window.lenis) {
+        window.lenis.scrollTo(terminalEl, { offset: -40 });
+      } else {
+        terminalEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    window.dispatchEvent(
+      new CustomEvent('terminal-query', {
+        detail: { query: 'What makes your approach different?' },
+      })
+    );
   };
 
   const fadeInUp = {
@@ -83,7 +104,7 @@ export default function Hero() {
                   variants={fadeInUp}
                   className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-100 tracking-tight leading-tight"
                 >
-                  Hi, I'm <span className="text-[#38bdf8] drop-shadow-[0_0_15px_rgba(56,189,248,0.35)]">Rakesh Kumar</span> — Full-Stack Developer & Systems Builder
+                  Hi, I'm <span className="text-[#38bdf8] drop-shadow-[0_0_15px_rgba(56,189,248,0.35)]">Rakesh Kumar</span> — Full-Stack Developer & AI Systems Builder
                 </motion.h1>
 
                 {/* Sub-text Pitch */}
@@ -94,7 +115,7 @@ export default function Hero() {
                   variants={fadeInUp}
                   className="text-sm sm:text-base text-slate-300 leading-relaxed font-mono"
                 >
-                  {personalInfo.pitch}
+                  I build systems that don't just work — they prove they work. From a production incident engine with 89.5% measured accuracy to real-time collaborative tools, I engineer for correctness, not guesses.
                 </motion.p>
 
                 {/* Action CTAs */}
@@ -103,58 +124,71 @@ export default function Hero() {
                   animate="visible"
                   custom={5}
                   variants={fadeInUp}
-                  className="flex flex-wrap items-center gap-4 pt-2"
+                  className="space-y-3 pt-2"
                 >
-                  <a
-                    href="#systems"
-                    onClick={(e) => handleNavClick(e, '#systems')}
-                    className="flex items-center gap-2 px-5 py-3 rounded-lg border border-cyan-500/60 bg-cyan-950/30 hover:bg-cyan-500 hover:text-slate-950 text-cyan-400 text-xs font-bold transition-all shadow-[0_0_15px_rgba(56,189,248,0.2)] cursor-pointer"
-                  >
-                    <span>View Projects</span>
-                    <FiArrowDown className="text-xs" />
-                  </a>
-
-                  <a
-                    href={personalInfo.resumeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-5 py-3 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-all shadow-md cursor-pointer"
-                  >
-                    <FiDownload className="text-xs" />
-                    <span>Download Resume</span>
-                  </a>
-
-                  {/* Social Icons */}
-                  <div className="flex items-center gap-2.5 ml-1 sm:ml-2">
+                  <div className="flex flex-wrap items-center gap-4">
                     <a
-                      href={personalInfo.github}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
-                      aria-label="GitHub"
+                      href="#systems"
+                      onClick={(e) => handleNavClick(e, '#systems')}
+                      className="flex items-center gap-2 px-5 py-3 rounded-lg border border-cyan-500/60 bg-cyan-950/30 hover:bg-cyan-500 hover:text-slate-950 text-cyan-400 text-xs font-bold transition-all shadow-[0_0_15px_rgba(56,189,248,0.2)] cursor-pointer"
                     >
-                      <FiGithub />
+                      <span>View Projects</span>
+                      <FiArrowDown className="text-xs" />
                     </a>
+
                     <a
-                      href={personalInfo.linkedin}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
-                      aria-label="LinkedIn"
-                    >
-                      <FiLinkedin />
-                    </a>
-                    <a
-                      href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
+                      href={personalInfo.resumeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={(e) => openEmailClient(e)}
-                      className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all cursor-pointer"
-                      aria-label="Send Email"
-                      title="Send Email"
+                      className="flex items-center gap-2 px-5 py-3 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold transition-all shadow-md cursor-pointer"
                     >
-                      <FiMail />
+                      <FiDownload className="text-xs" />
+                      <span>Download Resume</span>
                     </a>
+
+                    {/* Social Icons */}
+                    <div className="flex items-center gap-2.5 ml-1 sm:ml-2">
+                      <a
+                        href={personalInfo.github}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
+                        aria-label="GitHub"
+                      >
+                        <FiGithub />
+                      </a>
+                      <a
+                        href={personalInfo.linkedin}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all"
+                        aria-label="LinkedIn"
+                      >
+                        <FiLinkedin />
+                      </a>
+                      <a
+                        href="https://mail.google.com/mail/?view=cm&fs=1&to=rakeshchauhan6651@gmail.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => openEmailClient(e)}
+                        className="p-3 rounded-lg border border-slate-800 bg-[#060a12] text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 text-sm transition-all cursor-pointer"
+                        aria-label="Send Email"
+                        title="Send Email"
+                      >
+                        <FiMail />
+                      </a>
+                    </div>
+                  </div>
+
+                  {/* Ask my AI agent text link */}
+                  <div className="pt-0.5">
+                    <button
+                      type="button"
+                      onClick={handleAskAgentClick}
+                      className="text-xs text-cyan-400 hover:text-cyan-300 hover:underline underline-offset-4 transition-colors font-mono cursor-pointer inline-flex items-center gap-1.5"
+                    >
+                      <span>Ask my AI agent →</span>
+                    </button>
                   </div>
                 </motion.div>
               </div>
@@ -184,7 +218,7 @@ export default function Hero() {
                       <span className="text-[#38bdf8]">"stack"</span>: [<span className="text-[#facc15]">"React"</span>, <span className="text-[#facc15]">"Node"</span>, <span className="text-[#facc15]">"Express"</span>, <span className="text-[#facc15]">"MongoDB"</span>],
                     </div>
                     <div className="pl-4">
-                      <span className="text-[#38bdf8]">"focus"</span>: [<span className="text-[#facc15]">"REST APIs"</span>, <span className="text-[#facc15]">"JWT & RBAC"</span>, <span className="text-[#facc15]">"CRDTs"</span>],
+                      <span className="text-[#38bdf8]">"focus"</span>: [<span className="text-[#facc15]">"Deterministic AI Systems"</span>, <span className="text-[#facc15]">"REST APIs"</span>, <span className="text-[#facc15]">"Real-time Sync"</span>],
                     </div>
                     <div className="pl-4">
                       <span className="text-[#38bdf8]">"status"</span>: <span className="text-emerald-400">"Actively Interviewing for SDE Roles"</span>
