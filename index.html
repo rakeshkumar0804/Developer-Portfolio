@@ -14,37 +14,20 @@
         z-index: 99999;
         display: grid;
         place-items: center;
-        overflow: hidden;
         background-color: #050811;
-        background-image:
-          radial-gradient(circle at 50% 45%, rgba(34, 211, 238, 0.10), transparent 32rem),
-          linear-gradient(rgba(15, 23, 42, 0.62) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(15, 23, 42, 0.62) 1px, transparent 1px);
-        background-size: 100% 100%, 48px 48px, 48px 48px;
         color: #e2e8f0;
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       }
       #boot-prerender-mark {
-        display: grid;
-        width: 4rem;
-        height: 4rem;
-        place-items: center;
-        border: 1px solid rgba(34, 211, 238, 0.5);
-        color: #67e8f9;
-        font-size: 0.9rem;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        box-shadow: 0 0 32px rgba(34, 211, 238, 0.12);
+        width: min(36rem, calc(100vw - 3rem));
+        color: #94a3b8;
+        font-size: 0.875rem;
       }
       #boot-prerender-line {
-        position: absolute;
-        bottom: 2rem;
-        left: 50%;
-        width: min(18rem, 70vw);
+        width: 100%;
         height: 1px;
-        transform: translateX(-50%);
-        background: linear-gradient(90deg, transparent, #22d3ee, transparent);
-        opacity: 0.65;
+        margin-top: 1.5rem;
+        background: #1e293b;
       }
     </style>
 
@@ -117,8 +100,10 @@
   <body>
     <div id="root">
       <div id="boot-prerender" aria-hidden="true">
-        <div id="boot-prerender-mark">RK</div>
-        <div id="boot-prerender-line"></div>
+        <div id="boot-prerender-mark">
+          <span style="color:#67e8f9">rakesh@portfolio</span>:~$ ./boot --production
+          <div id="boot-prerender-line"></div>
+        </div>
       </div>
     </div>
     <noscript>
