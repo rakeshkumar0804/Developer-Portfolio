@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 const bootLogs = [
-  { text: 'loading developer profile', threshold: 14 },
-  { text: 'linking MERN runtime', threshold: 30 },
-  { text: 'indexing 4 deployed systems', threshold: 46 },
-  { text: 'mounting real-time modules', threshold: 62 },
-  { text: 'resolving open-source signals', threshold: 78 },
+  { text: 'mounting subsystem graph', threshold: 16 },
+  { text: 'linking MERN runtime', threshold: 32 },
+  { text: 'spinning cloud-native nodes', threshold: 48 },
+  { text: 'indexing 6 production systems', threshold: 64 },
+  { text: 'warming AI / LLM bridge', threshold: 80 },
 ];
 
 export default function SystemBootloader({ onComplete }) {
@@ -29,7 +29,7 @@ export default function SystemBootloader({ onComplete }) {
 
     const startedAt = Date.now();
     const duration = reduceMotion ? 260 : 1600;
-    const hold = reduceMotion ? 60 : 420;
+    const hold = reduceMotion ? 60 : 850;
     let completionTimer;
 
     const ticker = window.setInterval(() => {
@@ -67,14 +67,14 @@ export default function SystemBootloader({ onComplete }) {
       aria-live="polite"
       aria-label="Portfolio startup sequence"
     >
-      <div className="w-full max-w-3xl -translate-y-4 sm:-translate-y-8">
+      <div className="w-full max-w-[560px]">
         <div className="flex items-center justify-between text-[0.68rem] tracking-[0.2em] text-slate-400 sm:text-xs">
-          <span>RK SYSTEMS // V1.0</span>
+          <span>BLUEPRINT OS · V2.0</span>
           <span>BOOT</span>
         </div>
 
-        <p className="mt-8 text-xs tracking-[0.2em] text-slate-400 sm:text-sm">
-          INITIALIZING PORTFOLIO RUNTIME
+        <p className="mt-6 text-xs tracking-[0.2em] text-slate-400 sm:text-sm">
+          CALIBRATING DEPTH AXIS
           <motion.span
             aria-hidden="true"
             animate={reduceMotion ? undefined : { opacity: [1, 0, 1] }}
@@ -84,7 +84,7 @@ export default function SystemBootloader({ onComplete }) {
           </motion.span>
         </p>
 
-        <div className="mt-5 grid grid-cols-[auto_1fr_auto] items-center gap-4 text-xs tracking-[0.15em] sm:text-sm">
+        <div className="mt-2.5 grid grid-cols-[auto_1fr_auto] items-center gap-4 text-xs tracking-[0.15em] sm:text-sm">
           <span className="text-slate-400">SYNC</span>
           <div className="h-1.5 overflow-hidden bg-slate-800/90">
             <motion.div
@@ -96,7 +96,7 @@ export default function SystemBootloader({ onComplete }) {
           <span className="w-12 text-right text-sky-300">{String(progress).padStart(3, '0')}%</span>
         </div>
 
-        <div className="mt-8 min-h-40 space-y-1.5 text-xs sm:text-base">
+        <div className="mt-5 min-h-[132px] space-y-0.5 text-xs leading-5 sm:text-sm">
           {bootLogs.map((log) => (
             progress >= log.threshold && (
               <motion.div
@@ -104,12 +104,9 @@ export default function SystemBootloader({ onComplete }) {
                 initial={reduceMotion ? false : { opacity: 0, y: 3 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.14 }}
-                className="flex min-w-0 items-baseline gap-2"
+                className="text-slate-400 sm:whitespace-nowrap"
               >
-                <span className="shrink-0 text-sky-400">&gt;</span>
-                <span className="shrink-0 text-slate-400">{log.text}</span>
-                <span className="min-w-4 flex-1 overflow-hidden whitespace-nowrap text-amber-400/80">................................</span>
-                <span className="shrink-0 text-amber-400">OK</span>
+                <span className="text-sky-400">&gt;</span> {log.text} <span className="text-amber-400">... OK</span>
               </motion.div>
             )
           ))}
@@ -118,9 +115,9 @@ export default function SystemBootloader({ onComplete }) {
             <motion.p
               initial={reduceMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="pt-1 text-cyan-300"
+              className="text-cyan-300 sm:whitespace-nowrap"
             >
-              <span className="text-sky-400">&gt;</span> operator recognized :: Rakesh Kumar
+              <span className="text-sky-400">&gt;</span> operator recognized :: last uplink 7s ago :: session #67
             </motion.p>
           )}
         </div>
