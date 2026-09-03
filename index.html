@@ -5,6 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#090a0f" />
 
+    <!-- Immediate pre-render shell: prevents a blank flash before React starts. -->
+    <style>
+      html, body, #root { min-height: 100%; margin: 0; background: #050811; }
+      #boot-prerender {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background-color: #050811;
+        background-image:
+          radial-gradient(circle at 50% 45%, rgba(34, 211, 238, 0.10), transparent 32rem),
+          linear-gradient(rgba(15, 23, 42, 0.62) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(15, 23, 42, 0.62) 1px, transparent 1px);
+        background-size: 100% 100%, 48px 48px, 48px 48px;
+        color: #e2e8f0;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+      #boot-prerender-mark {
+        display: grid;
+        width: 4rem;
+        height: 4rem;
+        place-items: center;
+        border: 1px solid rgba(34, 211, 238, 0.5);
+        color: #67e8f9;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        box-shadow: 0 0 32px rgba(34, 211, 238, 0.12);
+      }
+      #boot-prerender-line {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        width: min(18rem, 70vw);
+        height: 1px;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, transparent, #22d3ee, transparent);
+        opacity: 0.65;
+      }
+    </style>
+
     <!-- Modern Clean Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23090a0f'/%3E%3Crect x='1' y='1' width='30' height='30' rx='7' fill='none' stroke='%2338bdf8' stroke-width='1.5' stroke-opacity='0.4'/%3E%3Ctext x='7' y='21' font-family='system-ui, -apple-system, sans-serif' font-size='13' font-weight='800' fill='%2338bdf8'%3ER%3C/text%3E%3Ctext x='17' y='21' font-family='system-ui, -apple-system, sans-serif' font-size='13' font-weight='800' fill='%23f8fafc'%3EK%3C/text%3E%3C/svg%3E" />
 
@@ -72,7 +115,12 @@
     </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <div id="boot-prerender" aria-hidden="true">
+        <div id="boot-prerender-mark">RK</div>
+        <div id="boot-prerender-line"></div>
+      </div>
+    </div>
     <noscript>
       <div style="padding: 40px; font-family: sans-serif; background: #090a0f; color: #f8fafc; min-height: 100vh;">
         <h1 style="color: #38bdf8;">Rakesh Kumar · Full-Stack Web Developer</h1>

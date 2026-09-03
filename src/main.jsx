@@ -17,7 +17,7 @@ import HudFrame from './components/HudFrame';
 import SystemBootloader from './components/SystemBootloader';
 
 function App() {
-  const [booting, setBooting] = useState(() => !sessionStorage.getItem('rakesh_core_booted'));
+  const [booting, setBooting] = useState(true);
 
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll with Lighter, Effortless Physics
@@ -39,7 +39,6 @@ function App() {
     animationFrameId = requestAnimationFrame(raf);
 
     const handleReboot = () => {
-      sessionStorage.removeItem('rakesh_core_booted');
       setBooting(true);
     };
 
