@@ -325,7 +325,7 @@ export default function InteractiveTerminal() {
           </div>
 
           <div className="text-[10px] text-slate-500 tracking-widest uppercase flex items-center gap-1.5">
-            <span>MODEL: GEMINI-1.5-FLASH</span>
+            <span>MODEL: GEMINI-2.5-FLASH</span>
             <span className="text-slate-600">•</span>
             <span className="text-emerald-400 font-semibold">GROUNDED</span>
           </div>

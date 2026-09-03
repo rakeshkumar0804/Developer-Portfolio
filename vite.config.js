@@ -62,9 +62,15 @@ CRITICAL GUARDRAILS:
 VERIFIED PROFILE CONTEXT:
 ${JSON.stringify(profileContext, null, 2)}`;
 
-            const geminiRes = await fetch(
-              `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-              {
+            const CANDIDATE_MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash'];
+            let answer = null;
+            let lastStatus = 500;
+
+            for (const model of CANDIDATE_MODELS) {
+              const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+              console.log(`[Dev API /ask] Invoking model: "${model}"`);
+
+              const geminiRes = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -79,20 +85,28 @@ ${JSON.stringify(profileContext, null, 2)}`;
                     maxOutputTokens: 250,
                   },
                 }),
-              }
-            );
+              });
 
-            if (!geminiRes.ok) {
-              res.statusCode = geminiRes.status;
+              if (geminiRes.ok) {
+                const data = await geminiRes.json();
+                answer =
+                  data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
+                  '[NOTICE] Query completed with no conclusive output. Try a quick command.';
+                console.log(`[Dev API /ask] Model "${model}" succeeded with 200 OK.`);
+                break;
+              } else {
+                const errText = await geminiRes.text();
+                console.warn(`[Dev API /ask] Error from model "${model}" (${geminiRes.status}):`, errText);
+                lastStatus = geminiRes.status;
+              }
+            }
+
+            if (!answer) {
+              res.statusCode = lastStatus;
               res.setHeader('Content-Type', 'application/json');
               res.end(JSON.stringify({ error: 'agent_error', message: '[ERROR] agent unreachable — try a quick command instead.' }));
               return;
             }
-
-            const data = await geminiRes.json();
-            const answer =
-              data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ||
-              '[NOTICE] Query completed with no conclusive output. Try a quick command.';
 
             res.statusCode = 200;
             res.setHeader('Content-Type', 'application/json');
