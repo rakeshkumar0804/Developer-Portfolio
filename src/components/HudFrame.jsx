@@ -1,24 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 export default function HudFrame() {
-  const [fps, setFps] = useState(144);
+  const [displayFps, setDisplayFps] = useState('LIVE');
   const [sysLoad, setSysLoad] = useState(38);
-  const [isTabHidden, setIsTabHidden] = useState(false);
-  const frameCount = useRef(0);
-  const lastTime = useRef(performance.now());
 
-  // Real-time requestAnimationFrame FPS calculation & System Load fluctuation
+  const lastFrameTimeRef = useRef(performance.now());
+  const frameDeltasRef = useRef([]);
+  const lastUpdateRef = useRef(performance.now());
+
   useEffect(() => {
     let animationId;
 
+    const resetMeasurement = () => {
+      frameDeltasRef.current = [];
+      lastFrameTimeRef.current = performance.now();
+      lastUpdateRef.current = performance.now();
+      setDisplayFps('LIVE');
+    };
+
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        setIsTabHidden(true);
+        setDisplayFps('LIVE');
+        frameDeltasRef.current = [];
       } else {
-        setIsTabHidden(false);
-        // Reset timers immediately on tab foreground so throttled frames don't skew FPS
-        frameCount.current = 0;
-        lastTime.current = performance.now();
+        resetMeasurement();
       }
     };
 
@@ -26,18 +31,50 @@ export default function HudFrame() {
 
     const calcFps = (now) => {
       if (document.hidden) {
-        // Pause calculation while tab is backgrounded
         animationId = requestAnimationFrame(calcFps);
         return;
       }
 
-      frameCount.current++;
-      if (now - lastTime.current >= 1000) {
-        const currentFps = Math.round((frameCount.current * 1000) / (now - lastTime.current));
-        setFps(Math.min(currentFps, 240));
-        frameCount.current = 0;
-        lastTime.current = now;
+      const delta = now - lastFrameTimeRef.current;
+      lastFrameTimeRef.current = now;
+
+      // Filter out hitches (e.g. initial render spikes, GC pauses, or pauses > 120ms)
+      if (delta > 120) {
+        frameDeltasRef.current = [];
+        animationId = requestAnimationFrame(calcFps);
+        return;
       }
+
+      // Valid frame delta (roughly between 240 FPS [~4ms] and 20 FPS [50ms])
+      if (delta >= 3) {
+        frameDeltasRef.current.push(delta);
+        // Rolling window of recent 18 frames (~125ms at 144Hz, ~300ms at 60Hz)
+        if (frameDeltasRef.current.length > 18) {
+          frameDeltasRef.current.shift();
+        }
+      }
+
+      // Update displayed FPS periodically (every ~400ms) to avoid excessive re-renders
+      if (now - lastUpdateRef.current >= 400) {
+        lastUpdateRef.current = now;
+
+        // Require at least 6 consecutive samples to compute a trustworthy rolling average
+        if (frameDeltasRef.current.length >= 6) {
+          const sum = frameDeltasRef.current.reduce((acc, d) => acc + d, 0);
+          const avgDelta = sum / frameDeltasRef.current.length;
+          const calculatedFps = Math.round(1000 / avgDelta);
+
+          // Only accept measurements in the realistic 30–240 FPS range
+          if (calculatedFps >= 30 && calculatedFps <= 240) {
+            setDisplayFps(calculatedFps);
+          } else {
+            setDisplayFps('LIVE');
+          }
+        } else {
+          setDisplayFps('LIVE');
+        }
+      }
+
       animationId = requestAnimationFrame(calcFps);
     };
 
@@ -65,7 +102,7 @@ export default function HudFrame() {
         <span className="tracking-widest">GURUGRAM, HR, INDIA</span>
         <span className="text-slate-600">•</span>
         <span className="tracking-wider">
-          FPS <span className="text-cyan-400">{isTabHidden ? 'IDLE' : fps}</span>
+          FPS <span className="text-cyan-400">{displayFps}</span>
         </span>
         <span className="text-slate-600">•</span>
         <span className="tracking-wider">
