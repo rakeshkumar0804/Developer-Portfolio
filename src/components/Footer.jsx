@@ -18,7 +18,7 @@ export default function Footer() {
             <span className="text-[0.7rem] text-cyan-400">[SDE Candidate]</span>
           </div>
           <p className="text-xs text-slate-400 font-sans max-w-sm">
-            B.Tech CSE Graduate (2026) & Full-Stack Developer seeking SDE roles.
+            B.Tech CSE Graduate (2026) · Full-Stack Developer & AI Systems Builder.
           </p>
         </div>
 

@@ -463,7 +463,7 @@ export default function Projects() {
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                Can an AI system genuinely investigate a production incident it's never seen — with the answer hidden from it — or does it just generate a convincing guess? I built a synthetic production environment with secretly-injected incidents, then built TRACE to compete multiple root-cause hypotheses against each other, actively try to disprove its own leading theory through falsification, and only conclude when the evidence holds up. Benchmarked at 89.5% root-cause accuracy vs. 73.7% for a naive single-shot LLM baseline across 19 hidden-ground-truth incidents — including honestly-documented failure cases.
+                Can an AI system genuinely investigate an unseen production incident, or does it merely generate convincing guesses? TRACE operates in a synthetic production sandbox with injected incidents, pitting competing root-cause hypotheses against adversarial falsification checks. Benchmarked at 89.5% root-cause accuracy vs. 73.7% for a naive single-shot LLM baseline across 19 hidden-ground-truth scenarios, concluding only when evidence holds up.
               </p>
 
               {/* 3-Column Metrics */}
@@ -578,7 +578,7 @@ export default function Projects() {
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                A timetable scheduling engine solving constraint satisfaction problems (CSP) via backtracking search with MRV (Minimum Remaining Values) and LCV (Least Constraining Value) heuristics, with a live D3.js visualization comparing naive vs. optimized search — the signature demo shows naive backtracking taking 2,328 backtracks vs. 46 nodes for the heuristic-guided search on the same problem.
+                A timetable scheduling engine solving CSPs via backtracking search with MRV and LCV heuristics. Features a live D3.js visualizer comparing naive search (2,328 backtracks) against heuristic-guided search (46 nodes) on identical problem instances.
               </p>
 
               {/* 3-Column Metrics */}
@@ -683,7 +683,7 @@ export default function Projects() {
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                A real-time collaborative code editor enabling concurrent document editing with conflict-free CRDT synchronization, live multi-cursor awareness, and fully sandboxed in-browser code execution.
+                Real-time collaborative code editor featuring conflict-free Yjs CRDT synchronization, multi-user cursor presence, and sandboxed in-browser code execution via Pyodide WebAssembly.
               </p>
 
               {/* 3-Column Metrics */}
@@ -798,7 +798,7 @@ export default function Projects() {
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                A multi-tenant engineering incident intelligence platform that correlates signals across GitHub, Sentry, Slack, and Jira to automate outage triage and generate evidence-grounded postmortems.
+                Multi-tenant SRE incident platform correlating signals across GitHub, Sentry, Slack, and Jira to automate outage triage and generate evidence-grounded postmortems.
               </p>
 
               {/* 3-Column Metrics */}

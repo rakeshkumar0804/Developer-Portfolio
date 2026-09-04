@@ -22,9 +22,15 @@ function loadProfileContext() {
 
 const profileContext = loadProfileContext();
 
-// Candidate models: gemini-flash-lite-latest (fast, direct, no reasoning-token overhead),
-// followed by gemini-2.5-flash
-const CANDIDATE_MODELS = ['gemini-flash-lite-latest', 'gemini-2.5-flash'];
+// Ultra-fast, low-latency verified models (Gemini 2.5 Flash responds in 1.5-2.5s)
+const CANDIDATE_MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite'];
+
+// In-memory cache for common suggestion chips and repeated questions
+const responseCache = new Map();
+
+function normalizeQuery(q) {
+  return (q || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+}
 
 function isComplete(text) {
   if (!text) return false;
@@ -49,11 +55,12 @@ function sanitizeCompleteResponse(text) {
     return trimmed.slice(0, lastPeriod + 1).trim();
   }
 
-  // Never blindly append a period to a cut-off word; return trimmed as-is
   return trimmed;
 }
 
 export default async function handler(req, res) {
+  const reqStart = Date.now();
+
   // Allow CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -82,6 +89,20 @@ export default async function handler(req, res) {
 
     if (question.length > 500) {
       return res.status(400).json({ error: 'Query exceeds maximum allowed length (500 chars)' });
+    }
+
+    const normKey = normalizeQuery(question);
+
+    // 1. Check in-memory cache for instant response (<2ms)
+    if (responseCache.has(normKey)) {
+      const cachedAnswer = responseCache.get(normKey);
+      const latencyMs = Date.now() - reqStart;
+      console.log(`[API /ask] CACHE HIT for "${question}" (${latencyMs}ms)`);
+      return res.status(200).json({
+        answer: cachedAnswer,
+        cached: true,
+        latencyMs,
+      });
     }
 
     const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
@@ -116,6 +137,11 @@ ${JSON.stringify(profileContext, null, 2)}`;
 
       console.log(`[API /ask] Invoking model: "${model}" | Target Endpoint: ${logEndpoint}`);
 
+      // 8-second circuit breaker to prevent hanging
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const modelCallStart = Date.now();
+
       try {
         const response = await fetch(endpoint, {
           method: 'POST',
@@ -132,14 +158,18 @@ ${JSON.stringify(profileContext, null, 2)}`;
               maxOutputTokens: 800,
             },
           }),
+          signal: controller.signal,
         });
+
+        clearTimeout(timeoutId);
+        const modelLatency = Date.now() - modelCallStart;
 
         if (response.ok) {
           const data = await response.json();
           const candidate = data.candidates?.[0];
           const finishReason = candidate?.finishReason;
 
-          console.log(`[API /ask] Model "${model}" responded. finishReason: "${finishReason}"`);
+          console.log(`[API /ask] Model "${model}" responded in ${modelLatency}ms. finishReason: "${finishReason}"`);
 
           if (finishReason === 'MAX_TOKENS') {
             console.warn(`[API /ask] Warning: Model "${model}" hit MAX_TOKENS limit!`);
@@ -152,74 +182,40 @@ ${JSON.stringify(profileContext, null, 2)}`;
             .join('\n')
             .trim();
 
-          let candidateAnswer =
+          const candidateAnswer =
             textContent ||
             parts[0]?.text?.trim() ||
             '[NOTICE] Query completed with no conclusive output. Try a quick command.';
 
-          // If answer is incomplete, attempt safety sanitization or retry
-          if (!isComplete(candidateAnswer) && finishReason === 'MAX_TOKENS') {
-            console.log(`[API /ask] Incomplete ending detected with MAX_TOKENS on "${model}". Retrying with strict concise completion...`);
-            try {
-              const retryRes = await fetch(endpoint, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  contents: [
-                    {
-                      role: 'user',
-                      parts: [
-                        {
-                          text: `${systemInstruction}\n\nUSER QUESTION: ${question}\n\nIMPORTANT: Answer in 2 short, complete sentences. End your final sentence with a period.`,
-                        },
-                      ],
-                    },
-                  ],
-                  generationConfig: {
-                    temperature: 0.2,
-                    maxOutputTokens: 800,
-                  },
-                }),
-              });
-
-              if (retryRes.ok) {
-                const retryData = await retryRes.json();
-                const retryParts = retryData.candidates?.[0]?.content?.parts || [];
-                const retryText = retryParts
-                  .filter((p) => p.text && !p.thought)
-                  .map((p) => p.text)
-                  .join('\n')
-                  .trim();
-                if (retryText && isComplete(retryText)) {
-                  candidateAnswer = retryText;
-                }
-              }
-            } catch (retryErr) {
-              console.warn('[API /ask] Completion retry error:', retryErr);
-            }
-          }
-
           successfulAnswer = sanitizeCompleteResponse(candidateAnswer);
-          console.log(`[API /ask] Final output length: ${successfulAnswer.length} chars.`);
-          break;
+
+          // Store in cache for future instant responses
+          responseCache.set(normKey, successfulAnswer);
+
+          const totalElapsed = Date.now() - reqStart;
+          console.log(`[API /ask] Total request latency: ${totalElapsed}ms (Model: ${modelLatency}ms)`);
+
+          return res.status(200).json({
+            answer: successfulAnswer,
+            cached: false,
+            latencyMs: totalElapsed,
+          });
         } else {
           const errText = await response.text();
-          console.warn(`[API /ask] Gemini API HTTP ${response.status} on model "${model}":`, errText);
+          console.warn(`[API /ask] Gemini API HTTP ${response.status} on model "${model}" (${modelLatency}ms):`, errText);
           lastError = { status: response.status, text: errText, model };
         }
       } catch (fetchErr) {
-        console.error(`[API /ask] Network error calling model "${model}":`, fetchErr);
-        lastError = { status: 500, text: String(fetchErr), model };
+        clearTimeout(timeoutId);
+        const isAbort = fetchErr.name === 'AbortError';
+        console.error(`[API /ask] ${isAbort ? 'Timeout (>8s)' : 'Network error'} calling model "${model}":`, fetchErr);
+        lastError = { status: 504, text: isAbort ? 'Gateway Timeout' : String(fetchErr), model };
       }
-    }
-
-    if (successfulAnswer) {
-      return res.status(200).json({ answer: successfulAnswer });
     }
 
     return res.status(lastError?.status || 500).json({
       error: 'agent_error',
-      message: '[ERROR] agent unreachable — try a quick command instead.',
+      message: '[NOTICE] Agent response taking longer than usual — try quick commands like whoami, projects --list, skills --list.',
       details: lastError?.text || 'Model call failed',
     });
   } catch (error) {

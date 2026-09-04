@@ -107,7 +107,7 @@ export const TopHud = () => {
     const element = document.getElementById(targetId);
     if (element) {
       if (window.lenis) {
-        window.lenis.scrollTo(element, { offset: -70, duration: 1.2 });
+        window.lenis.scrollTo(element, { offset: -70, duration: 0.7 });
       } else {
         const topOffset = element.getBoundingClientRect().top + window.scrollY - 70;
         window.scrollTo({ top: topOffset, behavior: 'smooth' });

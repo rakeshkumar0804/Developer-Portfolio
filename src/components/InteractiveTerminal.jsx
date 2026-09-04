@@ -170,6 +170,26 @@ export default function InteractiveTerminal() {
     }
   }, [history, isProcessing]);
 
+  // Client-side cache initialized with immediate answers for standard suggestion chips
+  const clientCache = useRef({
+    whatmakestraceunique:
+      "TRACE is unique because it tests multi-hypothesis falsification loops on a synthetic production environment with 19 hidden-ground-truth incidents. Rather than generating single-shot guesses, it pits competing root causes against each other, achieving 89.5% accuracy vs 73.7% for a naive single-shot LLM baseline, and projects causal propagation onto a live D3.js DAG.",
+    whydidyoubuildchronos:
+      "CHRONOS was built to solve timetable scheduling and demonstrate the power of constraint satisfaction algorithms. Using MRV (Minimum Remaining Values) and LCV (Least Constraining Value) heuristics, it reduces the search space from 2,328 naive backtracks down to 46 nodes, visualized live in D3.js.",
+    whatisyourcompletetechstackandcoreskills:
+      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Frontend: React.js, Next.js, Tailwind CSS, Redux, D3.js. Backend: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT/RBAC. AI/LLM: Gemini API, Vector Embeddings, pgvector. Databases: PostgreSQL, MongoDB, Redis, SQLite. Tools: Git, Docker, Postman, Vercel.",
+    whatsyourtechstack:
+      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Frontend: React.js, Next.js, Tailwind CSS, Redux, D3.js. Backend: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT/RBAC. AI/LLM: Gemini API, Vector Embeddings, pgvector. Databases: PostgreSQL, MongoDB, Redis, SQLite. Tools: Git, Docker, Postman, Vercel.",
+    tellmeaboutyourinternshipatcodetechitsolutions:
+      "During his Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), Rakesh engineered an internal Employee Management System with Node.js, Express, and MongoDB. He secured the platform with stateless JWT authentication, built 3-tier RBAC (employee, manager, admin), and validated RESTful CRUD endpoints.",
+    tellmeaboutyourinternship:
+      "During his Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), Rakesh engineered an internal Employee Management System with Node.js, Express, and MongoDB. He secured the platform with stateless JWT authentication, built 3-tier RBAC (employee, manager, admin), and validated RESTful CRUD endpoints.",
+    whatmakesyourapproachdifferent:
+      "Rakesh builds systems that prove they work rather than relying on guesses or unverified claims. His engineering focuses on correctness, empirical benchmarking, and deterministic architecture, as demonstrated in projects like TRACE (89.5% accuracy via adversarial falsification loops), CHRONOS (2,328 to 46 backtracks), and SyncPad (0ms CRDT conflict resolution).",
+  });
+
+  const normalizeForCache = (text) => (text || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');
+
   const executeCommand = async (rawInput) => {
     const trimmed = (rawInput || '').trim();
     if (!trimmed || isProcessing) return;
@@ -198,6 +218,7 @@ export default function InteractiveTerminal() {
     }
 
     const normalizedCmd = trimmed.toLowerCase();
+    const cacheKey = normalizeForCache(trimmed);
 
     // 1. Check for 'clear'
     if (normalizedCmd === 'clear') {
@@ -224,24 +245,37 @@ export default function InteractiveTerminal() {
       return;
     }
 
-    // 3. Free-text Natural Language Query -> Call Serverless AI API (/api/ask)
+    // 3. Check client-side cached answers (Instant 0ms retrieval)
+    if (clientCache.current[cacheKey]) {
+      streamAnswer(clientCache.current[cacheKey]);
+      return;
+    }
+
+    // 4. Free-text Natural Language Query -> Call Serverless AI API (/api/ask) with 8.5s timeout
     setIsProcessing(true);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8500);
 
     try {
       const response = await fetch('/api/ask', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: trimmed }),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeoutId);
 
       if (response.ok) {
         const data = await response.json();
         const answerText = data.answer || '[NOTICE] No response content generated.';
+        clientCache.current[cacheKey] = answerText;
         streamAnswer(answerText);
       } else {
         // Attempt local grounded fallback if API route is unavailable / rate-limited
         const localFallback = getLocalGroundedFallback(trimmed);
         if (localFallback) {
+          clientCache.current[cacheKey] = localFallback;
           streamAnswer(`[LOCAL EVIDENCE GROUNDING]\n${localFallback}`);
         } else {
           setHistory((prev) => [
@@ -256,17 +290,23 @@ export default function InteractiveTerminal() {
         }
       }
     } catch (err) {
-      // Network failure or offline mode -> check local fallback
+      clearTimeout(timeoutId);
+      const isTimeout = err.name === 'AbortError';
+
+      // Network failure or timeout -> check local fallback
       const localFallback = getLocalGroundedFallback(trimmed);
       if (localFallback) {
+        clientCache.current[cacheKey] = localFallback;
         streamAnswer(`[LOCAL EVIDENCE GROUNDING]\n${localFallback}`);
       } else {
         setHistory((prev) => [
           ...prev,
           {
-            id: `err-${Date.now()}`,
-            type: 'error',
-            text: `[ERROR] agent unreachable — try quick commands: 'projects --list', 'skills --list', 'whoami', 'help'`,
+            id: `notice-${Date.now()}`,
+            type: 'system',
+            text: isTimeout
+              ? `[NOTICE] Agent response taking longer than usual — try quick commands: 'projects --list', 'skills --list', 'whoami', 'help'`
+              : `[ERROR] agent unreachable — try quick commands: 'projects --list', 'skills --list', 'whoami', 'help'`,
           },
         ]);
         setIsProcessing(false);
@@ -452,8 +492,12 @@ export default function InteractiveTerminal() {
           })}
 
           {isProcessing && !history.some((h) => h.isStreaming) && (
-            <div className="flex items-center gap-2 text-cyan-400 text-xs py-1">
-              <FiZap className="animate-spin text-xs" />
+            <div className="flex items-center gap-2.5 text-cyan-400 text-xs py-1.5 font-mono">
+              <span className="inline-flex gap-1 items-center">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce [animation-delay:150ms]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-bounce [animation-delay:300ms]" />
+              </span>
               <span>[AI] evaluating grounded evidence against profile context...</span>
             </div>
           )}

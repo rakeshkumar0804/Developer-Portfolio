@@ -1,7 +1,7 @@
 export const personalInfo = {
   name: 'Rakesh Kumar',
-  role: 'B.Tech CSE Graduate · Full-Stack Developer',
-  headline: "Hi, I'm Rakesh Kumar — B.Tech CSE Graduate · Full-Stack Developer",
+  role: 'Full-Stack Developer & AI Systems Builder',
+  headline: "Hi, I'm Rakesh Kumar — Full-Stack Developer & AI Systems Builder",
   pitch: "I build systems that don't just work — they prove they work. From a production incident engine with 89.5% measured accuracy to real-time collaborative tools, I engineer for correctness, not guesses.",
   shortBio:
     "I graduated with a B.Tech in Computer Science Engineering (Class of 2026) from Parul University in Vadodara, Gujarat. I am currently based in my hometown of Gurugram, Haryana. I specialize in building and shipping production-ready full-stack web applications with React, TypeScript, Node.js, Express, and MongoDB/PostgreSQL.",

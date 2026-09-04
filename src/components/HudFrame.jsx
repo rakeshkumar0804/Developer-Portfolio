@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 export default function HudFrame() {
   const [fps, setFps] = useState(144);
   const [sysLoad, setSysLoad] = useState(38);
+  const [isTabHidden, setIsTabHidden] = useState(false);
   const frameCount = useRef(0);
   const lastTime = useRef(performance.now());
 
@@ -10,7 +11,26 @@ export default function HudFrame() {
   useEffect(() => {
     let animationId;
 
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsTabHidden(true);
+      } else {
+        setIsTabHidden(false);
+        // Reset timers immediately on tab foreground so throttled frames don't skew FPS
+        frameCount.current = 0;
+        lastTime.current = performance.now();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     const calcFps = (now) => {
+      if (document.hidden) {
+        // Pause calculation while tab is backgrounded
+        animationId = requestAnimationFrame(calcFps);
+        return;
+      }
+
       frameCount.current++;
       if (now - lastTime.current >= 1000) {
         const currentFps = Math.round((frameCount.current * 1000) / (now - lastTime.current));
@@ -25,10 +45,13 @@ export default function HudFrame() {
 
     // Realistic subtle CPU/Memory load fluctuation
     const loadInterval = setInterval(() => {
-      setSysLoad(Math.floor(Math.random() * (45 - 28 + 1)) + 28);
+      if (!document.hidden) {
+        setSysLoad(Math.floor(Math.random() * (45 - 28 + 1)) + 28);
+      }
     }, 2500);
 
     return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       cancelAnimationFrame(animationId);
       clearInterval(loadInterval);
     };
@@ -42,7 +65,7 @@ export default function HudFrame() {
         <span className="tracking-widest">GURUGRAM, HR, INDIA</span>
         <span className="text-slate-600">•</span>
         <span className="tracking-wider">
-          FPS <span className="text-cyan-400">{fps}</span>
+          FPS <span className="text-cyan-400">{isTabHidden ? 'IDLE' : fps}</span>
         </span>
         <span className="text-slate-600">•</span>
         <span className="tracking-wider">

@@ -248,10 +248,10 @@ export default function Architect() {
                 {/* Expanded Bio (Clean 2-Paragraph Layout for Reduced Density) */}
                 <div className="border-t border-slate-800/80 pt-6 mt-6 text-xs md:text-sm font-mono text-slate-300 leading-relaxed space-y-3">
                   <p>
-                    Full-Stack Web Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production-grade backend systems, deterministic AI reasoning engines, and real-time synchronization. Proven track record architecting and shipping complex full-stack web applications end-to-end—from temporal root-cause investigation engines (TRACE) and constraint-satisfaction scheduling engines (CHRONOS) to collaborative in-browser WASM code studios (SyncPad) and multi-tenant incident intelligence platforms (IncidentHub AI).
+                    Full-Stack Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production backend architectures, deterministic AI reasoning, and real-time synchronization. Shipped complex full-stack systems end-to-end: temporal root-cause analysis (TRACE), heuristic scheduling (CHRONOS), collaborative WASM studios (SyncPad), and multi-tenant SRE platforms (IncidentHub AI).
                   </p>
                   <p className="text-slate-400">
-                    Strong foundation in data structures, RESTful API design, RBAC permission security, database modeling, and client-side performance optimization.
+                    Deep foundation in data structures, RESTful APIs, RBAC security, database modeling, and frontend performance optimization.
                   </p>
                 </div>
               </div>

@@ -11,7 +11,7 @@ export default function Hero() {
     const element = document.getElementById(targetId);
     if (element) {
       if (window.lenis) {
-        window.lenis.scrollTo(element, { offset: -70 });
+        window.lenis.scrollTo(element, { offset: -70, duration: 0.7 });
       } else {
         const topOffset = element.getBoundingClientRect().top + window.scrollY - 70;
         window.scrollTo({ top: topOffset, behavior: 'smooth' });
@@ -24,7 +24,7 @@ export default function Hero() {
     const terminalEl = document.getElementById('operations') || document.getElementById('about');
     if (terminalEl) {
       if (window.lenis) {
-        window.lenis.scrollTo(terminalEl, { offset: -40 });
+        window.lenis.scrollTo(terminalEl, { offset: -40, duration: 0.7 });
       } else {
         terminalEl.scrollIntoView({ behavior: 'smooth' });
       }
@@ -47,7 +47,7 @@ export default function Hero() {
 
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 relative overflow-hidden font-mono">
-      <div className="max-w-6xl w-full mx-auto">
+      <div className="max-w-7xl w-full mx-auto">
         {/* Terminal Window Wrapper */}
         <div className="rounded-xl border border-slate-800/80 bg-[#0B101B]/60 backdrop-blur-sm shadow-2xl shadow-black/80 overflow-hidden">
           {/* Terminal Window Titlebar */}
@@ -102,9 +102,9 @@ export default function Hero() {
                   animate="visible"
                   custom={3}
                   variants={fadeInUp}
-                  className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-100 tracking-tight leading-tight"
+                  className="text-2xl sm:text-3xl lg:text-[2.2rem] xl:text-[2.55rem] font-bold text-slate-100 tracking-tight leading-[1.2]"
                 >
-                  Hi, I'm <span className="text-[#38bdf8] drop-shadow-[0_0_15px_rgba(56,189,248,0.35)]">Rakesh Kumar</span> — Full-Stack Developer & AI Systems Builder
+                  Hi, I'm <span className="text-[#38bdf8] drop-shadow-[0_0_15px_rgba(56,189,248,0.35)]">Rakesh Kumar</span> — <br className="hidden lg:inline" />Full-Stack Developer & AI Systems Builder
                 </motion.h1>
 
                 {/* Sub-text Pitch */}
@@ -210,6 +210,9 @@ export default function Hero() {
                     <div><span className="text-slate-500">&#123;</span></div>
                     <div className="pl-4">
                       <span className="text-[#38bdf8]">"name"</span>: <span className="text-emerald-400">"Rakesh Kumar"</span>,
+                    </div>
+                    <div className="pl-4">
+                      <span className="text-[#38bdf8]">"role"</span>: <span className="text-emerald-400">"Full-Stack Developer & AI Systems Builder"</span>,
                     </div>
                     <div className="pl-4">
                       <span className="text-[#38bdf8]">"degree"</span>: <span className="text-emerald-400">"B.Tech CSE (2026)"</span>,

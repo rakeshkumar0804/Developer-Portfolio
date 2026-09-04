@@ -63,7 +63,7 @@ CRITICAL GUARDRAILS:
 VERIFIED PROFILE CONTEXT:
 ${JSON.stringify(profileContext, null, 2)}`;
 
-            const CANDIDATE_MODELS = ['gemini-flash-lite-latest', 'gemini-2.5-flash'];
+            const CANDIDATE_MODELS = ['gemini-2.5-flash', 'gemini-2.5-flash-lite'];
             let answer = null;
             let lastStatus = 500;
 
