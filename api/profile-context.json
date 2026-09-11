@@ -23,11 +23,12 @@
       "solved": "175+",
       "profile": "https://leetcode.com/u/Rakesh__Kumar_/"
     },
+    "openToWork": true,
     "availability": "Open to Software Engineer / Full-Stack Developer opportunities"
   },
   "engineeringPhilosophy": {
     "approach": "Rakesh builds systems that prove they work rather than relying on guesses or unverified claims. His engineering focuses on correctness, empirical benchmarking, and deterministic architecture.",
-    "signatureProjects": "TRACE (achieving 89.5% accuracy via adversarial falsification loops), CHRONOS (reducing 2,328 naive backtracks to 46 nodes using MRV/LCV heuristics), and SyncPad (conflict-free CRDT synchronization and sandboxed WASM execution)."
+    "signatureProjects": "TRACE (achieving 89.5% accuracy via adversarial critique loop), CHRONOS (finding 46-session schedule in 46 nodes with 0 backtracks), and SyncPad (conflict-free CRDT synchronization and sandboxed WASM execution)."
   },
   "internship": {
     "company": "Codetech IT Solutions",
@@ -35,72 +36,89 @@
     "period": "January 2026 – April 2026",
     "workMode": "Remote",
     "highlights": [
-      "Engineered an Internal Employee Management System using Node.js, Express.js, and MongoDB.",
-      "Implemented stateless JWT authentication and Role-Based Access Control (RBAC) across Employee, Manager, and Admin tiers with locked route middleware.",
-      "Designed and documented RESTful API endpoints for employee profile lifecycle, department tracking, and access validation."
+      "Built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows.",
+      "Secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation; used Postman to validate endpoint operations and authorization responses."
     ]
   },
   "skills": {
     "languages": ["JavaScript (ES6+)", "TypeScript", "Python", "C++", "SQL"],
-    "frontend": ["React.js", "Next.js", "Tailwind CSS", "Redux Toolkit", "D3.js", "GSAP", "HTML5", "CSS3", "Axios"],
-    "backend": ["Node.js", "Express.js", "FastAPI", "RESTful API Design", "JWT Authentication", "Role-Based Access Control (RBAC)", "WebSockets / Socket.io"],
-    "databases": ["PostgreSQL", "MongoDB", "Redis", "pgvector", "SQLite", "MySQL", "Mongoose ODM"],
-    "toolsAndDevops": ["Git", "GitHub", "Docker", "Postman", "Vercel", "Render", "Linux", "Vite", "VS Code"],
+    "backend": ["Node.js", "Express.js", "FastAPI", "REST APIs", "WebSockets", "JWT", "RBAC"],
+    "frontend": ["React.js", "Next.js", "Redux", "D3.js", "Tailwind CSS", "HTML5", "CSS3"],
+    "databases": ["PostgreSQL", "MongoDB", "MySQL", "Redis", "pgvector"],
+    "aiLlm": ["Gemini API", "Vector Embeddings", "LLM Evaluation"],
+    "systems": ["Yjs (CRDT)", "WebSocket", "WebAssembly (Pyodide)"],
+    "toolsAndDevops": ["Git", "GitHub", "Postman", "Vercel", "Render"],
     "coreFundamentals": ["Data Structures & Algorithms", "DBMS", "OOP", "Computer Networks", "Operating Systems", "CRDTs", "Constraint Satisfaction Problems (CSP)"]
   },
   "primaryProjects": [
     {
       "id": "SYS-01",
       "name": "TRACE",
-      "tagline": "Temporal Root-cause Analysis & Causal Engine",
-      "category": "AI-Assisted Production Incident Investigation Engine",
-      "techStack": ["Python", "FastAPI", "PostgreSQL", "pgvector", "Gemini API", "Next.js", "TypeScript", "D3.js", "GSAP", "Tailwind CSS"],
+      "expandedName": "TRACE — Telemetry Root-Cause Autonomous Critique Engine",
+      "tagline": "Evidence-Grounded Production Incident Investigation Engine",
+      "category": "Evidence-Grounded Production Incident Investigation Engine",
+      "techStack": ["Python", "FastAPI", "PostgreSQL (pgvector)", "Gemini API", "Next.js", "TypeScript", "D3.js"],
       "verifiedMetrics": {
-        "rootCauseAccuracy": "89.5% accuracy vs 73.7% for naive single-shot LLM baseline",
-        "benchmarkDataset": "19 hidden-ground-truth production incident scenarios",
-        "keyFeature": "Multi-hypothesis competition engine running real-time adversarial falsification loops and D3.js temporal DAG projection"
+        "rootCauseAccuracy": "89.5% accuracy vs 73.7% for naive single-prompt LLM baseline",
+        "benchmarkDataset": "19 synthetic incidents with hidden root causes",
+        "keyFeature": "Deterministic scoring and LLM critique loop with temporal/causal telemetry correlation and trend-comparison checks"
       },
-      "description": "An AI incident investigation engine that operates on a synthetic production environment with secretly-injected outages. Instead of single-shot guesses, it generates multiple competing root-cause hypotheses, executes falsification checks to actively disprove them, and projects the causal propagation sequence onto an interactive temporal Directed Acyclic Graph (DAG).",
-      "motivation": "Built to test whether an AI system can genuinely investigate unknown production incidents rather than generating convincing guesses, proving 89.5% accuracy via adversarial falsification loops.",
+      "highlights": [
+        "Achieved 89.5% root-cause accuracy across 19 synthetic incidents with hidden root causes, versus a 73.7% single-prompt LLM baseline, using deterministic scoring and an LLM critique loop.",
+        "Correlated logs, metrics, traces, and deployment events through temporal and causal evidence; added a deterministic trend-comparison check after failure-case analysis exposed an incorrect memory-leak attribution."
+      ],
+      "description": "An incident root-cause engine that achieved 89.5% accuracy across 19 synthetic incidents with hidden root causes (16 percentage points above a single-prompt LLM baseline) using deterministic scoring, an LLM critique loop, and temporal/causal telemetry correlation.",
+      "motivation": "Built to test whether an AI system can genuinely investigate unknown production incidents rather than generating convincing guesses, proving 89.5% accuracy via adversarial critique loops.",
       "liveUrl": "https://trace-rca-engine.vercel.app",
       "githubUrl": "https://github.com/rakeshkumar0804/trace-rca-engine"
     },
     {
       "id": "SYS-02",
       "name": "CHRONOS",
-      "tagline": "Constraint-Based Timetable Scheduling Engine",
+      "expandedName": "CHRONOS — Constraint-Based Timetable Scheduling Engine",
+      "tagline": "MRV/LCV Constraint Solver with Live Search Visualization",
       "category": "CSP Backtracking · Live Constraint Visualization",
       "techStack": ["React", "Node.js", "PostgreSQL", "Gemini API", "D3.js", "GSAP", "Tailwind CSS"],
       "verifiedMetrics": {
-        "benchmarkComparison": "2,328 backtracks (naive chronological search) vs 46 nodes / 0 backtracks (heuristic-guided search) on identical problem instances",
+        "benchmarkComparison": "MRV/LCV found a valid 46-session schedule in 46 search nodes with zero backtracks; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.",
         "heuristics": "MRV (Minimum Remaining Values) and LCV (Least Constraining Value)",
-        "nlpExtraction": "Natural language constraint parsing via Gemini API converting plain-text rules into mathematical CSP predicates"
+        "nlpExtraction": "Natural-language scheduling requirement translation into structured constraints via Gemini API"
       },
-      "description": "A timetable scheduling engine solving Constraint Satisfaction Problems (CSP) via backtracking search with MRV and LCV heuristics. Features a signature live D3.js search-tree visualizer comparing naive bottleneck search against optimized heuristic-guided search in real time.",
-      "motivation": "Built to solve complex timetable scheduling and visually demonstrate the power of constraint satisfaction algorithms (MRV + LCV heuristics) by reducing search space from 2,328 backtracks down to 46 nodes.",
+      "highlights": [
+        "Found a valid 46-session schedule in 46 search nodes with zero backtracks using MRV/LCV; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.",
+        "Built a backtracking constraint solver with live D3.js search visualization and integrated the Gemini API to translate natural-language scheduling requirements into structured constraints."
+      ],
+      "description": "A timetable scheduling engine solving Constraint Satisfaction Problems (CSP) via backtracking search with MRV and LCV heuristics. Features a live D3.js search-tree visualizer showing chronological and MRV/LCV-guided search behaviour in real time.",
+      "motivation": "Built to solve complex timetable scheduling and demonstrate how MRV/LCV heuristic search finds a valid schedule in 46 nodes with zero backtracks.",
       "liveUrl": "https://chronos-web-kappa.vercel.app",
       "githubUrl": "https://github.com/rakeshkumar0804/chronos-engine"
     },
     {
       "id": "SYS-03",
       "name": "SyncPad",
-      "tagline": "Collaborative Code Studio",
+      "expandedName": "SyncPad — Real-Time Collaborative Code Editor",
+      "tagline": "CRDT Collaboration with Sandboxed In-Browser Execution",
       "category": "CRDT Real-Time Engine • In-Browser WASM Runtime",
-      "techStack": ["React", "TypeScript", "Yjs (CRDT)", "Monaco Editor", "Node.js", "WebSocket", "Pyodide (WASM)"],
+      "techStack": ["React", "TypeScript", "Node.js", "Yjs (CRDT)", "Monaco Editor", "WebSocket", "Pyodide (WASM)"],
       "verifiedMetrics": {
-        "convergenceLatency": "0ms conflict resolution via Yjs state vectors",
-        "inBrowserExecution": "100% client-side sandboxed execution with Web Workers (JS/TS) and Pyodide WebAssembly (Python)",
+        "convergenceLatency": "Conflict-free convergence via Yjs CRDT",
+        "inBrowserExecution": "Browser-based sandboxed execution with Web Workers (JS/TS via transpilation) and Pyodide WebAssembly (Python)",
         "networking": "Standalone y-websocket relay deployed on Render for binary document synchronization"
       },
-      "description": "A real-time collaborative code editor supporting concurrent multi-user editing with conflict-free Yjs CRDT synchronization, live cursor/selection presence, Monaco Editor syntax highlighting, and zero-server-compute in-browser Python execution.",
-      "motivation": "Built to provide seamless real-time collaborative editing with 0ms conflict resolution using Yjs CRDTs and secure, zero-server-compute in-browser code execution using Pyodide WebAssembly.",
+      "highlights": [
+        "Enabled conflict-free concurrent editing with Yjs CRDT synchronization, live cursor sharing, and collaborator presence.",
+        "Implemented browser-based execution for JavaScript, TypeScript through transpilation, and Python using Web Workers and Pyodide WebAssembly, keeping execution off the main UI thread."
+      ],
+      "description": "A real-time collaborative code editor supporting concurrent multi-user editing with conflict-free Yjs CRDT synchronization, live cursor sharing, collaborator presence, and browser-based sandboxed execution for JavaScript, TypeScript, and Python.",
+      "motivation": "Built to provide seamless real-time collaborative editing with conflict-free Yjs CRDT convergence and secure in-browser code execution using WebAssembly.",
       "liveUrl": "https://sync-pad-client.vercel.app",
       "githubUrl": "https://github.com/rakeshkumar0804/SyncPad"
     },
     {
       "id": "SYS-04",
       "name": "IncidentHub AI",
-      "tagline": "Root-Cause Intelligence",
+      "expandedName": "IncidentHub AI — Production SRE Intelligence Platform",
+      "tagline": "Production SRE Intelligence Platform",
       "category": "Multi-Tenant SRE Platform • Incident Triage Engine",
       "techStack": ["React", "TypeScript", "Node.js", "PostgreSQL", "Redis", "WebSocket", "OAuth"],
       "verifiedMetrics": {
@@ -108,6 +126,10 @@
         "integrations": "4 real OAuth 2.0 flows (GitHub, Sentry, Slack, Jira)",
         "concurrency": "Redis Redlock distributed locking & idempotent HMAC webhook deduplication"
       },
+      "highlights": [
+        "Ingests alert webhooks across GitHub, Sentry, Slack, and Jira to automate outage triage and generate evidence-grounded postmortems.",
+        "Enforces PostgreSQL Row-Level Security tenant isolation, coordinates war rooms via WebSocket channels, with 236/236 passing unit tests."
+      ],
       "description": "A multi-tenant engineering incident intelligence platform that ingests real-time alert webhooks, enforces PostgreSQL Row-Level Security tenant isolation, coordinates war rooms via WebSocket channels, and generates evidence-grounded postmortems.",
       "motivation": "Built to automate production incident triage and postmortem generation with rock-solid architectural reliability, 236/236 unit tests, and real OAuth integrations.",
       "liveUrl": "https://incidenthub-ai-web.vercel.app",

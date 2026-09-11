@@ -46,8 +46,7 @@ const matrixCategories = [
     skills: [
       { name: 'Gemini API', primary: true },
       { name: 'Vector Embeddings', primary: true },
-      { name: 'Prompt Engineering', primary: false },
-      { name: 'Deterministic Evaluation', primary: false },
+      { name: 'LLM Evaluation', primary: true },
     ],
   },
   {
@@ -78,10 +77,9 @@ const matrixCategories = [
     skills: [
       { name: 'Git', primary: true },
       { name: 'GitHub', primary: true },
-      { name: 'Docker', primary: true },
+      { name: 'Postman', primary: true },
       { name: 'Vercel', primary: false },
       { name: 'Render', primary: false },
-      { name: 'Postman', primary: false },
       { name: 'DSA', primary: false },
       { name: 'OOP', primary: false },
       { name: 'DBMS', primary: false },
@@ -217,7 +215,7 @@ export default function Architect() {
                 <div className="divide-y divide-slate-800/60 text-xs font-mono">
                   <div className="py-2.5 flex items-start justify-between gap-4">
                     <span className="text-slate-500 uppercase tracking-wider shrink-0">DESIGNATION</span>
-                    <span className="text-slate-200 text-right font-medium">Full-Stack Developer / Software Engineer</span>
+                    <span className="text-slate-200 text-right font-medium">Full-Stack Developer & AI Systems Builder</span>
                   </div>
                   <div className="py-2.5 flex items-start justify-between gap-4">
                     <span className="text-slate-500 uppercase tracking-wider shrink-0">BASE</span>
@@ -248,7 +246,7 @@ export default function Architect() {
                 {/* Expanded Bio (Clean 2-Paragraph Layout for Reduced Density) */}
                 <div className="border-t border-slate-800/80 pt-6 mt-6 text-xs md:text-sm font-mono text-slate-300 leading-relaxed space-y-3">
                   <p>
-                    Full-Stack Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production backend architectures, deterministic AI reasoning, and real-time synchronization. Shipped complex full-stack systems end-to-end: temporal root-cause analysis (TRACE), heuristic scheduling (CHRONOS), collaborative WASM studios (SyncPad), and multi-tenant SRE platforms (IncidentHub AI).
+                    Full-Stack Developer and B.Tech CSE graduate based in Gurugram, India, specializing in production backend architectures, deterministic AI reasoning, and real-time synchronization. Shipped complex full-stack systems end-to-end: telemetry root-cause autonomous critique (TRACE), heuristic scheduling (CHRONOS), collaborative WASM studios (SyncPad), and multi-tenant SRE platforms (IncidentHub AI).
                   </p>
                   <p className="text-slate-400">
                     Deep foundation in data structures, RESTful APIs, RBAC security, database modeling, and frontend performance optimization.
@@ -285,15 +283,11 @@ export default function Architect() {
                 <div className="space-y-2.5 text-xs text-slate-300 font-mono">
                   <div className="flex items-start gap-2">
                     <span className="text-cyan-400">▪</span>
-                    <span>Engineered an Internal Employee Management System (Node.js, Express.js, MongoDB) supporting 3 user roles, replacing manual tracking.</span>
+                    <span>Built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows.</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-cyan-400">▪</span>
-                    <span>Secured platform with JWT authentication and layered access control across 3 permission tiers (employee, manager, admin) with locked role-restricted APIs.</span>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <span className="text-cyan-400">▪</span>
-                    <span>Planned and validated RESTful CRUD endpoints across core employee, department, and role modules.</span>
+                    <span>Secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation; used Postman to validate endpoint operations and authorization responses.</span>
                   </div>
                 </div>
               </div>
@@ -317,7 +311,7 @@ export default function Architect() {
                 <div className="space-y-2.5 text-xs text-slate-300 font-mono">
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>
-                    <span>TRACE: Architected temporal root-cause analysis engine with adversarial hypothesis competition achieving 89.5% accuracy across 19 ground-truth incidents.</span>
+                    <span>TRACE: Architected telemetry root-cause autonomous critique engine with deterministic scoring and LLM critique loop achieving 89.5% accuracy across 19 synthetic incidents.</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-amber-400">▪</span>

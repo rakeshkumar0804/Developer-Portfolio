@@ -164,10 +164,10 @@ function ChronosSchematic({ onReconstruct }) {
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
               DETERMINISTIC HEURISTIC PRUNING
             </div>
-            <span className="text-[9px] font-mono text-emerald-400 font-bold">2,328 vs 46 NODES</span>
+            <span className="text-[9px] font-mono text-emerald-400 font-bold">46 NODES · 0 BACKTRACKS</span>
           </div>
           <div className="text-[10px] font-mono text-slate-500 mt-0.5">
-            MRV and LCV heuristics reduce backtrack space by 98% on identical scheduling instances
+            MRV/LCV found a 46-session schedule in 46 nodes with 0 backtracks; chronological hit 10M limit
           </div>
         </div>
       </div>
@@ -222,7 +222,7 @@ function SyncPadSchematic({ onReconstruct }) {
               YJS CRDT ENGINE
             </div>
             <div className="text-xs font-sans font-medium text-slate-200 mt-1">Deterministic Merge</div>
-            <div className="text-[10px] font-mono text-slate-500 mt-0.5">0ms Conflict Res</div>
+            <div className="text-[10px] font-mono text-slate-500 mt-0.5">Conflict-Free Convergence</div>
           </div>
         </div>
 
@@ -456,10 +456,10 @@ export default function Projects() {
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
-                TRACE — Temporal Root-cause Analysis & Causal Engine
+                TRACE — Telemetry Root-Cause Autonomous Critique Engine
               </h3>
               <p className="text-xs font-mono tracking-widest text-slate-400 uppercase mt-1 mb-4">
-                AI-ASSISTED PRODUCTION INCIDENT INVESTIGATION ENGINE
+                EVIDENCE-GROUNDED PRODUCTION INCIDENT INVESTIGATION ENGINE
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
@@ -492,19 +492,11 @@ export default function Projects() {
               <div className="space-y-2.5 text-xs text-slate-300 font-mono mb-6">
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Multi-hypothesis competition engine running real-time adversarial falsification loops</span>
+                  <span>Achieved 89.5% root-cause accuracy across 19 synthetic incidents with hidden root causes, versus a 73.7% single-prompt LLM baseline, using deterministic scoring and an LLM critique loop.</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Synthetic production sandbox evaluating 3 complex incident archetypes with hidden ground truth</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>Vector similarity telemetry matching with pgvector, PostgreSQL, and FastAPI pipeline</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>Interactive temporal DAG causal visualization built with D3.js and smooth GSAP morphing</span>
+                  <span>Correlated logs, metrics, traces, and deployment events through temporal and causal evidence; added a deterministic trend-comparison check after failure-case analysis exposed an incorrect memory-leak attribution.</span>
                 </div>
               </div>
 
@@ -574,19 +566,19 @@ export default function Projects() {
                 CHRONOS — Constraint-Based Timetable Scheduling Engine
               </h3>
               <p className="text-xs font-mono tracking-widest text-slate-400 uppercase mt-1 mb-4">
-                CSP BACKTRACKING · LIVE CONSTRAINT VISUALIZATION
+                MRV/LCV CONSTRAINT SOLVER WITH LIVE SEARCH VISUALIZATION
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
-                A timetable scheduling engine solving CSPs via backtracking search with MRV and LCV heuristics. Features a live D3.js visualizer comparing naive search (2,328 backtracks) against heuristic-guided search (46 nodes) on identical problem instances.
+                A timetable scheduling engine solving CSPs via backtracking search with MRV and LCV heuristics. Features a live D3.js visualizer comparing chronological search (hitting the 10-million-backtrack limit) against heuristic-guided search (46 nodes with zero backtracks) on identical problem instances.
               </p>
 
               {/* 3-Column Metrics */}
               <div className="grid grid-cols-3 gap-3 mb-6">
                 <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
-                  <div className="text-base sm:text-lg font-bold text-cyan-400 font-mono">2,328 vs 46</div>
+                  <div className="text-base sm:text-lg font-bold text-cyan-400 font-mono">46 NODES</div>
                   <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    NAIVE VS SMART SEARCH
+                    0 BACKTRACKS (MRV/LCV)
                   </div>
                 </div>
                 <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
@@ -607,19 +599,11 @@ export default function Projects() {
               <div className="space-y-2.5 text-xs text-slate-300 font-mono mb-6">
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Backtracking search with MRV and LCV heuristics for efficient constraint satisfaction</span>
+                  <span>Found a valid 46-session schedule in 46 search nodes with zero backtracks using MRV/LCV; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Natural language constraint parsing via Gemini API</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>Live D3.js visualization of the search process, including a &quot;Naive vs Smart Bottleneck Demo&quot;</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>GSAP-powered smooth animation transitions</span>
+                  <span>Built a backtracking constraint solver with live D3.js search visualization and integrated the Gemini API to translate natural-language scheduling requirements into structured constraints.</span>
                 </div>
               </div>
 
@@ -676,10 +660,10 @@ export default function Projects() {
               </div>
 
               <h3 className="text-3xl font-bold tracking-tight text-slate-100 font-sans">
-                SyncPad — Collaborative Code Studio
+                SyncPad — Real-Time Collaborative Code Editor
               </h3>
               <p className="text-xs font-mono tracking-widest text-slate-400 uppercase mt-1 mb-4">
-                CRDT REAL-TIME ENGINE • IN-BROWSER WASM RUNTIME
+                CRDT COLLABORATION WITH SANDBOXED IN-BROWSER EXECUTION
               </p>
 
               <p className="text-slate-300 text-sm leading-relaxed mb-6 max-w-xl font-sans">
@@ -688,10 +672,10 @@ export default function Projects() {
 
               {/* 3-Column Metrics */}
               <div className="grid grid-cols-3 gap-3 mb-6">
-                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
-                  <div className="text-xl font-bold text-cyan-400 font-mono">0ms</div>
+                <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center flex flex-col justify-center">
+                  <div className="text-base sm:text-lg font-bold text-cyan-400 font-mono">CONFLICT-FREE</div>
                   <div className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">
-                    CONFLICT RES (CRDT)
+                    YJS CRDT CONVERGENCE
                   </div>
                 </div>
                 <div className="border border-slate-800/80 bg-slate-950/40 p-3 rounded-lg text-center">
@@ -712,19 +696,11 @@ export default function Projects() {
               <div className="space-y-2.5 text-xs text-slate-300 font-mono mb-6">
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>Yjs CRDTs for deterministic peer synchronization and presence awareness</span>
+                  <span>Enabled conflict-free concurrent editing with Yjs CRDT synchronization, live cursor sharing, and collaborator presence.</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <span className="text-cyan-400">▪</span>
-                  <span>In-browser code execution via Web Workers (JS/TS) and Pyodide WebAssembly (Python)</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>Standalone y-websocket synchronization server deployed on Render</span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <span className="text-cyan-400">▪</span>
-                  <span>Monaco Editor integration with multi-language syntax highlighting</span>
+                  <span>Implemented browser-based execution for JavaScript, TypeScript through transpilation, and Python using Web Workers and Pyodide WebAssembly, keeping execution off the main UI thread.</span>
                 </div>
               </div>
 

@@ -11,7 +11,7 @@
 
 <p align="center">
   <strong>Full-Stack Developer & AI Systems Builder</strong><br>
-  <em>"I build systems that don't just work — they prove they work. From temporal root-cause engines with 89.5% measured accuracy to real-time CRDT collaborative studios, I engineer for correctness, not guesses."</em>
+  <em>"I build systems that don't just work — they prove they work. From incident investigation engines with 89.5% measured accuracy to real-time CRDT collaborative studios, I engineer for correctness, not guesses."</em>
 </p>
 
 [Explore Systems](#-flagship-systems) • [Interactive Terminal](#-grounded-ai-terminal-apiask) • [Architecture & Telemetry](#-engineering--telemetry-highlights) • [Tech Stack](#-technical-capability-matrix) • [Local Setup](#-getting-started)
@@ -31,44 +31,44 @@ Rather than presenting static resume bullet points, this platform functions as a
 ## 🏛 Flagship Systems
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   CORE SYSTEMS SUITE                                   │
-├───────────────┬───────────────────┬────────────────────────────┬───────────────────────┤
-│ SYSTEM        │ CODENAME          │ PRIMARY ARCHITECTURE       │ VERIFIED BENCHMARK    │
-├───────────────┼───────────────────┼────────────────────────────┼───────────────────────┤
-│ SYS-01        │ TRACE             │ Temporal Root-Cause DAG    │ 89.5% vs 73.7% naive  │
-│ SYS-02        │ CHRONOS           │ Constraint Backtracking    │ 2,328 vs 46 nodes     │
-│ SYS-03        │ SyncPad           │ Yjs CRDT + Pyodide WASM    │ 0ms conflict res.     │
-│ SYS-04        │ IncidentHub AI    │ SRE Concurrency & OAuth    │ 236/236 passing tests │
-└───────────────┴───────────────────┴────────────────────────────┴───────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                CORE SYSTEMS SUITE                                                │
+├───────────────┬───────────────────┬────────────────────────────┬─────────────────────────────────────────────────┤
+│ SYSTEM        │ CODENAME          │ PRIMARY ARCHITECTURE       │ VERIFIED BENCHMARK                              │
+├───────────────┼───────────────────┼────────────────────────────┼─────────────────────────────────────────────────┤
+│ SYS-01        │ TRACE             │ Telemetry Critique Loop    │ 89.5% vs 73.7% naive baseline                   │
+│ SYS-02        │ CHRONOS           │ Constraint Backtracking    │ 46 nodes, 0 backtracks with MRV/LCV             │
+│ SYS-03        │ SyncPad           │ Yjs CRDT + Pyodide WASM    │ Conflict-free convergence via Yjs CRDT          │
+│ SYS-04        │ IncidentHub AI    │ SRE Concurrency & OAuth    │ 236/236 passing unit/integration tests          │
+└───────────────┴───────────────────┴────────────────────────────┴─────────────────────────────────────────────────┘
 ```
 
-### 1. [SYS-01] TRACE — Temporal Root-Cause Analysis & Causal Engine
-* **Purpose**: Investigates unseen production outages by executing adversarial multi-hypothesis falsification loops instead of naive single-shot LLM guesses.
-* **Empirical Benchmark**: **89.5% root-cause accuracy** vs. 73.7% naive baseline across 19 hidden-ground-truth incident scenarios.
+### 1. [SYS-01] TRACE — Telemetry Root-Cause Autonomous Critique Engine
+* **Purpose**: Evidence-Grounded Production Incident Investigation Engine investigating unseen production outages by executing deterministic scoring and an LLM critique loop instead of naive single-shot LLM guesses.
+* **Empirical Benchmark**: **89.5% root-cause accuracy** vs. 73.7% naive baseline across 19 synthetic incident scenarios with hidden root causes.
 * **Stack**: Python, FastAPI, PostgreSQL, `pgvector`, Gemini API, Next.js, TypeScript, D3.js, GSAP.
 * **Key Components**:
-  - Multi-hypothesis competition engine running real-time falsification checks.
-  - Synthetic production sandbox testing 3 incident archetypes with hidden ground truth.
+  - Achieved 89.5% root-cause accuracy across 19 synthetic incidents with hidden root causes, versus a 73.7% single-prompt LLM baseline, using deterministic scoring and an LLM critique loop.
+  - Correlated logs, metrics, traces, and deployment events through temporal and causal evidence; added a deterministic trend-comparison check after failure-case analysis exposed an incorrect memory-leak attribution.
   - Vector similarity telemetry retrieval with `pgvector` and PostgreSQL.
   - Interactive temporal DAG causal graph visualized with D3.js and smooth GSAP morphing.
 
 ### 2. [SYS-02] CHRONOS — Constraint-Based Timetable Scheduling Engine
-* **Purpose**: Solves high-dimension Constraint Satisfaction Problems (CSP) for academic and organizational timetable scheduling.
-* **Empirical Benchmark**: **98% search-space reduction** (signature demo shows naive backtracking taking **2,328 backtracks** vs. **46 nodes** with heuristic search on the identical problem).
+* **Purpose**: MRV/LCV Constraint Solver with Live Search Visualization solving high-dimension Constraint Satisfaction Problems (CSP) for academic and organizational timetable scheduling.
+* **Empirical Benchmark**: MRV/LCV found a valid 46-session schedule in 46 search nodes with zero backtracks; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.
 * **Stack**: React, Node.js, PostgreSQL, Gemini API, D3.js, Tailwind CSS.
 * **Key Components**:
-  - MRV (Minimum Remaining Values) and LCV (Least Constraining Value) heuristic search.
-  - Forward-checking constraint propagation preventing dead-end branch expansion.
+  - Backtracking constraint solver with MRV and LCV heuristics demonstrating heuristic search by finding a valid schedule in 46 nodes with zero backtracks (chronological baseline hit the 10M-backtrack limit without finding a solution).
+  - Natural-language scheduling requirement translation into structured constraints via Gemini API.
   - Side-by-side live D3.js visualization rendering search-tree traversal steps in real-time.
 
-### 3. [SYS-03] SyncPad — Real-Time Collaborative Code Studio
-* **Purpose**: In-browser collaborative IDE featuring zero-conflict concurrent document synchronization and sandboxed execution.
-* **Empirical Benchmark**: **0ms conflict resolution** with Yjs CRDTs + 100% client-side isolated runtime.
+### 3. [SYS-03] SyncPad — Real-Time Collaborative Code Editor
+* **Purpose**: CRDT Collaboration with Sandboxed In-Browser Execution featuring conflict-free concurrent document synchronization and sandboxed execution.
+* **Empirical Benchmark**: **Conflict-free convergence via Yjs CRDTs** + 100% client-side isolated runtime.
 * **Stack**: React, TypeScript, Monaco Editor, Yjs, WebSockets, Web Workers, Pyodide (WebAssembly).
 * **Key Components**:
-  - Conflict-free Replicated Data Types (CRDTs) with multi-user awareness & remote cursor projection.
-  - Dual sandboxed runtimes: Web Workers for JS/TS and Pyodide WebAssembly for Python.
+  - Enabled conflict-free concurrent editing with Yjs CRDT synchronization, live cursor sharing, and collaborator presence.
+  - Implemented browser-based execution for JavaScript, TypeScript through transpilation, and Python using Web Workers and Pyodide WebAssembly, keeping execution off the main UI thread.
 
 ### 4. [SYS-04] IncidentHub AI — Production SRE Intelligence Platform
 * **Purpose**: Multi-tenant incident triage platform correlating telemetry across GitHub, Sentry, Slack, and Jira.
@@ -147,9 +147,10 @@ The portfolio embeds an interactive terminal (`rakesh@core:~$`) directly connect
 | **Languages** | `JavaScript (ES6+)`, `TypeScript`, `Python` | `C++`, `SQL`, `HTML5`, `CSS3` |
 | **Frontend** | `React.js`, `Next.js`, `Tailwind CSS v4` | `Redux Toolkit`, `Monaco Editor`, `Framer Motion`, `D3.js`, `GSAP` |
 | **Backend & APIs** | `Node.js`, `Express.js`, `FastAPI`, `REST APIs` | `Socket.io (WebSockets)`, `JWT Auth`, `3-Tier RBAC` |
-| **AI & LLM** | `Gemini API`, `Vector Embeddings`, `Prompt Engineering` | `pgvector`, `Deterministic Falsification Evaluation` |
-| **Databases & Cache** | `PostgreSQL`, `MongoDB`, `Redis (Redlock)` | `SQLite`, `Mongoose ODM`, `Prisma` |
-| **Cloud & Tools** | `Git`, `GitHub`, `Docker`, `Postman`, `Vercel` | `Render`, `Linux / Bash`, `VS Code` |
+| **AI & LLM** | `Gemini API`, `Vector Embeddings`, `LLM Evaluation` | `pgvector` |
+| **Systems & Real-Time** | `Yjs (CRDT)`, `WebSocket`, `WebAssembly (Pyodide)` | `Web Workers`, `Monaco Editor` |
+| **Databases & Cache** | `PostgreSQL`, `MongoDB`, `MySQL`, `Redis (Redlock)` | `SQLite`, `Mongoose ODM`, `pgvector` |
+| **Cloud & Tools** | `Git`, `GitHub`, `Postman`, `Vercel`, `Render` | — |
 | **Core Fundamentals** | `Data Structures & Algorithms` (175+ LeetCode) | `DBMS`, `Operating Systems`, `Computer Networks`, `OOP` |
 
 ---

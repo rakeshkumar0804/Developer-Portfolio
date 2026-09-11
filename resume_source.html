@@ -110,9 +110,9 @@
   <!-- HEADER -->
   <div class="header">
     <div class="name">RAKESH KUMAR</div>
-    <div class="title">Full-Stack Web Developer / MERN Stack Engineer</div>
+    <div class="title">Full-Stack Developer & AI Systems Builder</div>
     <div class="contacts">
-      Gurugram, Haryana, India | +91-9306573459 | <a href="mailto:rakeshchauhan6651@gmail.com">rakeshchauhan6651@gmail.com</a> | <a href="https://www.linkedin.com/in/rakesh-kumar-520754246/">LinkedIn</a> | <a href="https://github.com/rakeshkumar0804">GitHub</a> | <a href="https://developer-portfolio-nu-rouge.vercel.app/">Portfolio</a>
+      Gurugram, Haryana, India | +91-9053359651 | <a href="mailto:rakeshchauhan6651@gmail.com">rakeshchauhan6651@gmail.com</a> | <a href="https://www.linkedin.com/in/rakesh-kumar-520754246/">LinkedIn</a> | <a href="https://github.com/rakeshkumar0804">GitHub</a> | <a href="https://developer-portfolio-nu-rouge.vercel.app/">Portfolio</a>
     </div>
   </div>
 
@@ -133,28 +133,40 @@
   <div class="section">
     <div class="section-title">TECHNICAL SKILLS</div>
     <div class="skills-row"><strong>Languages:</strong> JavaScript (ES6+), TypeScript, Python, C++, SQL</div>
-    <div class="skills-row"><strong>Frontend:</strong> React.js (Hooks, Component Architecture), React Router, Redux, Axios, Tailwind CSS, HTML5, CSS3, Bootstrap</div>
-    <div class="skills-row"><strong>Backend & APIs:</strong> Node.js, Express.js, REST API Design, JWT Authentication, RBAC, bcrypt, WebSocket</div>
-    <div class="skills-row"><strong>Databases:</strong> MongoDB, Mongoose (Schema Design & Validation), MySQL, PostgreSQL, Redis</div>
-    <div class="skills-row"><strong>Tools, Process & Deployment:</strong> Git, GitHub, Postman, VS Code, Vercel, Render, npm, Agile</div>
-    <div class="skills-row"><strong>Core CS:</strong> Data Structures & Algorithms, DBMS, OOP, Operating Systems, Computer Networks</div>
+    <div class="skills-row"><strong>Frontend:</strong> React.js, Next.js, Tailwind CSS, Redux</div>
+    <div class="skills-row"><strong>Backend & APIs:</strong> Node.js, Express.js, FastAPI, REST APIs, WebSockets</div>
+    <div class="skills-row"><strong>AI / LLM:</strong> Gemini API, Vector Embeddings, LLM Evaluation</div>
+    <div class="skills-row"><strong>Databases:</strong> PostgreSQL, MongoDB, MySQL, Redis</div>
+    <div class="skills-row"><strong>Tools & Deployment:</strong> Git, GitHub, Postman, Vercel, Render</div>
+    <div class="skills-row"><strong>Core CS:</strong> Data Structures & Algorithms, DBMS, Operating Systems, Computer Networks, OOP</div>
   </div>
 
   <!-- PROJECTS -->
   <div class="section">
     <div class="section-title">PROJECTS</div>
 
-    <!-- IncidentHub AI -->
+    <!-- TRACE -->
     <div class="item-header">
-      <span class="item-title">IncidentHub AI — Incident Intelligence Platform | <a href="https://github.com/rakeshkumar0804/incidenthub-ai">GitHub</a> | <a href="https://incidenthub-ai-web.vercel.app">Demo</a></span>
+      <span class="item-title">TRACE — Telemetry Root-Cause Autonomous Critique Engine | <a href="https://github.com/rakeshkumar0804/trace-rca-engine">GitHub</a> | <a href="https://trace-rca-engine.vercel.app">Demo</a></span>
     </div>
     <div class="item-subtitle" style="font-size: 8.5pt; margin-bottom: 2px;">
-      TypeScript | React | Node.js | PostgreSQL | Redis | WebSocket | OAuth
+      Python | FastAPI | PostgreSQL | pgvector | Gemini API | Next.js | TypeScript | D3.js | GSAP
     </div>
     <ul>
-      <li>Built a multi-tenant incident intelligence platform with a deterministic correlation engine and an evidence-grounded AI investigation layer, integrating GitHub, Sentry, Slack, and Jira via real OAuth for root-cause analysis.</li>
-      <li>Implemented strict multi-tenant RBAC (Owner/Admin/Responder/Viewer), Redis-backed distributed locking, and idempotent HMAC-verified webhooks; validated with 236/236 passing tests including RBAC boundary and cross-tenant isolation suites.</li>
-      <li>Designed a citation-backed, versioned postmortem engine and authored complete technical documentation, including an honest limitations section on serverless/WebSocket hosting constraints.</li>
+      <li>Achieved 89.5% root-cause accuracy across 19 synthetic incidents with hidden root causes, versus a 73.7% single-prompt LLM baseline, using deterministic scoring and an LLM critique loop.</li>
+      <li>Correlated logs, metrics, traces, and deployment events through temporal and causal evidence; added a deterministic trend-comparison check after failure-case analysis exposed an incorrect memory-leak attribution.</li>
+    </ul>
+
+    <!-- CHRONOS -->
+    <div class="item-header">
+      <span class="item-title">CHRONOS — Constraint-Based Timetable Scheduling Engine | <a href="https://github.com/rakeshkumar0804/chronos-engine">GitHub</a> | <a href="https://chronos-web-kappa.vercel.app">Demo</a></span>
+    </div>
+    <div class="item-subtitle" style="font-size: 8.5pt; margin-bottom: 2px;">
+      React | Node.js | PostgreSQL | Gemini API | D3.js | GSAP | Tailwind CSS
+    </div>
+    <ul>
+      <li>Found a valid 46-session schedule in 46 search nodes with zero backtracks using MRV/LCV; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.</li>
+      <li>Built a backtracking constraint solver with live D3.js search visualization and integrated the Gemini API to translate natural-language scheduling requirements into structured constraints.</li>
     </ul>
 
     <!-- SyncPad -->
@@ -165,21 +177,8 @@
       React | TypeScript | Node.js | Yjs (CRDT) | Monaco Editor | WebSocket | Pyodide (WASM)
     </div>
     <ul>
-      <li>Built a real-time collaborative code editor enabling multiple users to edit the same document simultaneously with conflict-free synchronization using Yjs CRDTs, including live multi-cursor presence and awareness.</li>
-      <li>Implemented sandboxed, fully in-browser multi-language code execution — JavaScript/TypeScript via Web Workers with timeout protection, and Python via Pyodide (WebAssembly) — removing dependency on third-party execution APIs.</li>
-      <li>Designed and deployed a WebSocket-based synchronization server (Node.js + y-websocket) on Render, paired with a React/Vite client on Vercel.</li>
-    </ul>
-
-    <!-- Developer Portfolio Health Checker -->
-    <div class="item-header">
-      <span class="item-title">Developer Portfolio Health Checker (PortfolioPulse) | <a href="https://github.com/rakeshkumar0804/dev-portfolio-checker">GitHub</a> | <a href="https://dev-portfolio-checker.vercel.app">Demo</a></span>
-    </div>
-    <div class="item-subtitle" style="font-size: 8.5pt; margin-bottom: 2px;">
-      React | Vite | Node.js | Express.js | MongoDB | JWT | GitHub REST API
-    </div>
-    <ul>
-      <li>Built a full-stack career intelligence platform that evaluates GitHub profiles, portfolio websites, and resumes using deterministic, rule-based scoring — every score is backed by explainable evidence, not a black-box output.</li>
-      <li>Integrated the GitHub REST API for repository analysis, added a resume/ATS analysis module and recruiter-screening simulation, and built a JWT-authenticated workspace for saved reports and PDF exports.</li>
+      <li>Enabled conflict-free concurrent editing with Yjs CRDT synchronization, live cursor sharing, and collaborator presence.</li>
+      <li>Implemented browser-based execution for JavaScript, TypeScript through transpilation, and Python using Web Workers and Pyodide WebAssembly, keeping execution off the main UI thread.</li>
     </ul>
   </div>
 
@@ -194,9 +193,8 @@
       Node.js | Express.js | MongoDB | JWT | RBAC | REST API
     </div>
     <ul>
-      <li>Engineered an Internal Employee Management System (Node.js, Express.js, MongoDB) supporting 3 user roles, replacing manual spreadsheet tracking.</li>
-      <li>Secured the platform with JWT-based authentication and layered access control across 3 permission tiers (employee, manager, admin), locking down role-restricted API access.</li>
-      <li>Planned and validated RESTful API endpoints supporting full CRUD operations (Create, Read, Update, Delete) across 3 core modules: employee, department, and role.</li>
+      <li>Built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows.</li>
+      <li>Secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation; used Postman to validate endpoint operations and authorization responses.</li>
     </ul>
   </div>
 

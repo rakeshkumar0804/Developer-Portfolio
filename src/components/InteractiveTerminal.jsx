@@ -56,33 +56,29 @@ CS CORE   : ${profileContext.skills.coreFundamentals.join(' · ')}`,
 DESIGNATION  : ${profileContext.internship.role}
 DURATION     : ${profileContext.internship.period} (${profileContext.internship.workMode})
 HIGHLIGHTS   :
-  ▪ ${profileContext.internship.highlights[0]}
-  ▪ ${profileContext.internship.highlights[1]}
-  ▪ ${profileContext.internship.highlights[2]}`,
+${profileContext.internship.highlights.map((highlight) => `  ▪ ${highlight}`).join('\n')}`,
 
   experience: `ORGANIZATION : ${profileContext.internship.company}
 DESIGNATION  : ${profileContext.internship.role}
 DURATION     : ${profileContext.internship.period} (${profileContext.internship.workMode})
 HIGHLIGHTS   :
-  ▪ ${profileContext.internship.highlights[0]}
-  ▪ ${profileContext.internship.highlights[1]}
-  ▪ ${profileContext.internship.highlights[2]}`,
+${profileContext.internship.highlights.map((highlight) => `  ▪ ${highlight}`).join('\n')}`,
 
-  'projects --list': `[SYS-01] TRACE — Temporal Root-cause Analysis & Causal Engine
-         89.5% accuracy vs 73.7% naive baseline across 19 hidden-ground-truth incidents.
+  'projects --list': `[SYS-01] TRACE — Telemetry Root-Cause Autonomous Critique Engine
+         89.5% accuracy vs 73.7% naive baseline across 19 synthetic incidents with hidden root causes.
 [SYS-02] CHRONOS — Constraint-Based Timetable Scheduling Engine
-         2,328 backtracks vs 46 nodes (0 backtracks) using MRV + LCV CSP heuristics.
-[SYS-03] SyncPad — Collaborative Code Studio
-         0ms conflict resolution with Yjs CRDTs + in-browser sandboxed Pyodide WASM runtime.
+         MRV/LCV found a valid 46-session schedule in 46 search nodes with zero backtracks; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.
+[SYS-03] SyncPad — Real-Time Collaborative Code Editor
+         Conflict-free convergence via Yjs CRDTs + in-browser sandboxed Pyodide WASM runtime.
 [SYS-04] IncidentHub AI — Root-Cause Intelligence
          Multi-tenant SRE platform with 4 OAuth flows & 236/236 passing unit tests.`,
 
-  projects: `[SYS-01] TRACE — Temporal Root-cause Analysis & Causal Engine
-         89.5% accuracy vs 73.7% naive baseline across 19 hidden-ground-truth incidents.
+  projects: `[SYS-01] TRACE — Telemetry Root-Cause Autonomous Critique Engine
+         89.5% accuracy vs 73.7% naive baseline across 19 synthetic incidents with hidden root causes.
 [SYS-02] CHRONOS — Constraint-Based Timetable Scheduling Engine
-         2,328 backtracks vs 46 nodes (0 backtracks) using MRV + LCV CSP heuristics.
-[SYS-03] SyncPad — Collaborative Code Studio
-         0ms conflict resolution with Yjs CRDTs + in-browser sandboxed Pyodide WASM runtime.
+         MRV/LCV found a valid 46-session schedule in 46 search nodes with zero backtracks; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.
+[SYS-03] SyncPad — Real-Time Collaborative Code Editor
+         Conflict-free convergence via Yjs CRDTs + in-browser sandboxed Pyodide WASM runtime.
 [SYS-04] IncidentHub AI — Root-Cause Intelligence
          Multi-tenant SRE platform with 4 OAuth flows & 236/236 passing unit tests.`,
 
@@ -104,25 +100,25 @@ LOCATION : ${profileContext.profile.location}`,
 function getLocalGroundedFallback(query) {
   const q = query.toLowerCase();
   if (q.includes('trace')) {
-    return `TRACE is Rakesh's flagship incident investigation engine. It tests multi-hypothesis falsification loops on 19 hidden-ground-truth production outages, achieving 89.5% root-cause accuracy vs 73.7% for a naive single-shot LLM baseline. Stack: Python, FastAPI, PostgreSQL, pgvector, Gemini API, Next.js, D3.js, GSAP.`;
+    return `TRACE is Rakesh's flagship incident investigation engine (Telemetry Root-Cause Autonomous Critique Engine). It achieved 89.5% root-cause accuracy across 19 synthetic incidents with hidden root causes, versus a 73.7% single-prompt LLM baseline, using deterministic scoring and an LLM critique loop. Stack: Python, FastAPI, PostgreSQL, pgvector, Gemini API, Next.js, D3.js.`;
   }
   if (q.includes('chronos') || q.includes('timetable') || q.includes('schedule') || q.includes('csp')) {
-    return `CHRONOS is a constraint-based timetable scheduling engine solving CSPs with MRV and LCV heuristics. Its signature D3.js demo proves a 98% search-space reduction (2,328 naive backtracks vs 46 nodes with heuristic search). Stack: React, Node.js, PostgreSQL, Gemini API, D3.js.`;
+    return `CHRONOS is a constraint-based timetable scheduling engine solving CSPs with MRV and LCV heuristics. It found a valid 46-session schedule in 46 search nodes with zero backtracks using MRV/LCV, while chronological search hit the 10-million-backtrack limit without finding a solution on the same input. Stack: React, Node.js, PostgreSQL, Gemini API, D3.js.`;
   }
   if (q.includes('syncpad') || q.includes('crdt') || q.includes('editor') || q.includes('wasm')) {
-    return `SyncPad is a real-time collaborative code editor with conflict-free Yjs CRDT synchronization and in-browser sandboxed execution using Web Workers (JS/TS) and Pyodide WebAssembly (Python). Stack: React, TypeScript, Yjs, Monaco Editor, Pyodide WASM.`;
+    return `SyncPad is a real-time collaborative code editor enabling conflict-free concurrent editing with Yjs CRDT synchronization, live cursor sharing, and collaborator presence, plus sandboxed in-browser execution for JS/TS and Python via Web Workers and Pyodide WebAssembly. Stack: React, TypeScript, Yjs, Monaco Editor, Pyodide WASM.`;
   }
   if (q.includes('incidenthub') || q.includes('sre') || q.includes('triage') || q.includes('oauth')) {
     return `IncidentHub AI is a multi-tenant SRE incident platform featuring real OAuth 2.0 (GitHub, Sentry, Slack, Jira), Redis Redlock concurrency control, WebSocket triage rooms, and a 236/236 passing test suite. Stack: React, TypeScript, Node.js, PostgreSQL, Redis.`;
   }
   if (q.includes('intern') || q.includes('codetech') || q.includes('work') || q.includes('company')) {
-    return `Rakesh completed a Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), where he engineered an internal Employee Management System with Node.js, Express, MongoDB, and secured it with 3-tier RBAC and stateless JWT authentication.`;
+    return `Rakesh completed a Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), where he built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows, securing CRUD REST APIs with JWT authentication, RBAC middleware, and request validation.`;
   }
   if (q.includes('postgres') || q.includes('database') || q.includes('sql') || q.includes('mongo')) {
     return `Rakesh has deep hands-on expertise with PostgreSQL, pgvector (vector search in TRACE), MongoDB (IncidentHub/Codetech), Redis (distributed locking & pub/sub), SQLite, and holds HackerRank SQL (Advanced) Verified certification.`;
   }
   if (q.includes('strongest') || q.includes('best project') || q.includes('flagship')) {
-    return `Rakesh's flagship system is TRACE (SYS-01) — a temporal root-cause analysis engine benchmarked at 89.5% accuracy across 19 hidden-ground-truth incident scenarios, utilizing adversarial falsification loops and pgvector similarity search.`;
+    return `Rakesh's flagship system is TRACE (SYS-01) — Telemetry Root-Cause Autonomous Critique Engine, benchmarked at 89.5% accuracy across 19 synthetic incidents with hidden root causes, utilizing deterministic scoring and an LLM critique loop.`;
   }
   if (q.includes('education') || q.includes('college') || q.includes('university') || q.includes('degree')) {
     return `Rakesh holds a B.Tech in Computer Science & Engineering (Class of 2026) from Parul University, Vadodara, with coursework in Data Structures, Algorithms, DBMS, Operating Systems, and Computer Networks.`;
@@ -173,19 +169,19 @@ export default function InteractiveTerminal() {
   // Client-side cache initialized with immediate answers for standard suggestion chips
   const clientCache = useRef({
     whatmakestraceunique:
-      "TRACE is unique because it tests multi-hypothesis falsification loops on a synthetic production environment with 19 hidden-ground-truth incidents. Rather than generating single-shot guesses, it pits competing root causes against each other, achieving 89.5% accuracy vs 73.7% for a naive single-shot LLM baseline, and projects causal propagation onto a live D3.js DAG.",
+      "TRACE (Telemetry Root-Cause Autonomous Critique Engine) is unique because it achieved 89.5% root-cause accuracy across 19 synthetic incidents with hidden root causes, versus a 73.7% single-prompt LLM baseline, using deterministic scoring and an LLM critique loop, and correlating logs, metrics, traces, and deployment events through temporal and causal evidence.",
     whydidyoubuildchronos:
-      "CHRONOS was built to solve timetable scheduling and demonstrate the power of constraint satisfaction algorithms. Using MRV (Minimum Remaining Values) and LCV (Least Constraining Value) heuristics, it reduces the search space from 2,328 naive backtracks down to 46 nodes, visualized live in D3.js.",
+      "CHRONOS was built to solve timetable scheduling and demonstrate the power of constraint satisfaction algorithms. Using MRV and LCV heuristics, it found a valid 46-session schedule in 46 search nodes with zero backtracks, while chronological search hit the 10-million-backtrack limit without finding a solution on the same input.",
     whatisyourcompletetechstackandcoreskills:
-      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Frontend: React.js, Next.js, Tailwind CSS, Redux, D3.js. Backend: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT/RBAC. AI/LLM: Gemini API, Vector Embeddings, pgvector. Databases: PostgreSQL, MongoDB, Redis, SQLite. Tools: Git, Docker, Postman, Vercel.",
+      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Frontend: React.js, Next.js, Tailwind CSS, Redux, D3.js. Backend: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT/RBAC. AI/LLM: Gemini API, Vector Embeddings, LLM Evaluation. Databases: PostgreSQL, MongoDB, MySQL, Redis, pgvector. Systems: Yjs (CRDT), WebSocket, WebAssembly (Pyodide). Tools: Git, GitHub, Postman, Vercel, Render.",
     whatsyourtechstack:
-      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Frontend: React.js, Next.js, Tailwind CSS, Redux, D3.js. Backend: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT/RBAC. AI/LLM: Gemini API, Vector Embeddings, pgvector. Databases: PostgreSQL, MongoDB, Redis, SQLite. Tools: Git, Docker, Postman, Vercel.",
+      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Frontend: React.js, Next.js, Tailwind CSS, Redux, D3.js. Backend: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT/RBAC. AI/LLM: Gemini API, Vector Embeddings, LLM Evaluation. Databases: PostgreSQL, MongoDB, MySQL, Redis, pgvector. Systems: Yjs (CRDT), WebSocket, WebAssembly (Pyodide). Tools: Git, GitHub, Postman, Vercel, Render.",
     tellmeaboutyourinternshipatcodetechitsolutions:
-      "During his Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), Rakesh engineered an internal Employee Management System with Node.js, Express, and MongoDB. He secured the platform with stateless JWT authentication, built 3-tier RBAC (employee, manager, admin), and validated RESTful CRUD endpoints.",
+      "During his Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), Rakesh built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows. He secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation, using Postman to validate endpoint operations and authorization responses.",
     tellmeaboutyourinternship:
-      "During his Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), Rakesh engineered an internal Employee Management System with Node.js, Express, and MongoDB. He secured the platform with stateless JWT authentication, built 3-tier RBAC (employee, manager, admin), and validated RESTful CRUD endpoints.",
+      "During his Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), Rakesh built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows. He secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation, using Postman to validate endpoint operations and authorization responses.",
     whatmakesyourapproachdifferent:
-      "Rakesh builds systems that prove they work rather than relying on guesses or unverified claims. His engineering focuses on correctness, empirical benchmarking, and deterministic architecture, as demonstrated in projects like TRACE (89.5% accuracy via adversarial falsification loops), CHRONOS (2,328 to 46 backtracks), and SyncPad (0ms CRDT conflict resolution).",
+      "Rakesh builds systems that prove they work rather than relying on guesses or unverified claims. His engineering focuses on correctness, empirical benchmarking, and deterministic architecture, as demonstrated in projects like TRACE (89.5% accuracy via deterministic scoring and an LLM critique loop), CHRONOS (finding a valid 46-session schedule in 46 search nodes with zero backtracks while chronological search hit the 10-million-backtrack limit), and SyncPad (conflict-free convergence via Yjs CRDTs).",
   });
 
   const normalizeForCache = (text) => (text || '').toLowerCase().trim().replace(/[^a-z0-9]/g, '');

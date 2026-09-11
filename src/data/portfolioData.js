@@ -26,9 +26,8 @@ export const personalInfo = {
     period: 'Jan 2026 – Apr 2026',
     location: 'Remote',
     highlights: [
-      'Engineered an Internal Employee Management System using Node.js, Express.js, and MongoDB.',
-      'Implemented JWT authentication and RBAC across Admin, Manager, and Employee portals.',
-      'Designed and documented RESTful API endpoints.',
+      'Built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows.',
+      'Secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation; used Postman to validate endpoint operations and authorization responses.',
     ],
   },
 };
@@ -56,8 +55,8 @@ export const skillsData = [
   },
   {
     category: '05_tools_devops.sh',
-    label: 'Tools & DevOps',
-    skills: ['Git & GitHub', 'Postman', 'Docker', 'Vercel', 'Render', 'npm', 'VS Code', 'Linux'],
+    label: 'Tools & Deployment',
+    skills: ['Git', 'GitHub', 'Postman', 'Vercel', 'Render'],
   },
   {
     category: '06_core_cs.cpp',
@@ -70,10 +69,10 @@ export const primarySystems = [
   {
     sysId: 'SYS-01',
     id: 'trace',
-    title: 'TRACE — Temporal Root-cause Analysis & Causal Engine',
-    tagline: 'AI-Assisted Production Incident Investigation Engine',
+    title: 'TRACE — Telemetry Root-Cause Autonomous Critique Engine',
+    tagline: 'Evidence-Grounded Production Incident Investigation Engine',
     highlights:
-      'Multi-hypothesis competition engine running real-time adversarial falsification loops across 19 hidden-ground-truth production incidents benchmarked at 89.5% accuracy.',
+      'Achieved 89.5% root-cause accuracy across 19 synthetic incidents with hidden root causes, versus a 73.7% single-prompt LLM baseline, using deterministic scoring and an LLM critique loop.',
     stack: ['Python', 'FastAPI', 'PostgreSQL', 'pgvector', 'Gemini API', 'Next.js', 'TypeScript', 'D3.js', 'GSAP', 'Tailwind CSS'],
     githubUrl: 'https://github.com/rakeshkumar0804/trace-rca-engine',
     liveUrl: 'https://trace-rca-engine.vercel.app',
@@ -82,9 +81,9 @@ export const primarySystems = [
     sysId: 'SYS-02',
     id: 'chronos',
     title: 'CHRONOS — Constraint-Based Timetable Scheduling Engine',
-    tagline: 'Constraint Satisfaction Problem (CSP) Backtracking & Heuristic Engine',
+    tagline: 'MRV/LCV Constraint Solver with Live Search Visualization',
     highlights:
-      'CSP solving via backtracking search with MRV and LCV heuristics, natural language constraint extraction via Gemini API, and live D3.js constraint graph comparison (2,328 vs 46 search nodes).',
+      'Found a valid 46-session schedule in 46 search nodes with zero backtracks using MRV/LCV; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.',
     stack: ['React', 'Node.js', 'PostgreSQL', 'Gemini API', 'D3.js', 'GSAP', 'Tailwind CSS'],
     githubUrl: 'https://github.com/rakeshkumar0804/chronos-engine',
     liveUrl: 'https://chronos-web-kappa.vercel.app',
@@ -92,10 +91,10 @@ export const primarySystems = [
   {
     sysId: 'SYS-03',
     id: 'syncpad',
-    title: 'SyncPad',
-    tagline: 'Real-Time Collaborative Code Editor with In-Browser Execution',
+    title: 'SyncPad — Real-Time Collaborative Code Editor',
+    tagline: 'CRDT Collaboration with Sandboxed In-Browser Execution',
     highlights:
-      'Conflict-free peer synchronization using Yjs CRDTs, live multi-cursor awareness, and fully sandboxed in-browser code execution (JS/TS via Web Workers, Python via Pyodide/WebAssembly).',
+      'Enabled conflict-free concurrent editing with Yjs CRDT synchronization, live cursor sharing, and collaborator presence; implemented browser-based execution for JavaScript, TypeScript through transpilation, and Python using Web Workers and Pyodide WebAssembly, keeping execution off the main UI thread.',
     stack: ['React', 'TypeScript', 'Yjs (CRDT)', 'Monaco Editor', 'Node.js', 'WebSocket', 'Pyodide (WASM)'],
     githubUrl: 'https://github.com/rakeshkumar0804/SyncPad',
     liveUrl: 'https://sync-pad-client.vercel.app',

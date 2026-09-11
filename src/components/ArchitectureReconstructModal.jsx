@@ -8,7 +8,7 @@ const reconstructionData = {
     fig: 'FIG.1',
     sysId: 'SYS-01',
     title: 'TRACE',
-    subtitle: 'TEMPORAL ROOT-CAUSE ANALYSIS & CAUSAL ENGINE',
+    subtitle: 'TELEMETRY ROOT-CAUSE AUTONOMOUS CRITIQUE ENGINE',
     milestones: [
       {
         step: 1,
@@ -92,8 +92,8 @@ const reconstructionData = {
         message: 'feat(heuristics): Minimum Remaining Values (MRV) & Least Constraining Value (LCV)',
         activeNodes: ['solver', 'heuristics'],
         activeLinks: ['csp', 'heuristics'],
-        resolvedTitle: '98% Backtrack Reduction Achieved',
-        resolvedDesc: 'Deployed MRV variable ordering and LCV value assignment, collapsing search steps from 2,328 backtracks down to 46 explored nodes.',
+        resolvedTitle: 'Zero-Backtrack Search Achieved',
+        resolvedDesc: 'MRV/LCV found a valid 46-session schedule in 46 explored nodes with zero backtracks; chronological search hit the 10-million-backtrack limit without finding a solution.',
       },
       {
         step: 3,
@@ -131,7 +131,7 @@ const reconstructionData = {
       { id: 'heuristics', label: 'MRV / LCV Heuristics', sub: 'Smart Search Tree', x: 290, y: 70, type: 'cyan' },
       { id: 'gemini', label: 'NL Constraint Parser', sub: 'Gemini API', x: 500, y: 70, type: 'amber' },
       { id: 'd3viz', label: 'D3.js Search Tree', sub: 'Real-Time State Morphing', x: 150, y: 220, type: 'purple' },
-      { id: 'gsap', label: 'GSAP Bottleneck Demo', sub: '2,328 vs 46 Comparison', x: 390, y: 220, type: 'emerald' },
+      { id: 'gsap', label: 'GSAP Bottleneck Demo', sub: '46 Nodes · 0 Backtracks', x: 390, y: 220, type: 'emerald' },
     ],
   },
   'syncpad': {
@@ -184,7 +184,7 @@ const reconstructionData = {
         step: 5,
         hash: 'e55a109',
         time: 'T-00:00 [PROD]',
-        message: 'release: 0ms conflict convergence & full live production ship',
+        message: 'release: Conflict-free convergence & full live production ship',
         activeNodes: ['monaco', 'yjs', 'server', 'wasm', 'worker'],
         activeLinks: ['ipc', 'crdt', 'wss', 'wasm'],
         resolvedTitle: 'Production Deployment Shipped',
