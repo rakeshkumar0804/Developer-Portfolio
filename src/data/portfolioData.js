@@ -27,7 +27,7 @@ export const personalInfo = {
     location: 'Remote',
     highlights: [
       'Built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows.',
-      'Secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation; used Postman to validate endpoint operations and authorization responses.',
+      'Secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation; used Postman to test operations and validate responses.',
     ],
   },
 };

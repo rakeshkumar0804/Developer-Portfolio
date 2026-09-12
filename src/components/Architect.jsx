@@ -287,7 +287,7 @@ export default function Architect() {
                   </div>
                   <div className="flex items-start gap-2">
                     <span className="text-cyan-400">▪</span>
-                    <span>Secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation; used Postman to validate endpoint operations and authorization responses.</span>
+                    <span>Secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation; used Postman to test operations and validate responses.</span>
                   </div>
                 </div>
               </div>
