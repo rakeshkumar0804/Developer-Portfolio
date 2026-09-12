@@ -33,12 +33,12 @@ function App() {
   useEffect(() => {
     // 1. Initialize Lenis Smooth Scroll with Natural, Fluid Physics
     const lenis = new Lenis({
-      duration: 1.0,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.15,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
+      wheelMultiplier: 0.9,
       touchMultiplier: 1.0,
       infinite: false,
     });

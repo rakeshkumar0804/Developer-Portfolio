@@ -145,7 +145,8 @@ export default function SystemBootloader({ onComplete }) {
   }, [cleanup, onComplete]);
 
   const startProgress = useCallback(() => {
-    if (finishedRef.current || leavingRef.current) return;
+    if (finishedRef.current || leavingRef.current || progressStartedRef.current) return;
+    progressStartedRef.current = true;
 
     let startTimestamp = null;
     const progressDuration = 1250;
@@ -176,37 +177,25 @@ export default function SystemBootloader({ onComplete }) {
     animFrameRef.current = requestAnimationFrame(tick);
   }, [completeBoot]);
 
-  const handleEntranceComplete = useCallback(() => {
-    if (progressStartedRef.current || leavingRef.current || finishedRef.current) return;
-    progressStartedRef.current = true;
-    if (entranceTimerRef.current) {
-      clearTimeout(entranceTimerRef.current);
-      entranceTimerRef.current = null;
-    }
-    startProgress();
-  }, [startProgress]);
-
   useEffect(() => {
     // Safety fallback: begin the guarded completion sequence after 1.8s if rAF progress stalls.
     fallbackTimerRef.current = window.setTimeout(completeBoot, 1800);
 
-    // Fallback timer for entrance in case onAnimationComplete does not fire
-    entranceTimerRef.current = window.setTimeout(handleEntranceComplete, 240);
+    startProgress();
 
     return () => {
       cleanup();
     };
-  }, [cleanup, completeBoot, handleEntranceComplete]);
+  }, [cleanup, completeBoot, startProgress]);
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={false}
       animate={leaving ? { opacity: 0, y: -8 } : { opacity: 1 }}
       transition={{
-        duration: leaving ? 0.18 : 0.22,
+        duration: 0.18,
         ease: [0.16, 1, 0.3, 1],
       }}
-      onAnimationComplete={handleEntranceComplete}
       className="fixed inset-0 z-[9999] grid place-items-center bg-[#050811] p-6 font-mono text-slate-300"
       aria-live="polite"
     >
