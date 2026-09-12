@@ -90,7 +90,7 @@
       "description": "A timetable scheduling engine solving Constraint Satisfaction Problems (CSP) via backtracking search with MRV and LCV heuristics. Features a live D3.js search-tree visualizer showing chronological and MRV/LCV-guided search behaviour in real time.",
       "motivation": "Built to solve complex timetable scheduling and demonstrate how MRV/LCV heuristic search finds a valid schedule in 46 nodes with zero backtracks.",
       "liveUrl": "https://chronos-web-kappa.vercel.app",
-      "githubUrl": "https://github.com/rakeshkumar0804/chronos-engine"
+      "githubUrl": "https://github.com/rakeshkumar0804/chronos"
     },
     {
       "id": "SYS-03",

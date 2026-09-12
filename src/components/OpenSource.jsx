@@ -62,7 +62,7 @@ const openSourceRepos = [
   {
     id: 'leaveflow',
     category: 'ENTERPRISE • REST API',
-    stars: '6 ★',
+    stars: '5 ★',
     title: 'LeaveFlow HR',
     description:
       'Full-stack Employee Leave Management System with manager approval workflows, SQLite relational store, and REST APIs.',

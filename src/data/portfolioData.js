@@ -90,7 +90,7 @@ export const primarySystems = [
     highlights:
       'Found a valid 46-session schedule in 46 search nodes with zero backtracks using MRV/LCV; chronological search hit the 10-million-backtrack limit without finding a solution on the same input.',
     stack: ['React', 'Node.js', 'PostgreSQL', 'Gemini API', 'D3.js', 'GSAP', 'Tailwind CSS'],
-    githubUrl: 'https://github.com/rakeshkumar0804/chronos-engine',
+    githubUrl: 'https://github.com/rakeshkumar0804/chronos',
     liveUrl: 'https://chronos-web-kappa.vercel.app',
   },
   {
@@ -152,7 +152,7 @@ export const codingStats = {
   },
   github: {
     contributions: '205+',
-    stars: '42',
+    stars: '41',
     streak: '25 Days',
     profileUrl: 'https://github.com/rakeshkumar0804',
   },
@@ -164,7 +164,7 @@ export const certificationsData = [
     title: 'SQL (Advanced)',
     issuer: 'HackerRank',
     status: 'Verified',
-    link: 'https://www.hackerrank.com/certificates/iframe/9e6ce9fa0fa1',
+    link: 'https://www.hackerrank.com/certificates/iframe/EFB3EF1D1DAC',
   },
   {
     id: 2,

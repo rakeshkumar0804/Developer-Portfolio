@@ -96,7 +96,7 @@ The portfolio embeds an interactive terminal (`rakesh@core:~$`) directly connect
                                   /         \
             ┌──────────────────────┐       ┌───────────────────────────────┐
             │ Return Instant Cache │       │ Invoke Gemini 2.5 Flash       │
-            │   (0ms Round-Trip)   │       │ (Strict Context + 8s Timeout) │
+            │ (In-Memory Cache Hit)│       │ (Strict Context + 8s Timeout) │
             └──────────────────────┘       └───────────────┬───────────────┘
                                                            │
                                              Response Arrived < 8.5s?
@@ -110,7 +110,7 @@ The portfolio embeds an interactive terminal (`rakesh@core:~$`) directly connect
 ```
 
 * **Model Pipeline**: Direct ultra-low-latency calls to `gemini-2.5-flash` (~1.5s–2.5s response time).
-* **Multi-Tier Response Cache**: In-memory caching on client and edge ensures standard suggestion chips (*"What makes TRACE unique?"*, *"Why did you build CHRONOS?"*, *"What's your tech stack?"*) return with **0ms latency**.
+* **Multi-Tier Response Cache**: In-memory caching on client and edge ensures standard suggestion chips (*"What makes TRACE unique?"*, *"Why did you build CHRONOS?"*, *"What's your tech stack?"*) return with **near-instant in-memory cache hit**.
 * **Zero Hallucination Guardrails**: Programmed to answer exclusively using verifiable facts from `profile-context.json`. Out-of-scope inquiries trigger transparent disclosures.
 * **Circuit Breaker**: An 8.5-second `AbortController` timeout prevents indefinite hangs, gracefully triggering local evidence grounding if network latency spikes.
 * **Interactive Controls**: Supports standard bash commands (`whoami`, `projects --list`, `skills --list`, `experience --show`, `contact`, `help`, `clear`).

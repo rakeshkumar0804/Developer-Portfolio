@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
  */
 export const useGitHubStats = (username = 'rakeshkumar0804') => {
   const [stats, setStats] = useState({
-    publicRepos: 11, // Verified fallback
-    totalStars: 40,
+    publicRepos: 12, // Verified fallback
+    totalStars: 41,
     loading: true,
   });
 
@@ -27,13 +27,15 @@ export const useGitHubStats = (username = 'rakeshkumar0804') => {
         const reposData = await reposRes.json();
 
         const starCount = Array.isArray(reposData)
-          ? reposData.reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0)
-          : 40;
+          ? reposData
+              .filter((repo) => !repo.fork)
+              .reduce((acc, repo) => acc + (repo.stargazers_count || 0), 0)
+          : 41;
 
         if (isMounted) {
           setStats({
-            publicRepos: userData.public_repos ?? 11,
-            totalStars: starCount >= 40 ? starCount : 40,
+            publicRepos: userData.public_repos ?? 12,
+            totalStars: starCount,
             loading: false,
           });
         }
