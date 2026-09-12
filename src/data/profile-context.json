@@ -43,12 +43,11 @@
   "skills": {
     "languages": ["JavaScript (ES6+)", "TypeScript", "Python", "C++", "SQL"],
     "backend": ["Node.js", "Express.js", "FastAPI", "REST APIs", "WebSockets", "JWT", "RBAC"],
-    "frontend": ["React.js", "Next.js", "Redux", "D3.js", "Tailwind CSS", "HTML5", "CSS3"],
-    "databases": ["PostgreSQL", "MongoDB", "MySQL", "Redis", "pgvector"],
+    "frontend": ["React.js", "Next.js", "D3.js", "Tailwind CSS", "HTML5", "CSS3"],
+    "databases": ["PostgreSQL", "MongoDB", "MySQL", "Redis", "pgvector", "Prisma", "SQLAlchemy"],
     "aiLlm": ["Gemini API", "Vector Embeddings", "LLM Evaluation"],
-    "systems": ["Yjs (CRDT)", "WebSocket", "WebAssembly (Pyodide)"],
-    "toolsAndDevops": ["Git", "GitHub", "Postman", "Vercel", "Render"],
-    "coreFundamentals": ["Data Structures & Algorithms", "DBMS", "OOP", "Computer Networks", "Operating Systems", "CRDTs", "Constraint Satisfaction Problems (CSP)"]
+    "systems": ["Yjs (CRDT)", "WebAssembly", "Web Workers"],
+    "toolsAndDevops": ["Git", "GitHub", "Docker", "Postman", "Vitest", "Pytest", "Supertest", "Vercel", "Render"]
   },
   "primaryProjects": [
     {

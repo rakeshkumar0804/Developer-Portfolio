@@ -39,18 +39,20 @@ LEETCODE    : ${profileContext.profile.leetcode.solved} Solved (DSA)
 AVAILABILITY: ${profileContext.profile.availability}`,
 
   'skills --list': `LANGUAGES : ${profileContext.skills.languages.join(' · ')}
-FRONTEND  : ${profileContext.skills.frontend.join(' · ')}
 BACKEND   : ${profileContext.skills.backend.join(' · ')}
-DATABASES : ${profileContext.skills.databases.join(' · ')}
-DEVOPS    : ${profileContext.skills.toolsAndDevops.join(' · ')}
-CS CORE   : ${profileContext.skills.coreFundamentals.join(' · ')}`,
+FRONTEND  : ${profileContext.skills.frontend.join(' · ')}
+DATA/ORM  : ${profileContext.skills.databases.join(' · ')}
+AI / LLM  : ${profileContext.skills.aiLlm.join(' · ')}
+SYSTEMS   : ${profileContext.skills.systems.join(' · ')}
+TOOLS/TEST: ${profileContext.skills.toolsAndDevops.join(' · ')}`,
 
   skills: `LANGUAGES : ${profileContext.skills.languages.join(' · ')}
-FRONTEND  : ${profileContext.skills.frontend.join(' · ')}
 BACKEND   : ${profileContext.skills.backend.join(' · ')}
-DATABASES : ${profileContext.skills.databases.join(' · ')}
-DEVOPS    : ${profileContext.skills.toolsAndDevops.join(' · ')}
-CS CORE   : ${profileContext.skills.coreFundamentals.join(' · ')}`,
+FRONTEND  : ${profileContext.skills.frontend.join(' · ')}
+DATA/ORM  : ${profileContext.skills.databases.join(' · ')}
+AI / LLM  : ${profileContext.skills.aiLlm.join(' · ')}
+SYSTEMS   : ${profileContext.skills.systems.join(' · ')}
+TOOLS/TEST: ${profileContext.skills.toolsAndDevops.join(' · ')}`,
 
   'experience --show': `ORGANIZATION : ${profileContext.internship.company}
 DESIGNATION  : ${profileContext.internship.role}
@@ -173,9 +175,9 @@ export default function InteractiveTerminal() {
     whydidyoubuildchronos:
       "CHRONOS was built to solve timetable scheduling and demonstrate the power of constraint satisfaction algorithms. Using MRV and LCV heuristics, it found a valid 46-session schedule in 46 search nodes with zero backtracks, while chronological search hit the 10-million-backtrack limit without finding a solution on the same input.",
     whatisyourcompletetechstackandcoreskills:
-      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Frontend: React.js, Next.js, Tailwind CSS, Redux, D3.js. Backend: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT/RBAC. AI/LLM: Gemini API, Vector Embeddings, LLM Evaluation. Databases: PostgreSQL, MongoDB, MySQL, Redis, pgvector. Systems: Yjs (CRDT), WebSocket, WebAssembly (Pyodide). Tools: Git, GitHub, Postman, Vercel, Render.",
+      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Backend & APIs: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT, RBAC. Frontend: React.js, Next.js, D3.js, Tailwind CSS, HTML5, CSS3. Databases & ORM: PostgreSQL, MongoDB, MySQL, Redis, pgvector, Prisma, SQLAlchemy. AI / LLM: Gemini API, Vector Embeddings, LLM Evaluation. Systems: Yjs (CRDT), WebAssembly, Web Workers. Tools, Testing & Deployment: Git, GitHub, Docker, Postman, Vitest, Pytest, Supertest, Vercel, Render.",
     whatsyourtechstack:
-      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Frontend: React.js, Next.js, Tailwind CSS, Redux, D3.js. Backend: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT/RBAC. AI/LLM: Gemini API, Vector Embeddings, LLM Evaluation. Databases: PostgreSQL, MongoDB, MySQL, Redis, pgvector. Systems: Yjs (CRDT), WebSocket, WebAssembly (Pyodide). Tools: Git, GitHub, Postman, Vercel, Render.",
+      "Languages: JavaScript (ES6+), TypeScript, Python, C++, SQL. Backend & APIs: Node.js, Express.js, FastAPI, REST APIs, WebSockets, JWT, RBAC. Frontend: React.js, Next.js, D3.js, Tailwind CSS, HTML5, CSS3. Databases & ORM: PostgreSQL, MongoDB, MySQL, Redis, pgvector, Prisma, SQLAlchemy. AI / LLM: Gemini API, Vector Embeddings, LLM Evaluation. Systems: Yjs (CRDT), WebAssembly, Web Workers. Tools, Testing & Deployment: Git, GitHub, Docker, Postman, Vitest, Pytest, Supertest, Vercel, Render.",
     tellmeaboutyourinternshipatcodetechitsolutions:
       "During his Software Development Internship at Codetech IT Solutions (Jan–Apr 2026), Rakesh built a role-aware employee management system that replaced spreadsheet-based tracking and supported employee, manager, and admin workflows. He secured CRUD REST APIs for employee, department, and role modules with JWT authentication, RBAC middleware, and request validation, using Postman to test operations and validate responses.",
     tellmeaboutyourinternship:

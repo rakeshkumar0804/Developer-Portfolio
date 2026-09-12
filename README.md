@@ -144,14 +144,13 @@ The portfolio embeds an interactive terminal (`rakesh@core:~$`) directly connect
 
 | Category | Primary Technologies & Frameworks | Supporting Stack & Tools |
 | :--- | :--- | :--- |
-| **Languages** | `JavaScript (ES6+)`, `TypeScript`, `Python` | `C++`, `SQL`, `HTML5`, `CSS3` |
-| **Frontend** | `React.js`, `Next.js`, `Tailwind CSS v4` | `Redux Toolkit`, `Monaco Editor`, `Framer Motion`, `D3.js`, `GSAP` |
-| **Backend & APIs** | `Node.js`, `Express.js`, `FastAPI`, `REST APIs` | `Socket.io (WebSockets)`, `JWT Auth`, `3-Tier RBAC` |
-| **AI & LLM** | `Gemini API`, `Vector Embeddings`, `LLM Evaluation` | `pgvector` |
-| **Systems & Real-Time** | `Yjs (CRDT)`, `WebSocket`, `WebAssembly (Pyodide)` | `Web Workers`, `Monaco Editor` |
-| **Databases & Cache** | `PostgreSQL`, `MongoDB`, `MySQL`, `Redis (Redlock)` | `SQLite`, `Mongoose ODM`, `pgvector` |
-| **Cloud & Tools** | `Git`, `GitHub`, `Postman`, `Vercel`, `Render` | — |
-| **Core Fundamentals** | `Data Structures & Algorithms` (175+ LeetCode) | `DBMS`, `Operating Systems`, `Computer Networks`, `OOP` |
+| **Languages** | `JavaScript (ES6+)`, `TypeScript`, `Python` | `C++`, `SQL` |
+| **Backend & APIs** | `Node.js`, `Express.js`, `FastAPI`, `REST APIs` | `WebSockets`, `JWT`, `RBAC` |
+| **Frontend** | `React.js`, `Next.js`, `D3.js`, `Tailwind CSS` | `HTML5`, `CSS3` |
+| **Databases & ORM** | `PostgreSQL`, `MongoDB`, `MySQL`, `Redis` | `pgvector`, `Prisma`, `SQLAlchemy` |
+| **AI / LLM** | `Gemini API`, `Vector Embeddings`, `LLM Evaluation` | — |
+| **Systems** | `Yjs (CRDT)`, `WebAssembly`, `Web Workers` | — |
+| **Tools, Testing & Deployment** | `Git`, `GitHub`, `Docker`, `Postman` | `Vitest`, `Pytest`, `Supertest`, `Vercel`, `Render` |
 
 ---
 

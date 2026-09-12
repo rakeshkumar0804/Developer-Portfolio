@@ -39,29 +39,34 @@ export const skillsData = [
     skills: ['JavaScript (ES6+)', 'TypeScript', 'Python', 'C++', 'SQL'],
   },
   {
-    category: '02_frontend.tsx',
-    label: 'Frontend',
-    skills: ['React.js', 'React Router', 'Redux Toolkit', 'Tailwind CSS', 'HTML5 / CSS3', 'Bootstrap', 'Axios'],
-  },
-  {
-    category: '03_backend.js',
+    category: '02_backend.js',
     label: 'Backend & APIs',
-    skills: ['Node.js', 'Express.js', 'RESTful API Design', 'JWT Authentication', 'Role-Based Access Control (RBAC)', 'WebSocket / Socket.io', 'bcrypt'],
+    skills: ['Node.js', 'Express.js', 'FastAPI', 'REST APIs', 'WebSockets', 'JWT', 'RBAC'],
   },
   {
-    category: '04_databases.sql',
-    label: 'Databases',
-    skills: ['MongoDB', 'Mongoose ODM', 'PostgreSQL', 'MySQL', 'Redis', 'SQLite'],
+    category: '03_frontend.tsx',
+    label: 'Frontend',
+    skills: ['React.js', 'Next.js', 'D3.js', 'Tailwind CSS', 'HTML5', 'CSS3'],
   },
   {
-    category: '05_tools_devops.sh',
-    label: 'Tools & Deployment',
-    skills: ['Git', 'GitHub', 'Postman', 'Vercel', 'Render'],
+    category: '04_databases_orm.sql',
+    label: 'Databases & ORM',
+    skills: ['PostgreSQL', 'MongoDB', 'MySQL', 'Redis', 'pgvector', 'Prisma', 'SQLAlchemy'],
   },
   {
-    category: '06_core_cs.cpp',
-    label: 'Core CS Fundamentals',
-    skills: ['Data Structures & Algorithms', 'Database Management (DBMS)', 'Object-Oriented Programming (OOP)', 'Computer Networks', 'Operating Systems'],
+    category: '05_ai_llm.py',
+    label: 'AI / LLM',
+    skills: ['Gemini API', 'Vector Embeddings', 'LLM Evaluation'],
+  },
+  {
+    category: '06_systems.wasm',
+    label: 'Systems',
+    skills: ['Yjs (CRDT)', 'WebAssembly', 'Web Workers'],
+  },
+  {
+    category: '07_tools_testing_deployment.sh',
+    label: 'Tools, Testing & Deployment',
+    skills: ['Git', 'GitHub', 'Docker', 'Postman', 'Vitest', 'Pytest', 'Supertest', 'Vercel', 'Render'],
   },
 ];
 
