@@ -148,8 +148,13 @@ export default function SystemBootloader({ onComplete }) {
     if (finishedRef.current || leavingRef.current || progressStartedRef.current) return;
     progressStartedRef.current = true;
 
+    if (entranceTimerRef.current) {
+      clearTimeout(entranceTimerRef.current);
+      entranceTimerRef.current = null;
+    }
+
     let startTimestamp = null;
-    const progressDuration = 1250;
+    const progressDuration = 1550;
 
     const tick = (timestamp) => {
       if (finishedRef.current || leavingRef.current) return;
@@ -178,10 +183,11 @@ export default function SystemBootloader({ onComplete }) {
   }, [completeBoot]);
 
   useEffect(() => {
-    // Safety fallback: begin the guarded completion sequence after 1.8s if rAF progress stalls.
-    fallbackTimerRef.current = window.setTimeout(completeBoot, 1800);
+    // Safety fallback: begin the guarded completion sequence after 2.35s if rAF progress stalls.
+    fallbackTimerRef.current = window.setTimeout(completeBoot, 2350);
 
-    startProgress();
+    // Initial visible 0% hold for ~160ms before starting the progress ramp
+    entranceTimerRef.current = window.setTimeout(startProgress, 160);
 
     return () => {
       cleanup();
